@@ -60,7 +60,7 @@ export default function AdminDashboardPage() {
       <AdminSidebar />
 
       {/* Main Content Canvas */}
-      <main className="ml-[280px] flex-1 min-h-screen p-8 md:p-12">
+      <main className="md:ml-[280px] flex-1 min-h-screen p-4 md:p-8 lg:p-12">
         {/* Header & Quick Actions */}
         <header className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
           <div>

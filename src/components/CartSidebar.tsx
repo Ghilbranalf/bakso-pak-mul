@@ -4,15 +4,11 @@ import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 
 export default function CartSidebar() {
-  const { isCartOpen, closeCart, items, totalItems, totalPrice, updateQuantity, removeFromCart } = useCart();
+  const { isCartOpen, closeCart, items, totalItems, totalPrice, updateQuantity, removeFromCart, shippingCost, discount, finalTotal } = useCart();
 
   const formatPrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
-
-  const shippingCost = items.length > 0 ? 150000 : 0;
-  const discount = totalPrice > 500000 ? 100000 : 0;
-  const finalTotal = Math.max(0, totalPrice + shippingCost - discount);
 
   if (!isCartOpen) return null;
 

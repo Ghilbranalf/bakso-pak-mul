@@ -12,12 +12,11 @@ export default function AdminSidebar() {
     { id: "inventory", name: "Inventory", href: "/admin/inventory", icon: "inventory_2" },
     { id: "orders", name: "Orders", href: "/transaksi", icon: "receipt_long" },
     { id: "promotions", name: "Promotions", href: "/admin/promotions", icon: "campaign" },
-    { id: "analytics", name: "Analytics", href: "/admin", icon: "trending_up" },
-    { id: "settings", name: "Settings", href: "/admin", icon: "settings" },
+    { id: "settings", name: "Settings", href: "/admin/settings", icon: "settings" },
   ];
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-[280px] bg-white border-r border-gray-200 flex flex-col py-6 z-40 shadow-sm">
+    <aside className="hidden md:flex fixed left-0 top-0 h-full w-[280px] bg-white border-r border-gray-200 flex-col py-6 z-40 shadow-sm">
       {/* Brand Identity */}
       <Link href="/" className="px-6 mb-8 flex items-center gap-3 group">
         <div className="w-10 h-10 bg-[#7a0019] rounded-xl flex items-center justify-center text-white shadow-md transition-transform group-hover:scale-105">
@@ -53,7 +52,7 @@ export default function AdminSidebar() {
       {/* CTA Action */}
       <div className="px-4 mt-4">
         <Link
-          href="/produk"
+          href="/admin/new-listing"
           className="w-full py-3.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold shadow-md active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wider"
         >
           <span className="material-symbols-outlined text-base">add</span>

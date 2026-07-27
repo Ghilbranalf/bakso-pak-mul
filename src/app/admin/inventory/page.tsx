@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import AdminSidebar from "@/components/AdminSidebar";
 
 export default function AdminInventoryPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -108,88 +109,11 @@ export default function AdminInventoryPage() {
 
   return (
     <div className="min-h-screen bg-[#F8F8F8] text-[#1a1c1c] font-sans antialiased flex">
-      {/* Sidebar Navigation Shell */}
-      <aside className="fixed left-0 top-0 h-full w-[280px] flex flex-col py-6 border-r border-gray-200 bg-white z-40">
-        <Link href="/" className="px-6 mb-8 flex items-center gap-3 group">
-          <div className="w-10 h-10 bg-[#7a0019] rounded-xl flex items-center justify-center text-white shadow-md">
-            <span className="material-symbols-outlined text-2xl">restaurant_menu</span>
-          </div>
-          <div>
-            <h1 className="text-lg font-bold text-[#51000d]">Admin Portal</h1>
-            <p className="text-[11px] font-semibold text-gray-400">Enterprise Management</p>
-          </div>
-        </Link>
-
-        <nav className="flex-1 space-y-1 px-4">
-          <Link
-            href="/admin"
-            className="flex items-center gap-3 py-3 px-4 text-gray-600 hover:bg-gray-100 rounded-xl text-xs font-bold transition-all"
-          >
-            <span className="material-symbols-outlined text-xl">dashboard</span>
-            <span>Dashboard</span>
-          </Link>
-          <Link
-            href="/admin/inventory"
-            className="flex items-center gap-3 py-3 px-4 bg-[#51000d] text-white rounded-xl text-xs font-bold shadow-md translate-x-1 transition-all"
-          >
-            <span className="material-symbols-outlined text-xl">inventory_2</span>
-            <span>Inventory</span>
-          </Link>
-          <Link
-            href="/transaksi"
-            className="flex items-center gap-3 py-3 px-4 text-gray-600 hover:bg-gray-100 rounded-xl text-xs font-bold transition-all"
-          >
-            <span className="material-symbols-outlined text-xl">receipt_long</span>
-            <span>Orders</span>
-          </Link>
-          <Link
-            href="/admin/promotions"
-            className="flex items-center gap-3 py-3 px-4 text-gray-600 hover:bg-gray-100 rounded-xl text-xs font-bold transition-all"
-          >
-            <span className="material-symbols-outlined text-xl">campaign</span>
-            <span>Promotions</span>
-          </Link>
-          <Link
-            href="/admin"
-            className="flex items-center gap-3 py-3 px-4 text-gray-600 hover:bg-gray-100 rounded-xl text-xs font-bold transition-all"
-          >
-            <span className="material-symbols-outlined text-xl">trending_up</span>
-            <span>Analytics</span>
-          </Link>
-        </nav>
-
-        <div className="px-4 mb-4">
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="w-full bg-[#7a0019] text-white py-3.5 px-6 rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-[#51000d] transition-all shadow-md cursor-pointer uppercase tracking-wider"
-          >
-            <span className="material-symbols-outlined text-base">add</span>
-            <span>New Listing</span>
-          </button>
-        </div>
-
-        <div className="px-4 mt-auto border-t border-gray-200 pt-4 space-y-1">
-          <a
-            href="https://wa.me/6281234567890"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 py-2.5 px-4 text-gray-600 hover:bg-gray-100 rounded-xl text-xs font-semibold"
-          >
-            <span className="material-symbols-outlined text-lg">help</span>
-            <span>Support</span>
-          </a>
-          <Link
-            href="/login"
-            className="flex items-center gap-3 py-2.5 px-4 text-red-600 hover:bg-red-50 rounded-xl text-xs font-semibold"
-          >
-            <span className="material-symbols-outlined text-lg">logout</span>
-            <span>Sign Out</span>
-          </Link>
-        </div>
-      </aside>
+      {/* Shared Reusable Admin Sidebar */}
+      <AdminSidebar />
 
       {/* Main Content Area */}
-      <main className="ml-[280px] flex-1 p-8 md:p-12 min-h-screen">
+      <main className="md:ml-[280px] flex-1 min-h-screen p-4 md:p-8 lg:p-12">
         {/* Header / Stats Bar */}
         <header className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
           <div>

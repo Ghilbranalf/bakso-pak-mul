@@ -21,6 +21,10 @@ interface CartContextType {
   closeCart: () => void;
   totalItems: number;
   totalPrice: number;
+  shippingCost: number;
+  discount: number;
+  finalTotal: number;
+  clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -107,6 +111,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  
+  // Set shipping to 0 for now. You can add complex logic (weight-based or API) later.
+  const shippingCost = 0; 
+  const discount = totalPrice > 500000 ? 100000 : 0;
+  const finalTotal = items.length > 0 ? Math.max(0, totalPrice + shippingCost - discount) : 0;
+
+  const clearCart = () => setItems([]);
 
   return (
     <CartContext.Provider value={{
@@ -118,7 +129,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
       openCart,
       closeCart,
       totalItems,
-      totalPrice
+      totalPrice,
+      shippingCost,
+      discount,
+      finalTotal,
+      clearCart
     }}>
       {children}
     </CartContext.Provider>

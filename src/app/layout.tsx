@@ -7,6 +7,8 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+import BottomNav from "@/components/BottomNav";
+
 export const metadata: Metadata = {
   title: "Bakso Pak Mul | Pusat Bahan Baku Bakso & Mie Ayam",
   description: "Koleksi produk berkualitas premium Bakso Pak Mul",
@@ -34,13 +36,16 @@ export default function RootLayout({
         {/* Midtrans Snap Popup Script */}
         <script 
           type="text/javascript"
-          src="https://app.sandbox.midtrans.com/snap/snap.js" 
-          data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || "SB-Mid-client-DemoKey12345"}
+          src={process.env.NEXT_PUBLIC_MIDTRANS_ENV === "production" 
+                ? "https://app.midtrans.com/snap/snap.js" 
+                : "https://app.sandbox.midtrans.com/snap/snap.js"} 
+          data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
         ></script>
       </head>
-      <body className={`${inter.className} overflow-x-hidden selection:bg-primary/20 selection:text-primary min-h-screen`}>
+      <body className={`${inter.className} overflow-x-hidden selection:bg-primary/20 selection:text-primary min-h-screen pb-24 md:pb-0`}>
         <CartProvider>
           {children}
+          <BottomNav />
         </CartProvider>
       </body>
     </html>
