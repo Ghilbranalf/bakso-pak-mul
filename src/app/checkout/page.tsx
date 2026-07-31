@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart } from "@/context/CartContext";
+import { INDONESIA_REGIONS } from "@/lib/indonesia-regions";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -32,6 +33,7 @@ export default function CheckoutPage() {
     customerEmail: "",
     customerPhone: "",
     shippingAddress: "",
+    district: "Kramat Jati",
     city: "Jakarta Timur",
     province: "DKI Jakarta",
     notes: "",
@@ -269,26 +271,76 @@ export default function CheckoutPage() {
                     ></textarea>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {/* Provinsi Select */}
                     <div>
-                      <label className="block text-xs font-bold text-gray-700 mb-1">Kota / Kabupaten</label>
-                      <input
-                        type="text"
-                        value={formData.city}
-                        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-all"
-                        placeholder="Misal: Jakarta Timur"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold text-gray-700 mb-1">Provinsi</label>
-                      <input
-                        type="text"
+                      <label className="block text-xs font-bold text-gray-700 mb-1">Provinsi *</label>
+                      <select
                         value={formData.province}
-                        onChange={(e) => setFormData({ ...formData, province: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-all"
-                        placeholder="Misal: DKI Jakarta"
-                      />
+                        onChange={(e) => {
+                          const newProv = e.target.value;
+                          const availableCities = INDONESIA_REGIONS[newProv] ? Object.keys(INDONESIA_REGIONS[newProv]) : [];
+                          const firstCity = availableCities[0] || "";
+                          const availableDistricts = INDONESIA_REGIONS[newProv]?.[firstCity] || [];
+                          setFormData({
+                            ...formData,
+                            province: newProv,
+                            city: firstCity,
+                            district: availableDistricts[0] || ""
+                          });
+                        }}
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-all cursor-pointer"
+                      >
+                        {Object.keys(INDONESIA_REGIONS).map((prov) => (
+                          <option key={prov} value={prov}>
+                            {prov}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Kota / Kabupaten Select */}
+                    <div>
+                      <label className="block text-xs font-bold text-gray-700 mb-1">Kota / Kabupaten *</label>
+                      <select
+                        value={formData.city}
+                        onChange={(e) => {
+                          const newCity = e.target.value;
+                          const availableDistricts = INDONESIA_REGIONS[formData.province]?.[newCity] || [];
+                          setFormData({
+                            ...formData,
+                            city: newCity,
+                            district: availableDistricts[0] || ""
+                          });
+                        }}
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-all cursor-pointer"
+                      >
+                        {formData.province && INDONESIA_REGIONS[formData.province]
+                          ? Object.keys(INDONESIA_REGIONS[formData.province]).map((city) => (
+                              <option key={city} value={city}>
+                                {city}
+                              </option>
+                            ))
+                          : <option value={formData.city}>{formData.city}</option>}
+                      </select>
+                    </div>
+
+                    {/* Kecamatan Select */}
+                    <div>
+                      <label className="block text-xs font-bold text-gray-700 mb-1">Kecamatan *</label>
+                      <select
+                        value={formData.district}
+                        onChange={(e) => setFormData({ ...formData, district: e.target.value })}
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-all cursor-pointer"
+                      >
+                        {formData.province && formData.city && INDONESIA_REGIONS[formData.province]?.[formData.city]
+                          ? INDONESIA_REGIONS[formData.province][formData.city].map((dist) => (
+                              <option key={dist} value={dist}>
+                                {dist}
+                              </option>
+                            ))
+                          : <option value={formData.district || "Kramat Jati"}>{formData.district || "Kramat Jati"}</option>}
+                      </select>
                     </div>
                   </div>
 
