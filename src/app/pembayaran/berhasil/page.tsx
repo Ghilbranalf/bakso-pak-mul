@@ -8,6 +8,19 @@ export default function PaymentSuccessPage() {
   const { totalPrice, items } = useCart();
   const [currentDate, setCurrentDate] = useState("");
 
+  const formatPrice = (price: number) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+
+  const finalTotal = items.length > 0
+    ? Math.max(0, totalPrice + 150000 - (totalPrice > 500000 ? 100000 : 0))
+    : 4500000;
+
+  const waMessage = encodeURIComponent(
+    `Halo CS Bakso Pak Mul 👋, saya baru saja menyelesaikan pembayaran LUNAS untuk pesanan:\n\n📦 ID Pesanan: #ORD-2024-BPM-892\n💰 Total Pembayaran: Rp ${formatPrice(finalTotal)}\n\nMohon segera diproses dan dikirim ya Pak Mul, terima kasih!`
+  );
+  const waUrl = `https://wa.me/6281298980252?text=${waMessage}`;
+
   useEffect(() => {
     const now = new Date();
     const formatted = now.toLocaleDateString("id-ID", {
@@ -18,15 +31,16 @@ export default function PaymentSuccessPage() {
       minute: "2-digit",
     }) + " WIB";
     setCurrentDate(formatted);
-  }, []);
 
-  const formatPrice = (price: number) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  };
+    // Auto-open WhatsApp after 1.5 seconds so user gets immediate chat confirmation
+    const timer = setTimeout(() => {
+      if (typeof window !== "undefined") {
+        window.open(waUrl, "_blank");
+      }
+    }, 1500);
 
-  const finalTotal = items.length > 0
-    ? Math.max(0, totalPrice + 150000 - (totalPrice > 500000 ? 100000 : 0))
-    : 4500000;
+    return () => clearTimeout(timer);
+  }, [waUrl]);
 
   return (
     <div className="bg-[#f9f9f9] text-[#1a1c1c] min-h-screen flex flex-col antialiased selection:bg-[#7a0019] selection:text-white font-sans">
@@ -85,22 +99,34 @@ export default function PaymentSuccessPage() {
           </div>
 
           {/* Actions */}
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              href="/transaksi"
-              className="bg-[#7a0019] text-white font-bold text-xs py-4 px-8 rounded-xl hover:bg-[#51000d] transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider group"
+          <div className="flex flex-col gap-3 justify-center">
+            <a
+              href={waUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#25D366] text-white font-extrabold text-xs py-4 px-8 rounded-xl hover:bg-[#1faa52] transition-all shadow-xl flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider scale-105 active:scale-95 border border-emerald-400"
             >
-              <span>Lihat Status Pengiriman</span>
-              <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">
-                arrow_forward
-              </span>
-            </Link>
-            <Link
-              href="/"
-              className="bg-white text-[#7a0019] border border-gray-200 font-bold text-xs py-4 px-8 rounded-xl hover:bg-gray-50 transition-all flex items-center justify-center cursor-pointer uppercase tracking-wider"
-            >
-              Kembali ke Beranda
-            </Link>
+              <i className="fa-brands fa-whatsapp text-xl"></i>
+              <span>Kirim Bukti / Konfirmasi ke WhatsApp Pak Mul</span>
+            </a>
+
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                href="/transaksi"
+                className="bg-[#7a0019] text-white font-bold text-xs py-3.5 px-6 rounded-xl hover:bg-[#51000d] transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider group"
+              >
+                <span>Lihat Status Pengiriman</span>
+                <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">
+                  arrow_forward
+                </span>
+              </Link>
+              <Link
+                href="/"
+                className="bg-white text-[#7a0019] border border-gray-200 font-bold text-xs py-3.5 px-6 rounded-xl hover:bg-gray-50 transition-all flex items-center justify-center cursor-pointer uppercase tracking-wider"
+              >
+                Kembali ke Beranda
+              </Link>
+            </div>
           </div>
 
         </div>
