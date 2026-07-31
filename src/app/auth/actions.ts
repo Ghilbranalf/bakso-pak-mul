@@ -96,7 +96,7 @@ export async function loginWithGoogle() {
   }
   
   if (error) {
-    return { error: error.message }
+    redirect(`/login?message=${encodeURIComponent(error.message)}`)
   }
 }
 

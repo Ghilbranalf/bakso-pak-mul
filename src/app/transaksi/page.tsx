@@ -124,7 +124,7 @@ export default function TransaksiPage() {
 
               {/* Items */}
               <div className="py-4 space-y-3">
-                {trx.items.map((item, idx) => (
+                {trx.items.map((item: any, idx: number) => (
                   <div key={idx} className="flex justify-between items-center text-sm">
                     <div>
                       <span className="font-semibold text-gray-800">{item.name}</span>
