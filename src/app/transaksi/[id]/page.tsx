@@ -108,6 +108,52 @@ export default function TrackOrderPage() {
     setTimeout(() => setCopiedText(null), 2000);
   };
 
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+
+  const handleMidtransPay = async () => {
+    if (!displayOrder) return;
+    setIsProcessingPayment(true);
+    try {
+      const res = await fetch("/api/tokenizer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderNumber: displayOrder.orderNumber,
+          totalPrice: displayOrder.finalTotal,
+          items: displayOrder.items?.map((it: any) => ({
+            id: it.product?.id || it.id,
+            name: it.product?.name || "Produk",
+            price: it.priceAtTime,
+            quantity: it.quantity,
+          })) || [],
+          paymentType: "online",
+          shippingInfo: {
+            name: displayOrder.customerName,
+            phone: displayOrder.phone,
+            address: displayOrder.address,
+            city: displayOrder.city,
+            province: displayOrder.province,
+          }
+        })
+      });
+      const data = await res.json();
+      if (data.token && (window as any).snap) {
+        (window as any).snap.pay(data.token, {
+          onSuccess: () => fetchOrderDetail(),
+          onPending: () => fetchOrderDetail(),
+          onError: () => fetchOrderDetail(),
+          onClose: () => fetchOrderDetail(),
+        });
+      } else if (data.redirect_url) {
+        window.location.href = data.redirect_url;
+      }
+    } catch (e) {
+      console.error("Pay error:", e);
+    } finally {
+      setIsProcessingPayment(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#F8F8F8] text-[#1a1c1c] font-sans antialiased flex flex-col pt-20">
       <Navbar />
@@ -156,11 +202,12 @@ export default function TrackOrderPage() {
             </div>
 
             <button
-              onClick={() => setIsPaymentModalOpen(true)}
-              className="w-full sm:w-auto px-6 py-3 bg-white text-[#51000d] hover:bg-amber-50 rounded-xl text-xs font-black shadow-md transition-all uppercase tracking-wider cursor-pointer shrink-0 flex items-center justify-center gap-2"
+              onClick={handleMidtransPay}
+              disabled={isProcessingPayment}
+              className="w-full sm:w-auto px-6 py-3 bg-white text-[#51000d] hover:bg-amber-50 rounded-xl text-xs font-black shadow-md transition-all uppercase tracking-wider cursor-pointer shrink-0 flex items-center justify-center gap-2 disabled:opacity-50"
             >
               <span className="material-symbols-outlined text-base">payments</span>
-              <span>Bayar Sekarang / Bayar Ulang</span>
+              <span>{isProcessingPayment ? "Memuat Midtrans..." : "Bayar Sekarang (Midtrans)"}</span>
             </button>
           </div>
         )}
