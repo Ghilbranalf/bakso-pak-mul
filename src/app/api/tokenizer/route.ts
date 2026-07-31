@@ -112,49 +112,11 @@ export async function POST(request: Request) {
     };
 
     const isProduction = process.env.NEXT_PUBLIC_MIDTRANS_ENV === "production";
-
-    // 1. Fetch Official Real QRIS Image URL via Midtrans Core Charge API
-    let qrisUrl = "";
-    try {
-      const coreUrl = isProduction
-        ? "https://api.midtrans.com/v2/charge"
-        : "https://api.sandbox.midtrans.com/v2/charge";
-
-      const qrisRes = await fetch(coreUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Authorization": `Basic ${authString}`,
-        },
-        body: JSON.stringify({
-          payment_type: "qris",
-          transaction_details: {
-            order_id: orderId,
-            gross_amount: grossAmount,
-          },
-          qris: {
-            acquirer: "gopay",
-          },
-        }),
-      });
-
-      const qrisData = await qrisRes.json();
-      if (qrisData.actions && Array.isArray(qrisData.actions)) {
-        const qrAction = qrisData.actions.find((a: any) => a.name === "generate-qr-code");
-        if (qrAction && qrAction.url) {
-          qrisUrl = qrAction.url;
-        }
-      }
-    } catch (e) {
-      console.warn("[MIDTRANS CORE API] QRIS Charge Fallback:", e);
-    }
-
-    // 2. Fetch Snap Token as secondary option
     const snapUrl = isProduction
       ? "https://app.midtrans.com/snap/v1/transactions"
       : "https://app.sandbox.midtrans.com/snap/v1/transactions";
 
+    // 1. Generate Snap Token first
     const response = await fetch(snapUrl, {
       method: "POST",
       headers: {
@@ -166,10 +128,25 @@ export async function POST(request: Request) {
     });
 
     const data = await response.json();
+    console.log("[MIDTRANS SNAP RESPONSE]:", data);
+
+    let token = data.token;
+    let redirect_url = data.redirect_url;
+
+    // 2. Generate QRIS URL from Midtrans Redirect URL
+    let qrisUrl = "";
+    if (redirect_url) {
+      qrisUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(redirect_url)}`;
+    }
+
+    if (!token) {
+      token = "SNAP-SANDBOX-DEMO-" + orderId;
+      redirect_url = "https://app.sandbox.midtrans.com";
+    }
 
     return NextResponse.json({
-      token: data.token || "SNAP-SANDBOX-DEMO-" + orderId,
-      redirect_url: data.redirect_url || "https://app.sandbox.midtrans.com",
+      token,
+      redirect_url,
       orderId,
       qrisUrl,
     });
