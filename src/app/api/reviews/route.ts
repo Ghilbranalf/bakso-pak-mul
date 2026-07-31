@@ -15,12 +15,11 @@ export async function GET(request: Request) {
           orderBy: { createdAt: "desc" }
         });
       } else {
-        reviews = await prisma.$queryRawUnsafe(
-          productId
-            ? `SELECT * FROM "Review" WHERE "productId" = $1 ORDER BY "createdAt" DESC`
-            : `SELECT * FROM "Review" ORDER BY "createdAt" DESC`,
-          ...(productId ? [productId] : [])
-        );
+        if (productId) {
+          reviews = await prisma.$queryRaw`SELECT * FROM "Review" WHERE "productId" = ${productId} ORDER BY "createdAt" DESC`;
+        } else {
+          reviews = await prisma.$queryRaw`SELECT * FROM "Review" ORDER BY "createdAt" DESC`;
+        }
       }
     } catch (dbErr) {
       console.warn("Reviews fetch fallback:", dbErr);
@@ -93,10 +92,7 @@ export async function POST(request: Request) {
         });
       } else {
         const id = `rev-${Date.now()}`;
-        await prisma.$executeRawUnsafe(
-          `INSERT INTO "Review" ("id", "productId", "userName", "rating", "comment", "createdAt") VALUES ($1, $2, $3, $4, $5, NOW())`,
-          id, productId, cleanName, cleanRating, comment
-        );
+        await prisma.$executeRaw`INSERT INTO "Review" ("id", "productId", "userName", "rating", "comment", "createdAt") VALUES (${id}, ${productId}, ${cleanName}, ${cleanRating}, ${comment}, NOW())`;
         createdReview = { id, productId, userName: cleanName, rating: cleanRating, comment, createdAt: new Date() };
       }
     } catch (err: any) {

@@ -31,10 +31,7 @@ export async function POST(request: Request) {
         });
       } else {
         const id = `otp-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-        await prisma.$executeRawUnsafe(
-          `INSERT INTO "OtpToken" ("id", "email", "code", "expiresAt", "createdAt") VALUES ($1, $2, $3, $4, NOW())`,
-          id, cleanEmail, otpCode, expiresAt
-        );
+        await prisma.$executeRaw`INSERT INTO "OtpToken" ("id", "email", "code", "expiresAt", "createdAt") VALUES (${id}, ${cleanEmail}, ${otpCode}, ${expiresAt}, NOW())`;
       }
     } catch (dbErr: any) {
       console.warn("OTP DB Save Warning:", dbErr.message);

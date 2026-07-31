@@ -10,7 +10,7 @@ export default function WhatsAppButton() {
   const waUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
   return (
-    <div className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-50 flex items-center gap-3">
+    <div className="fixed bottom-24 right-4 md:bottom-6 md:right-6 z-50 flex items-center gap-3">
       {/* Tooltip Badge */}
       <a
         href={waUrl}

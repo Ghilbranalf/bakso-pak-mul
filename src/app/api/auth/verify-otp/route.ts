@@ -34,10 +34,7 @@ export async function POST(request: Request) {
           }
         });
       } else {
-        const rows: any = await prisma.$queryRawUnsafe(
-          `SELECT * FROM "OtpToken" WHERE "email" = $1 AND "code" = $2 AND "expiresAt" >= NOW() ORDER BY "createdAt" DESC LIMIT 1`,
-          cleanEmail, cleanCode
-        );
+        const rows: any = await prisma.$queryRaw`SELECT * FROM "OtpToken" WHERE "email" = ${cleanEmail} AND "code" = ${cleanCode} AND "expiresAt" >= NOW() ORDER BY "createdAt" DESC LIMIT 1`;
         if (Array.isArray(rows) && rows.length > 0) {
           validToken = rows[0];
         }
@@ -58,7 +55,7 @@ export async function POST(request: Request) {
       if ((prisma as any).otpToken?.delete) {
         await (prisma as any).otpToken.delete({ where: { id: validToken.id } }).catch(() => {});
       } else {
-        await prisma.$executeRawUnsafe(`DELETE FROM "OtpToken" WHERE "id" = $1`, validToken.id).catch(() => {});
+        await prisma.$executeRaw`DELETE FROM "OtpToken" WHERE "id" = ${validToken.id}`.catch(() => {});
       }
     } catch (delErr) {
       console.warn("Token Delete Warning:", delErr);
