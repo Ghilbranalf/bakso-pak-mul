@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
 
-    // Store OTP token in Database (with Raw SQL fallback if Prisma Client DLL is locked)
+    // Store OTP token in Database
     try {
       if ((prisma as any).otpToken?.create) {
         await (prisma as any).otpToken.create({
@@ -37,22 +37,23 @@ export async function POST(request: Request) {
         );
       }
     } catch (dbErr: any) {
-      console.warn("OTP DB Save Fallback:", dbErr.message);
+      console.warn("OTP DB Save Warning:", dbErr.message);
     }
 
-    // Send Email via Nodemailer SMTP
+    // Send Real Email via Nodemailer
     const mailResult = await sendOtpEmail(cleanEmail, otpCode);
 
     if (!mailResult.success) {
       return NextResponse.json(
-        { error: "Gagal mengirim email OTP. Pastikan email Anda aktif." },
+        { error: "Gagal mengirim email OTP. Sila coba beberapa saat lagi." },
         { status: 500 }
       );
     }
 
     return NextResponse.json({
       success: true,
-      message: `Kode OTP 6-digit asli telah dikirim ke inbox email ${cleanEmail}.`,
+      message: `Kode OTP 6-digit asli telah dikirim ke email ${cleanEmail}.`,
+      previewUrl: mailResult.previewUrl,
     });
   } catch (error: any) {
     console.error("Send OTP Error:", error);

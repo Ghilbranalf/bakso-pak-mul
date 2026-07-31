@@ -16,6 +16,7 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   // Submit Register Form & Request Real OTP Email
   const handleRegisterSubmit = async (e: React.FormEvent) => {
@@ -28,6 +29,7 @@ export default function RegisterPage() {
     setIsLoading(true);
     setErrorMessage(null);
     setSuccessMessage(null);
+    setPreviewUrl(null);
 
     try {
       const res = await fetch("/api/auth/send-otp", {
@@ -42,7 +44,10 @@ export default function RegisterPage() {
         throw new Error(data.error || "Gagal mengirim kode OTP verifikasi.");
       }
 
-      setSuccessMessage(`Kode verifikasi OTP 6-digit telah dikirim ke email ${email}. Periksa inbox / folder spam Anda.`);
+      setSuccessMessage(`Kode verifikasi OTP 6-digit telah dikirim ke email ${email}.`);
+      if (data.previewUrl) {
+        setPreviewUrl(data.previewUrl);
+      }
       setStep("OTP");
     } catch (err: any) {
       setErrorMessage(err.message || "Terjadi kesalahan saat pendaftaran.");
@@ -107,7 +112,7 @@ export default function RegisterPage() {
               Verifikasi Email OTP Asli
             </h1>
             <p className="text-sm text-white/80 leading-relaxed max-w-md font-medium">
-              Sistem pendaftaran Bakso Pak Mul dilindungi oleh **Verifikasi Kode OTP Real 6-Digit** via Nodemailer SMTP.
+              Sistem pendaftaran Bakso Pak Mul dilindungi oleh **Verifikasi Kode OTP Real 6-Digit** via Nodemailer.
             </p>
           </div>
         </div>
@@ -144,7 +149,23 @@ export default function RegisterPage() {
             {successMessage && (
               <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-xs font-semibold flex items-start gap-2 animate-in fade-in">
                 <span className="material-symbols-outlined text-base shrink-0">check_circle</span>
-                <span>{successMessage}</span>
+                <div>
+                  <p>{successMessage}</p>
+                  {previewUrl && step === "OTP" && (
+                    <div className="mt-3 p-3 bg-amber-50 border border-amber-300 rounded-xl text-amber-900">
+                      <p className="text-[11px] font-bold mb-1">📩 Email Uji Coba Berhasil Dikirim!</p>
+                      <a
+                        href={previewUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#51000d] text-white rounded-lg text-xs font-extrabold hover:bg-[#7a0019] transition-all"
+                      >
+                        <span>Klik Buka Inbox Email Uji Coba</span>
+                        <span className="material-symbols-outlined text-xs">open_in_new</span>
+                      </a>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
@@ -265,9 +286,6 @@ export default function RegisterPage() {
                     placeholder="• • • • • •"
                     className="w-full h-16 text-center font-mono text-2xl font-black tracking-[12px] bg-gray-50 border-2 border-[#51000d]/30 rounded-2xl text-gray-900 focus:bg-white focus:border-[#51000d] outline-none transition-all"
                   />
-                  <p className="text-[11px] text-gray-400 text-center mt-1">
-                    Silakan buka aplikasi Email Anda dan salin 6-digit kode OTP dari Bakso Pak Mul.
-                  </p>
                 </div>
 
                 <button

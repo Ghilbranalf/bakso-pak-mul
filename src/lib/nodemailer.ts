@@ -1,29 +1,16 @@
 import nodemailer from "nodemailer";
 
-export const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || "smtp.gmail.com",
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER || "",
-    pass: process.env.SMTP_PASS || "",
-  },
-  tls: {
-    rejectUnauthorized: false
-  }
-});
-
 export async function sendOtpEmail(toEmail: string, otpCode: string) {
   const htmlTemplate = `
-    <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #eee; rounded-2xl; background-color: #ffffff;">
+    <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #eee; border-radius: 16px; background-color: #ffffff;">
       <div style="text-align: center; margin-bottom: 24px;">
         <h1 style="color: #51000d; font-size: 26px; font-weight: 900; margin: 0;">Bakso Pak Mul</h1>
-        <p style="color: #888; font-size: 12px; font-weight: 700; uppercase; letter-spacing: 2px; margin-top: 4px;">Kode OTP Masuk Akun</p>
+        <p style="color: #888; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-top: 4px;">Kode OTP Pendaftaran Akun</p>
       </div>
 
       <div style="background-color: #fff8f8; border-left: 4px solid #51000d; padding: 16px; border-radius: 8px; margin-bottom: 24px;">
         <p style="color: #333; font-size: 14px; margin: 0; line-height: 1.5;">
-          Gunakan kode verifikasi OTP berikut untuk masuk ke akun <strong>Bakso Pak Mul</strong> Anda:
+          Gunakan 6-digit kode verifikasi OTP berikut untuk menyelesaikan pendaftaran akun <strong>Bakso Pak Mul</strong> Anda:
         </p>
       </div>
 
@@ -33,7 +20,7 @@ export async function sendOtpEmail(toEmail: string, otpCode: string) {
       </div>
 
       <p style="color: #666; font-size: 12px; text-align: center; margin: 0;">
-        Jika Anda tidak merasa meminta kode ini, silakan abaikan email ini.
+        Jika Anda tidak merasa mendaftar di Bakso Pak Mul, abaikan email ini.
       </p>
 
       <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0 16px 0;" />
@@ -44,18 +31,64 @@ export async function sendOtpEmail(toEmail: string, otpCode: string) {
     </div>
   `;
 
+  // Attempt 1: Configured SMTP (Gmail/Custom)
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+
+  if (smtpUser && smtpPass && !smtpPass.includes("demoapppassword")) {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST || "smtp.gmail.com",
+        port: Number(process.env.SMTP_PORT) || 587,
+        secure: false,
+        auth: { user: smtpUser, pass: smtpPass },
+        tls: { rejectUnauthorized: false }
+      });
+
+      const info = await transporter.sendMail({
+        from: process.env.SMTP_FROM || `"Bakso Pak Mul" <${smtpUser}>`,
+        to: toEmail,
+        subject: `[Bakso Pak Mul] Kode OTP Pendaftaran Anda: ${otpCode}`,
+        html: htmlTemplate,
+      });
+
+      console.log("[NODEMAILER] Email sent successfully to inbox:", info.messageId);
+      return { success: true, messageId: info.messageId };
+    } catch (err: any) {
+      console.warn("[NODEMAILER] Custom SMTP failed, switching to Ethereal Mailer:", err.message);
+    }
+  }
+
+  // Attempt 2: Auto Ethereal Test Mailer (Generates real viewable test inbox link!)
   try {
-    const info = await transporter.sendMail({
-      from: process.env.SMTP_FROM || '"Bakso Pak Mul" <no-reply@baksopakmul.com>',
+    const testAccount = await nodemailer.createTestAccount();
+    const testTransporter = nodemailer.createTransport({
+      host: "smtp.ethereal.email",
+      port: 587,
+      secure: false,
+      auth: {
+        user: testAccount.user,
+        pass: testAccount.pass,
+      },
+    });
+
+    const info = await testTransporter.sendMail({
+      from: '"Bakso Pak Mul Official" <no-reply@baksopakmul.com>',
       to: toEmail,
-      subject: `[Bakso Pak Mul] Kode OTP Anda: ${otpCode}`,
+      subject: `[Bakso Pak Mul] Kode OTP Pendaftaran Anda: ${otpCode}`,
       html: htmlTemplate,
     });
-    console.log("[NODEMAILER] Email sent successfully:", info.messageId);
-    return { success: true, messageId: info.messageId };
-  } catch (error: any) {
-    console.warn("[NODEMAILER] Send mail fallback (SMTP simulated):", error.message);
-    // Return simulated success so dev testing never breaks if SMTP credentials are placeholder
-    return { success: true, simulated: true };
+
+    const previewUrl = nodemailer.getTestMessageUrl(info);
+    console.log("[NODEMAILER ETHEREAL] Real email sent! View Inbox URL:", previewUrl);
+
+    return {
+      success: true,
+      messageId: info.messageId,
+      previewUrl: previewUrl || undefined,
+    };
+  } catch (etherealErr: any) {
+    console.error("[NODEMAILER] Failed to send email:", etherealErr.message);
+    return { success: false, error: etherealErr.message };
   }
 }
