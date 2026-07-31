@@ -11,7 +11,7 @@ export default function CheckoutPage() {
   const cartContext = useCart();
   const cartItems = cartContext?.items || [];
   const totalPrice = cartContext?.totalPrice || 0;
-  const clearCart = cartContext?.clearCart || (() => {});
+  const clearCart = cartContext?.clearCart || (() => { });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -52,7 +52,7 @@ export default function CheckoutPage() {
         const savedAddr = localStorage.getItem("user_saved_address");
         let parsed: any = {};
         if (savedAddr) {
-          try { parsed = JSON.parse(savedAddr); } catch (e) {}
+          try { parsed = JSON.parse(savedAddr); } catch (e) { }
         }
 
         setFormData((prev) => {
@@ -131,52 +131,11 @@ export default function CheckoutPage() {
       setCreatedOrderNumber(data.orderNumber);
       setCreatedOrderTotal(finalTotal);
 
-      if (formData.paymentMethod === "COD") {
-        clearCart();
-        router.push(`/transaksi/${data.orderNumber}`);
-      } else {
-        // Online Payment (Midtrans): Launch Snap Popup directly
-        try {
-          const resTok = await fetch("/api/tokenizer", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              orderNumber: data.orderNumber,
-              items: cartItems,
-              totalPrice,
-              shippingCost: shippingFee,
-              discount: 0,
-              paymentType: "online",
-              shippingInfo: {
-                name: formData.customerName,
-                phone: formData.customerPhone,
-                address: formData.shippingAddress,
-                city: formData.city,
-                province: formData.province,
-                notes: formData.notes,
-              }
-            })
-          });
-          const tokData = await resTok.json();
+      // Clear local cart
+      clearCart();
 
-          clearCart();
-
-          if (tokData.token && (window as any).snap) {
-            (window as any).snap.pay(tokData.token, {
-              onSuccess: () => router.push(`/transaksi/${data.orderNumber}`),
-              onPending: () => router.push(`/transaksi/${data.orderNumber}`),
-              onError: () => router.push(`/transaksi/${data.orderNumber}`),
-              onClose: () => router.push(`/transaksi/${data.orderNumber}`),
-            });
-          } else {
-            router.push(`/transaksi/${data.orderNumber}`);
-          }
-        } catch (errTok) {
-          console.warn("Tokenizer error:", errTok);
-          clearCart();
-          router.push(`/transaksi/${data.orderNumber}`);
-        }
-      }
+      // Instantly redirect to Invoice / Detail Pesanan page
+      router.push(`/transaksi/${data.orderNumber}`);
     } catch (err: any) {
       console.error("Checkout failed:", err);
       setErrorMessage(err.message || "Terjadi kesalahan saat memproses pesanan.");
@@ -220,7 +179,7 @@ export default function CheckoutPage() {
           <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Left Column: Delivery & Customer Info */}
             <div className="lg:col-span-7 space-y-6">
-              
+
               {/* Auto-fill notification badge */}
               {isAutoFilled && (
                 <div className="bg-emerald-50 border border-emerald-200/80 rounded-2xl p-4 flex items-center justify-between gap-3 text-emerald-900 shadow-sm">
@@ -366,11 +325,10 @@ export default function CheckoutPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Midtrans / Payment Gateway */}
                   <label
-                    className={`p-5 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between gap-3 ${
-                      formData.paymentMethod === "MIDTRANS"
+                    className={`p-5 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between gap-3 ${formData.paymentMethod === "MIDTRANS"
                         ? "border-[#51000d] bg-red-50/50"
                         : "border-gray-100 bg-gray-50 hover:bg-gray-100"
-                    }`}
+                      }`}
                   >
                     <input
                       type="radio"
@@ -392,11 +350,10 @@ export default function CheckoutPage() {
 
                   {/* COD */}
                   <label
-                    className={`p-5 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between gap-3 ${
-                      formData.paymentMethod === "COD"
+                    className={`p-5 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between gap-3 ${formData.paymentMethod === "COD"
                         ? "border-[#51000d] bg-red-50/50"
                         : "border-gray-100 bg-gray-50 hover:bg-gray-100"
-                    }`}
+                      }`}
                   >
                     <input
                       type="radio"
