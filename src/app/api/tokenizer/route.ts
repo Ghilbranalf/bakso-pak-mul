@@ -9,40 +9,46 @@ export async function POST(request: Request) {
     const serverKey = process.env.MIDTRANS_SERVER_KEY || "SB-Mid-server-DemoKey12345";
     const authString = Buffer.from(`${serverKey}:`).toString("base64");
 
-    const orderId = `BPM-${Date.now()}`;
+    const orderId = body.orderNumber || body.orderId || `BPM-${Date.now()}`;
 
     const computedTotal = items.length > 0
       ? items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0)
-      : totalPrice || 4500000;
+      : totalPrice || 100;
 
     const shipping = Number(shippingCost) || 0;
     const disc = Number(discount) || 0;
-    const grossAmount = Math.max(10000, computedTotal + shipping - disc);
+    const grossAmount = Math.max(1, computedTotal + shipping - disc);
 
-    // Save order to database first
-    await prisma.order.create({
-      data: {
-        orderNumber: orderId,
-        status: paymentType === "cod" ? "PENDING" : "AWAITING_PAYMENT",
-        finalTotal: grossAmount,
-        shippingCost: shipping,
-        discount: disc,
-        paymentType: paymentType,
-        customerName: shippingInfo.name || "Unknown",
-        phone: shippingInfo.phone || "Unknown",
-        province: shippingInfo.province || "Unknown",
-        city: shippingInfo.city || "Unknown",
-        address: shippingInfo.address || "Unknown",
-        notes: shippingInfo.notes || "",
-        items: {
-          create: items.map((item: any) => ({
-            product: { connect: { id: item.id } },
-            quantity: Number(item.quantity),
-            priceAtTime: Number(item.price)
-          }))
-        }
-      }
+    // Save order to database if not created yet
+    const existingOrder = await prisma.order.findUnique({
+      where: { orderNumber: orderId }
     });
+
+    if (!existingOrder) {
+      await prisma.order.create({
+        data: {
+          orderNumber: orderId,
+          status: paymentType === "cod" ? "PENDING" : "AWAITING_PAYMENT",
+          finalTotal: grossAmount,
+          shippingCost: shipping,
+          discount: disc,
+          paymentType: paymentType,
+          customerName: shippingInfo.name || "Unknown",
+          phone: shippingInfo.phone || "Unknown",
+          province: shippingInfo.province || "Unknown",
+          city: shippingInfo.city || "Unknown",
+          address: shippingInfo.address || "Unknown",
+          notes: shippingInfo.notes || "",
+          items: {
+            create: items.map((item: any) => ({
+              product: { connect: { id: item.id } },
+              quantity: Number(item.quantity),
+              priceAtTime: Number(item.price)
+            }))
+          }
+        }
+      });
+    }
 
     if (paymentType === "cod") {
       // If COD, skip Midtrans and return success
