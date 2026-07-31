@@ -4,11 +4,12 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import prisma from '@/lib/prisma'
+import bcrypt from 'bcryptjs'
 
 export async function login(formData: FormData) {
   const supabase = await createClient()
   
-  const email = formData.get('email') as string
+  const email = (formData.get('email') as string || '').trim().toLowerCase()
   const password = formData.get('password') as string
 
   const { error } = await supabase.auth.signInWithPassword({
@@ -17,6 +18,22 @@ export async function login(formData: FormData) {
   })
 
   if (error) {
+    // Fallback: Check local PostgreSQL Prisma user with bcrypt hashed password
+    try {
+      const user = await prisma.user.findUnique({ where: { email } })
+      if (user && user.password) {
+        const isMatch = await bcrypt.compare(password, user.password)
+        if (isMatch) {
+          const redirectTo = formData.get('redirectTo') as string
+          revalidatePath('/', 'layout')
+          if (redirectTo) redirect(redirectTo)
+          redirect('/profil')
+        }
+      }
+    } catch (dbErr: any) {
+      console.warn("Bcrypt fallback login check:", dbErr.message)
+    }
+
     redirect(`/login?message=${encodeURIComponent(error.message)}`)
   }
 
@@ -25,7 +42,7 @@ export async function login(formData: FormData) {
   if (redirectTo) {
     redirect(redirectTo)
   }
-  redirect('/')
+  redirect('/profil')
 }
 
 export async function signup(formData: FormData) {

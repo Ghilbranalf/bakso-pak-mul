@@ -127,6 +127,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [items, isInitialized, isLoggedIn]);
 
   const addToCart = (product: Omit<CartItem, 'quantity'>) => {
+    // Check if user is logged in (localStorage or Supabase session)
+    const storedUser = getStorageItem("user");
+    const storedAddress = getStorageItem("user_saved_address");
+    
+    if (!storedUser && !isLoggedIn && !storedAddress) {
+      alert("🔒 Akses Terbatas:\nSilakan LOGIN terlebih dahulu untuk menambah produk ke keranjang belanja dan melakukan pemesanan.");
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
+      return;
+    }
+
     setItems((prevItems) => {
       const existingItem = prevItems.find(item => item.id === product.id);
       if (existingItem) {

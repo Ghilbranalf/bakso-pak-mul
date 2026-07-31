@@ -51,7 +51,15 @@ export default function CheckoutPage() {
         const supabase = createClient();
         const { data: { session } } = await supabase.auth.getSession();
 
+        const storedUser = localStorage.getItem("user");
         const savedAddr = localStorage.getItem("user_saved_address");
+
+        if (!session?.user && !storedUser && !savedAddr) {
+          alert("🔒 Silakan login terlebih dahulu untuk mengakses halaman checkout pesanan.");
+          router.push("/login");
+          return;
+        }
+
         let parsed: any = {};
         if (savedAddr) {
           try { parsed = JSON.parse(savedAddr); } catch (e) { }
@@ -77,7 +85,7 @@ export default function CheckoutPage() {
       }
     };
     fetchUser();
-  }, []);
+  }, [router]);
 
   const shippingFee = 0;
   const finalTotal = totalPrice + shippingFee;

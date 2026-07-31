@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
   try {
@@ -63,10 +64,16 @@ export async function POST(request: Request) {
       console.warn("Token Delete Warning:", delErr);
     }
 
-    // Upsert User in Database
+    // Upsert User in Database with Hashed Password
     let user = await prisma.user.findUnique({
       where: { email: cleanEmail }
     });
+
+    const { password } = await request.json().catch(() => ({}));
+    let hashedPassword: string | null = null;
+    if (password && password.length >= 6) {
+      hashedPassword = await bcrypt.hash(password, 10);
+    }
 
     if (!user) {
       const userId = `usr-${Date.now()}`;
@@ -76,8 +83,14 @@ export async function POST(request: Request) {
           id: userId,
           email: cleanEmail,
           name: defaultName.charAt(0).toUpperCase() + defaultName.slice(1),
+          password: hashedPassword,
           role: "USER",
         }
+      });
+    } else if (hashedPassword) {
+      user = await prisma.user.update({
+        where: { email: cleanEmail },
+        data: { password: hashedPassword }
       });
     }
 
