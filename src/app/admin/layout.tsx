@@ -1,15 +1,20 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const [userEmail, setUserEmail] = useState<string>("");
 
   useEffect(() => {
+    if (pathname === "/admin/login") {
+      setIsAuthorized(true);
+      return;
+    }
     const checkAdminRole = async () => {
       try {
         let email = "";
@@ -44,16 +49,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         // 3. Or developer demo admin mode (admin in localStorage)
         const isAdmin = 
           role.toUpperCase() === "ADMIN" || 
-          email.toLowerCase() === "baksopakmulmantap@gmail.com" ||
-          storedUser !== null; // Allow local logged-in session for testing
+          email.toLowerCase() === "baksopakmulmantap@gmail.com";
 
         if (isAdmin) {
           setIsAuthorized(true);
         } else {
           setIsAuthorized(false);
           setTimeout(() => {
-            router.push("/login?message=" + encodeURIComponent("Akses ditolak. Silakan login sebagai Admin."));
-          }, 2000);
+            router.push("/admin/login");
+          }, 1500);
         }
       } catch (err) {
         console.error("Admin Protection Check Error:", err);
@@ -95,10 +99,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
           <div className="pt-2 flex flex-col gap-3">
             <Link
-              href="/login"
-              className="w-full py-3.5 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md transition-all"
+              href="/admin/login"
+              className="w-full py-3.5 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md transition-all text-center"
             >
-              Login Sebagai Admin
+              Masuk ke Portal Login Admin
             </Link>
             <Link
               href="/"
