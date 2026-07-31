@@ -3,7 +3,7 @@
 import React from "react";
 
 export default function WhatsAppButton() {
-  const phoneNumber = "6285600436463"; // Official Bakso Pak Mul WhatsApp Number
+  const phoneNumber = "6281298980252"; // Official Bakso Pak Mul WhatsApp Number
   const message = encodeURIComponent(
     "Halo CS Bakso Pak Mul 👋, saya ingin bertanya mengenai produk bakso, stok, dan pemesanan."
   );

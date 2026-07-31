@@ -212,7 +212,7 @@ export default function AboutPage() {
               </p>
               <div className="flex flex-wrap gap-4">
                 <a
-                  href="https://wa.me/6281234567890"
+                  href="https://wa.me/6281298980252"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-white text-[#51000d] px-8 py-4 rounded-xl font-bold text-xs md:text-sm hover:bg-gray-100 transition-all shadow-lg active:scale-95 uppercase tracking-wider flex items-center gap-2"

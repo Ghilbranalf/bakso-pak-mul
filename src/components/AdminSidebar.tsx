@@ -67,7 +67,7 @@ export default function AdminSidebar({ activeMenu }: AdminSidebarProps = {}) {
       {/* Footer Navigation */}
       <div className="px-4 mt-auto pt-4 border-t border-gray-200 space-y-1">
         <a
-          href="https://wa.me/6281234567890"
+          href="https://wa.me/6281298980252"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-3 px-4 py-2.5 text-gray-600 hover:bg-gray-100 rounded-xl text-xs font-semibold transition-all"
