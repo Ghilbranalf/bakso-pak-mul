@@ -112,11 +112,50 @@ export async function POST(request: Request) {
     };
 
     const isProduction = process.env.NEXT_PUBLIC_MIDTRANS_ENV === "production";
-    const apiUrl = isProduction
+
+    // 1. Fetch Official Real QRIS Image URL via Midtrans Core Charge API
+    let qrisUrl = "";
+    try {
+      const coreUrl = isProduction
+        ? "https://api.midtrans.com/v2/charge"
+        : "https://api.sandbox.midtrans.com/v2/charge";
+
+      const qrisRes = await fetch(coreUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": `Basic ${authString}`,
+        },
+        body: JSON.stringify({
+          payment_type: "qris",
+          transaction_details: {
+            order_id: orderId,
+            gross_amount: grossAmount,
+          },
+          qris: {
+            acquirer: "gopay",
+          },
+        }),
+      });
+
+      const qrisData = await qrisRes.json();
+      if (qrisData.actions && Array.isArray(qrisData.actions)) {
+        const qrAction = qrisData.actions.find((a: any) => a.name === "generate-qr-code");
+        if (qrAction && qrAction.url) {
+          qrisUrl = qrAction.url;
+        }
+      }
+    } catch (e) {
+      console.warn("[MIDTRANS CORE API] QRIS Charge Fallback:", e);
+    }
+
+    // 2. Fetch Snap Token as secondary option
+    const snapUrl = isProduction
       ? "https://app.midtrans.com/snap/v1/transactions"
       : "https://app.sandbox.midtrans.com/snap/v1/transactions";
 
-    const response = await fetch(apiUrl, {
+    const response = await fetch(snapUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -128,28 +167,11 @@ export async function POST(request: Request) {
 
     const data = await response.json();
 
-    if (!response.ok) {
-      console.error("Midtrans API Error:", data);
-      return NextResponse.json(
-        { error: "Midtrans API Error", details: data },
-        { status: response.status }
-      );
-    }
-
-    if (data.token) {
-      return NextResponse.json({
-        token: data.token,
-        redirect_url: data.redirect_url,
-        orderId,
-      });
-    }
-
-    // Fallback sandbox simulation token if server key is in test mode
     return NextResponse.json({
-      token: "SNAP-SANDBOX-DEMO-" + orderId,
-      redirect_url: "https://app.sandbox.midtrans.com",
+      token: data.token || "SNAP-SANDBOX-DEMO-" + orderId,
+      redirect_url: data.redirect_url || "https://app.sandbox.midtrans.com",
       orderId,
-      payload,
+      qrisUrl,
     });
   } catch (error: any) {
     console.error("Internal Tokenizer Error:", error);

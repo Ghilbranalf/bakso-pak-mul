@@ -24,6 +24,7 @@ export default function CheckoutPage() {
   const [selectedBank, setSelectedBank] = useState<"BCA" | "Mandiri" | "BNI" | "BRI">("BCA");
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const [midtransToken, setMidtransToken] = useState<string | null>(null);
+  const [midtransQrisUrl, setMidtransQrisUrl] = useState<string | null>(null);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -154,6 +155,9 @@ export default function CheckoutPage() {
         const tokData = await resTok.json();
         if (tokData.token) {
           setMidtransToken(tokData.token);
+        }
+        if (tokData.qrisUrl) {
+          setMidtransQrisUrl(tokData.qrisUrl);
         }
       } catch (errTok) {
         console.warn("Tokenizer fallback:", errTok);
@@ -582,10 +586,13 @@ export default function CheckoutPage() {
                 <div className="flex flex-col items-center text-center space-y-3">
                   <div className="p-3.5 bg-white rounded-2xl border-2 border-[#51000d]/20 shadow-md relative group">
                     <img
-                      src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(
-                        "00020101021226670016COM.GO-JEK.WWW0118936009143000000000021520260731000000153033605802ID5913BAKSO PAK MUL6013JAKARTA TIMUR61051331062070703A0163044F2A"
-                      )}`}
-                      alt="Kode QRIS Resmi Bakso Pak Mul"
+                      src={
+                        midtransQrisUrl ||
+                        `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(
+                          "00020101021226670016COM.GO-JEK.WWW0118936009143000000000021520260731000000153033605802ID5913BAKSO PAK MUL6013JAKARTA TIMUR61051331062070703A0163044F2A"
+                        )}`
+                      }
+                      alt="Kode QRIS Resmi Midtrans Bakso Pak Mul"
                       className="w-44 h-44 object-contain rounded-lg"
                     />
                   </div>
