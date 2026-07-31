@@ -131,69 +131,59 @@ export default function CheckoutPage() {
       setCreatedOrderNumber(data.orderNumber);
       setCreatedOrderTotal(finalTotal);
 
-      // Try fetching Midtrans Snap Token in background
-      try {
-        const resTok = await fetch("/api/tokenizer", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            orderNumber: data.orderNumber,
-            items: cartItems,
-            totalPrice,
-            shippingCost: shippingFee,
-            discount: 0,
-            paymentType: formData.paymentMethod === "COD" ? "cod" : "online",
-            shippingInfo: {
-              name: formData.customerName,
-              phone: formData.customerPhone,
-              address: formData.shippingAddress,
-              city: formData.city,
-              province: formData.province,
-              notes: formData.notes,
-            }
-          })
-        });
-        const tokData = await resTok.json();
-        if (tokData.token) {
-          setMidtransToken(tokData.token);
-        }
-        if (tokData.qrisUrl) {
-          setMidtransQrisUrl(tokData.qrisUrl);
-        }
-      } catch (errTok) {
-        console.warn("Tokenizer fallback:", errTok);
-      }
-
       // Clear local cart
       clearCart();
 
       if (formData.paymentMethod === "COD") {
         router.push(`/transaksi/${data.orderNumber}`);
       } else {
-        // Open Custom Bakso Pak Mul Payment Modal!
-        setIsPaymentModalOpen(true);
+        // Online Payment (Midtrans)
+        let snapToken = null;
+        let redirectUrl = null;
+        try {
+          const resTok = await fetch("/api/tokenizer", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              orderNumber: data.orderNumber,
+              items: cartItems,
+              totalPrice,
+              shippingCost: shippingFee,
+              discount: 0,
+              paymentType: "online",
+              shippingInfo: {
+                name: formData.customerName,
+                phone: formData.customerPhone,
+                address: formData.shippingAddress,
+                city: formData.city,
+                province: formData.province,
+                notes: formData.notes,
+              }
+            })
+          });
+          const tokData = await resTok.json();
+          snapToken = tokData.token;
+          redirectUrl = tokData.redirect_url;
+        } catch (errTok) {
+          console.warn("Tokenizer error:", errTok);
+        }
+
+        if (snapToken && !snapToken.startsWith("SNAP-SANDBOX-DEMO") && (window as any).snap) {
+          (window as any).snap.pay(snapToken, {
+            onSuccess: () => router.push(`/transaksi/${data.orderNumber}`),
+            onPending: () => router.push(`/transaksi/${data.orderNumber}`),
+            onError: () => router.push(`/transaksi/${data.orderNumber}`),
+            onClose: () => router.push(`/transaksi/${data.orderNumber}`),
+          });
+        } else {
+          router.push(`/transaksi/${data.orderNumber}`);
+        }
       }
     } catch (err: any) {
       console.error("Checkout failed:", err);
       setErrorMessage(err.message || "Terjadi kesalahan saat memproses pesanan.");
     } finally {
       setIsSubmitting(false);
-    }
-  };
-
-  const launchSnapNative = () => {
-    if (midtransToken && (window as any).snap) {
-      (window as any).snap.pay(midtransToken, {
-        onSuccess: () => router.push(`/transaksi/${createdOrderNumber}`),
-        onPending: () => router.push(`/transaksi/${createdOrderNumber}`),
-        onError: (err: any) => {
-          console.warn("Midtrans Snap error:", err);
-          // Stay on modal so user is not forcibly redirected
-        },
-        onClose: () => {
-          // Stay on modal, do not forcibly redirect
-        },
-      });
     }
   };
 
@@ -516,171 +506,6 @@ export default function CheckoutPage() {
           </form>
         )}
       </main>
-
-      {/* CUSTOM BAKSO PAK MUL PAYMENT MODAL (OPTION A) */}
-      {isPaymentModalOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[70] flex items-center justify-center p-3 md:p-4 overflow-y-auto">
-          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col border border-gray-100 my-auto">
-            {/* Modal Header */}
-            <div className="bg-gradient-to-r from-[#51000d] to-[#7a0019] text-white p-4 sm:p-5 relative">
-              <div className="flex justify-between items-start">
-                <div>
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <span className="material-symbols-outlined text-amber-300 text-base">verified</span>
-                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-amber-300">
-                      Bakso Pak Mul Official Payment
-                    </span>
-                  </div>
-                  <h2 className="text-xl font-black tracking-tight">Rp {formatPrice(createdOrderTotal || finalTotal)}</h2>
-                  <p className="text-[11px] text-white/80 font-medium mt-0.5">
-                    No. Pesanan: <span className="font-mono font-bold text-amber-300">{createdOrderNumber}</span>
-                  </p>
-                </div>
-                <button
-                  onClick={() => setIsPaymentModalOpen(false)}
-                  className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer"
-                  title="Tutup Modal"
-                >
-                  <span className="material-symbols-outlined text-base">close</span>
-                </button>
-              </div>
-
-              {/* Countdown Banner */}
-              <div className="mt-3 pt-2.5 border-t border-white/15 flex items-center justify-between text-[11px] font-medium">
-                <span className="text-white/90">Batas Pembayaran:</span>
-                <span className="font-mono font-bold bg-amber-400/20 text-amber-300 px-2.5 py-0.5 rounded-full border border-amber-400/30">
-                  23:59:59
-                </span>
-              </div>
-            </div>
-
-            {/* Modal Tabs: QRIS / Virtual Account */}
-            <div className="flex border-b border-gray-100 bg-gray-50/80 p-1 gap-1">
-              <button
-                onClick={() => setActivePaymentTab("qris")}
-                className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-                  activePaymentTab === "qris"
-                    ? "bg-white text-[#51000d] shadow-sm"
-                    : "text-gray-500 hover:text-gray-900"
-                }`}
-              >
-                <span className="material-symbols-outlined text-base">qr_code_2</span>
-                <span>QRIS &amp; E-Wallet</span>
-              </button>
-              <button
-                onClick={() => setActivePaymentTab("va")}
-                className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-                  activePaymentTab === "va"
-                    ? "bg-white text-[#51000d] shadow-sm"
-                    : "text-gray-500 hover:text-gray-900"
-                }`}
-              >
-                <span className="material-symbols-outlined text-base">account_balance</span>
-                <span>Virtual Account</span>
-              </button>
-            </div>
-
-            {/* Modal Body */}
-            <div className="p-4 sm:p-5 space-y-4">
-              {/* TAB 1: QRIS */}
-              {activePaymentTab === "qris" && (
-                <div className="flex flex-col items-center text-center space-y-3">
-                  <div className="p-3.5 bg-white rounded-2xl border-2 border-[#51000d]/20 shadow-md relative group">
-                    <img
-                      src={
-                        midtransQrisUrl ||
-                        `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(
-                          "00020101021226670016COM.GO-JEK.WWW0118936009143000000000021520260731000000153033605802ID5913BAKSO PAK MUL6013JAKARTA TIMUR61051331062070703A0163044F2A"
-                        )}`
-                      }
-                      alt="Kode QRIS Resmi Midtrans Bakso Pak Mul"
-                      className="w-44 h-44 object-contain rounded-lg"
-                    />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-gray-900">Scan Kode QRIS di Atas</p>
-                    <p className="text-[10px] text-gray-500 mt-0.5">
-                      Mendukung GoPay, OVO, ShopeePay, Dana, LinkAja, &amp; M-Banking.
-                    </p>
-                  </div>
-                  <button
-                    onClick={launchSnapNative}
-                    className="w-full py-2.5 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                  >
-                    <span className="material-symbols-outlined text-base">qr_code_scanner</span>
-                    <span>Bayar Langsung via Aplikasi (Midtrans QRIS)</span>
-                  </button>
-                </div>
-              )}
-
-              {/* TAB 2: VIRTUAL ACCOUNT */}
-              {activePaymentTab === "va" && (
-                <div className="space-y-3">
-                  {/* Bank Selector Chips */}
-                  <div className="grid grid-cols-4 gap-1.5">
-                    {(["BCA", "Mandiri", "BNI", "BRI"] as const).map((b) => (
-                      <button
-                        key={b}
-                        onClick={() => setSelectedBank(b)}
-                        className={`py-2 rounded-xl text-xs font-extrabold border transition-all cursor-pointer ${
-                          selectedBank === b
-                            ? "bg-[#51000d] text-white border-[#51000d] shadow-sm"
-                            : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
-                        }`}
-                      >
-                        {b}
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* VA Box */}
-                  <div className="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 space-y-2.5">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[11px] font-bold text-gray-500">Nomor VA {selectedBank}</span>
-                      <span className="px-2 py-0.5 bg-green-100 text-green-800 text-[9px] font-extrabold rounded-full uppercase">
-                        Verifikasi Otomatis
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between bg-white p-3 rounded-xl border border-gray-300">
-                      <span className="font-mono text-base font-black text-gray-900 tracking-wider">
-                        {vaNumbers[selectedBank]}
-                      </span>
-                      <button
-                        onClick={() => handleCopy(vaNumbers[selectedBank], selectedBank)}
-                        className="px-3 py-1 bg-[#51000d] text-white rounded-lg text-xs font-bold hover:bg-[#7a0019] transition-all cursor-pointer flex items-center gap-1"
-                      >
-                        <span className="material-symbols-outlined text-xs">content_copy</span>
-                        <span>{copiedText === selectedBank ? "Tercopy!" : "Salin"}</span>
-                      </button>
-                    </div>
-                    <p className="text-[10px] text-gray-500 leading-relaxed">
-                      Transfer tepat hingga 3 digit terakhir untuk verifikasi otomatis.
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Modal Actions Footer */}
-            <div className="p-4 bg-gray-50 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-2">
-              <button
-                onClick={launchSnapNative}
-                className="w-full sm:w-auto px-4 py-2 text-[11px] font-bold text-blue-700 bg-blue-50 border border-blue-200 rounded-xl hover:bg-blue-100 transition-all flex items-center justify-center gap-1 cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-sm">open_in_new</span>
-                <span>Buka Pop-up Midtrans</span>
-              </button>
-
-              <button
-                onClick={() => router.push(`/transaksi/${createdOrderNumber}`)}
-                className="w-full sm:w-auto px-6 py-2 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold shadow-sm uppercase tracking-wider cursor-pointer"
-              >
-                Saya Sudah Bayar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       <Footer />
     </div>
