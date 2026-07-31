@@ -153,7 +153,8 @@ function ProductsContent() {
             paginatedProducts.map((product, idx) => (
             <div key={`${product.id}-${idx}`} className={`product-card group rounded-2xl overflow-hidden flex flex-col relative ${product.isSpecial ? 'bg-primary text-white' : 'bg-white border border-gray-100'}`}>
               {product.isSpecial && <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-dark opacity-95 pointer-events-none"></div>}
-              <div className={`relative aspect-square flex items-center justify-center p-8 z-10 pointer-events-none ${!product.isSpecial ? 'bg-[#fcfcfc]' : ''}`}>
+              <Link href={`/produk/${product.id}`} className="block relative z-10">
+              <div className={`relative aspect-square flex items-center justify-center p-8 ${!product.isSpecial ? 'bg-[#fcfcfc]' : ''}`}>
                 <img
                   alt={product.name}
                   className={`object-contain w-full h-full transition-transform duration-700 ${product.isSpecial ? 'drop-shadow-2xl group-hover:scale-110' : 'group-hover:scale-105'}`}
@@ -166,11 +167,12 @@ function ProductsContent() {
                     </span>
                   ) : (
                     <span className="bg-white/90 backdrop-blur px-2.5 py-1 rounded-full text-[9px] font-bold text-primary shadow-sm border border-gray-100 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[10px] fill-1">star</span> {product.rating}
+                      <span className="material-symbols-outlined text-[10px] fill-1">star</span> 5.0 ⭐
                     </span>
                   )}
                 </div>
               </div>
+              </Link>
               <div className="p-6 flex flex-col flex-grow z-10 relative">
                 <div className="flex justify-between items-start mb-2">
                   <span className={`text-[9px] font-bold uppercase tracking-widest ${product.isSpecial ? 'text-red-200' : 'text-secondary'}`}>{product.category}</span>

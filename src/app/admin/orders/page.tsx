@@ -102,6 +102,38 @@ export default function AdminOrdersPage() {
     setTimeout(() => setToastMessage(null), 3000);
   };
 
+  const handleExportExcel = () => {
+    if (orders.length === 0) return alert("Tidak ada data pesanan untuk diekspor.");
+
+    const headers = ["No Pesanan", "Tanggal", "Nama Pelanggan", "No HP", "Kota", "Provinsi", "Metode Pembayaran", "Total Tagihan (Rp)", "Status"];
+    const csvRows = [headers.join(",")];
+
+    filteredOrders.forEach((o) => {
+      const row = [
+        `"${o.orderNumber}"`,
+        `"${o.date}"`,
+        `"${o.customerName || "-"}"`,
+        `"${o.phone || "-"}"`,
+        `"${o.city || "-"}"`,
+        `"${o.province || "-"}"`,
+        `"${o.paymentType || "Online"}"`,
+        `"${o.finalTotal || 0}"`,
+        `"${o.statusText || o.status}"`
+      ];
+      csvRows.push(row.join(","));
+    });
+
+    const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + csvRows.join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `Laporan_Penjualan_Bakso_Pak_Mul_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast("Laporan Penjualan (Excel/CSV) berhasil didownload!");
+  };
+
   const filteredOrders = orders.filter((o) => {
     const matchesSearch = o.orderNumber.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           (o.customerName && o.customerName.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -137,13 +169,32 @@ export default function AdminOrdersPage() {
         )}
 
         {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-extrabold text-[#51000d] tracking-tight">
-            Kelola Pesanan Masuk
-          </h1>
-          <p className="text-xs md:text-sm text-gray-500 font-medium mt-1">
-            Pantau pesanan pelanggan, ubah status pengiriman, atau batalkan transaksi.
-          </p>
+        <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-[#51000d] tracking-tight">
+              Kelola Pesanan Masuk
+            </h1>
+            <p className="text-xs md:text-sm text-gray-500 font-medium mt-1">
+              Pantau pesanan pelanggan, ubah status pengiriman, atau ekspor laporan keuangan.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={handleExportExcel}
+              className="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-2xl text-xs font-bold shadow-md transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-base">download</span>
+              <span>Export Laporan Excel (.CSV)</span>
+            </button>
+            <button
+              onClick={() => window.print()}
+              className="px-4 py-2.5 bg-gray-800 hover:bg-gray-900 text-white rounded-2xl text-xs font-bold shadow-md transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-base">print</span>
+              <span>Cetak PDF</span>
+            </button>
+          </div>
         </div>
 
         {/* Controls Toolbar: Search & Filter */}

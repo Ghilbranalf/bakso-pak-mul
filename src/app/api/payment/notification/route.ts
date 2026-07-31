@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import crypto from "crypto";
+import { sendOrderInvoiceEmail } from "@/lib/nodemailer";
 
 export async function GET() {
   return NextResponse.json({
@@ -88,7 +89,7 @@ export async function POST(request: Request) {
       data: { status: newStatus },
     });
 
-    // If payment is newly settled/paid, automatically reduce product inventory
+    // If payment is newly settled/paid, automatically reduce product inventory & send email invoice
     if (newStatus === "PAID" && order.status !== "PAID") {
       for (const item of order.items) {
         try {
@@ -104,6 +105,11 @@ export async function POST(request: Request) {
           console.error(`Failed to decrement stock for product ${item.productId}:`, err);
         }
       }
+
+      // Send Order Invoice Email via Nodemailer
+      sendOrderInvoiceEmail(updatedOrder).catch((e) => {
+        console.warn("Invoice email notification error:", e);
+      });
     }
 
     console.log(`[MIDTRANS WEBHHOOK] Order ${order_id} status updated to: ${newStatus}`);
