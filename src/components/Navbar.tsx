@@ -114,9 +114,8 @@ export default function Navbar() {
                   </div>
                 </div>
               ) : (
-                <Link href="/login" className="text-gray-600 hover:text-[#51000d] transition-colors flex items-center gap-1 font-bold text-xs" title="Masuk / Daftar">
-                  <span className="material-symbols-outlined text-xl">account_circle</span>
-                  <span>Masuk</span>
+                <Link href="/login" className="text-gray-600 hover:text-[#51000d] transition-colors flex items-center p-1" title="Masuk / Akun">
+                  <span className="material-symbols-outlined text-2xl">account_circle</span>
                 </Link>
               )}
 

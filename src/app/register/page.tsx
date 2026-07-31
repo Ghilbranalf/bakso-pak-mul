@@ -91,6 +91,22 @@ export default function RegisterPage() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      const { createClient } = await import("@/utils/supabase/client");
+      const supabase = createClient();
+      const origin = typeof window !== "undefined" ? window.location.origin : "https://bakso-pak-mul.vercel.app";
+      await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${origin}/auth/callback`,
+        },
+      });
+    } catch (err: any) {
+      console.error("Google OAuth error:", err);
+    }
+  };
+
   return (
     <div className="min-h-screen text-on-surface bg-surface-white font-sans">
       <Navbar />
@@ -305,6 +321,7 @@ export default function RegisterPage() {
             <div className="grid grid-cols-1 gap-4">
               <button 
                 type="button"
+                onClick={handleGoogleLogin}
                 className="w-full flex items-center justify-center gap-3 h-14 border border-outline-variant rounded-xl bg-white hover:bg-surface-variant/30 hover:border-outline transition-all group cursor-pointer"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -313,7 +330,7 @@ export default function RegisterPage() {
                   <path d="M5.84 14.09l-3.66 2.84C3.99 20.53 7.7 23 12 23c2.97 0 5.46-1.09 7.28-2.93l-3.66-2.84c-1.01.67-2.31 1.09-3.62 1.09-2.86 0-5.29-2.05-6.16-4.91z" fill="#FBBC05"></path>
                   <path d="M12 23c4.3 0 8.01-2.47 9.82-6.07l-3.66-2.84c-.87 2.86-3.3 4.91-6.16 4.91-2.86 0-5.29-2.05-6.16-4.91l-3.66 2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
                 </svg>
-                <span className="text-sm font-semibold text-on-surface">Google</span>
+                <span className="text-sm font-semibold text-on-surface">Masuk dengan Google</span>
               </button>
             </div>
 
