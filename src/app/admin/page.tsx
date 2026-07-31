@@ -1,57 +1,75 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import AdminSidebar from "@/components/AdminSidebar";
 
 export default function AdminDashboardPage() {
   const [timeframe, setTimeframe] = useState<"monthly" | "weekly">("monthly");
+  const [orders, setOrders] = useState<any[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const recentOrders = [
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        setIsLoading(true);
+
+        // Fetch Real Orders
+        const resOrders = await fetch("/api/orders");
+        if (resOrders.ok) {
+          const dataOrders = await resOrders.json();
+          setOrders(dataOrders.orders || []);
+        }
+
+        // Fetch Real Products
+        const resProd = await fetch("/api/products");
+        if (resProd.ok) {
+          const dataProd = await resProd.json();
+          setProducts(dataProd.products || []);
+        }
+      } catch (err) {
+        console.error("Error fetching dashboard data:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
+  const formatPrice = (price: number) => {
+    return `Rp ${(price || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+  };
+
+  // Calculate real live metrics
+  const totalRevenue = orders
+    .filter((o) => o.status === "PAID" || o.status === "COMPLETED")
+    .reduce((sum, o) => sum + (o.finalTotal || 0), 0);
+
+  const totalOrdersCount = orders.length;
+  const completedOrdersCount = orders.filter((o) => o.status === "PAID" || o.status === "COMPLETED").length;
+  const lowStockCount = products.filter((p) => (p.stock || 0) < 20).length;
+
+  const displayOrders = orders.length > 0 ? orders.slice(0, 5) : [
     {
-      id: "#ORD-2024-8901",
-      client: "Jaya Bakso Group",
-      location: "Jakarta Selatan",
-      initials: "JB",
-      bgColor: "bg-[#ffdad8] text-[#410007]",
-      product: "Paket Bakso Super (500kg)",
-      value: "Rp 42.500.000",
-      status: "Selesai",
-      statusColor: "bg-green-100 text-green-700 border border-green-200",
+      id: "ord-demo-1",
+      orderNumber: "#ORD-2024-8901",
+      customerName: "Jaya Bakso Group",
+      city: "Jakarta Selatan",
+      finalTotal: 42500000,
+      status: "COMPLETED",
+      createdAt: new Date().toISOString(),
     },
     {
-      id: "#ORD-2024-8905",
-      client: "Frozen Mart Central",
-      location: "Surabaya Timur",
-      initials: "FM",
-      bgColor: "bg-[#ffdad9] text-[#410009]",
-      product: "Bumbu Multi Guna (100kg)",
-      value: "Rp 12.800.000",
-      status: "Diproses",
-      statusColor: "bg-orange-100 text-orange-700 border border-orange-200",
-    },
-    {
-      id: "#ORD-2024-8910",
-      client: "Bakso Master Co.",
-      location: "Bandung Utara",
-      initials: "BM",
-      bgColor: "bg-red-100 text-[#51000d]",
-      product: "Aneka Kulit Pangsit & Mie",
-      value: "Rp 28.450.000",
-      status: "Dalam Pengiriman",
-      statusColor: "bg-blue-100 text-blue-700 border border-blue-200",
-    },
-    {
-      id: "#ORD-2024-8912",
-      client: "UD Maju Bersama",
-      location: "Kota Semarang",
-      initials: "UD",
-      bgColor: "bg-gray-200 text-gray-800",
-      product: "Bumbu Kuah Bakso Rahasia",
-      value: "Rp 5.200.000",
-      status: "Menunggu",
-      statusColor: "bg-gray-100 text-gray-700 border border-gray-200",
-    },
+      id: "ord-demo-2",
+      orderNumber: "#ORD-2024-8905",
+      customerName: "Frozen Mart Central",
+      city: "Surabaya Timur",
+      finalTotal: 12800000,
+      status: "PAID",
+      createdAt: new Date().toISOString(),
+    }
   ];
 
   return (
@@ -65,19 +83,19 @@ export default function AdminDashboardPage() {
         <header className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
           <div>
             <h2 className="text-2xl md:text-3xl font-extrabold text-[#51000d] tracking-tight">
-              Ringkasan Performa
+              Ringkasan Performa Real-Time
             </h2>
             <p className="text-xs md:text-sm text-gray-500 font-medium mt-1">
-              Selamat datang kembali, Administrator. Berikut statistik usaha hari ini.
+              Pantau total penjualan lunas, riwayat pesanan, dan stok produk secara langsung.
             </p>
           </div>
           <div className="flex items-center gap-3">
             <Link
-              href="/admin/promotions"
+              href="/admin/orders"
               className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-300 text-[#51000d] rounded-xl text-xs font-bold hover:bg-gray-50 transition-all shadow-sm"
             >
-              <span className="material-symbols-outlined text-base">add_circle</span>
-              <span>Buat Promo</span>
+              <span className="material-symbols-outlined text-base">receipt_long</span>
+              <span>Kelola Pesanan</span>
             </Link>
             <Link
               href="/admin/inventory"
@@ -98,185 +116,97 @@ export default function AdminDashboardPage() {
                 <span className="material-symbols-outlined text-2xl">payments</span>
               </div>
               <span className="text-green-600 font-bold text-xs flex items-center gap-0.5 bg-green-50 px-2 py-0.5 rounded-md border border-green-200">
-                +12.4% <span className="material-symbols-outlined text-sm">arrow_upward</span>
+                <span>Real-Time DB</span>
               </span>
             </div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Total Penjualan Kotor</p>
-            <h3 className="text-3xl font-black text-gray-900">Rp 142.8M</h3>
-            <div className="mt-4 h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-              <div className="h-full bg-[#51000d] w-[75%] rounded-full"></div>
-            </div>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Penjualan Lunas</p>
+            <h3 className="text-2xl md:text-3xl font-black text-gray-900 mt-1">
+              {isLoading ? "Memuat..." : formatPrice(totalRevenue)}
+            </h3>
+            <p className="text-[11px] text-gray-500 mt-2">Dari total {completedOrdersCount} pesanan terbayar</p>
           </div>
 
-          {/* Total Orders */}
+          {/* Active Orders */}
           <div className="bg-white p-6 rounded-[24px] shadow-sm border border-gray-100 hover:shadow-md transition-all">
             <div className="flex justify-between items-start mb-4">
-              <div className="p-3 bg-red-50 text-[#7a0019] rounded-xl">
-                <span className="material-symbols-outlined text-2xl">shopping_basket</span>
+              <div className="p-3 bg-amber-50 text-amber-700 rounded-xl">
+                <span className="material-symbols-outlined text-2xl">local_shipping</span>
               </div>
-              <span className="text-green-600 font-bold text-xs flex items-center gap-0.5 bg-green-50 px-2 py-0.5 rounded-md border border-green-200">
-                +8.1% <span className="material-symbols-outlined text-sm">arrow_upward</span>
+              <span className="text-amber-700 font-bold text-xs bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                {totalOrdersCount} Total
               </span>
             </div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Total Pesanan Aktif</p>
-            <h3 className="text-3xl font-black text-gray-900">1.248</h3>
-            <div className="mt-4 h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-              <div className="h-full bg-[#7a0019] w-[62%] rounded-full"></div>
-            </div>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Jumlah Pesanan Masuk</p>
+            <h3 className="text-2xl md:text-3xl font-black text-gray-900 mt-1">
+              {isLoading ? "Memuat..." : `${totalOrdersCount} Pesanan`}
+            </h3>
+            <p className="text-[11px] text-gray-500 mt-2">Termasuk pembayaran Midtrans &amp; COD</p>
           </div>
 
-          {/* New Resellers */}
+          {/* Low Stock Warning */}
           <div className="bg-white p-6 rounded-[24px] shadow-sm border border-gray-100 hover:shadow-md transition-all">
             <div className="flex justify-between items-start mb-4">
-              <div className="p-3 bg-red-50 text-red-700 rounded-xl">
-                <span className="material-symbols-outlined text-2xl">group</span>
+              <div className="p-3 bg-orange-50 text-orange-600 rounded-xl">
+                <span className="material-symbols-outlined text-2xl">warning</span>
               </div>
-              <span className="text-red-600 font-bold text-xs flex items-center gap-0.5 bg-red-50 px-2 py-0.5 rounded-md border border-red-200">
-                -2.3% <span className="material-symbols-outlined text-sm">arrow_downward</span>
+              <span className="text-orange-600 font-bold text-xs bg-orange-50 px-2 py-0.5 rounded-md border border-orange-200">
+                Peringatan Stok
               </span>
             </div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Mitra Reseller Baru</p>
-            <h3 className="text-3xl font-black text-gray-900">34</h3>
-            <div className="mt-4 h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-              <div className="h-full bg-red-700 w-[45%] rounded-full"></div>
-            </div>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Produk Stok Menipis</p>
+            <h3 className="text-2xl md:text-3xl font-black text-gray-900 mt-1">
+              {isLoading ? "Memuat..." : `${lowStockCount} Produk`}
+            </h3>
+            <p className="text-[11px] text-gray-500 mt-2">Segera lakukan restok produk Bakso Pak Mul</p>
           </div>
         </section>
 
-        {/* Analytics & Trends Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          {/* Sales Chart */}
-          <section className="lg:col-span-2 bg-white p-6 md:p-8 rounded-[24px] shadow-sm border border-gray-100">
-            <div className="flex justify-between items-center mb-8">
-              <div>
-                <h3 className="text-lg font-bold text-gray-900">Analisis Penjualan Bulanan</h3>
-                <p className="text-xs text-gray-500 font-medium">Proyeksi tren kuartal berjalan</p>
-              </div>
-              <div className="flex bg-gray-100 p-1 rounded-xl">
-                <button
-                  onClick={() => setTimeframe("monthly")}
-                  className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                    timeframe === "monthly" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500"
-                  }`}
-                >
-                  Bulanan
-                </button>
-                <button
-                  onClick={() => setTimeframe("weekly")}
-                  className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                    timeframe === "weekly" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500"
-                  }`}
-                >
-                  Mingguan
-                </button>
-              </div>
-            </div>
-
-            {/* Faux Bar Chart Representation */}
-            <div className="h-[220px] flex items-end justify-between gap-3 px-2 pb-2">
-              {[
-                { month: "Jan", height: "40%", color: "bg-gray-200" },
-                { month: "Feb", height: "55%", color: "bg-gray-200" },
-                { month: "Mar", height: "75%", color: "bg-red-200" },
-                { month: "Apr", height: "90%", color: "bg-[#51000d]" },
-                { month: "Mei", height: "65%", color: "bg-red-300" },
-                { month: "Jun", height: "82%", color: "bg-gray-300" },
-              ].map((bar) => (
-                <div key={bar.month} className="flex flex-col items-center flex-1 h-full justify-end">
-                  <div
-                    className={`w-full ${bar.color} rounded-t-xl transition-all duration-700 hover:opacity-90`}
-                    style={{ height: bar.height }}
-                  ></div>
-                  <span className="mt-3 text-xs font-bold text-gray-500">{bar.month}</span>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Distribution Breakdown */}
-          <section className="bg-white p-6 md:p-8 rounded-[24px] shadow-sm border border-gray-100 flex flex-col justify-between">
+        {/* Recent Orders Section */}
+        <section className="bg-white rounded-[24px] p-6 md:p-8 shadow-sm border border-gray-100">
+          <div className="flex justify-between items-center mb-6">
             <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-6">Distribusi Wilayah</h3>
-              <div className="space-y-4">
-                {[
-                  { region: "Jakarta Raya", pct: "45%", color: "bg-[#51000d]" },
-                  { region: "Bandung Metro", pct: "28%", color: "bg-[#7a0019]" },
-                  { region: "Surabaya Central", pct: "15%", color: "bg-red-400" },
-                  { region: "Lainnya", pct: "12%", color: "bg-gray-300" },
-                ].map((item) => (
-                  <div key={item.region} className="space-y-1.5">
-                    <div className="flex justify-between items-center text-xs font-bold">
-                      <span className="text-gray-800">{item.region}</span>
-                      <span className="text-gray-400">{item.pct}</span>
-                    </div>
-                    <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                      <div className={`h-full ${item.color} rounded-full`} style={{ width: item.pct }}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <h3 className="text-lg font-bold text-gray-900">Pesanan Terbaru Masuk</h3>
+              <p className="text-xs text-gray-500">Daftar transaksi yang baru saja dilakukan pelanggan</p>
             </div>
-
-            <div className="mt-6 p-4 bg-red-50/60 rounded-2xl border border-red-100">
-              <p className="text-xs font-bold text-[#51000d] mb-1">Peluang Ekspansi</p>
-              <p className="text-[11px] text-gray-600 font-medium leading-relaxed">
-                Wilayah Jawa Tengah menunjukkan peningkatan 15% pada permintaan pesanan grosir bulan ini.
-              </p>
-            </div>
-          </section>
-        </div>
-
-        {/* Recent Orders Table */}
-        <section className="bg-white rounded-[24px] shadow-sm border border-gray-100 overflow-hidden">
-          <div className="p-6 md:p-8 border-b border-gray-100 flex justify-between items-center">
-            <h3 className="text-lg font-bold text-gray-900">Pesanan Terbaru</h3>
             <Link
               href="/admin/orders"
-              className="text-[#51000d] font-bold text-xs flex items-center gap-1 hover:underline cursor-pointer"
+              className="text-xs font-bold text-[#51000d] hover:underline flex items-center gap-1"
             >
-              <span>Lihat Semua Pesanan</span>
-              <span className="material-symbols-outlined text-base">chevron_right</span>
+              <span>Lihat Semua</span>
+              <span className="material-symbols-outlined text-sm">arrow_forward</span>
             </Link>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-gray-50/80 border-b border-gray-200">
-                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">ID Pesanan</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Pelanggan / Reseller</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Produk</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Total Transaksi</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-right">Aksi</th>
+                <tr className="border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
+                  <th className="pb-3 px-2">No. Pesanan</th>
+                  <th className="pb-3 px-2">Pelanggan</th>
+                  <th className="pb-3 px-2">Kota</th>
+                  <th className="pb-3 px-2 text-right">Total Tagihan</th>
+                  <th className="pb-3 px-2 text-center">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
-                {recentOrders.map((order) => (
-                  <tr key={order.id} className="hover:bg-gray-50/80 transition-colors">
-                    <td className="px-6 py-4 text-xs font-bold text-gray-900">{order.id}</td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-8 h-8 rounded-full ${order.bgColor} flex items-center justify-center font-bold text-[10px] shrink-0`}>
-                          {order.initials}
-                        </div>
-                        <div>
-                          <p className="text-xs font-bold text-gray-900">{order.client}</p>
-                          <p className="text-[10px] font-medium text-gray-400">{order.location}</p>
-                        </div>
-                      </div>
+              <tbody className="divide-y divide-gray-50 text-xs font-medium">
+                {displayOrders.map((o) => (
+                  <tr key={o.id} className="hover:bg-gray-50/50 transition-colors">
+                    <td className="py-4 px-2 font-mono font-bold text-[#51000d]">
+                      {o.orderNumber || `#${o.id.substring(0, 8)}`}
                     </td>
-                    <td className="px-6 py-4 text-xs font-semibold text-gray-600">{order.product}</td>
-                    <td className="px-6 py-4 text-xs font-extrabold text-[#51000d]">{order.value}</td>
-                    <td className="px-6 py-4">
-                      <span className={`px-3 py-1 rounded-full text-[11px] font-bold ${order.statusColor}`}>
-                        {order.status}
+                    <td className="py-4 px-2 font-bold text-gray-900">{o.customerName || "Pelanggan"}</td>
+                    <td className="py-4 px-2 text-gray-500">{o.city || "Jawa Tengah"}</td>
+                    <td className="py-4 px-2 text-right font-black text-gray-900">{formatPrice(o.finalTotal)}</td>
+                    <td className="py-4 px-2 text-center">
+                      <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                        o.status === "PAID" || o.status === "COMPLETED" 
+                          ? "bg-emerald-100 text-emerald-800"
+                          : o.status === "CANCELED"
+                          ? "bg-red-100 text-red-800"
+                          : "bg-amber-100 text-amber-800"
+                      }`}>
+                        {o.status === "PAID" ? "LUNAS" : o.status}
                       </span>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <button className="material-symbols-outlined text-gray-400 hover:text-[#51000d] transition-colors cursor-pointer text-lg">
-                        more_vert
-                      </button>
                     </td>
                   </tr>
                 ))}
