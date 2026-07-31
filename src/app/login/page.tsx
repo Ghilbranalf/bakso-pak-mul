@@ -13,7 +13,6 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [demoOtp, setDemoOtp] = useState<string | null>(null);
 
   // Send OTP Handler
   const handleSendOtp = async (e: React.FormEvent) => {
@@ -40,10 +39,7 @@ export default function LoginPage() {
         throw new Error(data.error || "Gagal mengirim kode OTP.");
       }
 
-      setSuccessMessage(data.message || "Kode OTP 6-digit telah dikirim ke email Anda.");
-      if (data.demoOtpCode) {
-        setDemoOtp(data.demoOtpCode);
-      }
+      setSuccessMessage(`Kode OTP 6-digit asli telah dikirim ke email ${email}. Silakan periksa inbox atau folder spam Anda.`);
       setStep("OTP");
     } catch (err: any) {
       setErrorMessage(err.message || "Terjadi kesalahan saat mengirim OTP.");
@@ -73,7 +69,7 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (!res.ok || data.error) {
-        throw new Error(data.error || "Kode OTP salah atau kedaluwarsa.");
+        throw new Error(data.error || "Kode OTP 6-digit salah atau kedaluwarsa.");
       }
 
       // Save logged in user info to local storage
@@ -105,10 +101,10 @@ export default function LoginPage() {
               <span className="material-symbols-outlined text-5xl text-[#51000d]">mark_email_read</span>
             </div>
             <h1 className="text-3xl lg:text-4xl text-white mb-4 font-black tracking-tight">
-              Masuk Praktis Tanpa Password
+              Masuk Akun via Email OTP
             </h1>
             <p className="text-sm text-white/80 leading-relaxed max-w-md font-medium">
-              Gunakan kode verifikasi <strong>OTP 6-Digit</strong> yang dikirim langsung ke Inbox Email Anda via Nodemailer.
+              Gunakan kode verifikasi **OTP 6-Digit Real** yang dikirim langsung ke Inbox Email Anda via Nodemailer SMTP.
             </p>
           </div>
         </div>
@@ -121,7 +117,7 @@ export default function LoginPage() {
             <div className="mb-8">
               <div className="flex items-center gap-2 mb-2">
                 <span className="px-3 py-1 bg-[#51000d]/10 text-[#51000d] text-[10px] font-black rounded-full uppercase tracking-wider">
-                  Nodemailer OTP System
+                  Nodemailer Real OTP System
                 </span>
               </div>
               <h2 className="text-2xl md:text-3xl text-gray-900 font-extrabold tracking-tight">
@@ -129,7 +125,7 @@ export default function LoginPage() {
               </h2>
               <p className="text-xs md:text-sm text-gray-500 mt-1 font-medium">
                 {step === "EMAIL"
-                  ? "Masukkan alamat email Anda untuk menerima 6-digit kode OTP."
+                  ? "Masukkan alamat email Anda untuk menerima 6-digit kode OTP asli."
                   : `Kode verifikasi telah dikirim ke ${email}.`}
               </p>
             </div>
@@ -145,14 +141,7 @@ export default function LoginPage() {
             {successMessage && (
               <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-xs font-semibold flex items-start gap-2 animate-in fade-in">
                 <span className="material-symbols-outlined text-base shrink-0">check_circle</span>
-                <div>
-                  <p>{successMessage}</p>
-                  {demoOtp && step === "OTP" && (
-                    <div className="mt-2 p-2 bg-amber-100 border border-amber-300 rounded-lg text-amber-900">
-                      <strong>Kode Demo OTP Instant:</strong> <span className="font-mono text-base font-black tracking-widest">{demoOtp}</span>
-                    </div>
-                  )}
-                </div>
+                <span>{successMessage}</span>
               </div>
             )}
 
@@ -212,9 +201,12 @@ export default function LoginPage() {
                     required
                     value={otpCode}
                     onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ""))}
-                    placeholder="1 2 3 4 5 6"
+                    placeholder="• • • • • •"
                     className="w-full h-16 text-center font-mono text-2xl font-black tracking-[12px] bg-gray-50 border-2 border-[#51000d]/30 rounded-2xl text-gray-900 focus:bg-white focus:border-[#51000d] outline-none transition-all"
                   />
+                  <p className="text-[11px] text-gray-400 text-center mt-1">
+                    Silakan buka aplikasi Email Anda dan masukkan 6-digit kode OTP resmi dari Bakso Pak Mul.
+                  </p>
                 </div>
 
                 <button
@@ -233,16 +225,19 @@ export default function LoginPage() {
                     disabled={isLoading}
                     className="text-xs font-bold text-gray-500 hover:text-[#51000d] transition-colors cursor-pointer"
                   >
-                    Tidak menerima kode? <span className="underline text-[#51000d]">Kirim Ulang OTP</span>
+                    Tidak menerima email? <span className="underline text-[#51000d]">Kirim Ulang OTP</span>
                   </button>
                 </div>
               </form>
             )}
 
-            {/* Footer Notice */}
-            <div className="mt-10 pt-6 border-t border-gray-100 text-center">
-              <p className="text-xs text-gray-400 font-medium">
-                Sistem keamanan dilindungi oleh Nodemailer SMTP &amp; Supabase Database Enkripsi.
+            {/* Footer Link */}
+            <div className="mt-8 text-center border-t border-gray-100 pt-6">
+              <p className="text-xs text-gray-500">
+                Belum punya akun?{" "}
+                <Link href="/register" className="text-[#51000d] font-black hover:underline ml-1">
+                  Daftar sekarang
+                </Link>
               </p>
             </div>
 
