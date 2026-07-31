@@ -33,6 +33,14 @@ export async function POST(request: Request) {
       }
     }
 
+    // If dummy test request from Midtrans dashboard
+    if (!order_id) {
+      return NextResponse.json(
+        { message: "Midtrans notification endpoint active" },
+        { status: 200 }
+      );
+    }
+
     // Find existing order in DB by orderNumber
     const order = await prisma.order.findUnique({
       where: { orderNumber: order_id },
@@ -41,7 +49,10 @@ export async function POST(request: Request) {
 
     if (!order) {
       console.warn(`[MIDTRANS WEBHHOOK] Order not found: ${order_id}`);
-      return NextResponse.json({ message: "Order not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Order not found, notification acknowledged" },
+        { status: 200 }
+      );
     }
 
     let newStatus = order.status;
