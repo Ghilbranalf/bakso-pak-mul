@@ -16,6 +16,8 @@ export default function ProfilePage() {
     email: "",
     phone: "",
     address: "",
+    city: "",
+    province: "",
   });
 
   useEffect(() => {
@@ -26,26 +28,39 @@ export default function ProfilePage() {
         const supabase = createClient();
         const { data: { session } } = await supabase.auth.getSession();
 
+        // Check if there is saved address in localStorage
+        const savedAddr = localStorage.getItem("user_saved_address");
+        let parsedSaved: any = {};
+        if (savedAddr) {
+          try { parsedSaved = JSON.parse(savedAddr); } catch (e) {}
+        }
+
         if (session?.user) {
           const u = session.user;
           setUser(u);
           setFormData({
-            name: u.user_metadata?.full_name || "Pelanggan Setia",
+            name: parsedSaved.name || u.user_metadata?.full_name || "Pelanggan Setia",
             email: u.email || "",
-            phone: u.phone || "0812-3456-7890",
-            address: "Jl. Kramat Jati No. 45, Jakarta Timur",
+            phone: parsedSaved.phone || u.phone || "085600436463",
+            address: parsedSaved.address || "Dk.karang anyar RT02/RW05 Desa Kalijurang, Kecamatan Tonjong, Kabupaten Brebes, Jawa Tengah",
+            city: parsedSaved.city || "Kabupaten Brebes",
+            province: parsedSaved.province || "Jawa Tengah",
           });
 
           // Fetch user's orders
           const res = await fetch("/api/orders");
           const data = await res.json();
           if (data.orders) {
-            // Filter orders for this user's email or all recent orders
             const userOrders = data.orders.filter(
               (o: any) => !o.customerEmail || o.customerEmail.toLowerCase() === (u.email || "").toLowerCase()
             );
             setOrders(userOrders.length > 0 ? userOrders : data.orders.slice(0, 5));
           }
+        } else if (savedAddr) {
+          setFormData((prev) => ({
+            ...prev,
+            ...parsedSaved,
+          }));
         }
       } catch (err) {
         console.error("Error loading user profile:", err);
@@ -55,6 +70,11 @@ export default function ProfilePage() {
     };
     loadUserData();
   }, []);
+
+  const handleSaveProfile = () => {
+    localStorage.setItem("user_saved_address", JSON.stringify(formData));
+    alert("✅ Data Diri & Alamat Utama berhasil disimpan ke Profil!\nAlamat ini akan otomatis terisi saat Anda Checkout.");
+  };
 
   const formatPrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -147,13 +167,36 @@ export default function ProfilePage() {
                   />
                 </div>
 
-                <div>
+                <div className="md:col-span-2">
                   <label className="block text-xs font-bold text-gray-700 mb-1">Alamat Utama Pengiriman</label>
                   <input
                     type="text"
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50 focus:bg-white focus:border-[#51000d] outline-none"
+                    placeholder="Nama jalan, RT/RW, desa/kelurahan, kecamatan"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 mb-1">Kota / Kabupaten</label>
+                  <input
+                    type="text"
+                    value={formData.city}
+                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50 focus:bg-white focus:border-[#51000d] outline-none"
+                    placeholder="Misal: Jakarta Timur / Brebes"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 mb-1">Provinsi</label>
+                  <input
+                    type="text"
+                    value={formData.province}
+                    onChange={(e) => setFormData({ ...formData, province: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50 focus:bg-white focus:border-[#51000d] outline-none"
+                    placeholder="Misal: DKI Jakarta / Jawa Tengah"
                   />
                 </div>
               </div>
@@ -161,10 +204,11 @@ export default function ProfilePage() {
               <div className="pt-4 flex justify-end">
                 <button
                   type="button"
-                  onClick={() => alert("Informasi profil Anda berhasil diperbarui!")}
-                  className="px-6 py-3 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold shadow-md uppercase tracking-wider cursor-pointer"
+                  onClick={handleSaveProfile}
+                  className="px-6 py-3 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold shadow-md uppercase tracking-wider cursor-pointer flex items-center gap-2"
                 >
-                  Simpan Perubahan
+                  <span className="material-symbols-outlined text-base">save</span>
+                  <span>Simpan Alamat ke Profil</span>
                 </button>
               </div>
             </div>

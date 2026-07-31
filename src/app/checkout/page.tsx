@@ -37,19 +37,37 @@ export default function CheckoutPage() {
   });
 
   // Check logged in user to auto-fill form
+  // Check logged in user and saved profile address to auto-fill form
+  const [isAutoFilled, setIsAutoFilled] = useState(false);
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const { createClient } = await import("@/utils/supabase/client");
         const supabase = createClient();
         const { data: { session } } = await supabase.auth.getSession();
-        if (session?.user) {
-          setFormData((prev) => ({
-            ...prev,
-            customerEmail: session.user.email || "",
-            customerName: session.user.user_metadata?.full_name || prev.customerName,
-          }));
+
+        const savedAddr = localStorage.getItem("user_saved_address");
+        let parsed: any = {};
+        if (savedAddr) {
+          try { parsed = JSON.parse(savedAddr); } catch (e) {}
         }
+
+        setFormData((prev) => {
+          const updated = {
+            ...prev,
+            customerEmail: session?.user?.email || parsed.email || prev.customerEmail,
+            customerName: parsed.name || session?.user?.user_metadata?.full_name || prev.customerName,
+            customerPhone: parsed.phone || prev.customerPhone,
+            shippingAddress: parsed.address || prev.shippingAddress,
+            city: parsed.city || prev.city,
+            province: parsed.province || prev.province,
+          };
+          if (parsed.address || parsed.phone) {
+            setIsAutoFilled(true);
+          }
+          return updated;
+        });
       } catch (err) {
         console.warn("Could not auto-fill user data:", err);
       }
@@ -82,8 +100,15 @@ export default function CheckoutPage() {
     }
 
     try {
-      setIsSubmitting(true);
-      setErrorMessage(null);
+      // Auto-save address & contact details to localStorage so it syncs with Profile
+      localStorage.setItem("user_saved_address", JSON.stringify({
+        name: formData.customerName,
+        email: formData.customerEmail,
+        phone: formData.customerPhone,
+        address: formData.shippingAddress,
+        city: formData.city,
+        province: formData.province,
+      }));
 
       // Create Order in DB via /api/checkout
       const res = await fetch("/api/checkout", {
@@ -201,6 +226,19 @@ export default function CheckoutPage() {
             {/* Left Column: Delivery & Customer Info */}
             <div className="lg:col-span-7 space-y-6">
               
+              {/* Auto-fill notification badge */}
+              {isAutoFilled && (
+                <div className="bg-emerald-50 border border-emerald-200/80 rounded-2xl p-4 flex items-center justify-between gap-3 text-emerald-900 shadow-sm">
+                  <div className="flex items-center gap-2.5 text-xs font-bold">
+                    <span className="material-symbols-outlined text-emerald-600 text-lg">verified</span>
+                    <span>Alamat &amp; No HP otomatis terisi dari Profil Anda</span>
+                  </div>
+                  <a href="/profil" className="text-[11px] font-black text-[#51000d] hover:underline shrink-0">
+                    Ubah di Profil →
+                  </a>
+                </div>
+              )}
+
               {/* Customer Info Card */}
               <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-5">
                 <div className="flex items-center gap-3 border-b border-gray-100 pb-4">
