@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import crypto from "crypto";
-import { sendOrderInvoiceEmail } from "@/lib/nodemailer";
+import { sendOrderInvoiceEmail, sendAdminNewOrderNotificationEmail } from "@/lib/nodemailer";
 
 export async function GET() {
   return NextResponse.json({
@@ -106,9 +106,14 @@ export async function POST(request: Request) {
         }
       }
 
-      // Send Order Invoice Email via Nodemailer
+      // Send Order Invoice Email to Buyer
       sendOrderInvoiceEmail(updatedOrder).catch((e) => {
         console.warn("Invoice email notification error:", e);
+      });
+
+      // Send Instant Order Alert Email to Admin Gmail
+      sendAdminNewOrderNotificationEmail(updatedOrder).catch((e) => {
+        console.warn("Admin new order alert email error:", e);
       });
     }
 

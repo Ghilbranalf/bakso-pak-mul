@@ -117,6 +117,55 @@ export async function sendOrderInvoiceEmail(order: any) {
   });
 }
 
+export async function sendAdminNewOrderNotificationEmail(order: any) {
+  const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || "baksopakmulmantap@gmail.com";
+  
+  const formatPrice = (price: number) => {
+    return (price || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+
+  const itemsList = (order.items || [])
+    .map((it: any) => `- ${it.name || "Produk"} x ${it.quantity} (Rp ${formatPrice((it.priceAtTime || it.price || 0) * it.quantity)})`)
+    .join("\n");
+
+  const waText = encodeURIComponent(
+    `Halo ${order.customerName || "Pelanggan"}, pesanan Anda #${order.orderNumber} di Bakso Pak Mul senilai Rp ${formatPrice(order.finalTotal)} telah kami terima dan sedang disiapkan untuk dikirim ke ${order.city || "alamat Anda"}. Terima kasih!`
+  );
+  const waUrl = `https://wa.me/${(order.phone || "").replace(/\D/g, "")}?text=${waText}`;
+
+  const adminHtml = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 2px solid #51000d; border-radius: 20px; background-color: #ffffff;">
+      <div style="background-color: #51000d; color: #ffffff; padding: 20px; border-radius: 14px; text-align: center; margin-bottom: 20px;">
+        <h2 style="margin: 0; font-size: 22px; font-weight: 900; color: #fbbf24;">🚨 NOTIFIKASI PESANAN BARU LUNAS</h2>
+        <p style="margin: 4px 0 0 0; font-size: 12px; font-weight: 700; color: #ffffff; text-transform: uppercase;">Bakso Pak Mul Admin Alert</p>
+      </div>
+
+      <div style="background-color: #fff8f8; border: 1px solid #ffdad8; padding: 16px; border-radius: 12px; margin-bottom: 20px;">
+        <h3 style="margin: 0 0 10px 0; color: #51000d; font-size: 16px; font-weight: 900;">Rincian Pesanan #${order.orderNumber}</h3>
+        <p style="margin: 4px 0; font-size: 13px;"><strong>Pelanggan:</strong> ${order.customerName || "Tanpa Nama"}</p>
+        <p style="margin: 4px 0; font-size: 13px;"><strong>Email:</strong> ${order.customerEmail || "-"}</p>
+        <p style="margin: 4px 0; font-size: 13px;"><strong>No. HP / WA:</strong> ${order.phone || "-"}</p>
+        <p style="margin: 4px 0; font-size: 13px;"><strong>Alamat Pengiriman:</strong> ${order.address || ""}, ${order.district || ""}, ${order.city || ""}, ${order.province || ""}</p>
+        <p style="margin: 4px 0; font-size: 13px;"><strong>Total Pembayaran:</strong> <strong style="color: #059669; font-size: 15px;">Rp ${formatPrice(order.finalTotal)} (LUNAS)</strong></p>
+      </div>
+
+      <h4 style="margin: 0 0 8px 0; color: #333; font-size: 14px;">Item Produk Dibeli:</h4>
+      <pre style="background-color: #f4f4f4; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 12px; white-space: pre-wrap;">${itemsList}</pre>
+
+      <div style="text-align: center; margin-top: 24px; display: flex; gap: 10px; justify-content: center;">
+        <a href="https://bakso-pak-mul.vercel.app/admin/orders" style="background-color: #51000d; color: #ffffff; padding: 12px 24px; border-radius: 10px; font-weight: bold; text-decoration: none; font-size: 13px;">Buka Dashboard Admin</a>
+        ${order.phone ? `<a href="${waUrl}" style="background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 10px; font-weight: bold; text-decoration: none; font-size: 13px; margin-left: 8px;">Chat WA Pelanggan</a>` : ''}
+      </div>
+    </div>
+  `;
+
+  return sendMailHelper({
+    to: adminEmail,
+    subject: `🚨 [PESANAN BARU LUNAS] Order #${order.orderNumber} - Rp ${formatPrice(order.finalTotal)}`,
+    html: adminHtml,
+  });
+}
+
 async function sendMailHelper({ to, subject, html }: { to: string; subject: string; html: string }) {
   const smtpUser = process.env.SMTP_USER;
   const smtpPass = process.env.SMTP_PASS;
