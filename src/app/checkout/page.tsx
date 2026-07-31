@@ -131,11 +131,52 @@ export default function CheckoutPage() {
       setCreatedOrderNumber(data.orderNumber);
       setCreatedOrderTotal(finalTotal);
 
-      // Clear local cart
-      clearCart();
+      if (formData.paymentMethod === "COD") {
+        clearCart();
+        router.push(`/transaksi/${data.orderNumber}`);
+      } else {
+        // Online Payment (Midtrans): Launch Snap Popup directly
+        try {
+          const resTok = await fetch("/api/tokenizer", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              orderNumber: data.orderNumber,
+              items: cartItems,
+              totalPrice,
+              shippingCost: shippingFee,
+              discount: 0,
+              paymentType: "online",
+              shippingInfo: {
+                name: formData.customerName,
+                phone: formData.customerPhone,
+                address: formData.shippingAddress,
+                city: formData.city,
+                province: formData.province,
+                notes: formData.notes,
+              }
+            })
+          });
+          const tokData = await resTok.json();
 
-      // Instantly redirect to Invoice / Detail Pesanan page
-      router.push(`/transaksi/${data.orderNumber}`);
+          clearCart();
+
+          if (tokData.token && (window as any).snap) {
+            (window as any).snap.pay(tokData.token, {
+              onSuccess: () => router.push(`/transaksi/${data.orderNumber}`),
+              onPending: () => router.push(`/transaksi/${data.orderNumber}`),
+              onError: () => router.push(`/transaksi/${data.orderNumber}`),
+              onClose: () => router.push(`/transaksi/${data.orderNumber}`),
+            });
+          } else {
+            router.push(`/transaksi/${data.orderNumber}`);
+          }
+        } catch (errTok) {
+          console.warn("Tokenizer error:", errTok);
+          clearCart();
+          router.push(`/transaksi/${data.orderNumber}`);
+        }
+      }
     } catch (err: any) {
       console.error("Checkout failed:", err);
       setErrorMessage(err.message || "Terjadi kesalahan saat memproses pesanan.");

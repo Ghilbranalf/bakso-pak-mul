@@ -36,6 +36,47 @@ export default function TrackOrderPage() {
     }
   };
 
+  const handleMidtransPay = async () => {
+    if (!displayOrder) return;
+    try {
+      const res = await fetch("/api/tokenizer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderNumber: displayOrder.orderNumber,
+          totalPrice: displayOrder.finalTotal,
+          items: displayOrder.items?.map((it: any) => ({
+            id: it.product?.id || it.id,
+            name: it.product?.name || "Produk",
+            price: it.priceAtTime,
+            quantity: it.quantity,
+          })) || [],
+          paymentType: "online",
+          shippingInfo: {
+            name: displayOrder.customerName,
+            phone: displayOrder.phone,
+            address: displayOrder.address,
+            city: displayOrder.city,
+            province: displayOrder.province,
+          }
+        })
+      });
+      const data = await res.json();
+      if (data.token && (window as any).snap) {
+        (window as any).snap.pay(data.token, {
+          onSuccess: () => fetchOrderDetail(),
+          onPending: () => fetchOrderDetail(),
+          onError: () => fetchOrderDetail(),
+          onClose: () => fetchOrderDetail(),
+        });
+      } else if (data.redirect_url) {
+        window.location.href = data.redirect_url;
+      }
+    } catch (e) {
+      console.error("Pay error:", e);
+    }
+  };
+
   useEffect(() => {
     fetchOrderDetail();
 
@@ -114,77 +155,104 @@ export default function TrackOrderPage() {
 
       <main className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 w-full space-y-6">
         
-        {/* Header Transaksi */}
-        <header className="bg-white border border-gray-100 shadow-sm rounded-2xl p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-xl md:text-2xl font-extrabold text-[#51000d] mb-1">
-              Status Transaksi
-            </h1>
-            <div className="flex items-center gap-3">
-              <span className="px-3 py-1 bg-[#51000d]/10 text-[#51000d] text-xs rounded font-extrabold">
+        {/* Header Transaksi Premium */}
+        <header className="bg-gradient-to-r from-[#51000d] via-[#7a0019] to-[#51000d] text-white rounded-3xl p-6 md:p-8 shadow-xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-amber-400/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+          
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="material-symbols-outlined text-amber-300 text-sm">receipt_long</span>
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-amber-300">
+                  Official Invoice • Bakso Pak Mul
+                </span>
+              </div>
+              <h1 className="text-2xl md:text-3xl font-black tracking-tight text-white flex items-center gap-3">
                 {displayOrder.orderNumber}
-              </span>
-              <span className="w-1.5 h-1.5 bg-gray-300 rounded-full"></span>
-              <p className="text-xs text-gray-500 font-medium">ID Pesanan Anda</p>
+                <button
+                  onClick={() => handleCopy(displayOrder.orderNumber, "orderNum")}
+                  className="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border border-white/15"
+                  title="Salin ID Pesanan"
+                >
+                  <span className="material-symbols-outlined text-xs">content_copy</span>
+                  <span>{copiedText === "orderNum" ? "Tercopy!" : "Salin"}</span>
+                </button>
+              </h1>
+              <p className="text-xs text-white/80 font-medium mt-1">
+                Dibuat pada: <span className="text-amber-300 font-bold">{formattedDate}</span>
+              </p>
             </div>
-          </div>
-          <div className="md:text-right">
-            <p className="text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-0.5">Tanggal Transaksi</p>
-            <p className="font-bold text-sm text-gray-800">{formattedDate}</p>
+
+            <div className="flex flex-wrap items-center gap-2 print:hidden">
+              <button
+                onClick={() => window.print()}
+                className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-2 border border-white/20 cursor-pointer backdrop-blur-sm"
+              >
+                <span className="material-symbols-outlined text-base">print</span>
+                <span>Cetak Struk PDF</span>
+              </button>
+              <button
+                onClick={() => handleCopy(window.location.href, "pageUrl")}
+                className="px-4 py-2.5 bg-amber-400 text-[#51000d] hover:bg-amber-300 rounded-xl text-xs font-extrabold shadow-md transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-base">share</span>
+                <span>{copiedText === "pageUrl" ? "Link Tercopy!" : "Bagikan Link"}</span>
+              </button>
+            </div>
           </div>
         </header>
 
         {/* PAYMENT STATUS ALERT BANNER */}
         {isPending && (
-          <div className="bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-2xl p-5 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
-                <span className="material-symbols-outlined text-2xl">pending_actions</span>
+          <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white rounded-3xl p-6 md:p-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-amber-400/30">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0 border border-white/30 shadow-inner">
+                <span className="material-symbols-outlined text-3xl animate-bounce">pending_actions</span>
               </div>
               <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-black uppercase tracking-wider bg-white/20 px-2 py-0.5 rounded text-white">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[10px] font-black uppercase tracking-wider bg-white/25 px-2.5 py-0.5 rounded-full text-white">
                     Belum Dibayar
                   </span>
-                  <span className="text-xs text-white/90">Batas Waktu: 23:59:59</span>
+                  <span className="text-xs text-amber-100 font-medium">Selesaikan sebelum batas waktu berakhir</span>
                 </div>
-                <h3 className="text-base font-bold mt-0.5">Pesanan Anda Menunggu Pembayaran</h3>
-                <p className="text-xs text-white/80">
-                  Total Tagihan: <span className="font-extrabold text-white">Rp {formatPrice(displayOrder.finalTotal)}</span>
+                <h3 className="text-lg font-black text-white">Menunggu Pembayaran Anda</h3>
+                <p className="text-xs text-white/90 mt-0.5">
+                  Total Tagihan: <span className="font-black text-xl text-amber-200">Rp {formatPrice(displayOrder.finalTotal)}</span>
                 </p>
               </div>
             </div>
 
             <button
-              onClick={() => setIsPaymentModalOpen(true)}
-              className="w-full sm:w-auto px-6 py-3 bg-white text-[#51000d] hover:bg-amber-50 rounded-xl text-xs font-black shadow-md transition-all uppercase tracking-wider cursor-pointer shrink-0 flex items-center justify-center gap-2"
+              onClick={handleMidtransPay}
+              className="w-full md:w-auto px-8 py-4 bg-white text-[#51000d] hover:bg-amber-50 rounded-2xl text-xs font-black shadow-xl hover:shadow-2xl transition-all uppercase tracking-wider cursor-pointer shrink-0 flex items-center justify-center gap-2.5 group transform hover:-translate-y-0.5"
             >
-              <span className="material-symbols-outlined text-base">payments</span>
-              <span>Bayar Sekarang / Bayar Ulang</span>
+              <span className="material-symbols-outlined text-xl group-hover:scale-110 transition-transform text-[#51000d]">payments</span>
+              <span>Bayar Sekarang (Midtrans)</span>
             </button>
           </div>
         )}
 
         {isPaid && (
-          <div className="bg-gradient-to-r from-green-600 to-emerald-700 text-white rounded-2xl p-5 shadow-md flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-xl">check_circle</span>
+          <div className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-3xl p-6 shadow-xl flex items-center gap-4 border border-emerald-400/30">
+            <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0 border border-white/30">
+              <span className="material-symbols-outlined text-2xl text-white">verified</span>
             </div>
             <div>
-              <h3 className="text-sm font-bold">Pembayaran Berhasil!</h3>
-              <p className="text-xs text-white/90">Pesanan Anda telah dikonfirmasi dan sedang disiapkan oleh tim Bakso Pak Mul.</p>
+              <h3 className="text-base font-black text-white">Pembayaran Lunas &amp; Terkonfirmasi!</h3>
+              <p className="text-xs text-emerald-100 mt-0.5">Pesanan Anda telah dikonfirmasi dan sedang disiapkan oleh dapur Bakso Pak Mul.</p>
             </div>
           </div>
         )}
 
         {isCanceled && (
-          <div className="bg-red-50 border border-red-200 text-red-800 rounded-2xl p-5 shadow-sm flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-red-100 text-red-700 flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-xl">cancel</span>
+          <div className="bg-red-50 border border-red-200 text-red-800 rounded-3xl p-6 shadow-sm flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-red-100 text-red-700 flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-2xl">cancel</span>
             </div>
             <div>
-              <h3 className="text-sm font-bold">Pesanan Ini Telah Dibatalkan</h3>
-              <p className="text-xs text-red-600">Pesanan ini dibatalkan oleh Admin atau batas waktu pembayaran telah berakhir.</p>
+              <h3 className="text-base font-bold">Pesanan Telah Dibatalkan</h3>
+              <p className="text-xs text-red-600 mt-0.5">Pesanan ini telah dibatalkan atau batas waktu pembayaran telah kedaluwarsa.</p>
             </div>
           </div>
         )}
