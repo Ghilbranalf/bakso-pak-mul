@@ -66,7 +66,7 @@ export async function POST(request: Request) {
       (acc: number, item: any) => acc + (Number(item.price) * Number(item.quantity)),
       0
     );
-    const shippingCost = subtotal >= 200000 ? 0 : 15000;
+    const shippingCost = 0;
     const finalTotal = subtotal + shippingCost;
 
     // Create Order in DB according to exact Prisma schema

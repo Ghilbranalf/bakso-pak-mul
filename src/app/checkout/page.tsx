@@ -75,7 +75,7 @@ export default function CheckoutPage() {
     fetchUser();
   }, []);
 
-  const shippingFee = totalPrice >= 200000 ? 0 : 15000;
+  const shippingFee = 0;
   const finalTotal = totalPrice + shippingFee;
 
   // Mock VA Numbers for custom modal UI

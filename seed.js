@@ -21,6 +21,7 @@ const products = [
   { name: "Kecap Sari Sedap Manis", price: 10000, unit: "bks", category: "Bumbu & Saos", image: "/images/Kecap Manis Sari Sedap.png" },
   { name: "Kecap Manis Guna", price: 15000, unit: "bks", category: "Bumbu & Saos", image: "/images/Kecap Manis Guna.png" },
   { name: "Lada Bubuk", price: 8000, unit: "bks", category: "Bumbu & Saos", image: "/images/Lada Bubuk 81.png" },
+  { name: "Sumpit Bambu Steril", price: 100, unit: "pasang", category: "Pelengkap", badge: "Hemat", image: "/images/Lada Bubuk 81.png" },
 ];
 
 async function main() {
