@@ -126,16 +126,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items, isInitialized, isLoggedIn]);
 
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
   const addToCart = (product: Omit<CartItem, 'quantity'>) => {
     // Check if user is logged in (localStorage or Supabase session)
     const storedUser = getStorageItem("user");
     const storedAddress = getStorageItem("user_saved_address");
     
     if (!storedUser && !isLoggedIn && !storedAddress) {
-      alert("🔒 Akses Terbatas:\nSilakan LOGIN terlebih dahulu untuk menambah produk ke keranjang belanja dan melakukan pemesanan.");
-      if (typeof window !== "undefined") {
-        window.location.href = "/login";
-      }
+      setShowAuthModal(true);
       return;
     }
 
@@ -198,6 +197,46 @@ export function CartProvider({ children }: { children: ReactNode }) {
       clearCart
     }}>
       {children}
+
+      {/* Animated Auth Required Modal */}
+      {showAuthModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white rounded-[32px] max-w-md w-full p-8 shadow-2xl border border-red-100 text-center relative overflow-hidden transform animate-scaleUp">
+            {/* Header Accent Glow */}
+            <div className="absolute -top-12 -right-12 w-32 h-32 bg-red-100/50 rounded-full blur-2xl pointer-events-none"></div>
+            
+            {/* Lock Icon */}
+            <div className="w-20 h-20 mx-auto bg-gradient-to-tr from-[#51000d] to-[#7a0019] text-white rounded-3xl flex items-center justify-center shadow-xl mb-6 scale-110">
+              <span className="material-symbols-outlined text-4xl">lock_person</span>
+            </div>
+
+            <h3 className="text-2xl font-black text-[#51000d] mb-2 tracking-tight">
+              Akses Terbatas
+            </h3>
+            <p className="text-xs md:text-sm text-gray-600 mb-8 leading-relaxed font-medium">
+              Silakan <span className="font-extrabold text-[#51000d]">Masuk (Login)</span> terlebih dahulu untuk menambahkan produk Bakso Pak Mul ke keranjang dan melanjutkan transaksi.
+            </p>
+
+            <div className="flex flex-col gap-3">
+              <a
+                href="/login"
+                className="w-full py-4 bg-gradient-to-r from-[#51000d] to-[#7a0019] text-white rounded-2xl font-extrabold text-xs uppercase tracking-widest hover:opacity-95 shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2"
+              >
+                <span>Masuk Sekarang</span>
+                <span className="material-symbols-outlined text-base">login</span>
+              </a>
+
+              <button
+                type="button"
+                onClick={() => setShowAuthModal(false)}
+                className="w-full py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-2xl font-bold text-xs transition-all active:scale-95 cursor-pointer"
+              >
+                Nanti Saja
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </CartContext.Provider>
   );
 }

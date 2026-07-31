@@ -40,16 +40,19 @@ export default function PaymentSuccessPage() {
         {/* Success Canvas */}
         <div className="relative z-10 w-full max-w-lg mx-auto text-center">
           
-          {/* Icon & Header */}
-          <div className="mb-8">
-            <div className="w-20 h-20 rounded-full bg-[#7a0019] text-white flex items-center justify-center mx-auto mb-6 shadow-xl shadow-red-900/20 animate-in zoom-in duration-500">
-              <span className="material-symbols-outlined text-5xl">check</span>
+          {/* Icon & Header with Animated Badge */}
+          <div className="mb-8 animate-bounce">
+            <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-[#51000d] to-[#7a0019] text-white flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-red-900/30 ring-8 ring-red-100 scale-110">
+              <span className="material-symbols-outlined text-6xl font-black">task_alt</span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-[#51000d] tracking-tight">
-              Pembayaran Berhasil
+            <span className="text-[11px] uppercase tracking-widest font-black bg-green-100 text-green-800 px-4 py-1.5 rounded-full border border-green-200 shadow-sm">
+              ✨ Transaksi Terverifikasi Lunas
+            </span>
+            <h1 className="text-3xl md:text-5xl font-black text-[#51000d] tracking-tight mt-4">
+              Pembayaran Berhasil!
             </h1>
             <p className="text-sm md:text-base text-gray-600 mt-2 font-medium">
-              Terima kasih, pesanan B2B Anda sedang diproses.
+              Terima kasih! Pesanan Bakso Pak Mul Anda telah berhasil dikonfirmasi &amp; otomatis tercatat di sistem toko.
             </p>
           </div>
 

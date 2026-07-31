@@ -40,16 +40,19 @@ export default function PaymentFailedPage() {
         {/* Failed Canvas */}
         <div className="relative z-10 w-full max-w-lg mx-auto text-center">
           
-          {/* Icon & Header */}
-          <div className="mb-8">
-            <div className="w-20 h-20 rounded-full bg-red-600 text-white flex items-center justify-center mx-auto mb-6 shadow-xl shadow-red-600/30 animate-in zoom-in duration-500">
-              <span className="material-symbols-outlined text-5xl">close</span>
+          {/* Icon & Header with Animated Warning Badge */}
+          <div className="mb-8 animate-pulse">
+            <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-red-600 to-[#51000d] text-white flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-red-600/30 ring-8 ring-red-100 scale-110">
+              <span className="material-symbols-outlined text-6xl font-black">gpp_maybe</span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-red-600 tracking-tight">
-              Pembayaran Gagal
+            <span className="text-[11px] uppercase tracking-widest font-black bg-red-100 text-red-800 px-4 py-1.5 rounded-full border border-red-200 shadow-sm">
+              ⚠️ Pembayaran Dibatalkan / Kadaluwarsa
+            </span>
+            <h1 className="text-3xl md:text-5xl font-black text-[#51000d] tracking-tight mt-4">
+              Pembayaran Belum Berhasil
             </h1>
             <p className="text-sm md:text-base text-gray-600 mt-2 font-medium">
-              Maaf, transaksi B2B Anda gagal atau dibatalkan.
+              Maaf, transaksi Anda belum dapat diselesaikan. Jangan khawatir, Anda dapat mencoba kembali metode pembayaran lainnya.
             </p>
           </div>
 

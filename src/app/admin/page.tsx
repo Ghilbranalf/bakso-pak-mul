@@ -9,20 +9,63 @@ export default function AdminDashboardPage() {
   const [orders, setOrders] = useState<any[]>([]);
   const [products, setProducts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [newOrderToast, setNewOrderToast] = useState<string | null>(null);
+
+  // Play a pleasant 2-tone bell chime using Web Audio API
+  const playBellChime = () => {
+    try {
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      
+      const osc1 = ctx.createOscillator();
+      const gain1 = ctx.createGain();
+      osc1.type = "sine";
+      osc1.frequency.setValueAtTime(659.25, ctx.currentTime);
+      gain1.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+      osc1.connect(gain1);
+      gain1.connect(ctx.destination);
+      osc1.start();
+      osc1.stop(ctx.currentTime + 1.2);
+
+      const osc2 = ctx.createOscillator();
+      const gain2 = ctx.createGain();
+      osc2.type = "sine";
+      osc2.frequency.setValueAtTime(987.77, ctx.currentTime + 0.15);
+      gain2.gain.setValueAtTime(0.4, ctx.currentTime + 0.15);
+      gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.5);
+      osc2.connect(gain2);
+      gain2.connect(ctx.destination);
+      osc2.start(ctx.currentTime + 0.15);
+      osc2.stop(ctx.currentTime + 1.5);
+    } catch (err) {
+      console.warn("Audio chime play error:", err);
+    }
+  };
 
   useEffect(() => {
+    let prevOrderCount = 0;
+
     const fetchDashboardData = async () => {
       try {
-        setIsLoading(true);
-
-        // Fetch Real Orders
         const resOrders = await fetch("/api/orders");
         if (resOrders.ok) {
           const dataOrders = await resOrders.json();
-          setOrders(dataOrders.orders || []);
+          const fetchedOrders = dataOrders.orders || [];
+          
+          // Trigger audio chime if new order arrived while viewing
+          if (prevOrderCount > 0 && fetchedOrders.length > prevOrderCount) {
+            playBellChime();
+            const latest = fetchedOrders[0];
+            setNewOrderToast(`🔔 Pesanan Baru Masuk! (${latest?.customerName || 'Pelanggan'} - Rp ${(latest?.finalTotal || 0).toLocaleString('id-ID')})`);
+            setTimeout(() => setNewOrderToast(null), 7000);
+          }
+
+          prevOrderCount = fetchedOrders.length;
+          setOrders(fetchedOrders);
         }
 
-        // Fetch Real Products
         const resProd = await fetch("/api/products");
         if (resProd.ok) {
           const dataProd = await resProd.json();
@@ -36,6 +79,9 @@ export default function AdminDashboardPage() {
     };
 
     fetchDashboardData();
+    // Poll every 10 seconds for real-time order sound notification
+    const interval = setInterval(fetchDashboardData, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   const formatPrice = (price: number) => {
@@ -78,7 +124,14 @@ export default function AdminDashboardPage() {
       <AdminSidebar />
 
       {/* Main Content Canvas */}
-      <main className="md:ml-[280px] flex-1 min-h-screen p-4 md:p-8 lg:p-12">
+      <main className="md:ml-[280px] flex-1 min-h-screen p-4 md:p-8 lg:p-12 relative">
+        {/* Floating Toast Notification */}
+        {newOrderToast && (
+          <div className="fixed top-6 right-6 z-50 bg-[#51000d] text-white px-6 py-4 rounded-2xl shadow-2xl border border-red-400/30 flex items-center gap-3 animate-bounce">
+            <span className="material-symbols-outlined text-amber-400 text-2xl animate-pulse">notifications</span>
+            <span className="text-xs md:text-sm font-extrabold">{newOrderToast}</span>
+          </div>
+        )}
         {/* Header & Quick Actions */}
         <header className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
           <div>
@@ -90,6 +143,15 @@ export default function AdminDashboardPage() {
             </p>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={playBellChime}
+              className="flex items-center gap-1.5 px-4 py-2.5 bg-amber-50 border border-amber-200 text-amber-900 rounded-xl text-xs font-bold hover:bg-amber-100 transition-all shadow-sm cursor-pointer"
+              title="Klik untuk menguji efek suara lonceng pesanan baru"
+            >
+              <span className="material-symbols-outlined text-base text-amber-600">notifications_active</span>
+              <span>Uji Lonceng</span>
+            </button>
             <Link
               href="/admin/orders"
               className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-300 text-[#51000d] rounded-xl text-xs font-bold hover:bg-gray-50 transition-all shadow-sm"
