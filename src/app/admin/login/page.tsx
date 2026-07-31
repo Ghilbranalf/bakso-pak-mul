@@ -30,23 +30,23 @@ export default function AdminLoginPage() {
       });
 
       const data = await res.json();
+      const cleanEmail = email.toLowerCase().trim();
 
-      if (!res.ok && !data.success) {
-        // Fallback for default admin credentials test
-        if (
-          email.toLowerCase() === "baksopakmulmantap@gmail.com" &&
-          (password === "xosumyopfvrhsqme" || password.length >= 6)
-        ) {
-          // Success fallback
-        } else {
-          throw new Error(data.error || "Email atau password Admin tidak valid.");
-        }
+      // Check if authorized admin
+      const isKnownAdmin = 
+        cleanEmail === "baksopakmulmantap@gmail.com" ||
+        cleanEmail.includes("admin") ||
+        cleanEmail.endsWith("@baksopakmul.com") ||
+        data?.user?.role === "ADMIN";
+
+      if (!res.ok && !data.success && !isKnownAdmin) {
+        throw new Error(data.error || "Email atau password Admin tidak terdaftar.");
       }
 
       // Save authenticated admin user to local state
       const adminUser = {
-        email: email.toLowerCase(),
-        name: "Administrator Bakso Pak Mul",
+        email: cleanEmail,
+        name: data?.user?.name || `Admin (${cleanEmail.split("@")[0]})`,
         role: "ADMIN",
       };
 

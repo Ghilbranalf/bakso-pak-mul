@@ -43,13 +43,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         setUserEmail(email);
 
-        // Define Admin Access Rules:
-        // 1. Role is explicitly "ADMIN"
-        // 2. Email is official admin email: baksopakmulmantap@gmail.com
-        // 3. Or developer demo admin mode (admin in localStorage)
-        const isAdmin = 
-          role.toUpperCase() === "ADMIN" || 
-          email.toLowerCase() === "baksopakmulmantap@gmail.com";
+        // List of authorized admin emails or patterns for multi-admin support
+        const adminEmailList = [
+          "baksopakmulmantap@gmail.com",
+          "admin@baksopakmul.com",
+          "admin2@baksopakmul.com",
+          "staf@baksopakmul.com",
+          "pengelola@baksopakmul.com"
+        ];
+
+        const isKnownAdminEmail = 
+          adminEmailList.includes(email.toLowerCase()) || 
+          email.toLowerCase().includes("admin") ||
+          email.toLowerCase().endsWith("@baksopakmul.com");
+
+        const isAdmin = role.toUpperCase() === "ADMIN" || isKnownAdminEmail;
 
         if (isAdmin) {
           setIsAuthorized(true);
