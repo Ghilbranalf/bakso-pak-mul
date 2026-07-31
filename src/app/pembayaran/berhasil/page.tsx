@@ -6,18 +6,43 @@ import { useCart } from "@/context/CartContext";
 
 export default function PaymentSuccessPage() {
   const { totalPrice, items } = useCart();
+  const [customerName, setCustomerName] = useState("");
   const [currentDate, setCurrentDate] = useState("");
 
+  useEffect(() => {
+    try {
+      if (typeof window !== "undefined") {
+        const savedUser = localStorage.getItem("user");
+        const savedAddr = localStorage.getItem("user_saved_address");
+        if (savedUser) {
+          const u = JSON.parse(savedUser);
+          setCustomerName(u.name || u.full_name || u.email || "");
+        } else if (savedAddr) {
+          const a = JSON.parse(savedAddr);
+          setCustomerName(a.fullName || a.name || "");
+        }
+      }
+    } catch (e) {}
+  }, []);
+
   const formatPrice = (price: number) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return (price || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
   const finalTotal = items.length > 0
     ? Math.max(0, totalPrice + 150000 - (totalPrice > 500000 ? 100000 : 0))
     : 4500000;
 
+  const itemsFormatted = items.length > 0
+    ? items.map((it) => `• ${it.name} (${it.quantity} ${it.unit || "bks"})`).join("\n")
+    : "• Paket Bakso Super Premium (5 bks)\n• Bumbu Kuah Rahasia (2 bks)";
+
+  const nameText = customerName
+    ? `👤 Atas Nama: ${customerName}\n`
+    : "👤 Atas Nama: Pelanggan Bakso Pak Mul\n";
+
   const waMessage = encodeURIComponent(
-    `Halo CS Bakso Pak Mul 👋, saya baru saja menyelesaikan pembayaran LUNAS untuk pesanan:\n\n📦 ID Pesanan: #ORD-2024-BPM-892\n💰 Total Pembayaran: Rp ${formatPrice(finalTotal)}\n\nMohon segera diproses dan dikirim ya Pak Mul, terima kasih!`
+    `Halo CS Bakso Pak Mul 👋, saya baru saja menyelesaikan pembayaran LUNAS:\n\n${nameText}📦 ID Pesanan: #ORD-2024-BPM-892\n\n📋 Rincian Produk Pesanan:\n${itemsFormatted}\n\n💰 Total Pembayaran: Rp ${formatPrice(finalTotal)}\n\nMohon segera diproses dan dikirim ya Pak Mul, terima kasih!`
   );
   const waUrl = `https://wa.me/6281298980252?text=${waMessage}`;
 
