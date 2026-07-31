@@ -47,7 +47,7 @@ export default function CartSidebar() {
             </div>
           ) : (
             items.map((item, index) => (
-              <React.Fragment key={item.id}>
+              <React.Fragment key={`${item.id}-${index}`}>
                 {index > 0 && <hr className="border-gray-200" />}
                 <div className="flex gap-4 items-center">
                   <img className="w-20 h-20 rounded-xl object-cover border border-gray-200/50 bg-gray-50" src={item.image} alt={item.name} />
@@ -112,8 +112,8 @@ export default function CartSidebar() {
           </div>
           
           {/* Primary Action */}
-          <Link href="/pembayaran" onClick={closeCart} className="w-full bg-[#7a0019] text-white py-4 px-8 rounded-xl font-semibold text-sm hover:bg-[#b32633] transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer">
-            <span>Bayar Sekarang</span>
+          <Link href="/checkout" onClick={closeCart} className="w-full bg-[#7a0019] text-white py-4 px-8 rounded-xl font-semibold text-sm hover:bg-[#b32633] transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer">
+            <span>Checkout / Lanjut Pembayaran</span>
             <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
           </Link>
           <p className="text-center text-xs text-gray-400 mt-3">Pembayaran aman dengan enkripsi 256-bit</p>

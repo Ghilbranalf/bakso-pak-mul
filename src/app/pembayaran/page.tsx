@@ -56,15 +56,6 @@ export default function CheckoutPage() {
       return;
     }
 
-    if (paymentType === "cod") {
-      setIsProcessing(true);
-      setTimeout(() => {
-        setIsProcessing(false);
-        router.push("/transaksi");
-      }, 1500);
-      return;
-    }
-
     setIsProcessing(true);
     try {
       const response = await fetch("/api/tokenizer", {
@@ -76,12 +67,24 @@ export default function CheckoutPage() {
           items,
           totalPrice,
           shippingCost: checkoutShipping,
-          discount
+          discount,
+          shippingInfo,
+          paymentType
         }),
       });
 
       const data = await response.json();
       
+      if (!response.ok) {
+        throw new Error(data.error || "Terjadi kesalahan server");
+      }
+
+      if (paymentType === "cod") {
+        // COD bypasses Midtrans
+        window.location.href = "/transaksi";
+        return;
+      }
+
       if (data.token) {
         (window as any).snap.pay(data.token, {
           onSuccess: function (result: any) {
@@ -106,9 +109,9 @@ export default function CheckoutPage() {
         alert(`Gagal mendapatkan token pembayaran. ${data.error || ""} ${data.details ? JSON.stringify(data.details) : ""}`);
         setIsProcessing(false);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert("Terjadi kesalahan sistem.");
+      alert(error.message || "Terjadi kesalahan sistem.");
       setIsProcessing(false);
     }
   };

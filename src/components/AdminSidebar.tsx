@@ -9,10 +9,10 @@ export default function AdminSidebar() {
 
   const navItems = [
     { id: "dashboard", name: "Dashboard", href: "/admin", icon: "dashboard" },
-    { id: "inventory", name: "Inventory", href: "/admin/inventory", icon: "inventory_2" },
-    { id: "orders", name: "Orders", href: "/transaksi", icon: "receipt_long" },
-    { id: "promotions", name: "Promotions", href: "/admin/promotions", icon: "campaign" },
-    { id: "settings", name: "Settings", href: "/admin/settings", icon: "settings" },
+    { id: "inventory", name: "Stok & Produk", href: "/admin/inventory", icon: "inventory_2" },
+    { id: "orders", name: "Pesanan", href: "/admin/orders", icon: "receipt_long" },
+    { id: "promotions", name: "Promosi & Diskon", href: "/admin/promotions", icon: "campaign" },
+    { id: "settings", name: "Pengaturan", href: "/admin/settings", icon: "settings" },
   ];
 
   return (
@@ -23,8 +23,8 @@ export default function AdminSidebar() {
           <span className="material-symbols-outlined text-2xl">restaurant_menu</span>
         </div>
         <div>
-          <h1 className="text-lg font-bold text-[#51000d]">Admin Portal</h1>
-          <p className="text-[11px] font-semibold text-gray-400">Enterprise Management</p>
+          <h1 className="text-lg font-bold text-[#51000d]">Portal Admin</h1>
+          <p className="text-[11px] font-semibold text-gray-400">Manajemen Usaha</p>
         </div>
       </Link>
 
@@ -52,11 +52,11 @@ export default function AdminSidebar() {
       {/* CTA Action */}
       <div className="px-4 mt-4">
         <Link
-          href="/admin/new-listing"
+          href="/admin/inventory"
           className="w-full py-3.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold shadow-md active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wider"
         >
           <span className="material-symbols-outlined text-base">add</span>
-          <span>New Listing</span>
+          <span>Tambah Produk</span>
         </Link>
       </div>
 
@@ -69,14 +69,14 @@ export default function AdminSidebar() {
           className="flex items-center gap-3 px-4 py-2.5 text-gray-600 hover:bg-gray-100 rounded-xl text-xs font-semibold transition-all"
         >
           <span className="material-symbols-outlined text-lg">help</span>
-          <span>Support</span>
+          <span>Bantuan CS</span>
         </a>
         <Link
-          href="/login"
+          href="/"
           className="flex items-center gap-3 px-4 py-2.5 text-red-600 hover:bg-red-50 rounded-xl text-xs font-semibold transition-all"
         >
           <span className="material-symbols-outlined text-lg">logout</span>
-          <span>Sign Out</span>
+          <span>Keluar Admin</span>
         </Link>
       </div>
     </aside>

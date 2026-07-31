@@ -1,64 +1,87 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import CartSidebar from "@/components/CartSidebar";
+import Footer from "@/components/Footer";
 import { useCart } from "@/context/CartContext";
 
-export default function ProductsPage() {
+function ProductsContent() {
+  const searchParams = useSearchParams();
+  const queryParam = searchParams.get("q") || "";
+
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [addedId, setAddedId] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const { openCart, totalItems, addToCart } = useCart();
 
+  const [products, setProducts] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("Semua");
+  const itemsPerPage = 12;
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        setProducts(data.products || []);
+      } catch (err) {
+        console.error("Failed to fetch products", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
   const formatPrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
-  const products = [
-    {
-      id: "prod_1",
-      name: "Bakso Sapi Super Polos (50pcs) - Vacuum Pack",
-      price: 75000,
-      unit: "Vacuum Pack",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDoSn1QFRuBtno28pVjYK6N4_y85CUzc2yG57z8lGFD9tGlkMGeRAFGrNx4-Z72V88egcpEkTE39DtNOyJ26myXEM6O_Imnwsl1htytvOnRsOEeqC4tCxDCQWEvzoodMx3gHAPlWpz26c90gG4c_Hh5wJ-YZ5LqWAh3fZ58nak9RyNJR3Tt6v7-EEq7qtQlvJqKTAUyflIwlD6rwfTwwoC0mStIFfdE6EGL_3dw3u6kMYbrvVsXsZZgSq1pU8cwv36nii7mGTn2UWwg",
-      rating: 4.9,
-      category: "Bakso Super",
-      stock: "Ready Stock"
-    },
-    {
-      id: "prod_2",
-      name: "Bakso Sapi Urat Spesial (50pcs) - B2B Pack",
-      price: 90000,
-      unit: "B2B Pack",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD1w0vvJSrk1eft-6aivgFBVz2UkU6lb-RfllLPk-ymAkWrV9PZK3vhLgJvY7LZAWUDySVqhdJjqkx8-LAkEaMJXBdn1sPWzS_ssGW45PwPWlJE_j8tQCQHBbWkdtZdJBdqpkd-3eIDHxlzUvLFy6PUK69llfBqpoljJ00hut_MfDI16EuJX_mAbPqx7SQrOo2dKDS01NOadT5VN0ErKkZNIgmSfbgtHdB_gat4PxbOAwvXQbVBQfzEAYHiootUKw9EUnFvmGHc_SUz",
-      rating: 4.8,
-      category: "Bakso Urat",
-      stock: "Premium Quality"
-    },
-    {
-      id: "prod_3",
-      name: "Mie Kuning Premium 225 (Bal 5kg) - Fresh Daily",
-      price: 45000,
-      unit: "Bal 5kg",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBeERQB6nMx75KBcf6lslRry7PYbawSP6-NPJc7RKAqynsAtF0AXjCS1gBHEoJx4XhMqGkyRtfAQY_fsEGpD8ia4m1bYw5YxLAxXF4VAPh3TjtQDCMHOt3KpEtJ8P2ETN4P9ljqf57skiL8Ds7VkqnrqEcfbKbZaYqVdDCqskoJUhlSUouIH0Xcw93HNjE73LtoSV4KBbzx89RYqI8Qt-YV3Z35CZgX1Q6HMVBwq5VwkBJ2N_fJ7LFuIEaStAlQLHP-6GBSmuJe_Q7w",
-      rating: 4.7,
-      category: "Mie 225",
-      stock: "Fresh Daily"
-    },
-    {
-      id: "prod_4",
-      name: "Bumbu Kuah Bakso Rahasia Pak Mul (5L) - Special Edition",
-      price: 210000,
-      unit: "Jerigen 5L",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAdQO1Re968kIIdcQ4nrphEVBEUVRNCPBJdvbaOyveLwYQ4yUKq2qMiAOCWnwlNf3kwKwdCxdHO2USsV-jBywZJbeGfC7enmeu4RNV_aBYwyclLtw61JXtY8IJGW0HW2r8vk12NSSrN574CNBm1aIKUyIjbIdFSkd9LumyJkEcVDQF1ezyBs_RxspA25XpwQbCw8uekXiWZyvyaUqutQIafFiPxphZd63L00Jmn40uJt6MflorntExDrkNnrdWesrOOPj9a-u-AQ3XH",
-      rating: 5.0,
-      category: "Signature Series",
-      stock: "Limited Batch",
-      isSpecial: true
+  const filteredProducts = products.filter(p => {
+    // Check Search Query from URL
+    if (queryParam && !p.name.toLowerCase().includes(queryParam.toLowerCase()) && !p.category.toLowerCase().includes(queryParam.toLowerCase())) {
+      return false;
     }
-  ];
+
+    if (selectedCategory === "Semua") return true;
+    
+    const cat = selectedCategory.toLowerCase();
+    
+    if (cat === "kecap") return p.name.toLowerCase().includes("kecap");
+    if (cat === "saos") return p.name.toLowerCase().includes("saos");
+    if (cat === "pangsit") return p.name.toLowerCase().includes("pangsit");
+    return p.category.toLowerCase().includes(cat) || p.name.toLowerCase().includes(cat);
+  });
+
+  const getPriority = (p: any) => {
+    const cat = (p.category || "").toLowerCase();
+    const name = (p.name || "").toLowerCase();
+
+    // Any Bumbu, Saos, Kecap, or Lada goes to the very bottom (Priority 99)
+    if (cat.includes("bumbu") || cat.includes("saos") || cat.includes("kecap") || 
+        name.includes("bumbu") || name.includes("saos") || name.includes("kecap") || name.includes("lada")) {
+      return 99;
+    }
+
+    // Pure Bakso items first (Priority 1)
+    if (cat.includes("bakso") || name.includes("bakso")) return 1;
+    // Mie / Bakmie items second (Priority 2)
+    if (cat.includes("mie") || name.includes("mie") || name.includes("bakmie")) return 2;
+    // Pangsit items third (Priority 3)
+    if (cat.includes("pangsit") || name.includes("pangsit")) return 3;
+
+    return 10;
+  };
+
+  const sortedProducts = [...filteredProducts].sort((a, b) => getPriority(a) - getPriority(b));
+
+  const totalPages = Math.ceil(sortedProducts.length / itemsPerPage) || 1;
+  const paginatedProducts = sortedProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <div className="antialiased min-h-screen flex flex-col pt-20">
@@ -97,14 +120,15 @@ export default function ProductsPage() {
           </p>
           <div className="flex flex-wrap items-center gap-3 mt-10 border-t border-gray-100 pt-8">
             <span className="text-[10px] font-bold uppercase tracking-widest text-text-muted mr-4">Kategori:</span>
-            <button className="px-5 py-2 rounded-full bg-primary text-white text-xs font-semibold shadow-md shadow-primary/10">Semua</button>
-            <button className="px-5 py-2 rounded-full bg-white border border-gray-100 text-text-muted text-xs font-medium filter-chip">Bakso</button>
-            <button className="px-5 py-2 rounded-full bg-white border border-gray-100 text-text-muted text-xs font-medium filter-chip">Mie</button>
-            <button className="px-5 py-2 rounded-full bg-white border border-gray-100 text-text-muted text-xs font-medium filter-chip">Bihun</button>
-            <button className="px-5 py-2 rounded-full bg-white border border-gray-100 text-text-muted text-xs font-medium filter-chip">Sohun</button>
-            <button className="px-5 py-2 rounded-full bg-white border border-gray-100 text-text-muted text-xs font-medium filter-chip">Bumbu Bakso</button>
-            <button className="px-5 py-2 rounded-full bg-white border border-gray-100 text-text-muted text-xs font-medium filter-chip">Pelengkap</button>
-            <button className="px-5 py-2 rounded-full bg-white border border-gray-100 text-text-muted text-xs font-medium filter-chip">Peralatan</button>
+            {["Semua", "Bakso", "Mie", "Pangsit", "Bumbu", "Kecap", "Saos"].map(cat => (
+              <button 
+                key={cat}
+                onClick={() => { setSelectedCategory(cat); setCurrentPage(1); }}
+                className={`px-5 py-2 rounded-full text-xs font-semibold shadow-md transition-all ${selectedCategory === cat ? 'bg-primary text-white shadow-primary/10' : 'bg-white border border-gray-100 text-text-muted filter-chip hover:bg-gray-50'}`}
+              >
+                {cat}
+              </button>
+            ))}
             <div className="h-6 w-px bg-gray-200 mx-2"></div>
             <button
               className="flex items-center gap-2 text-xs font-bold text-primary hover:opacity-80"
@@ -117,8 +141,17 @@ export default function ProductsPage() {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-          {products.map((product) => (
-            <div key={product.id} className={`product-card group rounded-2xl overflow-hidden flex flex-col relative ${product.isSpecial ? 'bg-primary text-white' : 'bg-white border border-gray-100'}`}>
+          {isLoading ? (
+            <div className="col-span-full py-20 text-center text-text-muted font-medium w-full flex justify-center items-center gap-3">
+              <span className="material-symbols-outlined animate-spin text-primary">refresh</span> Memuat produk...
+            </div>
+          ) : paginatedProducts.length === 0 ? (
+            <div className="col-span-full py-20 text-center text-text-muted font-medium w-full">
+              Tidak ada produk yang ditemukan.
+            </div>
+          ) : (
+            paginatedProducts.map((product, idx) => (
+            <div key={`${product.id}-${idx}`} className={`product-card group rounded-2xl overflow-hidden flex flex-col relative ${product.isSpecial ? 'bg-primary text-white' : 'bg-white border border-gray-100'}`}>
               {product.isSpecial && <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-dark opacity-95 pointer-events-none"></div>}
               <div className={`relative aspect-square flex items-center justify-center p-8 z-10 pointer-events-none ${!product.isSpecial ? 'bg-[#fcfcfc]' : ''}`}>
                 <img
@@ -176,97 +209,47 @@ export default function ProductsPage() {
                 </div>
               </div>
             </div>
-          ))}
+            ))
+          )}
         </div>
 
         {/* Elegant Pagination */}
-        <div className="mt-20 flex justify-center items-center gap-2">
-          <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-100 text-text-muted hover:bg-primary hover:text-white transition-all disabled:opacity-30" disabled>
-            <i className="fas fa-chevron-left text-xs"></i>
-          </button>
-          <button className="w-10 h-10 flex items-center justify-center rounded-xl bg-primary text-white font-bold text-xs">1</button>
-          <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-100 text-text-muted font-medium text-xs hover:border-primary hover:text-primary transition-all">2</button>
-          <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-100 text-text-muted font-medium text-xs hover:border-primary hover:text-primary transition-all">3</button>
-          <span className="text-gray-300 font-bold px-1 text-xs">...</span>
-          <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-100 text-text-muted font-medium text-xs hover:border-primary hover:text-primary transition-all">12</button>
-          <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-100 text-text-muted hover:bg-primary hover:text-white transition-all">
-            <i className="fas fa-chevron-right text-xs"></i>
-          </button>
-        </div>
+        {totalPages > 1 && (
+          <div className="mt-20 flex justify-center items-center gap-2">
+            <button 
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-100 text-text-muted hover:bg-primary hover:text-white transition-all disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-text-muted cursor-pointer"
+            >
+              <i className="fas fa-chevron-left text-xs"></i>
+            </button>
+            
+            {Array.from({ length: totalPages }).map((_, idx) => {
+              const page = idx + 1;
+              return (
+                <button 
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all font-bold text-xs cursor-pointer ${currentPage === page ? "bg-primary text-white shadow-md" : "border border-gray-100 text-text-muted hover:border-primary hover:text-primary"}`}
+                >
+                  {page}
+                </button>
+              );
+            })}
+
+            <button 
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-100 text-text-muted hover:bg-primary hover:text-white transition-all disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-text-muted cursor-pointer"
+            >
+              <i className="fas fa-chevron-right text-xs"></i>
+            </button>
+          </div>
+        )}
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#121212] text-gray-400 py-20 mt-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-16">
-            <div className="md:col-span-4">
-              <div className="flex items-center mb-8">
-                <img
-                  alt="Logo"
-                  className="h-10 w-auto brightness-200"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDBL54ay3_wH1MTRduKq7WuysfeSQbkXJTUCJgNiKCIPLKacTQTGY--R8yc5l1yZ0UKwLHhypDJz8pC9IvOs8_kTHavE67Ebjs3TvlQCb3D558xWtMD7gTTdbqZMUO8Da2T_u3DtfuS6NTIenP8pCtDspF_mK4uhwS4EfHM2NV8pymrf7C6qSb3MG7R34aqGeBoR9dxABZzbQDvnwhQ93TZsssPJSZF3Nq4maYwKDvDV460_eZfzPsCe7vwFQFWdBEXQ2JoH_FKqy_"
-                />
-                <span className="ml-3 font-bold text-xl text-white tracking-tight">Bakso Pak Mul</span>
-              </div>
-              <p className="text-sm leading-relaxed mb-8 max-w-xs">
-                Mendedikasikan rasa dan kualitas sejak tahun 2000. Kami percaya setiap hidangan layak mendapatkan bahan terbaik.
-              </p>
-              <div className="flex space-x-5">
-                <Link className="text-gray-500 hover:text-white transition-colors" href="#">
-                  <i className="fab fa-instagram text-xl"></i>
-                </Link>
-                <Link className="text-gray-500 hover:text-white transition-colors" href="#">
-                  <i className="fab fa-tiktok text-xl"></i>
-                </Link>
-                <Link className="text-gray-500 hover:text-white transition-colors" href="#">
-                  <i className="fab fa-facebook-f text-xl"></i>
-                </Link>
-              </div>
-            </div>
-            <div className="md:col-span-2">
-              <h4 className="text-white font-bold text-sm uppercase tracking-widest mb-6">Navigasi</h4>
-              <ul className="space-y-4 text-xs">
-                <li><Link className="hover:text-primary transition-colors" href="#">Produk Baru</Link></li>
-                <li><Link className="hover:text-primary transition-colors" href="#">Bestseller</Link></li>
-                <li><Link className="hover:text-primary transition-colors" href="#">Kemitraan B2B</Link></li>
-              </ul>
-            </div>
-            <div className="md:col-span-2">
-              <h4 className="text-white font-bold text-sm uppercase tracking-widest mb-6">Perusahaan</h4>
-              <ul className="space-y-4 text-xs">
-                <li><Link className="hover:text-primary transition-colors" href="#">Kisah Kami</Link></li>
-                <li><Link className="hover:text-primary transition-colors" href="#">Hubungi Kami</Link></li>
-                <li><Link className="hover:text-primary transition-colors" href="#">Karir</Link></li>
-              </ul>
-            </div>
-            <div className="md:col-span-4">
-              <h4 className="text-white font-bold text-sm uppercase tracking-widest mb-6">Dapatkan Update Eksklusif</h4>
-              <p className="text-xs mb-6">Berlangganan untuk info promo mitra dan produk terbaru.</p>
-              <div className="flex gap-2">
-                <input
-                  className="bg-white/5 border-transparent focus:ring-primary focus:border-primary text-xs rounded-lg flex-grow py-3 px-4 transition-all"
-                  placeholder="Email Anda"
-                  type="email"
-                />
-                <button className="bg-primary hover:bg-primary-dark text-white text-xs font-bold px-6 py-3 rounded-lg transition-all">Daftar</button>
-              </div>
-            </div>
-          </div>
-          <div className="mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-            <p className="text-[10px] uppercase tracking-widest">© 2024 Bakso Pak Mul. Elegance in Every Bite.</p>
-            <div className="flex items-center gap-8 opacity-40">
-              <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-lg">verified</span>
-                <span className="text-[9px] font-bold uppercase tracking-tighter">Sertifikat Halal MUI</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-lg">security</span>
-                <span className="text-[9px] font-bold uppercase tracking-tighter">Pembayaran Aman</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
       {/* Advanced Filter Modal */}
       {isFilterModalOpen && (
@@ -398,5 +381,13 @@ export default function ProductsPage() {
       {/* Cart Sidebar */}
       <CartSidebar />
     </div>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-[#51000d]">Memuat produk...</div>}>
+      <ProductsContent />
+    </Suspense>
   );
 }

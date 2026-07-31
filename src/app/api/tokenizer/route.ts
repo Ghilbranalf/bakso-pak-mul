@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}));
-    const { items = [], totalPrice = 0, shippingCost = 0, discount = 0 } = body;
+    const { items = [], totalPrice = 0, shippingCost = 0, discount = 0, shippingInfo = {}, paymentType = "online" } = body;
 
     const serverKey = process.env.MIDTRANS_SERVER_KEY || "SB-Mid-server-DemoKey12345";
     const authString = Buffer.from(`${serverKey}:`).toString("base64");
@@ -17,6 +18,39 @@ export async function POST(request: Request) {
     const shipping = Number(shippingCost) || 0;
     const disc = Number(discount) || 0;
     const grossAmount = Math.max(10000, computedTotal + shipping - disc);
+
+    // Save order to database first
+    await prisma.order.create({
+      data: {
+        orderNumber: orderId,
+        status: paymentType === "cod" ? "PENDING" : "AWAITING_PAYMENT",
+        finalTotal: grossAmount,
+        shippingCost: shipping,
+        discount: disc,
+        paymentType: paymentType,
+        customerName: shippingInfo.name || "Unknown",
+        phone: shippingInfo.phone || "Unknown",
+        province: shippingInfo.province || "Unknown",
+        city: shippingInfo.city || "Unknown",
+        address: shippingInfo.address || "Unknown",
+        notes: shippingInfo.notes || "",
+        items: {
+          create: items.map((item: any) => ({
+            product: { connect: { id: item.id } },
+            quantity: Number(item.quantity),
+            priceAtTime: Number(item.price)
+          }))
+        }
+      }
+    });
+
+    if (paymentType === "cod") {
+      // If COD, skip Midtrans and return success
+      return NextResponse.json({
+        success: true,
+        orderId,
+      });
+    }
 
     let item_details = items.length > 0
       ? items.map((item: any) => ({
@@ -60,10 +94,10 @@ export async function POST(request: Request) {
       },
       item_details,
       customer_details: {
-        first_name: "Mitra",
+        first_name: shippingInfo.name || "Mitra",
         last_name: "Pak Mul",
         email: "mitra@baksopakmul.com",
-        phone: "081234567890",
+        phone: shippingInfo.phone || "081234567890",
       },
       enabled_payments: [
         "gopay",

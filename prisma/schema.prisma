@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Product {
+  id            String      @id @default(uuid())
+  sku           String?     @unique
+  name          String
+  description   String?
+  price         Int
+  originalPrice Int?        // Harga coret (misal: Rp 45.000)
+  unit          String      // Misal: "Pack 500g"
+  category      String
+  image         String
+  badge         String?     // Label di ujung foto, misal: "Terlaris", "Grosir Hemat"
+  stock         Int?
+  isActive      Boolean     @default(true) // Untuk soft delete/sembunyikan produk
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  orderItems    OrderItem[]
+  cartItems     CartItem[]
+}
+
+model User {
+  id        String   @id // Matches Supabase auth.users UUID
+  email     String   @unique
+  name      String?
+  role      String   @default("USER")
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  orders    Order[]
+  addresses UserAddress[]
+  cart      Cart?
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  orderNumber     String      @unique
+  userId          String?
+  status          String
+  finalTotal      Int
+  shippingCost    Int
+  discount        Int
+  uniqueCode      Int         @default(0)
+  paymentType     String
+  paymentProofUrl String?
+  customerName    String
+  phone           String
+  province        String
+  city            String
+  address         String
+  notes           String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  user            User?       @relation(fields: [userId], references: [id])
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id          String   @id @default(uuid())
+  orderId     String
+  productId   String
+  quantity    Int
+  priceAtTime Int
+  order       Order    @relation(fields: [orderId], references: [id])
+  product     Product  @relation(fields: [productId], references: [id])
+}
+
+model PromoCode {
+  id              String   @id @default(uuid())
+  code            String   @unique
+  discountAmount  Int?
+  discountPercent Int?
+  minPurchase     Int      @default(0)
+  isActive        Boolean  @default(true)
+  expiresAt       DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model UserAddress {
+  id             String   @id @default(uuid())
+  userId         String
+  label          String   // e.g., "Rumah", "Kantor"
+  recipientName  String
+  phone          String
+  province       String
+  city           String
+  fullAddress    String
+  isMain         Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  user           User     @relation(fields: [userId], references: [id])
+}
+
+model Cart {
+  id        String     @id @default(uuid())
+  userId    String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  user      User       @relation(fields: [userId], references: [id])
+  items     CartItem[]
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  cartId    String
+  productId String
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id])
+}
+

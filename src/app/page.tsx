@@ -1,15 +1,63 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import CartSidebar from "@/components/CartSidebar";
+import Footer from "@/components/Footer";
 import { useCart } from "@/context/CartContext";
 
 export default function HomePage() {
   const [addedId, setAddedId] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const { openCart, totalItems, addToCart } = useCart();
+
+  const [products, setProducts] = useState<any[]>([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 4000);
+
+        const res = await fetch("/api/products", { signal: controller.signal });
+        clearTimeout(timeoutId);
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.products) {
+            setProducts(data.products);
+          }
+        }
+      } catch (err) {
+        console.warn("Failed to load products from API:", err);
+      } finally {
+        setIsLoadingProducts(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const featuredProducts = React.useMemo(() => {
+    if (!products.length) return [];
+    
+    const baksoList = products.filter(p => p.category.toLowerCase().includes("bakso") || p.name.toLowerCase().includes("bakso"));
+    const mieList = products.filter(p => p.category.toLowerCase().includes("mie") || p.name.toLowerCase().includes("mie") || p.name.toLowerCase().includes("pangsit"));
+    const bumbuList = products.filter(p => p.category.toLowerCase().includes("bumbu") || p.name.toLowerCase().includes("saos") || p.name.toLowerCase().includes("kecap") || p.name.toLowerCase().includes("bumbu"));
+
+    const pickRandom = (arr: any[]) => arr.length ? arr[Math.floor(Math.random() * arr.length)] : null;
+
+    const b = pickRandom(baksoList);
+    const m = pickRandom(mieList);
+    const s = pickRandom(bumbuList);
+
+    const list = [b, m, s].filter(Boolean);
+    if (list.length < 3) {
+      return products.slice(0, 3);
+    }
+    return list;
+  }, [products]);
 
   return (
     <div className="antialiased selection:bg-maroon selection:text-white font-sans tracking-tight bg-background text-gray-800">
@@ -30,7 +78,7 @@ export default function HomePage() {
                   <i className="fas fa-certificate mr-2"></i> Stok Selalu Fresh
                 </span>
                 <h1 className="text-3xl tracking-tight text-gray-900 sm:text-4xl md:text-5xl lg:leading-tight mb-6 font-bold">
-                  Pusat Bahan Baku <span className="text-maroon">Bakso & Mie Ayam</span>
+                  Pusat Bahan Baku <span className="text-maroon">Bakso &amp; Mie Ayam</span>
                 </h1>
                 <p className="mt-6 text-lg md:text-xl text-gray-600 font-medium leading-relaxed max-w-xl">
                   Ciptakan kelezatan bakso dan mie ayam seenak langganan Anda langsung dari dapur sendiri. Sedia baso sapi asli, mie keriting kenyal, hingga saus dan kecap pilihan.
@@ -39,13 +87,14 @@ export default function HomePage() {
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
                   <Link
                     className="w-full flex items-center justify-center px-8 py-3.5 border border-transparent text-base font-medium rounded-full text-white bg-maroon hover:bg-maroon-dark md:py-4 md:text-lg md:px-10 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-                    href="#"
+                    href="/produk"
                   >
                     Belanja Sekarang
                   </Link>
                   <Link
                     className="w-full flex items-center justify-center px-8 py-3.5 border-2 border-maroon text-base font-medium rounded-full text-maroon bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 transition-all duration-300 transform hover:-translate-y-1"
-                    href="#"
+                    href="https://wa.me/6281234567890"
+                    target="_blank"
                   >
                     Kemitraan Grosir
                   </Link>
@@ -53,20 +102,20 @@ export default function HomePage() {
               </div>
               {/* Hero Image/Graphic */}
               <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
-                <div className="relative mx-auto w-full rounded-2xl shadow-2xl lg:max-w-md floating glass-effect p-4 border border-white">
+                <div className="relative mx-auto w-full rounded-3xl shadow-2xl lg:max-w-md floating glass-effect p-3.5 border border-white/80 bg-white/40">
                   <img
-                    alt="Aneka produk makanan keluarga"
-                    className="w-full rounded-xl object-cover"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgHtlT2ULBYo3fZ9PXCbwUtARujT9tMQ0miaiY4Nxxkw_uHrnGJ4-o9An0miPRjR91KDdrWBLtDsW-XTBN_-3NLevmycDj8OZluWBS05Tfx35Z0UXiPLxOh-7UUBKA8C1ExAZ9aYIR1FDKM5iqRtgsgCqPUzmSxc7cSSD2G6kvc5QoAdJrlaITVTQNnlNuuBWSLCys9fFt-pCho13Ezyv_AIxNoqpj3OCLNOHguhSJdiGdmE9F9G6HwaebxabIcxbHs2rxe_nHjQ7z"
+                    alt="Aneka produk Bakso Pak Mul"
+                    className="w-full h-[460px] rounded-2xl object-cover shadow-sm"
+                    src="/images/hero-banner.jpg"
                   />
                   {/* Floating Badge */}
-                  <div className="absolute -right-6 -bottom-6 glass-effect p-4 rounded-xl shadow-xl flex items-center space-x-3 border border-white">
-                    <div className="bg-green-100 p-2 rounded-full">
-                      <i className="fas fa-check text-green-600 text-xl"></i>
+                  <div className="absolute -right-6 -bottom-6 glass-effect p-4 rounded-2xl shadow-xl flex items-center space-x-3 border border-white bg-white/90 backdrop-blur-md">
+                    <div className="bg-green-100 p-2.5 rounded-xl text-green-600 shrink-0">
+                      <i className="fas fa-check text-lg"></i>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500 font-medium">Stok Selalu</p>
-                      <p className="text-sm font-bold text-gray-800">Fresh & Halal</p>
+                      <p className="text-[11px] text-gray-500 font-bold uppercase tracking-wider">Stok Selalu</p>
+                      <p className="text-sm font-black text-gray-900">Fresh &amp; 100% Halal</p>
                     </div>
                   </div>
                 </div>
@@ -106,7 +155,7 @@ export default function HomePage() {
                   <i className="fas fa-certificate text-2xl"></i>
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">100% Halal Terjamin</h3>
-                <p className="text-sm text-gray-500">Bersertifikasi Halal & BPOM.</p>
+                <p className="text-sm text-gray-500">Bersertifikasi Halal &amp; BPOM.</p>
               </div>
             </div>
           </div>
@@ -121,103 +170,58 @@ export default function HomePage() {
                 <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Pilihan Favorit Keluarga</h2>
                 <p className="mt-2 text-lg text-gray-500">Produk terlaris yang wajib ada di kulkas Anda.</p>
               </div>
-              <Link className="hidden sm:inline-flex items-center text-maroon font-semibold hover:text-maroon-dark group" href="#">
+              <Link className="hidden sm:inline-flex items-center text-maroon font-semibold hover:text-maroon-dark group" href="/produk">
                 Lihat Semua Produk
                 <i className="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
               </Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Product 1 */}
-              <div className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col">
-                <div className="relative h-56 bg-gray-200 overflow-hidden group">
-                  <img
-                    alt="Varian Bakso Sapi & Ayam"
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBm3rDU80r8QUhhXQoEwxeWG4k64A8EkNRWXZ8mTxFndtz1f8qZQXkZzv3dqkpOsWh5-QBwX4S5diVK6YFoOyds4jV8Tz24Y1-Jyu1KEJk3b8VB7v9SZhNF1pncvRrX6OblcflLEre5Hyaqt9K0K1NBOat6raiSFzVZJJoHLTDg_6ngazmUtrwcijBxMjwZ25nhJafsuUjqND_Tulw5n_LXMqIaFvhBkq6RYKwCWZtrFNLcp-Z1bRhBD7raazNKzcQ-g4pec3Me6V2t"
-                  />
-                  <span className="absolute top-4 left-4 bg-maroon text-white text-xs font-bold px-3 py-1 rounded-full">Terlaris</span>
-                </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Varian Bakso Sapi & Ayam</h3>
-                  <p className="text-sm text-gray-500 mb-4 flex-1">
-                    <span className="text-maroon font-medium">Kenyal dan gurih.</span> Cocok untuk sajian keluarga atau menu andalan jualan Anda. Tersedia kemasan pack & bal-balan.
-                  </p>
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
-                    <div>
-                      <p className="text-xs text-gray-400 line-through">Rp 45.000</p>
-                      <p className="text-lg font-bold text-maroon">Rp 40.000</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {isLoadingProducts ? (
+                <div className="col-span-full text-center py-10 text-gray-500 font-medium">Memuat produk...</div>
+              ) : featuredProducts.length === 0 ? (
+                <div className="col-span-full text-center py-10 text-gray-500 font-medium">Tidak ada produk tersedia.</div>
+              ) : (
+                featuredProducts.map((product: any, idx: number) => (
+                  <div key={`${product.id}-${idx}`} className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col">
+                    <div className="relative h-60 bg-[#fbfbfb] p-4 flex items-center justify-center overflow-hidden group">
+                      <img
+                        alt={product.name}
+                        className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500"
+                        src={product.image || "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=60"}
+                      />
+                      {product.badge && (
+                        <span className="absolute top-3 left-3 bg-maroon text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">{product.badge}</span>
+                      )}
                     </div>
-                    <button 
-                      onClick={() => {
-                        addToCart({ id: "prod_1", name: "Varian Bakso Sapi & Ayam", price: 40000, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBm3rDU80r8QUhhXQoEwxeWG4k64A8EkNRWXZ8mTxFndtz1f8qZQXkZzv3dqkpOsWh5-QBwX4S5diVK6YFoOyds4jV8Tz24Y1-Jyu1KEJk3b8VB7v9SZhNF1pncvRrX6OblcflLEre5Hyaqt9K0K1NBOat6raiSFzVZJJoHLTDg_6ngazmUtrwcijBxMjwZ25nhJafsuUjqND_Tulw5n_LXMqIaFvhBkq6RYKwCWZtrFNLcp-Z1bRhBD7raazNKzcQ-g4pec3Me6V2t", unit: "Pack 500g" });
-                        setAddedId("prod_1");
-                        setToastMessage("Varian Bakso Sapi & Ayam");
-                        setTimeout(() => setAddedId(null), 1500);
-                        setTimeout(() => setToastMessage(null), 3000);
-                      }}
-                      className={`h-10 px-4 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer font-bold text-xs ${addedId === "prod_1" ? "bg-green-600 text-white" : "bg-gray-100 hover:bg-maroon hover:text-white text-gray-700"}`}
-                    >
-                      {addedId === "prod_1" ? "✓ Berhasil" : <i className="fas fa-cart-plus"></i>}
-                    </button>
-                  </div>
-                </div>
-              </div>
-              {/* Product 2 */}
-              <div className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col">
-                <div className="relative h-56 bg-gray-200 overflow-hidden group">
-                  <img
-                    alt="Paket Mie Keriting & Pangsit"
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8JmWpP0un4kZ9wKhL7GgYeM4kBNOJjN73kuBCmgF-3uIw93-wdfnAKq_ktpHQGOIW88awo_tG_k09Mzfhm9MsVjXB3eNC36vwYcmsWtZYLIh1oXCkn7v4JPiIMjul3Gb11rcbFaRZp6Ce-lFyK55NIpGW4ZBH4jfFrYoP3_1VfXnLAQ-w_0R4y2yHmDjzPn3rbnD0CqU0JbfEXV-J6N2Tqv12mnNTSsT6WBISN1a5pTofYigeWhrbC4wz4jpnkPt78EmrhWvMK5ol"
-                  />
-                </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Paket Mie Keriting & Pangsit</h3>
-                  <p className="text-sm text-gray-500 mb-4 flex-1">
-                    Tekstur <span className="text-maroon font-medium">anti-lembek</span> sekelas mie ayam abang-abang. Beli grosir harga lebih hemat untuk pedagang!
-                  </p>
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
-                    <div>
-                      <p className="text-lg font-bold text-maroon">Mulai Rp 15.000</p>
+                    <div className="p-5 flex-1 flex flex-col">
+                      <h3 className="text-sm font-bold text-gray-900 mb-1 leading-tight">{product.name}</h3>
+                      <p className="text-xs text-gray-500 mb-4 flex-1">
+                        Kategori: <span className="font-medium text-maroon">{product.category}</span>
+                      </p>
+                      <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
+                        <div>
+                          {product.originalPrice && (
+                            <p className="text-[10px] text-gray-400 line-through">Rp {product.originalPrice.toLocaleString('id-ID')}</p>
+                          )}
+                          <p className="text-base font-black text-maroon">Rp {product.price.toLocaleString('id-ID')} <span className="text-[10px] text-gray-400 font-normal">/{product.unit}</span></p>
+                        </div>
+                        <button 
+                          onClick={() => {
+                            addToCart({ id: product.id, name: product.name, price: product.price, image: product.image, unit: product.unit });
+                            setAddedId(product.id);
+                            setToastMessage(product.name);
+                            setTimeout(() => setAddedId(null), 1500);
+                            setTimeout(() => setToastMessage(null), 3000);
+                          }}
+                          className={`h-9 w-9 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer shadow-sm border ${addedId === product.id ? "bg-green-500 text-white border-green-600" : "bg-white text-maroon border-maroon hover:bg-maroon hover:text-white"}`}
+                        >
+                          {addedId === product.id ? <i className="fas fa-check text-sm"></i> : <i className="fas fa-cart-plus text-sm"></i>}
+                        </button>
+                      </div>
                     </div>
-                    <button 
-                      onClick={() => addToCart({ id: "prod_2", name: "Paket Mie Keriting & Pangsit", price: 15000, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD8JmWpP0un4kZ9wKhL7GgYeM4kBNOJjN73kuBCmgF-3uIw93-wdfnAKq_ktpHQGOIW88awo_tG_k09Mzfhm9MsVjXB3eNC36vwYcmsWtZYLIh1oXCkn7v4JPiIMjul3Gb11rcbFaRZp6Ce-lFyK55NIpGW4ZBH4jfFrYoP3_1VfXnLAQ-w_0R4y2yHmDjzPn3rbnD0CqU0JbfEXV-J6N2Tqv12mnNTSsT6WBISN1a5pTofYigeWhrbC4wz4jpnkPt78EmrhWvMK5ol", unit: "Paket 1kg" })}
-                      className="bg-gray-100 hover:bg-maroon hover:text-white text-gray-700 h-10 w-10 rounded-full flex items-center justify-center transition-colors duration-300 cursor-pointer"
-                    >
-                      <i className="fas fa-cart-plus"></i>
-                    </button>
                   </div>
-                </div>
-              </div>
-              {/* Product 3 */}
-              <div className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col">
-                <div className="relative h-56 bg-gray-200 overflow-hidden group">
-                  <img
-                    alt="Bumbu, Saos & Sumpit"
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAglc3Pva71YAXZu6nnoJBLvmf7DIdBSmEL3CoQ83dhYJFWtJzioNpetHDwYyiHX27fmG_dEsSprKc-5bUiba2oLD1s1HiUqpc2m_XC8mfYpRp6jIl-hRfSoG9xq7h7xE_GdhZqZelRTqgGFCARWMUDT2vrKvEkkJehd9aREC5BQ1bYFd7aZLWwr5vXC4LLZgAy9vDJiPuom5XAggItelisXD1me229yLbDb2YfOgkXDlXn3trQmSsLG3_yfZv7cq2xdwRU-d0W7IcG"
-                  />
-                  <span className="absolute top-4 left-4 bg-yellow-400 text-gray-900 text-xs font-bold px-3 py-1 rounded-full">Grosir Hemat</span>
-                </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Bumbu, Saos & Sumpit</h3>
-                  <p className="text-sm text-gray-500 mb-4 flex-1">
-                    Kebutuhan <span className="text-maroon font-medium">komplit</span> dari kecap, saos, lada, sampai sumpit bambu. Sekali order, siap masak atau jualan.
-                  </p>
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
-                    <div>
-                      <p className="text-xs text-gray-400 line-through">Rp 40.000</p>
-                      <p className="text-lg font-bold text-maroon">Rp 34.000</p>
-                    </div>
-                    <button 
-                      onClick={() => addToCart({ id: "prod_3", name: "Bumbu, Saos & Sumpit", price: 34000, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAglc3Pva71YAXZu6nnoJBLvmf7DIdBSmEL3CoQ83dhYJFWtJzioNpetHDwYyiHX27fmG_dEsSprKc-5bUiba2oLD1s1HiUqpc2m_XC8mfYpRp6jIl-hRfSoG9xq7h7xE_GdhZqZelRTqgGFCARWMUDT2vrKvEkkJehd9aREC5BQ1bYFd7aZLWwr5vXC4LLZgAy9vDJiPuom5XAggItelisXD1me229yLbDb2YfOgkXDlXn3trQmSsLG3_yfZv7cq2xdwRU-d0W7IcG", unit: "Paket Hemat" })}
-                      className="bg-gray-100 hover:bg-maroon hover:text-white text-gray-700 h-10 w-10 rounded-full flex items-center justify-center transition-colors duration-300 cursor-pointer"
-                    >
-                      <i className="fas fa-cart-plus"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
+                ))
+              )}
             </div>
             <div className="mt-8 text-center sm:hidden">
               <Link className="inline-flex items-center text-maroon font-semibold" href="#">
@@ -410,34 +414,7 @@ export default function HomePage() {
       </main>
 
       {/* BEGIN: Footer */}
-      <footer className="bg-gray-900 text-gray-300 py-12 border-t border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center md:items-start space-y-8 md:space-y-0">
-            <div className="flex flex-col items-center md:items-start">
-              <div className="flex items-center bg-white p-2 rounded-lg mb-4">
-                <img alt="BPM Logo" className="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwWLbBcn57urk2D9WQqDMzJuacURTBmpA8GVDEb2MV5lrUGihGDpSDu5xbm7q6OeI0HCmdyzzHcsUq0xzS-lQxRUID1mPQjGkQiroTVsxlcNFmN5IsGmE3RVCRZCn_7RqbmYZCXLr1il8tZWE-K0GWQriDm3s1Ms097KzKJ5O4sVGZVBPESeN65XIClx_7HO9XM-aZERrHlCQEQEjrMwq8z54nzrGVpNsYvuOcw0LGp8IalfLZJkFsXjpZ-VU9dYjiEkz9_xNM4_9W" />
-              </div>
-              <p className="text-sm text-gray-400 text-center md:text-left max-w-xs">
-                Menyediakan produk olahan daging berkualitas untuk hidangan keluarga yang lezat, sehat, dan praktis setiap hari.
-              </p>
-            </div>
-            <div className="flex space-x-6 text-sm">
-              <Link className="hover:text-white transition-colors" href="#">Tentang Kami</Link>
-              <Link className="hover:text-white transition-colors" href="#">Kebijakan Privasi</Link>
-              <Link className="hover:text-white transition-colors" href="#">Syarat & Ketentuan</Link>
-              <Link className="hover:text-white transition-colors" href="#">Bantuan</Link>
-            </div>
-          </div>
-          <div className="mt-8 pt-8 border-t border-gray-800 text-sm text-center text-gray-500 flex flex-col md:flex-row justify-between items-center">
-            <p>© 2024 Bakso Pak Mul. All rights reserved.</p>
-            <div className="flex space-x-4 mt-4 md:mt-0">
-              <Link className="text-gray-400 hover:text-white" href="#"><i className="fab fa-instagram text-xl"></i></Link>
-              <Link className="text-gray-400 hover:text-white" href="#"><i className="fab fa-facebook text-xl"></i></Link>
-              <Link className="text-gray-400 hover:text-white" href="#"><i className="fab fa-tiktok text-xl"></i></Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
       {/* END: Footer */}
 
       {/* Toast Notification */}

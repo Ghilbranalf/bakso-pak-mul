@@ -49,8 +49,8 @@ export default function BottomNav() {
               href={item.href}
               className={`flex flex-col items-center justify-center transition-all duration-300 active:scale-90 ${
                 isActive
-                  ? "bg-[#51000d] text-white rounded-full w-12 h-12"
-                  : "text-gray-500 opacity-70 hover:opacity-100"
+                  ? "bg-[#51000d] text-white rounded-full w-12 h-12 shadow-[0_0_15px_rgba(81,0,13,0.5)]"
+                  : "text-black hover:text-black"
               }`}
             >
               <span className="material-symbols-outlined">{item.icon}</span>

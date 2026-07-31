@@ -1,36 +1,77 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import CartSidebar from "@/components/CartSidebar";
+import Footer from "@/components/Footer";
 
 export default function TransaksiPage() {
   const [activeTab, setActiveTab] = useState<"semua" | "berlangsung" | "selesai" | "dibatalkan">("semua");
+  const [transactions, setTransactions] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const transactions = [
-    {
-      id: "TRX-20260726-001",
-      date: "26 Juli 2026, 14:20",
-      status: "Berlangsung",
-      statusColor: "bg-blue-100 text-blue-800 border-blue-200",
-      total: 250000,
-      items: [
-        { name: "Bakso Sapi Super Polos (50pcs) - Vacuum Pack", qty: 2, price: 75000 },
-        { name: "Bumbu Kuah Bakso Rahasia Pak Mul (5L)", qty: 1, price: 100000 },
-      ],
-    },
-    {
-      id: "TRX-20260720-089",
-      date: "20 Juli 2026, 10:15",
-      status: "Selesai",
-      statusColor: "bg-green-100 text-green-800 border-green-200",
-      total: 135000,
-      items: [
-        { name: "Bakso Sapi Urat Spesial (50pcs) - B2B Pack", qty: 1, price: 90000 },
-        { name: "Mie Kuning Premium 225 (Bal 5kg)", qty: 1, price: 45000 },
-      ],
-    },
-  ];
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        setIsLoading(true);
+        const res = await fetch("/api/orders");
+        const data = await res.json();
+        if (data.orders) {
+          // Format data to match the UI
+          const formatted = data.orders.map((order: any) => {
+            let statusLabel = "Berlangsung";
+            let statusColor = "bg-blue-100 text-blue-800 border-blue-200";
+
+            if (order.status === "COMPLETED") {
+              statusLabel = "Selesai";
+              statusColor = "bg-green-100 text-green-800 border-green-200";
+            } else if (order.status === "CANCELED" || order.status === "CANCELLED") {
+              statusLabel = "Dibatalkan";
+              statusColor = "bg-red-100 text-red-800 border-red-200";
+            } else if (order.status === "PENDING" || order.status === "AWAITING_PAYMENT") {
+              statusLabel = "Menunggu Pembayaran";
+              statusColor = "bg-yellow-100 text-yellow-800 border-yellow-200";
+            }
+
+            // Format date
+            const date = new Date(order.createdAt).toLocaleDateString("id-ID", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit"
+            });
+
+            return {
+              id: order.orderNumber,
+              date: date,
+              status: statusLabel,
+              statusColor,
+              total: order.finalTotal,
+              rawStatus: statusLabel.toLowerCase(),
+              items: order.items.map((item: any) => ({
+                name: item.product?.name || "Produk Dihapus",
+                qty: item.quantity,
+                price: item.priceAtTime
+              }))
+            };
+          });
+          setTransactions(formatted);
+        }
+      } catch (error) {
+        console.error("Failed to fetch transactions:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTransactions();
+  }, []);
+
+  const filteredTransactions = activeTab === "semua" 
+    ? transactions 
+    : transactions.filter(t => t.rawStatus.includes(activeTab) || (activeTab === "berlangsung" && t.rawStatus !== "selesai" && t.rawStatus !== "dibatalkan"));
 
   const formatPrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -65,7 +106,11 @@ export default function TransaksiPage() {
 
         {/* Transaction Cards List */}
         <div className="space-y-6">
-          {transactions.map((trx) => (
+          {isLoading ? (
+            <div className="text-center py-10 text-gray-500">Memuat data transaksi...</div>
+          ) : filteredTransactions.length === 0 ? (
+            <div className="text-center py-10 text-gray-500">Belum ada transaksi di tab ini.</div>
+          ) : filteredTransactions.map((trx) => (
             <div key={trx.id} className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex flex-wrap items-center justify-between pb-4 border-b border-gray-100 gap-4">
                 <div>
@@ -90,15 +135,25 @@ export default function TransaksiPage() {
                 ))}
               </div>
 
-              <div className="pt-4 border-t border-gray-100 flex justify-between items-center">
-                <span className="text-xs text-gray-500 font-medium">Total Pembayaran</span>
-                <span className="text-lg font-black text-[#51000d]">Rp {formatPrice(trx.total)}</span>
+              <div className="pt-4 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                  <span className="text-xs text-gray-500 font-medium block">Total Pembayaran</span>
+                  <span className="text-lg font-black text-[#51000d]">Rp {formatPrice(trx.total)}</span>
+                </div>
+                <Link
+                  href={`/transaksi/${trx.id}`}
+                  className="px-5 py-2 rounded-xl bg-[#51000d] hover:bg-[#7a0019] text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
+                >
+                  <span className="material-symbols-outlined text-sm">local_shipping</span>
+                  Lacak Pesanan
+                </Link>
               </div>
             </div>
           ))}
         </div>
       </main>
 
+      <Footer />
       <CartSidebar />
     </div>
   );

@@ -55,26 +55,76 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Load cart on mount safely
+  // Load cart on mount safely and sync with DB if logged in
   useEffect(() => {
-    const savedCart = getStorageItem('bpm_cart');
-    if (savedCart) {
-      try {
-        setItems(JSON.parse(savedCart));
-      } catch (e) {
-        console.error("Failed to parse saved cart JSON", e);
+    const initCart = async () => {
+      let localItems: CartItem[] = [];
+      const savedCart = getStorageItem('bpm_cart');
+      if (savedCart) {
+        try {
+          localItems = JSON.parse(savedCart);
+        } catch (e) {
+          console.error("Failed to parse saved cart JSON", e);
+        }
       }
-    }
-    setIsInitialized(true);
+
+      try {
+        const { createClient } = await import('@/utils/supabase/client');
+        const supabase = createClient();
+        const { data: { session } } = await supabase.auth.getSession();
+
+        if (session?.user) {
+          setIsLoggedIn(true);
+          // Fetch from DB
+          const res = await fetch('/api/cart');
+          const data = await res.json();
+          
+          if (data.items && data.items.length > 0) {
+            // DB has priority
+            setItems(data.items);
+          } else if (localItems.length > 0) {
+            // DB is empty but we have local items, so sync local to DB
+            setItems(localItems);
+            fetch('/api/cart', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ items: localItems })
+            }).catch(console.error);
+          } else {
+            setItems([]);
+          }
+        } else {
+          setItems(localItems);
+        }
+      } catch (e) {
+        console.error("Failed to init auth/cart", e);
+        setItems(localItems);
+      }
+
+      setIsInitialized(true);
+    };
+
+    initCart();
   }, []);
 
   // Save cart on changes safely
   useEffect(() => {
     if (isInitialized) {
+      // Always save to local storage as fallback/cache
       setStorageItem('bpm_cart', JSON.stringify(items));
+      
+      // If logged in, sync to server API
+      if (isLoggedIn) {
+        fetch('/api/cart', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items })
+        }).catch(e => console.error("Failed to sync cart to server", e));
+      }
     }
-  }, [items, isInitialized]);
+  }, [items, isInitialized, isLoggedIn]);
 
   const addToCart = (product: Omit<CartItem, 'quantity'>) => {
     setItems((prevItems) => {

@@ -1,290 +1,252 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function ProfilePage() {
-  const [activeTab, setActiveTab] = useState<"profile" | "edit">("profile");
-  const [isEditing, setIsEditing] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [orders, setOrders] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<"profile" | "orders">("profile");
 
-  // Profile Form State
-  const [profile, setProfile] = useState({
-    fullName: "Andi Wijaya",
-    phone: "+62 812 3456 7890",
-    email: "andi.wijaya@example.com",
-    storeName: "Kedai Makan Berkah",
-    address: "Jl. Melati No. 45, RT 02/RW 04, Kelurahan Merdeka, Kecamatan Sumur Bandung, Kota Bandung, Jawa Barat 40113",
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
   });
 
-  const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsEditing(false);
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        setIsLoading(true);
+        const { createClient } = await import("@/utils/supabase/client");
+        const supabase = createClient();
+        const { data: { session } } = await supabase.auth.getSession();
+
+        if (session?.user) {
+          const u = session.user;
+          setUser(u);
+          setFormData({
+            name: u.user_metadata?.full_name || "Pelanggan Setia",
+            email: u.email || "",
+            phone: u.phone || "0812-3456-7890",
+            address: "Jl. Kramat Jati No. 45, Jakarta Timur",
+          });
+
+          // Fetch user's orders
+          const res = await fetch("/api/orders");
+          const data = await res.json();
+          if (data.orders) {
+            // Filter orders for this user's email or all recent orders
+            const userOrders = data.orders.filter(
+              (o: any) => !o.customerEmail || o.customerEmail.toLowerCase() === (u.email || "").toLowerCase()
+            );
+            setOrders(userOrders.length > 0 ? userOrders : data.orders.slice(0, 5));
+          }
+        }
+      } catch (err) {
+        console.error("Error loading user profile:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadUserData();
+  }, []);
+
+  const formatPrice = (price: number) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
   return (
-    <div className="min-h-screen bg-[#f9f9f9] text-[#1a1c1c] font-sans antialiased flex flex-col justify-between">
-      {/* Top Navbar */}
+    <div className="min-h-screen bg-[#F8F8F8] text-[#1a1c1c] font-sans antialiased flex flex-col pt-20">
       <Navbar />
 
-      <main className="pt-28 pb-20 px-6 max-w-7xl mx-auto flex-grow w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Left Sidebar: Profile Summary */}
-          <aside className="lg:col-span-4 sticky top-28">
-            <div className="bg-white rounded-[24px] shadow-lg p-6 md:p-8 flex flex-col items-center text-center border border-gray-100">
-              <div className="relative mb-6 group">
-                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-red-100 shadow-md">
-                  <img
-                    alt="Andi Wijaya Avatar"
-                    className="w-full h-full object-cover"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjWMk_UKjPigFpbrd42aVnpb4lIv6NhOOsWmeXFT41XxiMA7bfLxpwX3pr-MPnx5Ns5-G5QIXIJ2oFWLSPjnqap4TKdogZQ46QxI48-u4JOKaJREs3rtH_oxxLh55eNNIiz9cJ_3HZJakI6BMcAslLviDGN0_p0HeC6ddGftBkFK0MALwRT2QMXbmUYmwCqDoRp6docLVYbmBLAorNTXz3B5paOR-gZyZqnu-KUw9TLxdT3Ppzqt0OPoC3wcCSWJNmgncc0to8iWaN"
-                  />
-                </div>
-                <button
-                  onClick={() => setIsEditing(!isEditing)}
-                  className="absolute bottom-1 right-1 bg-[#51000d] hover:bg-[#7a0019] text-white w-9 h-9 rounded-full flex items-center justify-center border-2 border-white shadow-lg active:scale-95 transition-all cursor-pointer"
-                  title="Edit Foto Profil"
-                >
-                  <span className="material-symbols-outlined text-[18px]">edit</span>
-                </button>
-              </div>
-
-              <h1 className="text-2xl font-bold text-gray-900 mb-1">{profile.fullName}</h1>
-              <div className="inline-flex items-center px-3.5 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-bold mb-6">
-                <span className="material-symbols-outlined text-[16px] mr-1">stars</span>
-                Gold Member
-              </div>
-
-              {/* Side Nav Links */}
-              <div className="w-full space-y-1.5 text-left">
-                <button
-                  onClick={() => { setActiveTab("profile"); setIsEditing(false); }}
-                  className={`flex items-center space-x-3 w-full p-3.5 rounded-xl text-xs md:text-sm font-bold transition-all cursor-pointer ${
-                    activeTab === "profile"
-                      ? "bg-[#51000d]/10 text-[#51000d]"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`}
-                >
-                  <span className="material-symbols-outlined text-lg">person</span>
-                  <span>Profil Pribadi</span>
-                </button>
-
-                <Link
-                  href="/transaksi"
-                  className="flex items-center space-x-3 w-full p-3.5 text-gray-600 hover:bg-gray-100 rounded-xl text-xs md:text-sm font-bold transition-all"
-                >
-                  <span className="material-symbols-outlined text-lg">receipt_long</span>
-                  <span>Riwayat Transaksi</span>
-                </Link>
-
-                <Link
-                  href="/produk"
-                  className="flex items-center space-x-3 w-full p-3.5 text-gray-600 hover:bg-gray-100 rounded-xl text-xs md:text-sm font-bold transition-all"
-                >
-                  <span className="material-symbols-outlined text-lg">favorite</span>
-                  <span>Produk Favorit</span>
-                </Link>
-
-                <div className="pt-4 mt-4 border-t border-gray-200">
-                  <Link
-                    href="/login"
-                    className="flex items-center space-x-3 w-full p-3.5 text-red-600 hover:bg-red-50 rounded-xl text-xs md:text-sm font-bold transition-all"
-                  >
-                    <span className="material-symbols-outlined text-lg">logout</span>
-                    <span>Keluar Akun</span>
-                  </Link>
-                </div>
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 w-full">
+        {/* Profile Header */}
+        <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-5">
+            <div className="w-16 h-16 rounded-2xl bg-[#51000d] text-white flex items-center justify-center font-black text-2xl shadow-md">
+              {(formData.name || "U").charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <h1 className="text-xl md:text-2xl font-extrabold text-gray-900">{formData.name}</h1>
+              <p className="text-xs text-gray-500 font-medium">{formData.email}</p>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="px-2.5 py-0.5 bg-green-100 text-green-700 rounded-full text-[10px] font-extrabold uppercase tracking-wider">
+                  Pelanggan Aktif
+                </span>
+                <span className="text-[10px] text-gray-400 font-medium">• Terverifikasi</span>
               </div>
             </div>
-          </aside>
+          </div>
 
-          {/* Right Content: Profile Details */}
-          <div className="lg:col-span-8 space-y-6">
-            
-            {/* Section 1: Personal Information */}
-            <section className="bg-white rounded-[24px] shadow-lg p-6 md:p-8 border border-gray-100">
-              <div className="flex justify-between items-center mb-6">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center text-[#51000d]">
-                    <span className="material-symbols-outlined">badge</span>
-                  </div>
-                  <h2 className="text-xl font-bold text-gray-900">Informasi Pribadi</h2>
-                </div>
-                <button
-                  onClick={() => setIsEditing(!isEditing)}
-                  className="text-[#51000d] font-bold text-xs hover:underline cursor-pointer"
-                >
-                  {isEditing ? "Batal" : "Edit Informasi"}
-                </button>
-              </div>
-
-              {isEditing ? (
-                <form onSubmit={handleSave} className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-bold text-gray-700 mb-1">Nama Lengkap</label>
-                    <input
-                      type="text"
-                      value={profile.fullName}
-                      onChange={(e) => setProfile({ ...profile, fullName: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs font-bold text-gray-900 focus:bg-white focus:border-[#51000d]"
-                    />
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-gray-700 mb-1">Nomor WhatsApp</label>
-                      <input
-                        type="text"
-                        value={profile.phone}
-                        onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
-                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs font-bold text-gray-900 focus:bg-white focus:border-[#51000d]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold text-gray-700 mb-1">Alamat Email</label>
-                      <input
-                        type="email"
-                        value={profile.email}
-                        onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs font-bold text-gray-900 focus:bg-white focus:border-[#51000d]"
-                      />
-                    </div>
-                  </div>
-                  <button
-                    type="submit"
-                    className="px-6 py-2.5 bg-[#51000d] text-white font-bold text-xs rounded-xl hover:bg-[#7a0019] transition-all"
-                  >
-                    Simpan Perubahan
-                  </button>
-                </form>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Nama Lengkap</label>
-                    <p className="text-sm font-extrabold text-gray-900">{profile.fullName}</p>
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Nomor WhatsApp</label>
-                    <p className="text-sm font-extrabold text-gray-900">{profile.phone}</p>
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Alamat Email</label>
-                    <p className="text-sm font-extrabold text-gray-900">{profile.email}</p>
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Status Verifikasi</label>
-                    <div className="flex items-center text-green-600 text-xs font-extrabold">
-                      <span className="material-symbols-outlined text-[18px] mr-1">verified</span>
-                      Terverifikasi
-                    </div>
-                  </div>
-                </div>
-              )}
-            </section>
-
-            {/* Section 2: Business Information */}
-            <section className="bg-white rounded-[24px] shadow-lg p-6 md:p-8 border border-gray-100">
-              <div className="flex justify-between items-center mb-6">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center text-[#51000d]">
-                    <span className="material-symbols-outlined">storefront</span>
-                  </div>
-                  <h2 className="text-xl font-bold text-gray-900">Informasi Usaha / Toko</h2>
-                </div>
-                <button
-                  onClick={() => setIsEditing(!isEditing)}
-                  className="text-[#51000d] font-bold text-xs hover:underline cursor-pointer"
-                >
-                  Kelola Outlet
-                </button>
-              </div>
-
-              <div className="space-y-4">
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Nama Toko / Usaha Kuliner</label>
-                  <p className="text-sm font-extrabold text-gray-900">{profile.storeName}</p>
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">Alamat Lengkap Pengiriman</label>
-                  <div className="flex items-start space-x-2.5 text-gray-800">
-                    <span className="material-symbols-outlined text-gray-400 mt-0.5 text-lg">location_on</span>
-                    <p className="text-xs md:text-sm font-semibold leading-relaxed max-w-lg">
-                      {profile.address}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* Section 3: Security & Password */}
-            <section className="bg-white rounded-[24px] shadow-lg p-6 md:p-8 border border-gray-100">
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center text-[#51000d]">
-                  <span className="material-symbols-outlined">lock</span>
-                </div>
-                <h2 className="text-xl font-bold text-gray-900">Keamanan Akun</h2>
-              </div>
-
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="space-y-0.5">
-                  <p className="text-sm font-extrabold text-gray-900">Kata Sandi</p>
-                  <p className="text-xs text-gray-500 font-medium">Terakhir diubah 3 bulan yang lalu</p>
-                </div>
-                <button className="px-6 py-3 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl font-bold text-xs transition-all shadow-md cursor-pointer">
-                  Ubah Kata Sandi
-                </button>
-              </div>
-
-              <div className="mt-6 pt-6 border-t border-gray-200 flex items-center justify-between">
-                <div className="flex items-center space-x-2 text-gray-500 text-xs font-medium">
-                  <span className="material-symbols-outlined text-base">devices</span>
-                  <span>2 sesi aktif di perangkat lain</span>
-                </div>
-                <button className="text-red-600 font-bold text-xs hover:underline cursor-pointer">
-                  Keluar dari semua perangkat
-                </button>
-              </div>
-            </section>
-
-            {/* Promotional Bento Style Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-[#51000d] rounded-[24px] p-6 text-white flex flex-col justify-between h-[180px] relative overflow-hidden shadow-xl">
-                <div className="relative z-10">
-                  <p className="text-xs text-white/80 font-bold uppercase tracking-wider mb-1">Loyalty Points Anda</p>
-                  <h3 className="text-3xl font-black">1,250 Points</h3>
-                </div>
-                <Link
-                  href="/promo"
-                  className="relative z-10 flex items-center space-x-2 font-bold text-xs text-white hover:underline cursor-pointer"
-                >
-                  <span>Tukarkan Poin Rewards</span>
-                  <span className="material-symbols-outlined text-base">arrow_forward</span>
-                </Link>
-                <div className="absolute -right-4 -bottom-4 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
-              </div>
-
-              <div className="bg-red-600 rounded-[24px] p-6 text-white flex flex-col justify-between h-[180px] relative overflow-hidden shadow-xl">
-                <div className="relative z-10">
-                  <p className="text-xs text-white/80 font-bold uppercase tracking-wider mb-1">Voucher Aktif</p>
-                  <h3 className="text-xl font-bold">Gratis Ongkir Pesanan Berikutnya</h3>
-                </div>
-                <Link
-                  href="/promo"
-                  className="relative z-10 flex items-center space-x-2 font-bold text-xs text-white hover:underline cursor-pointer"
-                >
-                  <span>Lihat Semua Voucher</span>
-                  <span className="material-symbols-outlined text-base">confirmation_number</span>
-                </Link>
-                <div className="absolute -right-4 -top-4 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
-              </div>
-            </div>
-
+          {/* Tab Navigation */}
+          <div className="flex items-center bg-gray-100 p-1.5 rounded-2xl w-full md:w-auto">
+            <button
+              onClick={() => setActiveTab("profile")}
+              className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                activeTab === "profile"
+                  ? "bg-white text-[#51000d] shadow-sm"
+                  : "text-gray-500 hover:text-gray-900"
+              }`}
+            >
+              Data Diri &amp; Alamat
+            </button>
+            <button
+              onClick={() => setActiveTab("orders")}
+              className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                activeTab === "orders"
+                  ? "bg-white text-[#51000d] shadow-sm"
+                  : "text-gray-500 hover:text-gray-900"
+              }`}
+            >
+              Riwayat Pesanan ({orders.length})
+            </button>
           </div>
         </div>
+
+        {/* Tab 1: Profile & Address */}
+        {activeTab === "profile" && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-8 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
+              <h2 className="text-base font-bold text-gray-900 border-b border-gray-100 pb-4">
+                Informasi Akun Pelanggan
+              </h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 mb-1">Nama Lengkap</label>
+                  <input
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50 focus:bg-white focus:border-[#51000d] outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 mb-1">Alamat Email</label>
+                  <input
+                    type="email"
+                    disabled
+                    value={formData.email}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-400 bg-gray-100 cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 mb-1">Nomor Telepon / WhatsApp</label>
+                  <input
+                    type="text"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50 focus:bg-white focus:border-[#51000d] outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 mb-1">Alamat Utama Pengiriman</label>
+                  <input
+                    type="text"
+                    value={formData.address}
+                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50 focus:bg-white focus:border-[#51000d] outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="pt-4 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => alert("Informasi profil Anda berhasil diperbarui!")}
+                  className="px-6 py-3 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold shadow-md uppercase tracking-wider cursor-pointer"
+                >
+                  Simpan Perubahan
+                </button>
+              </div>
+            </div>
+
+            <div className="lg:col-span-4 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-4">
+              <h3 className="text-base font-bold text-gray-900 border-b border-gray-100 pb-4">
+                Layanan &amp; Keuntungan Member
+              </h3>
+              <div className="space-y-3 text-xs text-gray-600">
+                <div className="flex items-start gap-3 p-3 bg-red-50/50 rounded-xl border border-red-100">
+                  <span className="material-symbols-outlined text-lg text-[#51000d]">stars</span>
+                  <div>
+                    <p className="font-bold text-[#51000d]">Pelanggan Prioritas</p>
+                    <p className="text-[11px] text-gray-500">Mendapatkan harga khusus untuk pesanan grosir.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 p-3 bg-green-50/50 rounded-xl border border-green-100">
+                  <span className="material-symbols-outlined text-lg text-green-700">local_shipping</span>
+                  <div>
+                    <p className="font-bold text-green-800">Gratis Ongkir Jabodetabek</p>
+                    <p className="text-[11px] text-gray-500">Untuk setiap pembelian minimal Rp 200.000.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Tab 2: Transaction History */}
+        {activeTab === "orders" && (
+          <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="p-6 border-b border-gray-100">
+              <h2 className="text-base font-bold text-gray-900">Daftar Transaksi Saya</h2>
+              <p className="text-xs text-gray-500">Pantau status pengiriman atau cetak invoice pesanan Anda.</p>
+            </div>
+
+            {orders.length === 0 ? (
+              <div className="p-12 text-center text-gray-500 text-xs">
+                Belum ada riwayat pesanan.
+              </div>
+            ) : (
+              <div className="divide-y divide-gray-100">
+                {orders.map((order) => (
+                  <div key={order.id} className="p-6 hover:bg-gray-50/50 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm font-extrabold text-[#51000d]">{order.orderNumber}</span>
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase ${
+                          order.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
+                          order.status === 'CANCELED' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                        }`}>
+                          {order.status === 'COMPLETED' ? 'Selesai' : order.status === 'CANCELED' ? 'Dibatalkan' : 'Diproses'}
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-500">
+                        Penerima: <span className="font-semibold text-gray-900">{order.customerName}</span> ({order.customerPhone})
+                      </p>
+                      <p className="text-[11px] text-gray-400">
+                        {new Date(order.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-t-0 pt-3 md:pt-0">
+                      <div>
+                        <p className="text-[10px] text-gray-400 font-bold uppercase">Total Tagihan</p>
+                        <p className="text-base font-black text-gray-900">Rp {formatPrice(order.finalTotal)}</p>
+                      </div>
+                      <Link
+                        href={`/transaksi/${order.orderNumber}`}
+                        className="px-4 py-2 bg-gray-100 hover:bg-[#51000d] hover:text-white rounded-xl text-xs font-bold text-gray-700 transition-all cursor-pointer"
+                      >
+                        Lacak Pesanan
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </main>
 
-      {/* Footer Component */}
       <Footer />
     </div>
   );

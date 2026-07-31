@@ -14,20 +14,20 @@ export default function AdminDashboardPage() {
       location: "Jakarta Selatan",
       initials: "JB",
       bgColor: "bg-[#ffdad8] text-[#410007]",
-      product: "Bulk Meatball Pack (500kg)",
+      product: "Paket Bakso Super (500kg)",
       value: "Rp 42.500.000",
-      status: "Delivered",
+      status: "Selesai",
       statusColor: "bg-green-100 text-green-700 border border-green-200",
     },
     {
       id: "#ORD-2024-8905",
       client: "Frozen Mart Central",
-      location: "Surabaya East",
+      location: "Surabaya Timur",
       initials: "FM",
       bgColor: "bg-[#ffdad9] text-[#410009]",
-      product: "Signature Spice Mix (100kg)",
+      product: "Bumbu Multi Guna (100kg)",
       value: "Rp 12.800.000",
-      status: "Processing",
+      status: "Diproses",
       statusColor: "bg-orange-100 text-orange-700 border border-orange-200",
     },
     {
@@ -36,20 +36,20 @@ export default function AdminDashboardPage() {
       location: "Bandung Utara",
       initials: "BM",
       bgColor: "bg-red-100 text-[#51000d]",
-      product: "Assorted Frozen Goods",
+      product: "Aneka Kulit Pangsit & Mie",
       value: "Rp 28.450.000",
-      status: "In Transit",
+      status: "Dalam Pengiriman",
       statusColor: "bg-blue-100 text-blue-700 border border-blue-200",
     },
     {
       id: "#ORD-2024-8912",
       client: "UD Maju Bersama",
-      location: "Semarang City",
+      location: "Kota Semarang",
       initials: "UD",
       bgColor: "bg-gray-200 text-gray-800",
-      product: "Beef Bone Broth Base",
+      product: "Bumbu Kuah Bakso Rahasia",
       value: "Rp 5.200.000",
-      status: "Pending",
+      status: "Menunggu",
       statusColor: "bg-gray-100 text-gray-700 border border-gray-200",
     },
   ];
@@ -65,10 +65,10 @@ export default function AdminDashboardPage() {
         <header className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
           <div>
             <h2 className="text-2xl md:text-3xl font-extrabold text-[#51000d] tracking-tight">
-              Performance Overview
+              Ringkasan Performa
             </h2>
             <p className="text-xs md:text-sm text-gray-500 font-medium mt-1">
-              Welcome back, Administrator. Here&apos;s what&apos;s happening today.
+              Selamat datang kembali, Administrator. Berikut statistik usaha hari ini.
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -77,14 +77,14 @@ export default function AdminDashboardPage() {
               className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-300 text-[#51000d] rounded-xl text-xs font-bold hover:bg-gray-50 transition-all shadow-sm"
             >
               <span className="material-symbols-outlined text-base">add_circle</span>
-              <span>Create Promo</span>
+              <span>Buat Promo</span>
             </Link>
             <Link
               href="/admin/inventory"
               className="flex items-center gap-2 px-5 py-2.5 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold shadow-md transition-all uppercase tracking-wider"
             >
               <span className="material-symbols-outlined text-base">add</span>
-              <span>Add New Product</span>
+              <span>Tambah Produk</span>
             </Link>
           </div>
         </header>
@@ -101,7 +101,7 @@ export default function AdminDashboardPage() {
                 +12.4% <span className="material-symbols-outlined text-sm">arrow_upward</span>
               </span>
             </div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Total Gross Sales</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Total Penjualan Kotor</p>
             <h3 className="text-3xl font-black text-gray-900">Rp 142.8M</h3>
             <div className="mt-4 h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
               <div className="h-full bg-[#51000d] w-[75%] rounded-full"></div>
@@ -118,8 +118,8 @@ export default function AdminDashboardPage() {
                 +8.1% <span className="material-symbols-outlined text-sm">arrow_upward</span>
               </span>
             </div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Total Active Orders</p>
-            <h3 className="text-3xl font-black text-gray-900">1,248</h3>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Total Pesanan Aktif</p>
+            <h3 className="text-3xl font-black text-gray-900">1.248</h3>
             <div className="mt-4 h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
               <div className="h-full bg-[#7a0019] w-[62%] rounded-full"></div>
             </div>
@@ -135,7 +135,7 @@ export default function AdminDashboardPage() {
                 -2.3% <span className="material-symbols-outlined text-sm">arrow_downward</span>
               </span>
             </div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">New Reseller Partners</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Mitra Reseller Baru</p>
             <h3 className="text-3xl font-black text-gray-900">34</h3>
             <div className="mt-4 h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
               <div className="h-full bg-red-700 w-[45%] rounded-full"></div>
@@ -149,8 +149,8 @@ export default function AdminDashboardPage() {
           <section className="lg:col-span-2 bg-white p-6 md:p-8 rounded-[24px] shadow-sm border border-gray-100">
             <div className="flex justify-between items-center mb-8">
               <div>
-                <h3 className="text-lg font-bold text-gray-900">Monthly Sales Analytics</h3>
-                <p className="text-xs text-gray-500 font-medium">Trend projection for Q3 - 2024</p>
+                <h3 className="text-lg font-bold text-gray-900">Analisis Penjualan Bulanan</h3>
+                <p className="text-xs text-gray-500 font-medium">Proyeksi tren kuartal berjalan</p>
               </div>
               <div className="flex bg-gray-100 p-1 rounded-xl">
                 <button
@@ -159,7 +159,7 @@ export default function AdminDashboardPage() {
                     timeframe === "monthly" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500"
                   }`}
                 >
-                  Monthly
+                  Bulanan
                 </button>
                 <button
                   onClick={() => setTimeframe("weekly")}
@@ -167,7 +167,7 @@ export default function AdminDashboardPage() {
                     timeframe === "weekly" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500"
                   }`}
                 >
-                  Weekly
+                  Mingguan
                 </button>
               </div>
             </div>
@@ -179,7 +179,7 @@ export default function AdminDashboardPage() {
                 { month: "Feb", height: "55%", color: "bg-gray-200" },
                 { month: "Mar", height: "75%", color: "bg-red-200" },
                 { month: "Apr", height: "90%", color: "bg-[#51000d]" },
-                { month: "May", height: "65%", color: "bg-red-300" },
+                { month: "Mei", height: "65%", color: "bg-red-300" },
                 { month: "Jun", height: "82%", color: "bg-gray-300" },
               ].map((bar) => (
                 <div key={bar.month} className="flex flex-col items-center flex-1 h-full justify-end">
@@ -196,13 +196,13 @@ export default function AdminDashboardPage() {
           {/* Distribution Breakdown */}
           <section className="bg-white p-6 md:p-8 rounded-[24px] shadow-sm border border-gray-100 flex flex-col justify-between">
             <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-6">Regional Distribution</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-6">Distribusi Wilayah</h3>
               <div className="space-y-4">
                 {[
                   { region: "Jakarta Raya", pct: "45%", color: "bg-[#51000d]" },
                   { region: "Bandung Metro", pct: "28%", color: "bg-[#7a0019]" },
                   { region: "Surabaya Central", pct: "15%", color: "bg-red-400" },
-                  { region: "Others", pct: "12%", color: "bg-gray-300" },
+                  { region: "Lainnya", pct: "12%", color: "bg-gray-300" },
                 ].map((item) => (
                   <div key={item.region} className="space-y-1.5">
                     <div className="flex justify-between items-center text-xs font-bold">
@@ -218,9 +218,9 @@ export default function AdminDashboardPage() {
             </div>
 
             <div className="mt-6 p-4 bg-red-50/60 rounded-2xl border border-red-100">
-              <p className="text-xs font-bold text-[#51000d] mb-1">Expansion Opportunity</p>
+              <p className="text-xs font-bold text-[#51000d] mb-1">Peluang Ekspansi</p>
               <p className="text-[11px] text-gray-600 font-medium leading-relaxed">
-                Central Java regions have shown a 15% increase in bulk order inquiries this month.
+                Wilayah Jawa Tengah menunjukkan peningkatan 15% pada permintaan pesanan grosir bulan ini.
               </p>
             </div>
           </section>
@@ -229,12 +229,12 @@ export default function AdminDashboardPage() {
         {/* Recent Orders Table */}
         <section className="bg-white rounded-[24px] shadow-sm border border-gray-100 overflow-hidden">
           <div className="p-6 md:p-8 border-b border-gray-100 flex justify-between items-center">
-            <h3 className="text-lg font-bold text-gray-900">Recent Enterprise Orders</h3>
+            <h3 className="text-lg font-bold text-gray-900">Pesanan Terbaru</h3>
             <Link
-              href="/transaksi"
+              href="/admin/orders"
               className="text-[#51000d] font-bold text-xs flex items-center gap-1 hover:underline cursor-pointer"
             >
-              <span>View All Transactions</span>
+              <span>Lihat Semua Pesanan</span>
               <span className="material-symbols-outlined text-base">chevron_right</span>
             </Link>
           </div>
@@ -243,12 +243,12 @@ export default function AdminDashboardPage() {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-gray-50/80 border-b border-gray-200">
-                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Order ID</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Client / Reseller</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Product Line</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Total Value</th>
+                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">ID Pesanan</th>
+                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Pelanggan / Reseller</th>
+                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Produk</th>
+                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Total Transaksi</th>
                   <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-right">Actions</th>
+                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-right">Aksi</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
