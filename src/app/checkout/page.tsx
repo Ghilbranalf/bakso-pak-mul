@@ -19,6 +19,7 @@ export default function CheckoutPage() {
   // Custom Payment Modal State
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [createdOrderNumber, setCreatedOrderNumber] = useState<string>("");
+  const [createdOrderTotal, setCreatedOrderTotal] = useState<number>(0);
   const [activePaymentTab, setActivePaymentTab] = useState<"qris" | "va" | "retail">("qris");
   const [selectedBank, setSelectedBank] = useState<"BCA" | "Mandiri" | "BNI" | "BRI">("BCA");
   const [copiedText, setCopiedText] = useState<string | null>(null);
@@ -127,6 +128,7 @@ export default function CheckoutPage() {
       }
 
       setCreatedOrderNumber(data.orderNumber);
+      setCreatedOrderTotal(finalTotal);
 
       // Try fetching Midtrans Snap Token in background
       try {
@@ -524,7 +526,7 @@ export default function CheckoutPage() {
                       Bakso Pak Mul Official Payment
                     </span>
                   </div>
-                  <h2 className="text-xl font-black tracking-tight">Rp {formatPrice(finalTotal)}</h2>
+                  <h2 className="text-xl font-black tracking-tight">Rp {formatPrice(createdOrderTotal || finalTotal)}</h2>
                   <p className="text-[11px] text-white/80 font-medium mt-0.5">
                     No. Pesanan: <span className="font-mono font-bold text-amber-300">{createdOrderNumber}</span>
                   </p>
