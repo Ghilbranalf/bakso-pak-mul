@@ -2,6 +2,13 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import crypto from "crypto";
 
+export async function GET() {
+  return NextResponse.json({
+    status: "ok",
+    message: "Midtrans payment notification endpoint is active and healthy",
+  });
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
