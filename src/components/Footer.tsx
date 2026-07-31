@@ -70,6 +70,11 @@ export default function Footer() {
                   Hubungi Kami
                 </a>
               </li>
+              <li>
+                <Link className="hover:text-primary transition-colors text-[#51000d] font-bold" href="/admin/login">
+                  Portal Admin
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="md:col-span-4">

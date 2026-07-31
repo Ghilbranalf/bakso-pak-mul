@@ -167,9 +167,12 @@ export default async function LoginPage(props: {
             </div>
 
             {/* Footer Link */}
-            <div className="mt-10 text-center">
+            <div className="mt-10 text-center space-y-2">
               <p className="text-sm text-on-surface-variant">
                 Belum punya akun? <Link href="/register" className="text-primary font-extrabold hover:underline ml-1">Daftar sekarang</Link>
+              </p>
+              <p className="text-xs text-gray-500 font-medium">
+                Pengelola Toko? <Link href="/admin/login" className="text-primary font-bold hover:underline ml-1">Masuk Portal Admin</Link>
               </p>
             </div>
           </div>
