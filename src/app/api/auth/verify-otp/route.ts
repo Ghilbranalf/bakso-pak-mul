@@ -15,19 +15,35 @@ export async function POST(request: Request) {
     const cleanEmail = email.trim().toLowerCase();
     const cleanCode = otpCode.trim();
 
-    // Verify OTP token against Database records
-    const validToken = await prisma.otpToken.findFirst({
-      where: {
-        email: cleanEmail,
-        code: cleanCode,
-        expiresAt: {
-          gte: new Date()
+    // Verify OTP token against Database records (with Raw SQL fallback)
+    let validToken: any = null;
+
+    try {
+      if ((prisma as any).otpToken?.findFirst) {
+        validToken = await (prisma as any).otpToken.findFirst({
+          where: {
+            email: cleanEmail,
+            code: cleanCode,
+            expiresAt: {
+              gte: new Date()
+            }
+          },
+          orderBy: {
+            createdAt: "desc"
+          }
+        });
+      } else {
+        const rows: any = await prisma.$queryRawUnsafe(
+          `SELECT * FROM "OtpToken" WHERE "email" = $1 AND "code" = $2 AND "expiresAt" >= NOW() ORDER BY "createdAt" DESC LIMIT 1`,
+          cleanEmail, cleanCode
+        );
+        if (Array.isArray(rows) && rows.length > 0) {
+          validToken = rows[0];
         }
-      },
-      orderBy: {
-        createdAt: "desc"
       }
-    });
+    } catch (dbErr: any) {
+      console.warn("OTP Verify DB Check Error:", dbErr.message);
+    }
 
     if (!validToken) {
       return NextResponse.json(
@@ -37,7 +53,15 @@ export async function POST(request: Request) {
     }
 
     // Delete used token to prevent replay
-    await prisma.otpToken.delete({ where: { id: validToken.id } }).catch(() => {});
+    try {
+      if ((prisma as any).otpToken?.delete) {
+        await (prisma as any).otpToken.delete({ where: { id: validToken.id } }).catch(() => {});
+      } else {
+        await prisma.$executeRawUnsafe(`DELETE FROM "OtpToken" WHERE "id" = $1`, validToken.id).catch(() => {});
+      }
+    } catch (delErr) {
+      console.warn("Token Delete Warning:", delErr);
+    }
 
     // Upsert User in Database
     let user = await prisma.user.findUnique({
@@ -57,7 +81,7 @@ export async function POST(request: Request) {
       });
     }
 
-    // If user provided phone number, save or update main user address / profile info
+    // Save phone number address if provided
     if (phone && user) {
       const existingAddress = await prisma.userAddress.findFirst({
         where: { userId: user.id }

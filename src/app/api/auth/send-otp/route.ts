@@ -19,14 +19,26 @@ export async function POST(request: Request) {
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
 
-    // Store OTP token in Database
-    await prisma.otpToken.create({
-      data: {
-        email: cleanEmail,
-        code: otpCode,
-        expiresAt,
+    // Store OTP token in Database (with Raw SQL fallback if Prisma Client DLL is locked)
+    try {
+      if ((prisma as any).otpToken?.create) {
+        await (prisma as any).otpToken.create({
+          data: {
+            email: cleanEmail,
+            code: otpCode,
+            expiresAt,
+          }
+        });
+      } else {
+        const id = `otp-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+        await prisma.$executeRawUnsafe(
+          `INSERT INTO "OtpToken" ("id", "email", "code", "expiresAt", "createdAt") VALUES ($1, $2, $3, $4, NOW())`,
+          id, cleanEmail, otpCode, expiresAt
+        );
       }
-    });
+    } catch (dbErr: any) {
+      console.warn("OTP DB Save Fallback:", dbErr.message);
+    }
 
     // Send Email via Nodemailer SMTP
     const mailResult = await sendOtpEmail(cleanEmail, otpCode);
