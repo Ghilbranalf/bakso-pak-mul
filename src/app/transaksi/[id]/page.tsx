@@ -394,12 +394,22 @@ export default function TrackOrderPage() {
                 </div>
               </div>
 
-              {/* Total Tagihan */}
-              <div className="border-t border-gray-100 pt-4 flex items-baseline justify-between">
-                <span className="text-xs font-bold text-gray-500">Total Pembayaran</span>
-                <span className="text-xl font-black text-[#51000d]">
-                  Rp {formatPrice(displayOrder.finalTotal)}
-                </span>
+              {/* Total Breakdown */}
+              <div className="border-t border-gray-100 pt-4 space-y-2 text-xs">
+                <div className="flex justify-between text-gray-500 font-medium">
+                  <span>Subtotal Produk</span>
+                  <span>Rp {formatPrice(Math.max(0, displayOrder.finalTotal - (displayOrder.shippingCost || 0)))}</span>
+                </div>
+                <div className="flex justify-between text-gray-500 font-medium">
+                  <span>Ongkos Kirim (Biteship)</span>
+                  <span>{displayOrder.shippingCost ? `Rp ${formatPrice(displayOrder.shippingCost)}` : "Rp 0 (Gratis / Standar)"}</span>
+                </div>
+                <div className="flex justify-between items-baseline pt-2 border-t border-gray-100">
+                  <span className="font-bold text-gray-900">Total Pembayaran</span>
+                  <span className="text-xl font-black text-[#51000d]">
+                    Rp {formatPrice(displayOrder.finalTotal)}
+                  </span>
+                </div>
               </div>
             </section>
           </div>

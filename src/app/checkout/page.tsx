@@ -161,6 +161,7 @@ export default function CheckoutPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
+          shippingFee,
           items: cartItems,
         }),
       });
