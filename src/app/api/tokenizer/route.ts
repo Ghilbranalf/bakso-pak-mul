@@ -117,7 +117,7 @@ export async function POST(request: Request) {
       ]
     };
 
-    const isProduction = process.env.NEXT_PUBLIC_MIDTRANS_ENV === "production";
+    const isProduction = process.env.NEXT_PUBLIC_MIDTRANS_ENV === "production" || serverKey.startsWith("Mid-server-");
     const snapUrl = isProduction
       ? "https://app.midtrans.com/snap/v1/transactions"
       : "https://app.sandbox.midtrans.com/snap/v1/transactions";
