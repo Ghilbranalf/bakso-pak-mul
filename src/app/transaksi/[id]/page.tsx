@@ -109,6 +109,27 @@ export default function TrackOrderPage() {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
+  // Auto-push / open WhatsApp directly when Success Modal opens
+  useEffect(() => {
+    if (paymentResultModal === "success") {
+      const timer = setTimeout(() => {
+        if (typeof window !== "undefined") {
+          const waMessage = encodeURIComponent(
+            `Halo CS Bakso Pak Mul 👋, saya baru saja membuat pesanan ${displayOrder.orderNumber}:\n\n` +
+            `👤 Atas Nama: ${displayOrder.customerName}\n` +
+            `📞 No HP: ${displayOrder.phone}\n` +
+            `📍 Alamat: ${displayOrder.address}\n` +
+            `💰 Total Tagihan: Rp ${formatPrice(displayOrder.finalTotal)}\n` +
+            `💳 Metode Pembayaran: ${displayOrder.paymentType || "COD"}\n\n` +
+            `Mohon segera diproses dan dikirim ya Pak Mul, terima kasih!`
+          );
+          window.open(`https://wa.me/6281298980252?text=${waMessage}`, "_blank");
+        }
+      }, 1200);
+      return () => clearTimeout(timer);
+    }
+  }, [paymentResultModal, displayOrder.orderNumber]);
+
   const vaNumbers = {
     BCA: "88012" + Math.floor(10000000 + Math.random() * 90000000),
     Mandiri: "89320" + Math.floor(10000000 + Math.random() * 90000000),
