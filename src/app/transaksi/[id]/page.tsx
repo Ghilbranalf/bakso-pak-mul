@@ -17,6 +17,7 @@ export default function TrackOrderPage() {
   const [activePaymentTab, setActivePaymentTab] = useState<"qris" | "va">("qris");
   const [selectedBank, setSelectedBank] = useState<"BCA" | "Mandiri" | "BNI" | "BRI">("BCA");
   const [copiedText, setCopiedText] = useState<string | null>(null);
+  const [paymentResultModal, setPaymentResultModal] = useState<"success" | "failed" | null>(null);
 
   const fetchOrderDetail = async () => {
     if (!rawId) return;
@@ -39,10 +40,20 @@ export default function TrackOrderPage() {
   useEffect(() => {
     fetchOrderDetail();
 
-    if (typeof window !== "undefined" && window.location.search.includes("print=true")) {
-      setTimeout(() => {
-        window.print();
-      }, 800);
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      const statusParam = urlParams.get("status") || urlParams.get("transaction_status");
+      if (statusParam === "success" || statusParam === "settlement" || statusParam === "capture") {
+        setPaymentResultModal("success");
+      } else if (statusParam === "failed" || statusParam === "deny" || statusParam === "expire" || statusParam === "cancel") {
+        setPaymentResultModal("failed");
+      }
+
+      if (window.location.search.includes("print=true")) {
+        setTimeout(() => {
+          window.print();
+        }, 800);
+      }
     }
   }, [rawId]);
 
@@ -132,13 +143,16 @@ export default function TrackOrderPage() {
       if (data.token && typeof window !== "undefined" && (window as any).snap) {
         (window as any).snap.pay(data.token, {
           onSuccess: function () {
-            window.location.href = `/pembayaran/berhasil?order_id=${displayOrder.orderNumber}`;
+            setIsProcessingPayment(false);
+            setPaymentResultModal("success");
           },
           onPending: function () {
-            window.location.href = `/pembayaran/berhasil?order_id=${displayOrder.orderNumber}`;
+            setIsProcessingPayment(false);
+            setPaymentResultModal("success");
           },
           onError: function () {
-            window.location.href = "/pembayaran/gagal";
+            setIsProcessingPayment(false);
+            setPaymentResultModal("failed");
           },
           onClose: function () {
             setIsProcessingPayment(false);
@@ -530,6 +544,91 @@ export default function TrackOrderPage() {
                 className="px-6 py-2.5 bg-[#51000d] text-white rounded-xl text-xs font-bold shadow-sm uppercase tracking-wider cursor-pointer"
               >
                 Tutup Panduan
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TRANSACTION SUCCESS POP-UP MODAL */}
+      {paymentResultModal === "success" && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl border border-gray-100 animate-in zoom-in-95 duration-200 space-y-6">
+            <div className="w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-inner ring-8 ring-emerald-50">
+              <span className="material-symbols-outlined text-4xl font-black">task_alt</span>
+            </div>
+
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">
+                ✨ Status: Terverifikasi Lunas
+              </span>
+              <h3 className="text-2xl font-black text-gray-900 tracking-tight mt-3">
+                Transaksi Berhasil!
+              </h3>
+              <p className="text-xs text-gray-600 font-medium mt-1.5 leading-relaxed">
+                Terima kasih! Pembayaran untuk pesanan <span className="font-mono font-bold text-[#51000d]">{displayOrder.orderNumber}</span> sebesar <span className="font-extrabold text-gray-900">Rp {formatPrice(displayOrder.finalTotal)}</span> telah berhasil dikonfirmasi.
+              </p>
+            </div>
+
+            <div className="space-y-2.5 pt-2">
+              <a
+                href={`https://wa.me/6281298980252?text=${encodeURIComponent(`Halo CS Bakso Pak Mul 👋, saya sudah melunasi pembayaran pesanan ${displayOrder.orderNumber} sebesar Rp ${formatPrice(displayOrder.finalTotal)}. Mohon diproses dan dikirim ya, terima kasih!`)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-base">chat</span>
+                <span>Konfirmasi via WhatsApp CS</span>
+              </a>
+
+              <button
+                onClick={() => setPaymentResultModal(null)}
+                className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-bold transition-all uppercase tracking-wider cursor-pointer"
+              >
+                Lihat Detail Nota Pesanan
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TRANSACTION FAILED POP-UP MODAL */}
+      {paymentResultModal === "failed" && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl border border-gray-100 animate-in zoom-in-95 duration-200 space-y-6">
+            <div className="w-20 h-20 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto shadow-inner ring-8 ring-red-50">
+              <span className="material-symbols-outlined text-4xl font-black">gpp_maybe</span>
+            </div>
+
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-widest bg-red-100 text-red-800 px-3 py-1 rounded-full">
+                ⚠️ Pembayaran Dibatalkan / Gagal
+              </span>
+              <h3 className="text-2xl font-black text-gray-900 tracking-tight mt-3">
+                Pembayaran Belum Berhasil
+              </h3>
+              <p className="text-xs text-gray-600 font-medium mt-1.5 leading-relaxed">
+                Maaf, transaksi pembayaran untuk pesanan <span className="font-mono font-bold text-[#51000d]">{displayOrder.orderNumber}</span> belum dapat diproses atau waktu transaksi telah habis.
+              </p>
+            </div>
+
+            <div className="space-y-2.5 pt-2">
+              <button
+                onClick={() => {
+                  setPaymentResultModal(null);
+                  setIsPaymentModalOpen(true);
+                }}
+                className="w-full py-3.5 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-base">refresh</span>
+                <span>Coba Bayar Lagi Sekarang</span>
+              </button>
+
+              <button
+                onClick={() => setPaymentResultModal(null)}
+                className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-bold transition-all uppercase tracking-wider cursor-pointer"
+              >
+                Tutup Pop-Up
               </button>
             </div>
           </div>
