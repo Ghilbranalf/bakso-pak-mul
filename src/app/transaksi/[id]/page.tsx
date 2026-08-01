@@ -79,7 +79,8 @@ export default function TrackOrderPage() {
   if (statusUpper === "COMPLETED") activeStep = 4;
   if (statusUpper === "CANCELED" || statusUpper === "CANCELLED") activeStep = 0;
 
-  const isPending = statusUpper === "PENDING" || statusUpper === "AWAITING_PAYMENT";
+  const isCod = (displayOrder.paymentType || "").toUpperCase() === "COD";
+  const isPending = !isCod && (statusUpper === "PENDING" || statusUpper === "AWAITING_PAYMENT");
   const isCanceled = statusUpper === "CANCELED" || statusUpper === "CANCELLED";
   const isPaid = statusUpper === "COMPLETED" || statusUpper === "PAID" || statusUpper === "PROCESSING";
 
@@ -111,44 +112,46 @@ export default function TrackOrderPage() {
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   const handleMidtransPay = async () => {
-    if (!displayOrder) return;
     setIsProcessingPayment(true);
     try {
       const res = await fetch("/api/tokenizer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          orderNumber: displayOrder.orderNumber,
-          totalPrice: displayOrder.finalTotal,
-          items: displayOrder.items?.map((it: any) => ({
-            id: it.product?.id || it.id,
-            name: it.product?.name || "Produk",
-            price: it.priceAtTime,
-            quantity: it.quantity,
-          })) || [],
-          paymentType: "online",
-          shippingInfo: {
-            name: displayOrder.customerName,
-            phone: displayOrder.phone,
-            address: displayOrder.address,
-            city: displayOrder.city,
-            province: displayOrder.province,
-          }
-        })
+          id: displayOrder.orderNumber,
+          productName: `Pesanan ${displayOrder.orderNumber}`,
+          price: displayOrder.finalTotal,
+          quantity: 1,
+          customerName: displayOrder.customerName,
+          email: "customer@baksopakmul.id",
+          phone: displayOrder.phone,
+        }),
       });
+
       const data = await res.json();
-      if (data.token && (window as any).snap) {
+      if (data.token && typeof window !== "undefined" && (window as any).snap) {
         (window as any).snap.pay(data.token, {
-          onSuccess: () => fetchOrderDetail(),
-          onPending: () => fetchOrderDetail(),
-          onError: () => fetchOrderDetail(),
-          onClose: () => fetchOrderDetail(),
+          onSuccess: function () {
+            window.location.href = `/pembayaran/berhasil?order_id=${displayOrder.orderNumber}`;
+          },
+          onPending: function () {
+            window.location.href = `/pembayaran/berhasil?order_id=${displayOrder.orderNumber}`;
+          },
+          onError: function () {
+            window.location.href = "/pembayaran/gagal";
+          },
+          onClose: function () {
+            setIsProcessingPayment(false);
+          },
         });
       } else if (data.redirect_url) {
         window.location.href = data.redirect_url;
+      } else {
+        alert("Gagal membuka Snap Midtrans. Silakan coba lagi.");
       }
     } catch (e) {
-      console.error("Pay error:", e);
+      console.error(e);
+      alert("Terjadi kesalahan saat memuat Snap Midtrans.");
     } finally {
       setIsProcessingPayment(false);
     }
@@ -158,27 +161,53 @@ export default function TrackOrderPage() {
     <div className="min-h-screen bg-[#F8F8F8] text-[#1a1c1c] font-sans antialiased flex flex-col pt-20">
       <Navbar />
 
-      <main className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 w-full space-y-6">
+      <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 w-full space-y-6">
         
-        {/* Header Transaksi */}
-        <header className="bg-white border border-gray-100 shadow-sm rounded-2xl p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        {/* TOP HEADER */}
+        <header className="bg-white border border-gray-100 shadow-sm rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-xl md:text-2xl font-extrabold text-[#51000d] mb-1">
-              Status Transaksi
-            </h1>
-            <div className="flex items-center gap-3">
-              <span className="px-3 py-1 bg-[#51000d]/10 text-[#51000d] text-xs rounded font-extrabold">
-                {displayOrder.orderNumber}
-              </span>
-              <span className="w-1.5 h-1.5 bg-gray-300 rounded-full"></span>
-              <p className="text-xs text-gray-500 font-medium">ID Pesanan Anda</p>
+            <div className="flex items-center gap-3 mb-1">
+              <h1 className="text-xl sm:text-2xl font-black text-[#51000d]">Status Transaksi</h1>
+              <button
+                onClick={() => window.print()}
+                className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-gray-900 bg-gray-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-sm">print</span>
+                <span>Cetak Nota</span>
+              </button>
             </div>
+            <p className="text-xs text-gray-500 font-medium flex items-center gap-2">
+              <span className="font-bold text-gray-800 bg-gray-100 px-2 py-0.5 rounded">{displayOrder.orderNumber}</span>
+              <span>•</span>
+              <span>ID Pesanan Anda</span>
+            </p>
           </div>
-          <div className="md:text-right">
-            <p className="text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-0.5">Tanggal Transaksi</p>
-            <p className="font-bold text-sm text-gray-800">{formattedDate}</p>
+          <div className="text-left md:text-right border-t md:border-t-0 pt-3 md:pt-0 border-gray-100">
+            <span className="text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-0.5">TANGGAL TRANSAKSI</span>
+            <span className="text-xs font-bold text-gray-800">{formattedDate}</span>
           </div>
         </header>
+
+        {/* COD PAYMENT STATUS BANNER */}
+        {isCod && (
+          <div className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-2xl p-5 shadow-md flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
+              <span className="material-symbols-outlined text-2xl">handshake</span>
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-black uppercase tracking-wider bg-white/20 px-2 py-0.5 rounded text-white">
+                  🤝 Bayar di Tempat (COD)
+                </span>
+                <span className="text-xs text-emerald-100">Pesanan Siap Dikirim</span>
+              </div>
+              <h3 className="text-base font-bold mt-0.5">Pesanan COD Terkonfirmasi</h3>
+              <p className="text-xs text-white/90">
+                Silakan siapkan uang tunai pas sebesar <span className="font-extrabold text-white">Rp {formatPrice(displayOrder.finalTotal)}</span> saat kurir tiba di lokasi pengiriman Anda.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* PAYMENT STATUS ALERT BANNER */}
         {isPending && (
