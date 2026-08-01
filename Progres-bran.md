@@ -23,7 +23,8 @@
 | Katalog Produk | `/produk` | ✅ Selesai |
 | Keranjang Belanja (Sidebar) | — | ✅ Selesai |
 | Checkout & Pembayaran | `/checkout` | ✅ Selesai |
-| Lacak Pesanan | `/transaksi/[id]` | ✅ Selesai |
+| Lacak Pesanan Live | `/lacak` | ✅ Selesai |
+| Detail Pesanan | `/transaksi/[id]` | ✅ Selesai |
 | Riwayat Transaksi | `/transaksi` | ✅ Selesai |
 | Profil Pengguna | `/profil` | ✅ Selesai |
 | Login | `/login` | ✅ Selesai |
