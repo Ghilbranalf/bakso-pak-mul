@@ -144,6 +144,9 @@ export default function CheckoutPage() {
       return;
     }
 
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
     try {
       // Auto-save address & contact details to localStorage so it syncs with Profile
       localStorage.setItem("user_saved_address", JSON.stringify({
@@ -183,7 +186,6 @@ export default function CheckoutPage() {
     } catch (err: any) {
       console.error("Checkout failed:", err);
       setErrorMessage(err.message || "Terjadi kesalahan saat memproses pesanan.");
-    } finally {
       setIsSubmitting(false);
     }
   };
@@ -609,6 +611,32 @@ export default function CheckoutPage() {
           </form>
         )}
       </main>
+
+      {/* Animated Loading Modal Overlay after clicking Lanjut Pembayaran */}
+      {isSubmitting && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl border border-gray-100 animate-in zoom-in-95 duration-200 space-y-5">
+            <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full border-4 border-red-100 border-t-[#51000d] animate-spin"></div>
+              <div className="w-14 h-14 bg-[#51000d] text-white rounded-full flex items-center justify-center shadow-md animate-pulse">
+                <span className="material-symbols-outlined text-2xl">shopping_bag</span>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-black text-gray-900">Memproses Pesanan Anda</h3>
+              <p className="text-xs text-gray-500 font-medium mt-1 leading-relaxed">
+                Sedang mengunci stok produk, menyiapkan invoice, dan mengonfirmasi kurir pengiriman...
+              </p>
+            </div>
+
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-[#51000d] text-xs font-bold border border-red-100">
+              <span className="w-2 h-2 rounded-full bg-[#51000d] animate-ping"></span>
+              <span>Mohon tunggu sebentar</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
