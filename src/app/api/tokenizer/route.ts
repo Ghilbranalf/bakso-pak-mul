@@ -123,7 +123,7 @@ export async function POST(request: Request) {
       : "https://app.sandbox.midtrans.com/snap/v1/transactions";
 
     // 1. Generate Snap Token first
-    const response = await fetch(snapUrl, {
+    let response = await fetch(snapUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -133,8 +133,23 @@ export async function POST(request: Request) {
       body: JSON.stringify(payload),
     });
 
-    const data = await response.json();
+    let data = await response.json();
     console.log("[MIDTRANS SNAP RESPONSE]:", data);
+
+    // If order_id already used in Midtrans, append timestamp and retry once
+    if (!data.token && data.error_messages && data.error_messages.some((msg: string) => msg.toLowerCase().includes("already been used"))) {
+      payload.transaction_details.order_id = `${orderId}-${Date.now().toString().slice(-4)}`;
+      response = await fetch(snapUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": `Basic ${authString}`,
+        },
+        body: JSON.stringify(payload),
+      });
+      data = await response.json();
+    }
 
     let token = data.token;
     let redirect_url = data.redirect_url;

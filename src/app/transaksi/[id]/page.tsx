@@ -154,9 +154,33 @@ export default function TrackOrderPage() {
 
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
+  const ensureSnapLoaded = (): Promise<void> => {
+    return new Promise((resolve) => {
+      if (typeof window !== "undefined" && (window as any).snap) {
+        resolve();
+        return;
+      }
+      const existingScript = document.getElementById("midtrans-snap-script");
+      if (existingScript) {
+        existingScript.onload = () => resolve();
+        setTimeout(resolve, 1000);
+        return;
+      }
+      const script = document.createElement("script");
+      script.id = "midtrans-snap-script";
+      script.src = "https://app.midtrans.com/snap/snap.js";
+      script.setAttribute("data-client-key", "Mid-client-QwVRavEKtMyxQI03");
+      script.onload = () => resolve();
+      document.body.appendChild(script);
+      setTimeout(resolve, 1200);
+    });
+  };
+
   const handleMidtransPay = async () => {
     setIsProcessingPayment(true);
     try {
+      await ensureSnapLoaded();
+
       const res = await fetch("/api/tokenizer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -172,7 +196,9 @@ export default function TrackOrderPage() {
       });
 
       const data = await res.json();
-      if (res.ok && data.token && typeof window !== "undefined" && (window as any).snap) {
+      console.log("Tokenizer response data:", data);
+
+      if (data.token && typeof window !== "undefined" && (window as any).snap) {
         (window as any).snap.pay(data.token, {
           onSuccess: function () {
             setIsProcessingPayment(false);
@@ -193,14 +219,11 @@ export default function TrackOrderPage() {
       } else if (data.redirect_url) {
         window.location.href = data.redirect_url;
       } else {
-        // Smooth fallback to Transfer Bank / QRIS modal
-        setIsProcessingPayment(false);
-        setIsPaymentModalOpen(true);
+        alert(data.error || "Gagal mendapatkan token Midtrans.");
       }
-    } catch (e) {
-      console.error(e);
-      setIsProcessingPayment(false);
-      setIsPaymentModalOpen(true);
+    } catch (e: any) {
+      console.error("Snap error:", e);
+      alert(e.message || "Terjadi kesalahan saat memuat Midtrans.");
     } finally {
       setIsProcessingPayment(false);
     }
