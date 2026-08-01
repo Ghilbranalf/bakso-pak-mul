@@ -228,3 +228,42 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-primary, #7a0019);
 }
+
+/* Print Styles: Clean Invoice Only */
+@media print {
+  nav,
+  footer,
+  header button,
+  button,
+  a[href^="https://wa.me"],
+  .no-print,
+  .chat-widget,
+  .fixed,
+  [role="banner"],
+  [role="contentinfo"] {
+    display: none !important;
+  }
+
+  body, html {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+  }
+
+  .printable-card {
+    border: 1px solid #e5e7eb !important;
+    box-shadow: none !important;
+    border-radius: 8px !important;
+    padding: 20px !important;
+    margin: 0 auto !important;
+    max-width: 800px !important;
+  }
+}

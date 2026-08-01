@@ -1,12 +1,17 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 
-export default function PaymentFailedPage() {
+function FailedContent() {
+  const searchParams = useSearchParams();
+  const orderIdFromUrl = searchParams.get("order_id") || searchParams.get("id") || "";
+  
   const { totalPrice, items } = useCart();
   const [currentDate, setCurrentDate] = useState("");
+  const [realOrder, setRealOrder] = useState<any | null>(null);
 
   useEffect(() => {
     const now = new Date();
@@ -18,15 +23,25 @@ export default function PaymentFailedPage() {
       minute: "2-digit",
     }) + " WIB";
     setCurrentDate(formatted);
-  }, []);
+
+    if (orderIdFromUrl) {
+      fetch(`/api/orders/${encodeURIComponent(orderIdFromUrl)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.order) {
+            setRealOrder(data.order);
+          }
+        })
+        .catch((e) => console.error("Error fetching order in failed page:", e));
+    }
+  }, [orderIdFromUrl]);
 
   const formatPrice = (price: number) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return (price || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
-  const finalTotal = items.length > 0
-    ? Math.max(0, totalPrice + 150000 - (totalPrice > 500000 ? 100000 : 0))
-    : 4500000;
+  const displayOrderNumber = realOrder?.orderNumber || orderIdFromUrl || "#BPM-892910";
+  const displayTotal = realOrder?.finalTotal || (items.length > 0 ? totalPrice + 15000 : 75000);
 
   return (
     <div className="bg-[#f9f9f9] text-[#1a1c1c] min-h-screen flex flex-col antialiased selection:bg-red-600 selection:text-white font-sans">
@@ -61,7 +76,7 @@ export default function PaymentFailedPage() {
             <div className="flex justify-between items-center pb-4 border-b border-gray-200 mb-4">
               <div>
                 <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-0.5">ID Pesanan</p>
-                <p className="text-base font-bold text-gray-900">#ORD-2024-BPM-892</p>
+                <p className="text-base font-black text-gray-900">{displayOrderNumber}</p>
               </div>
               <span className="material-symbols-outlined text-red-600 bg-red-50 p-2.5 rounded-full text-xl">
                 error_outline
@@ -71,15 +86,15 @@ export default function PaymentFailedPage() {
             <div className="space-y-3 text-xs md:text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-500 font-medium">Tanggal</span>
-                <span className="text-gray-900 font-semibold">{currentDate || "24 Okt 2024, 14:30 WIB"}</span>
+                <span className="text-gray-900 font-semibold">{currentDate}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500 font-medium">Status</span>
-                <span className="text-red-600 font-bold">Waktu Pembayaran Habis / Dibatalkan</span>
+                <span className="text-gray-500 font-medium">Status Transaksi</span>
+                <span className="text-red-600 font-bold">Waktu Habis / Pembayaran Gagal</span>
               </div>
               <div className="flex justify-between pt-3 mt-3 border-t border-gray-200">
-                <span className="text-gray-500 font-medium">Total Pembayaran</span>
-                <span className="text-lg font-extrabold text-gray-900">Rp {formatPrice(finalTotal)}</span>
+                <span className="text-gray-500 font-medium">Total Tagihan</span>
+                <span className="text-lg font-extrabold text-gray-900">Rp {formatPrice(displayTotal)}</span>
               </div>
             </div>
           </div>
@@ -87,7 +102,7 @@ export default function PaymentFailedPage() {
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              href="/pembayaran"
+              href={`/transaksi/${displayOrderNumber}`}
               className="bg-red-600 text-white font-bold text-xs py-4 px-8 rounded-xl hover:bg-red-700 transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider group"
             >
               <span>Coba Pembayaran Lagi</span>
@@ -106,5 +121,13 @@ export default function PaymentFailedPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function PaymentFailedPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-500">Memuat rincian transaksi...</div>}>
+      <FailedContent />
+    </Suspense>
   );
 }

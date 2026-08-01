@@ -1,15 +1,30 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 
-export default function PaymentSuccessPage() {
+function SuccessContent() {
+  const searchParams = useSearchParams();
+  const orderIdFromUrl = searchParams.get("order_id") || searchParams.get("id") || "";
+  
   const { totalPrice, items } = useCart();
   const [customerName, setCustomerName] = useState("");
   const [currentDate, setCurrentDate] = useState("");
+  const [realOrder, setRealOrder] = useState<any | null>(null);
 
   useEffect(() => {
+    const now = new Date();
+    const formatted = now.toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }) + " WIB";
+    setCurrentDate(formatted);
+
     try {
       if (typeof window !== "undefined") {
         const savedUser = localStorage.getItem("user");
@@ -23,47 +38,42 @@ export default function PaymentSuccessPage() {
         }
       }
     } catch (e) {}
-  }, []);
+
+    if (orderIdFromUrl) {
+      fetch(`/api/orders/${encodeURIComponent(orderIdFromUrl)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.order) {
+            setRealOrder(data.order);
+          }
+        })
+        .catch((e) => console.error("Error fetching order in success page:", e));
+    }
+  }, [orderIdFromUrl]);
 
   const formatPrice = (price: number) => {
     return (price || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
-  const finalTotal = items.length > 0
-    ? Math.max(0, totalPrice + 150000 - (totalPrice > 500000 ? 100000 : 0))
-    : 4500000;
+  const displayOrderNumber = realOrder?.orderNumber || orderIdFromUrl || "#BPM-892910";
+  const displayTotal = realOrder?.finalTotal || (items.length > 0 ? totalPrice + 15000 : 75000);
+  const displayName = realOrder?.customerName || customerName || "Pelanggan Bakso Pak Mul";
 
-  const itemsFormatted = items.length > 0
-    ? items.map((it) => `• ${it.name} (${it.quantity} ${it.unit || "bks"})`).join("\n")
-    : "• Paket Bakso Super Premium (5 bks)\n• Bumbu Kuah Rahasia (2 bks)";
-
-  const nameText = customerName
-    ? `👤 Atas Nama: ${customerName}\n`
-    : "👤 Atas Nama: Pelanggan Bakso Pak Mul\n";
+  const itemsFormatted = realOrder?.items?.length > 0
+    ? realOrder.items.map((it: any) => `• ${it.product?.name || "Produk"} (${it.quantity} ${it.product?.unit || "bks"})`).join("\n")
+    : (items.length > 0 ? items.map((it) => `• ${it.name} (${it.quantity} ${it.unit || "bks"})`).join("\n") : "• Paket Bakso Super Premium (1 bks)");
 
   const waMessage = encodeURIComponent(
-    `Halo CS Bakso Pak Mul 👋, saya baru saja menyelesaikan pembayaran LUNAS:\n\n${nameText}📦 ID Pesanan: #ORD-2024-BPM-892\n\n📋 Rincian Produk Pesanan:\n${itemsFormatted}\n\n💰 Total Pembayaran: Rp ${formatPrice(finalTotal)}\n\nMohon segera diproses dan dikirim ya Pak Mul, terima kasih!`
+    `Halo CS Bakso Pak Mul 👋, saya baru saja menyelesaikan pembayaran LUNAS:\n\n👤 Atas Nama: ${displayName}\n📦 ID Pesanan: ${displayOrderNumber}\n\n📋 Rincian Produk Pesanan:\n${itemsFormatted}\n\n💰 Total Pembayaran: Rp ${formatPrice(displayTotal)}\n\nMohon segera diproses dan dikirim ya Pak Mul, terima kasih!`
   );
   const waUrl = `https://wa.me/6281298980252?text=${waMessage}`;
 
   useEffect(() => {
-    const now = new Date();
-    const formatted = now.toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }) + " WIB";
-    setCurrentDate(formatted);
-
-    // Auto-open WhatsApp after 1.5 seconds so user gets immediate chat confirmation
     const timer = setTimeout(() => {
-      if (typeof window !== "undefined") {
+      if (typeof window !== "undefined" && waUrl) {
         window.open(waUrl, "_blank");
       }
     }, 1500);
-
     return () => clearTimeout(timer);
   }, [waUrl]);
 
@@ -100,7 +110,7 @@ export default function PaymentSuccessPage() {
             <div className="flex justify-between items-center pb-4 border-b border-gray-200 mb-4">
               <div>
                 <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-0.5">ID Pesanan</p>
-                <p className="text-base font-bold text-gray-900">#ORD-2024-BPM-892</p>
+                <p className="text-base font-black text-gray-900">{displayOrderNumber}</p>
               </div>
               <span className="material-symbols-outlined text-[#7a0019] bg-red-100 p-2.5 rounded-full text-xl">
                 receipt_long
@@ -109,16 +119,20 @@ export default function PaymentSuccessPage() {
 
             <div className="space-y-3 text-xs md:text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-500 font-medium">Tanggal</span>
-                <span className="text-gray-900 font-semibold">{currentDate || "24 Okt 2024, 14:30 WIB"}</span>
+                <span className="text-gray-500 font-medium">Pemesan</span>
+                <span className="text-gray-900 font-bold">{displayName}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500 font-medium">Tanggal Transaksi</span>
+                <span className="text-gray-900 font-semibold">{currentDate}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500 font-medium">Metode Pembayaran</span>
-                <span className="text-gray-900 font-semibold">Transfer Bank - BCA</span>
+                <span className="text-emerald-700 font-bold">💳 MIDTRANS ONLINE / COD</span>
               </div>
               <div className="flex justify-between pt-3 mt-3 border-t border-gray-200">
                 <span className="text-gray-500 font-medium">Total Pembayaran</span>
-                <span className="text-lg font-extrabold text-[#51000d]">Rp {formatPrice(finalTotal)}</span>
+                <span className="text-lg font-extrabold text-[#51000d]">Rp {formatPrice(displayTotal)}</span>
               </div>
             </div>
           </div>
@@ -128,34 +142,40 @@ export default function PaymentSuccessPage() {
             <a
               href={waUrl}
               target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#25D366] text-white font-extrabold text-xs py-4 px-8 rounded-xl hover:bg-[#1faa52] transition-all shadow-xl flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider scale-105 active:scale-95 border border-emerald-400"
+              rel="noreferrer"
+              className="bg-emerald-600 text-white font-bold text-xs py-4 px-8 rounded-xl hover:bg-emerald-700 transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider group"
             >
-              <i className="fa-brands fa-whatsapp text-xl"></i>
-              <span>Kirim Bukti / Konfirmasi ke WhatsApp Pak Mul</span>
+              <span>Kirim Rincian ke WhatsApp Pak Mul</span>
+              <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">
+                chat
+              </span>
             </a>
+            
+            <Link
+              href={`/transaksi/${displayOrderNumber}`}
+              className="bg-[#51000d] text-white font-bold text-xs py-4 px-8 rounded-xl hover:bg-[#7a0019] transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
+            >
+              <span>Lihat Detail Nota Pesanan</span>
+            </Link>
 
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link
-                href="/transaksi"
-                className="bg-[#7a0019] text-white font-bold text-xs py-3.5 px-6 rounded-xl hover:bg-[#51000d] transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider group"
-              >
-                <span>Lihat Status Pengiriman</span>
-                <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">
-                  arrow_forward
-                </span>
-              </Link>
-              <Link
-                href="/"
-                className="bg-white text-[#7a0019] border border-gray-200 font-bold text-xs py-3.5 px-6 rounded-xl hover:bg-gray-50 transition-all flex items-center justify-center cursor-pointer uppercase tracking-wider"
-              >
-                Kembali ke Beranda
-              </Link>
-            </div>
+            <Link
+              href="/"
+              className="bg-white text-gray-700 border border-gray-200 font-bold text-xs py-4 px-8 rounded-xl hover:bg-gray-50 transition-all flex items-center justify-center cursor-pointer uppercase tracking-wider"
+            >
+              Kembali ke Beranda
+            </Link>
           </div>
 
         </div>
       </main>
     </div>
+  );
+}
+
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-500">Memuat rincian transaksi...</div>}>
+      <SuccessContent />
+    </Suspense>
   );
 }
