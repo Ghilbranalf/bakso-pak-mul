@@ -304,6 +304,23 @@ export default function TrackOrderPage() {
 
         {/* Status Timeline Progress */}
         <section className="bg-white border border-gray-100 shadow-sm rounded-2xl p-6 sm:p-8 relative overflow-hidden">
+          {/* Connecting Progress Bar Line */}
+          <div className="absolute top-11 sm:top-[52px] left-[12.5%] right-[12.5%] h-1 bg-gray-100 z-0 rounded-full">
+            <div
+              className="h-full bg-[#51000d] transition-all duration-500 rounded-full"
+              style={{
+                width:
+                  activeStep <= 1
+                    ? "0%"
+                    : activeStep === 2
+                    ? "33.33%"
+                    : activeStep === 3
+                    ? "66.66%"
+                    : "100%",
+              }}
+            ></div>
+          </div>
+
           <div className="relative z-10 flex justify-between items-start">
             {/* Step 1: Pesanan Diterima */}
             <div className="flex flex-col items-center text-center gap-2 w-1/4">

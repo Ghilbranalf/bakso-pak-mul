@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { createClient } from "@/utils/supabase/server";
+import { notifyNewOrderWhatsApp } from "@/lib/fonnte";
 
 export async function POST(request: Request) {
   try {
@@ -108,6 +109,20 @@ export async function POST(request: Request) {
       if (cart) {
         await prisma.cartItem.deleteMany({ where: { cartId: cart.id } });
       }
+    }
+
+    // Send automated background WA notification via Fonnte Gateway
+    try {
+      notifyNewOrderWhatsApp({
+        orderNumber: newOrder.orderNumber,
+        customerName: newOrder.customerName,
+        phone: newOrder.phone,
+        address: newOrder.address,
+        finalTotal: newOrder.finalTotal,
+        paymentType: newOrder.paymentType,
+      });
+    } catch (waErr) {
+      console.warn("Fonnte WA push notification skipped:", waErr);
     }
 
     return NextResponse.json({
