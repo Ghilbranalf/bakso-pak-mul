@@ -44,11 +44,20 @@ export default function TrackOrderPage() {
       const urlParams = new URLSearchParams(window.location.search);
       const statusParam = urlParams.get("status") || urlParams.get("transaction_status");
       const isCreated = urlParams.get("created") === "true";
+      const isAutoPay = urlParams.get("auto_pay") === "true";
 
-      if (isCreated || statusParam === "success" || statusParam === "settlement" || statusParam === "capture") {
+      if (isCreated) {
+        setPaymentResultModal("success");
+      } else if (statusParam === "success" || statusParam === "settlement" || statusParam === "capture") {
         setPaymentResultModal("success");
       } else if (statusParam === "failed" || statusParam === "deny" || statusParam === "expire" || statusParam === "cancel") {
         setPaymentResultModal("failed");
+      }
+
+      if (isAutoPay) {
+        setTimeout(() => {
+          handleMidtransPay();
+        }, 600);
       }
 
       if (window.location.search.includes("print=true")) {
@@ -592,86 +601,154 @@ export default function TrackOrderPage() {
 
       {/* TRANSACTION SUCCESS POP-UP MODAL */}
       {paymentResultModal === "success" && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl border border-gray-100 animate-in zoom-in-95 duration-200 space-y-6">
-            <div className="w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-inner ring-8 ring-emerald-50">
-              <span className="material-symbols-outlined text-4xl font-black">task_alt</span>
-            </div>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+          <main className="w-full max-w-md mx-auto">
+            <div className="bg-white rounded-xl shadow-[0_24px_48px_-12px_rgba(0,0,0,0.04)] p-6 sm:p-8 flex flex-col items-center text-center relative overflow-hidden border border-gray-200 animate-in zoom-in-95 duration-200">
+              {/* Subtle Background Accent */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-emerald-600"></div>
 
-            <div>
-              <span className="text-[10px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">
-                ✨ Status: Terverifikasi Lunas
-              </span>
-              <h3 className="text-2xl font-black text-gray-900 tracking-tight mt-3">
-                Transaksi Berhasil!
-              </h3>
-              <p className="text-xs text-gray-600 font-medium mt-1.5 leading-relaxed">
-                Terima kasih! Pembayaran untuk pesanan <span className="font-mono font-bold text-[#51000d]">{displayOrder.orderNumber}</span> sebesar <span className="font-extrabold text-gray-900">Rp {formatPrice(displayOrder.finalTotal)}</span> telah berhasil dikonfirmasi.
+              {/* Success Icon Container */}
+              <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mb-4 shrink-0 ring-8 ring-emerald-50 shadow-sm">
+                <span
+                  className="material-symbols-outlined text-[40px] text-emerald-600"
+                  style={{ fontVariationSettings: "'FILL' 1" }}
+                >
+                  check_circle
+                </span>
+              </div>
+
+              {/* Headlines */}
+              <h1 className="text-2xl font-bold text-gray-900 mb-2 tracking-tight">
+                {isCod ? "Pesanan COD Terkonfirmasi!" : "Transaksi Berhasil!"}
+              </h1>
+              <p className="text-sm text-gray-600 mb-6 max-w-[280px]">
+                {isCod
+                  ? "Pesanan Anda berhasil dikirim ke dapur toko. Siapkan uang tunai pas saat kurir tiba."
+                  : "Terima kasih! Pembayaran Anda telah terverifikasi lunas & otomatis diproses di dapur."}
               </p>
-            </div>
 
-            <div className="space-y-2.5 pt-2">
-              <a
-                href={`https://wa.me/6281298980252?text=${encodeURIComponent(`Halo CS Bakso Pak Mul 👋, saya sudah melunasi pembayaran pesanan ${displayOrder.orderNumber} sebesar Rp ${formatPrice(displayOrder.finalTotal)}. Mohon diproses dan dikirim ya, terima kasih!`)}`}
-                target="_blank"
-                rel="noreferrer"
-                className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-base">chat</span>
-                <span>Konfirmasi via WhatsApp CS</span>
-              </a>
+              {/* Details Box */}
+              <div className="w-full bg-gray-50 rounded-lg p-4 mb-6 border border-gray-200 text-left">
+                <div className="flex justify-between items-center mb-2 border-b border-gray-200 pb-2">
+                  <span className="text-xs text-gray-500 font-medium">ID Transaksi</span>
+                  <span className="text-xs font-bold text-gray-900 font-mono">{displayOrder.orderNumber}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500 font-medium">Jumlah Total</span>
+                  <span className="text-lg font-bold text-[#51000d]">Rp {formatPrice(displayOrder.finalTotal)}</span>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="w-full flex flex-col gap-3">
+                <a
+                  href={`https://wa.me/6281298980252?text=${encodeURIComponent(
+                    `Halo CS Bakso Pak Mul 👋, pesanan ${displayOrder.orderNumber} sebesar Rp ${formatPrice(displayOrder.finalTotal)} sudah dikonfirmasi. Mohon diproses ya!`
+                  )}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full bg-emerald-600 text-white py-3.5 px-6 rounded-lg text-sm font-semibold hover:bg-emerald-700 transition-colors duration-200 shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-[20px]">chat</span>
+                  Kirim Ke WhatsApp CS
+                </a>
+
+                <button
+                  onClick={() => setPaymentResultModal(null)}
+                  className="w-full bg-white border border-gray-300 text-gray-800 py-3.5 px-6 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-[20px]">receipt_long</span>
+                  Lihat Detail Nota Pesanan
+                </button>
+              </div>
 
               <button
                 onClick={() => setPaymentResultModal(null)}
-                className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-bold transition-all uppercase tracking-wider cursor-pointer"
+                className="mt-6 text-xs text-gray-500 hover:text-gray-900 underline transition-colors cursor-pointer"
               >
-                Lihat Detail Nota Pesanan
+                Tutup
               </button>
             </div>
-          </div>
+          </main>
         </div>
       )}
 
       {/* TRANSACTION FAILED POP-UP MODAL */}
       {paymentResultModal === "failed" && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl border border-gray-100 animate-in zoom-in-95 duration-200 space-y-6">
-            <div className="w-20 h-20 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto shadow-inner ring-8 ring-red-50">
-              <span className="material-symbols-outlined text-4xl font-black">gpp_maybe</span>
-            </div>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+          <main className="w-full max-w-md mx-auto">
+            <div className="bg-white rounded-xl shadow-[0_24px_48px_-12px_rgba(0,0,0,0.04)] p-6 sm:p-8 flex flex-col items-center text-center relative overflow-hidden border border-gray-200 animate-in zoom-in-95 duration-200">
+              {/* Subtle Background Accent */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-[#ba1a1a]"></div>
 
-            <div>
-              <span className="text-[10px] font-black uppercase tracking-widest bg-red-100 text-red-800 px-3 py-1 rounded-full">
-                ⚠️ Pembayaran Dibatalkan / Gagal
-              </span>
-              <h3 className="text-2xl font-black text-gray-900 tracking-tight mt-3">
-                Pembayaran Belum Berhasil
-              </h3>
-              <p className="text-xs text-gray-600 font-medium mt-1.5 leading-relaxed">
-                Maaf, transaksi pembayaran untuk pesanan <span className="font-mono font-bold text-[#51000d]">{displayOrder.orderNumber}</span> belum dapat diproses atau waktu transaksi telah habis.
+              {/* Error Icon Container */}
+              <div className="w-20 h-20 bg-[#ffdad6] rounded-full flex items-center justify-center mb-4 shrink-0 ring-8 ring-gray-50 shadow-sm">
+                <span
+                  className="material-symbols-outlined text-[40px] text-[#ba1a1a]"
+                  style={{ fontVariationSettings: "'FILL' 1" }}
+                >
+                  error
+                </span>
+              </div>
+
+              {/* Headlines */}
+              <h1 className="text-2xl font-bold text-gray-900 mb-2 tracking-tight">
+                Transaksi Gagal
+              </h1>
+              <p className="text-sm text-gray-600 mb-6 max-w-[280px]">
+                Pembayaran tidak dapat diproses karena waktu transaksi telah habis. Silakan coba lagi.
               </p>
-            </div>
 
-            <div className="space-y-2.5 pt-2">
-              <button
-                onClick={() => {
-                  setPaymentResultModal(null);
-                  setIsPaymentModalOpen(true);
-                }}
-                className="w-full py-3.5 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-base">refresh</span>
-                <span>Coba Bayar Lagi Sekarang</span>
-              </button>
+              {/* Details Box */}
+              <div className="w-full bg-gray-50 rounded-lg p-4 mb-6 border border-gray-200 text-left">
+                <div className="flex justify-between items-center mb-2 border-b border-gray-200 pb-2">
+                  <span className="text-xs text-gray-500 font-medium">ID Transaksi</span>
+                  <span className="text-xs font-bold text-gray-900 font-mono">{displayOrder.orderNumber}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-500 font-medium">Jumlah</span>
+                  <span className="text-lg font-bold text-gray-900">Rp {formatPrice(displayOrder.finalTotal)}</span>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="w-full flex flex-col gap-3">
+                <button
+                  onClick={() => {
+                    setPaymentResultModal(null);
+                    handleMidtransPay();
+                  }}
+                  className="w-full bg-[#7a0019] text-white py-3.5 px-6 rounded-lg text-sm font-semibold hover:bg-[#51000d] transition-colors duration-200 shadow-sm flex items-center justify-center gap-2 group cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-[20px] transition-transform group-hover:-rotate-180 duration-500">
+                    refresh
+                  </span>
+                  Coba Lagi
+                </button>
+
+                <a
+                  href={`https://wa.me/6281298980252?text=${encodeURIComponent(
+                    `Halo CS Bakso Pak Mul 👋, transaksi saya ${displayOrder.orderNumber} belum dapat diselesaikan. Mohon bantuan panduannya ya.`
+                  )}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full bg-white border border-gray-300 text-gray-800 py-3.5 px-6 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-[20px]">
+                    support_agent
+                  </span>
+                  Hubungi Bantuan
+                </a>
+              </div>
 
               <button
                 onClick={() => setPaymentResultModal(null)}
-                className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-bold transition-all uppercase tracking-wider cursor-pointer"
+                className="mt-6 text-xs text-gray-500 hover:text-gray-900 underline transition-colors cursor-pointer"
               >
-                Tutup Pop-Up
+                Kembali ke Detail Pesanan
               </button>
             </div>
-          </div>
+          </main>
         </div>
       )}
 

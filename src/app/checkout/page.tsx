@@ -181,8 +181,12 @@ export default function CheckoutPage() {
       // Clear local cart
       clearCart();
 
-      // Instantly redirect to Invoice / Detail Pesanan page with success popup flag
-      router.push(`/transaksi/${data.orderNumber}?created=true`);
+      // Redirect based on paymentMethod
+      if (formData.paymentMethod === "COD") {
+        router.push(`/transaksi/${data.orderNumber}?created=true`);
+      } else {
+        router.push(`/transaksi/${data.orderNumber}?auto_pay=true`);
+      }
     } catch (err: any) {
       console.error("Checkout failed:", err);
       setErrorMessage(err.message || "Terjadi kesalahan saat memproses pesanan.");
