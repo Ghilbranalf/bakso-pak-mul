@@ -42,10 +42,8 @@ export default function RootLayout({
         {/* Midtrans Snap Popup Script */}
         <script 
           type="text/javascript"
-          src={process.env.NEXT_PUBLIC_MIDTRANS_ENV === "production" 
-                ? "https://app.midtrans.com/snap/snap.js" 
-                : "https://app.sandbox.midtrans.com/snap/snap.js"} 
-          data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
+          src="https://app.midtrans.com/snap/snap.js" 
+          data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || "Mid-client-QwVRavEKtMyxQI03"}
         ></script>
       </head>
       <body className={`${inter.className} overflow-x-hidden selection:bg-primary/20 selection:text-primary min-h-screen pb-24 md:pb-0`}>
