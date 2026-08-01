@@ -129,11 +129,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const addToCart = (product: Omit<CartItem, 'quantity'>) => {
-    // Check if user is logged in (localStorage or Supabase session)
-    const storedUser = getStorageItem("user");
-    const storedAddress = getStorageItem("user_saved_address");
-    
-    if (!storedUser && !isLoggedIn && !storedAddress) {
+    // 100% Strict Login Check: Only allow if active Supabase session or logged-in user email exists
+    let hasUserSession = isLoggedIn;
+    if (!hasUserSession) {
+      const rawUser = getStorageItem("user");
+      if (rawUser) {
+        try {
+          const parsed = JSON.parse(rawUser);
+          if (parsed && (parsed.email || parsed.id)) {
+            hasUserSession = true;
+          }
+        } catch (e) {}
+      }
+    }
+
+    if (!hasUserSession) {
       setShowAuthModal(true);
       return;
     }

@@ -53,9 +53,15 @@ export default function CheckoutPage() {
 
         const storedUser = localStorage.getItem("user");
         const savedAddr = localStorage.getItem("user_saved_address");
+        let hasValidUser = !!session?.user;
+        if (!hasValidUser && storedUser) {
+          try {
+            const u = JSON.parse(storedUser);
+            if (u && (u.email || u.id)) hasValidUser = true;
+          } catch (e) {}
+        }
 
-        if (!session?.user && !storedUser && !savedAddr) {
-          alert("🔒 Silakan login terlebih dahulu untuk mengakses halaman checkout pesanan.");
+        if (!hasValidUser) {
           router.push("/login");
           return;
         }
