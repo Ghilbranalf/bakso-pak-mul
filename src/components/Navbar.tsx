@@ -40,6 +40,7 @@ export default function Navbar() {
     { name: "Beranda", href: "/" },
     { name: "Produk", href: "/produk" },
     { name: "Transaksi", href: "/transaksi" },
+    { name: "Lacak Pesanan", href: "/lacak" },
     { name: "Tentang", href: "/tentang" },
   ];
 
