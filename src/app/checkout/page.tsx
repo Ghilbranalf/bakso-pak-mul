@@ -93,7 +93,34 @@ export default function CheckoutPage() {
     fetchUser();
   }, [router]);
 
-  const shippingFee = 0;
+  const [couriers, setCouriers] = useState<any[]>([]);
+  const [isLoadingCouriers, setIsLoadingCouriers] = useState(false);
+  const [selectedCourier, setSelectedCourier] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchRates = async () => {
+      setIsLoadingCouriers(true);
+      try {
+        const res = await fetch("/api/shipping/rates", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ postalCode: 13510, weight: 1000 }),
+        });
+        const data = await res.json();
+        if (data.couriers && data.couriers.length > 0) {
+          setCouriers(data.couriers);
+          setSelectedCourier(data.couriers[0]);
+        }
+      } catch (e) {
+        console.error("Failed to load Biteship rates:", e);
+      } finally {
+        setIsLoadingCouriers(false);
+      }
+    };
+    fetchRates();
+  }, []);
+
+  const shippingFee = selectedCourier?.price ?? (totalPrice >= 200000 ? 0 : 15000);
   const finalTotal = totalPrice + shippingFee;
 
   // Mock VA Numbers for custom modal UI
@@ -369,6 +396,60 @@ export default function CheckoutPage() {
                     />
                   </div>
                 </div>
+              </div>
+
+              {/* Biteship Shipping Courier Card */}
+              <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-5">
+                <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-800 flex items-center justify-center font-bold">
+                      <span className="material-symbols-outlined text-xl">local_shipping</span>
+                    </div>
+                    <div>
+                      <h3 className="text-base font-bold text-gray-900">2. PILIH KURIR EKSPEDISI (BITESHIP)</h3>
+                      <p className="text-xs text-gray-500">Dikirim langsung dari Kios Pasar Kramat Jati, Jakarta Timur</p>
+                    </div>
+                  </div>
+                  <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span>
+                    API Biteship Live
+                  </span>
+                </div>
+
+                {isLoadingCouriers ? (
+                  <div className="py-6 text-center text-xs font-semibold text-gray-500 flex items-center justify-center gap-2">
+                    <span className="w-4 h-4 border-2 border-[#51000d] border-t-transparent rounded-full animate-spin"></span>
+                    Menghubungkan ke API Biteship untuk cek ongkir kurir...
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {couriers.map((courier: any, idx: number) => {
+                      const isSelected = selectedCourier?.courier_code === courier.courier_code && selectedCourier?.courier_service_code === courier.courier_service_code;
+                      return (
+                        <div
+                          key={`${courier.courier_code}-${courier.courier_service_code}-${idx}`}
+                          onClick={() => setSelectedCourier(courier)}
+                          className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between gap-2 ${
+                            isSelected ? "border-[#51000d] bg-red-50/50 shadow-sm" : "border-gray-100 bg-gray-50 hover:bg-gray-100"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-black uppercase text-[#51000d]">
+                              🚚 {courier.courier_name} {courier.courier_service_name}
+                            </span>
+                            <span className="text-xs font-extrabold text-gray-900">
+                              Rp {formatPrice(courier.price)}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between text-[10px] text-gray-500 font-medium">
+                            <span>{courier.description || "Layanan Pengiriman Terverifikasi"}</span>
+                            <span className="font-bold text-gray-700">⏱️ {courier.duration}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
               {/* Payment Method Card */}
