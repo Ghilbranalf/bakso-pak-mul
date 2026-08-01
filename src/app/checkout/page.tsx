@@ -181,8 +181,8 @@ export default function CheckoutPage() {
       // Clear local cart
       clearCart();
 
-      // Instantly redirect to Invoice / Detail Pesanan page
-      router.push(`/transaksi/${data.orderNumber}`);
+      // Instantly redirect to Invoice / Detail Pesanan page with success popup flag
+      router.push(`/transaksi/${data.orderNumber}?created=true`);
     } catch (err: any) {
       console.error("Checkout failed:", err);
       setErrorMessage(err.message || "Terjadi kesalahan saat memproses pesanan.");

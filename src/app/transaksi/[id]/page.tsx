@@ -43,7 +43,9 @@ export default function TrackOrderPage() {
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
       const statusParam = urlParams.get("status") || urlParams.get("transaction_status");
-      if (statusParam === "success" || statusParam === "settlement" || statusParam === "capture") {
+      const isCreated = urlParams.get("created") === "true";
+
+      if (isCreated || statusParam === "success" || statusParam === "settlement" || statusParam === "capture") {
         setPaymentResultModal("success");
       } else if (statusParam === "failed" || statusParam === "deny" || statusParam === "expire" || statusParam === "cancel") {
         setPaymentResultModal("failed");
