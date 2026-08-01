@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { headers } from 'next/headers'
 import { createClient } from '@/utils/supabase/server'
 import prisma from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
@@ -99,7 +100,10 @@ export async function signup(formData: FormData) {
 
 export async function loginWithGoogle() {
   const supabase = await createClient()
-  const origin = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const headerList = await headers()
+  const host = headerList.get('host') || 'bakso-pak-mul.vercel.app'
+  const protocol = host.includes('localhost') ? 'http' : 'https'
+  const origin = process.env.NEXT_PUBLIC_SITE_URL || `${protocol}://${host}`
   
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
