@@ -176,9 +176,9 @@ function ProductsContent() {
               <div className="p-6 flex flex-col flex-grow z-10 relative">
                 <div className="flex justify-between items-start mb-2">
                   <span className={`text-[9px] font-bold uppercase tracking-widest ${product.isSpecial ? 'text-red-200' : 'text-secondary'}`}>{product.category}</span>
-                  <span className={`text-[9px] font-bold ${product.isSpecial ? 'text-white/70' : 'text-green-600'} flex items-center gap-1`}>
-                    {!product.isSpecial && product.stock === "Ready Stock" && <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>}
-                    {product.stock}
+                  <span className={`text-[9px] font-bold ${product.isSpecial ? 'text-white/80' : 'text-green-600'} flex items-center gap-1 bg-green-50/80 px-2 py-0.5 rounded-md border border-green-100`}>
+                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                    <span>{typeof product.stock === "number" ? `Stok: ${product.stock} ${product.unit || 'bks'}` : (product.stock || "Ready Stock")}</span>
                   </span>
                 </div>
                 <h3 className={`text-sm font-semibold leading-snug mb-4 ${product.isSpecial ? '' : 'text-text-primary'}`}>{product.name}</h3>
