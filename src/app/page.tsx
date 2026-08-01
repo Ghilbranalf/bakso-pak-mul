@@ -386,9 +386,17 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
               <div className="relative mb-12 lg:mb-0">
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                  <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=1000" alt="Proses Produksi Bakso Pak Mul" className="w-full h-[400px] object-cover" />
-                  <div className="absolute inset-0 bg-maroon/10"></div>
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+                  <img 
+                    src="/images/toko-pak-mul-kramat-jati.jpg" 
+                    alt="Toko Bakso Pak Mul Pasar Kramat Jati Jakarta Timur" 
+                    className="w-full h-[420px] object-cover object-center transform hover:scale-105 transition-transform duration-500" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                    <p className="text-xs font-bold uppercase tracking-wider text-amber-300">📍 Lokasi Otentik</p>
+                    <p className="text-sm font-extrabold">Kios Bakso Pak Mul - Pasar Kramat Jati, Jakarta Timur</p>
+                  </div>
                 </div>
                 <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-xl border border-gray-100 hidden md:block">
                   <p className="text-maroon font-bold text-4xl">10+</p>

@@ -147,13 +147,11 @@ export default function AboutPage() {
                   </p>
                 </div>
                 <div className="w-full md:w-64 h-36 rounded-xl overflow-hidden shadow-inner border border-gray-200">
-                  <div
-                    className="w-full h-full bg-cover bg-center"
-                    style={{
-                      backgroundImage:
-                        "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBkwTb7Qx_AiwMC8gQ5YhBqrvdRFqLBA5yzolsf3HQ7TQiUDQ4QlKJMOmqe98PUaqC_FSx8eDKZozT9JfrugOu9LU4Qw_ggKuZk-5lp1U0ijo_ub4JICllVIRRakUbEd3Yd6aOzWB8lOZztfn3S4QQlLb666GYFt17ZSoSGvbRIooOTvG4xQ7ya2ZrC_0fkKXbnr7hMXh-xcD8WAeuwUOTPN8U1Lf11VOT7s8r02d9we-gBRUokPgG9O6YEQZ0HyEWj7GTSIP5W26iP')",
-                    }}
-                  ></div>
+                  <img
+                    src="/images/toko-pak-mul-kramat-jati.jpg"
+                    alt="Kios Bakso Pak Mul Pasar Kramat Jati"
+                    className="w-full h-full object-cover object-center"
+                  />
                 </div>
               </div>
             </div>
