@@ -172,7 +172,7 @@ export default function TrackOrderPage() {
       });
 
       const data = await res.json();
-      if (data.token && typeof window !== "undefined" && (window as any).snap) {
+      if (res.ok && data.token && typeof window !== "undefined" && (window as any).snap) {
         (window as any).snap.pay(data.token, {
           onSuccess: function () {
             setIsProcessingPayment(false);
@@ -193,11 +193,14 @@ export default function TrackOrderPage() {
       } else if (data.redirect_url) {
         window.location.href = data.redirect_url;
       } else {
-        alert("Gagal membuka Snap Midtrans. Silakan coba lagi.");
+        // Smooth fallback to Transfer Bank / QRIS modal
+        setIsProcessingPayment(false);
+        setIsPaymentModalOpen(true);
       }
     } catch (e) {
       console.error(e);
-      alert("Terjadi kesalahan saat memuat Snap Midtrans.");
+      setIsProcessingPayment(false);
+      setIsPaymentModalOpen(true);
     } finally {
       setIsProcessingPayment(false);
     }

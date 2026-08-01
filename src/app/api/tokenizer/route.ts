@@ -146,8 +146,10 @@ export async function POST(request: Request) {
     }
 
     if (!token) {
-      token = "SNAP-SANDBOX-DEMO-" + orderId;
-      redirect_url = "https://app.sandbox.midtrans.com";
+      return NextResponse.json(
+        { success: false, error: "Gagal membuat token pembayaran Midtrans." },
+        { status: 400 }
+      );
     }
 
     return NextResponse.json({
