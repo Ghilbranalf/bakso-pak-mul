@@ -176,57 +176,57 @@ export default function TrackOrderPage() {
     });
   };
 
-  const handleMidtransPay = async () => {
-    setIsProcessingPayment(true);
-    try {
-      await ensureSnapLoaded();
+  const [liveQrisUrl, setLiveQrisUrl] = useState<string>("");
+  const [liveVaNumbers, setLiveVaNumbers] = useState<Record<string, string>>({});
+  const [isChargingCoreApi, setIsChargingCoreApi] = useState(false);
 
-      const res = await fetch("/api/tokenizer", {
+  const fetchCoreApiCharge = async (paymentType: string, bankName?: string) => {
+    if (!displayOrder.orderNumber) return;
+    setIsChargingCoreApi(true);
+    try {
+      const res = await fetch("/api/charge", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          id: displayOrder.orderNumber,
-          productName: `Pesanan ${displayOrder.orderNumber}`,
-          price: displayOrder.finalTotal,
-          quantity: 1,
-          customerName: displayOrder.customerName,
-          email: "customer@baksopakmul.id",
-          phone: displayOrder.phone,
+          orderId: displayOrder.orderNumber,
+          grossAmount: displayOrder.finalTotal,
+          paymentType,
+          bank: bankName ? bankName.toLowerCase() : undefined,
         }),
       });
-
       const data = await res.json();
-      console.log("Tokenizer response data:", data);
-
-      if (data.token && typeof window !== "undefined" && (window as any).snap) {
-        (window as any).snap.pay(data.token, {
-          onSuccess: function () {
-            setIsProcessingPayment(false);
-            setPaymentResultModal("success");
-          },
-          onPending: function () {
-            setIsProcessingPayment(false);
-            setPaymentResultModal("success");
-          },
-          onError: function () {
-            setIsProcessingPayment(false);
-            setPaymentResultModal("failed");
-          },
-          onClose: function () {
-            setIsProcessingPayment(false);
-          },
-        });
-      } else if (data.redirect_url) {
-        window.location.href = data.redirect_url;
-      } else {
-        alert(data.error || "Gagal mendapatkan token Midtrans.");
+      if (data.success) {
+        if (paymentType === "qris" && data.qrCodeUrl) {
+          setLiveQrisUrl(data.qrCodeUrl);
+        }
+        if (bankName && data.vaNumber) {
+          setLiveVaNumbers((prev) => ({
+            ...prev,
+            [bankName]: data.vaNumber,
+          }));
+        }
       }
-    } catch (e: any) {
-      console.error("Snap error:", e);
-      alert(e.message || "Terjadi kesalahan saat memuat Midtrans.");
+    } catch (err) {
+      console.error("Core API Charge fetch error:", err);
     } finally {
-      setIsProcessingPayment(false);
+      setIsChargingCoreApi(false);
     }
+  };
+
+  useEffect(() => {
+    if (isPaymentModalOpen) {
+      if (activePaymentTab === "qris" && !liveQrisUrl) {
+        fetchCoreApiCharge("qris");
+      } else if (activePaymentTab === "va" && !liveVaNumbers[selectedBank]) {
+        fetchCoreApiCharge("bank_transfer", selectedBank);
+      }
+    }
+  }, [isPaymentModalOpen, activePaymentTab, selectedBank, displayOrder.orderNumber]);
+
+  const handleMidtransPay = async () => {
+    setIsPaymentModalOpen(true);
+    fetchCoreApiCharge("qris");
+    fetchCoreApiCharge("bank_transfer", selectedBank);
   };
 
   return (
@@ -563,14 +563,24 @@ export default function TrackOrderPage() {
             <div className="p-4 sm:p-5 space-y-4">
               {activePaymentTab === "qris" && (
                 <div className="flex flex-col items-center text-center space-y-3">
-                  <div className="p-3.5 bg-white rounded-2xl border-2 border-[#51000d]/20 shadow-md">
-                    <img
-                      src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(
-                        "00020101021226670016COM.GO-JEK.WWW0118936009143000000000021520260731000000153033605802ID5913BAKSO PAK MUL6013JAKARTA TIMUR61051331062070703A0163044F2A"
-                      )}`}
-                      alt="Kode QRIS Resmi Bakso Pak Mul"
-                      className="w-44 h-44 object-contain rounded-lg"
-                    />
+                  <div className="p-3.5 bg-white rounded-2xl border-2 border-[#51000d]/20 shadow-md min-h-[200px] flex items-center justify-center">
+                    {isChargingCoreApi && !liveQrisUrl ? (
+                      <div className="flex flex-col items-center gap-2 text-xs text-gray-500 font-medium py-8">
+                        <div className="w-6 h-6 border-2 border-[#51000d] border-t-transparent rounded-full animate-spin"></div>
+                        <span>Membuat QRIS Live Midtrans...</span>
+                      </div>
+                    ) : (
+                      <img
+                        src={
+                          liveQrisUrl ||
+                          `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(
+                            "00020101021226670016COM.GO-JEK.WWW0118936009143000000000021520260731000000153033605802ID5913BAKSO PAK MUL6013JAKARTA TIMUR61051331062070703A0163044F2A"
+                          )}`
+                        }
+                        alt="Kode QRIS Resmi Bakso Pak Mul"
+                        className="w-44 h-44 object-contain rounded-lg"
+                      />
+                    )}
                   </div>
                   <p className="text-xs font-bold text-gray-900">Scan QRIS via GoPay / ShopeePay / Banking</p>
                 </div>
@@ -595,13 +605,15 @@ export default function TrackOrderPage() {
                   </div>
 
                   <div className="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 space-y-2">
-                    <span className="text-[11px] font-bold text-gray-500">Nomor VA {selectedBank}</span>
+                    <span className="text-[11px] font-bold text-gray-500">Nomor Virtual Account {selectedBank} (Midtrans)</span>
                     <div className="flex items-center justify-between bg-white p-3 rounded-xl border border-gray-300">
                       <span className="font-mono text-base font-black text-gray-900">
-                        {vaNumbers[selectedBank]}
+                        {liveVaNumbers[selectedBank] || vaNumbers[selectedBank]}
                       </span>
                       <button
-                        onClick={() => handleCopy(vaNumbers[selectedBank], selectedBank)}
+                        onClick={() =>
+                          handleCopy(liveVaNumbers[selectedBank] || vaNumbers[selectedBank], selectedBank)
+                        }
                         className="px-3 py-1 bg-[#51000d] text-white rounded-lg text-xs font-bold cursor-pointer"
                       >
                         {copiedText === selectedBank ? "Tercopy!" : "Salin"}
