@@ -154,28 +154,6 @@ export default function TrackOrderPage() {
 
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
-  const ensureSnapLoaded = (): Promise<void> => {
-    return new Promise((resolve) => {
-      if (typeof window !== "undefined" && (window as any).snap) {
-        resolve();
-        return;
-      }
-      const existingScript = document.getElementById("midtrans-snap-script");
-      if (existingScript) {
-        existingScript.onload = () => resolve();
-        setTimeout(resolve, 1000);
-        return;
-      }
-      const script = document.createElement("script");
-      script.id = "midtrans-snap-script";
-      script.src = "https://app.midtrans.com/snap/snap.js";
-      script.setAttribute("data-client-key", "Mid-client-QwVRavEKtMyxQI03");
-      script.onload = () => resolve();
-      document.body.appendChild(script);
-      setTimeout(resolve, 1200);
-    });
-  };
-
   const [liveQrisUrl, setLiveQrisUrl] = useState<string>("");
   const [liveVaNumbers, setLiveVaNumbers] = useState<Record<string, string>>({});
   const [isChargingCoreApi, setIsChargingCoreApi] = useState(false);
