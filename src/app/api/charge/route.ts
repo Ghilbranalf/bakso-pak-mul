@@ -70,14 +70,13 @@ export async function POST(request: Request) {
     let vaNumber = "";
     let billerCode = "";
 
-    if (data.actions) {
+    if (data.qr_string) {
+      qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=350x350&data=${encodeURIComponent(data.qr_string)}`;
+    } else if (data.actions) {
       const qrAction = data.actions.find((a: any) => a.name === "generate-qr-code");
       if (qrAction) {
         qrCodeUrl = qrAction.url;
       }
-    }
-    if (data.qr_string) {
-      qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(data.qr_string)}`;
     }
 
     if (data.va_numbers && data.va_numbers.length > 0) {
@@ -90,6 +89,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       qrCodeUrl,
+      qrString: data.qr_string || "",
       vaNumber,
       billerCode,
       raw: data,

@@ -578,7 +578,7 @@ export default function TrackOrderPage() {
                           )}`
                         }
                         alt="Kode QRIS Resmi Bakso Pak Mul"
-                        className="w-44 h-44 object-contain rounded-lg"
+                        className="w-56 h-56 object-contain rounded-lg p-1"
                       />
                     )}
                   </div>
