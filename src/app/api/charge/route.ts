@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       : "https://api.sandbox.midtrans.com/v2/charge";
 
     let payload: any = {};
-    const uniqueOrderId = `${orderId}-${Date.now().toString().slice(-4)}`;
+    const uniqueOrderId = orderId;
 
     const customerDetails = {
       first_name: body.customerName || "Pembeli",
