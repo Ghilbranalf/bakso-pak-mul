@@ -16,6 +16,13 @@ export async function POST(request: Request) {
     let payload: any = {};
     const uniqueOrderId = `${orderId}-${Date.now().toString().slice(-4)}`;
 
+    const customerDetails = {
+      first_name: body.customerName || "Pembeli",
+      last_name: "Bakso Pak Mul",
+      email: body.email || "customer@baksopakmul.id",
+      phone: body.phone || "081234567890",
+    };
+
     if (paymentType === "qris") {
       payload = {
         payment_type: "qris",
@@ -26,6 +33,7 @@ export async function POST(request: Request) {
         qris: {
           acquirer: "gopay",
         },
+        customer_details: customerDetails,
       };
     } else if (bank === "mandiri") {
       payload = {
@@ -38,6 +46,7 @@ export async function POST(request: Request) {
           bill_info1: "Pembayaran:",
           bill_info2: "Bakso Pak Mul",
         },
+        customer_details: customerDetails,
       };
     } else {
       // BCA, BNI, BRI
@@ -50,6 +59,7 @@ export async function POST(request: Request) {
         bank_transfer: {
           bank: bank.toLowerCase(),
         },
+        customer_details: customerDetails,
       };
     }
 
