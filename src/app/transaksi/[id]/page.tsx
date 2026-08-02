@@ -20,14 +20,14 @@ export default function TrackOrderPage() {
   const [paymentResultModal, setPaymentResultModal] = useState<"success" | "failed" | null>(null);
 
   const fetchOrderDetail = async () => {
-    if (!rawId) return;
+    if (!rawId) return null;
     try {
-      setIsLoading(true);
       const res = await fetch(`/api/orders/${encodeURIComponent(rawId)}`);
       if (res.ok) {
         const data = await res.json();
         if (data.order) {
           setOrder(data.order);
+          return data.order;
         }
       }
     } catch (err) {
@@ -35,6 +35,7 @@ export default function TrackOrderPage() {
     } finally {
       setIsLoading(false);
     }
+    return null;
   };
 
   useEffect(() => {
@@ -67,6 +68,22 @@ export default function TrackOrderPage() {
       }
     }
   }, [rawId]);
+
+  useEffect(() => {
+    let interval: any;
+    if (isPaymentModalOpen || (order && order.status === "AWAITING_PAYMENT")) {
+      interval = setInterval(async () => {
+        const updated = await fetchOrderDetail();
+        if (updated && (updated.status === "PAID" || updated.status === "SETTLEMENT")) {
+          setIsPaymentModalOpen(false);
+          setPaymentResultModal("success");
+        }
+      }, 3000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isPaymentModalOpen, rawId, order?.status]);
 
   // Fallback demo data if order is not in DB
   const displayOrder = order || {
