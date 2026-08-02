@@ -140,10 +140,10 @@ export default function TrackOrderPage() {
   }, [paymentResultModal, displayOrder.orderNumber]);
 
   const vaNumbers = {
-    BCA: "88012" + Math.floor(10000000 + Math.random() * 90000000),
-    Mandiri: "89320" + Math.floor(10000000 + Math.random() * 90000000),
-    BNI: "88100" + Math.floor(10000000 + Math.random() * 90000000),
-    BRI: "88088" + Math.floor(10000000 + Math.random() * 90000000),
+    BCA: "880128829102",
+    Mandiri: "893208829102",
+    BNI: "881008829102",
+    BRI: "880888829102",
   };
 
   const handleCopy = (text: string, label: string) => {

@@ -118,7 +118,7 @@ export default function ProductDetailPage() {
     unit: "pack 500g",
     category: "Bakso Sapi",
     description: "Bakso urat sapi asli khas Pak Mul dengan tekstur renyah, daging sapi pilihan 100%, dan bumbu rempah pilihan.",
-    image: "/images/saos-pedas-lima-delapan.jpg",
+    image: "/images/Saos Pedas Lima Delapan.png",
     badge: "Terlaris",
     stock: 50,
   };
