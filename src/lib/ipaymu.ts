@@ -7,7 +7,8 @@ export interface IpaymuPaymentParams {
   phone: string;
   email: string;
   paymentMethod: "qris" | "va" | "cstore";
-  paymentChannel?: string; // bca, mandiri, bni, bri, qris, etc.
+  paymentChannel?: string; // bca, mandiri, bni, bri, qris
+  items?: { name: string; quantity: number; price: number }[];
 }
 
 export async function createIpaymuDirectPayment(params: IpaymuPaymentParams) {
@@ -21,7 +22,22 @@ export async function createIpaymuDirectPayment(params: IpaymuPaymentParams) {
 
   const notifyUrl = "https://bakso-pak-mul.vercel.app/api/payment/ipaymu-notification";
 
+  const productNames = params.items && params.items.length > 0
+    ? params.items.map(i => i.name)
+    : ["Bakso Urat Sapi Spesial Pak Mul"];
+  
+  const productQtys = params.items && params.items.length > 0
+    ? params.items.map(i => i.quantity)
+    : [1];
+
+  const productPrices = params.items && params.items.length > 0
+    ? params.items.map(i => Math.round(i.price))
+    : [Math.round(params.amount)];
+
   const bodyObj = {
+    product: productNames,
+    qty: productQtys,
+    price: productPrices,
     name: params.name || "Pembeli Bakso Pak Mul",
     phone: params.phone || "081234567890",
     email: params.email || "customer@baksopakmul.id",
