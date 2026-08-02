@@ -562,7 +562,7 @@ export default function TrackOrderPage() {
                     {isChargingCoreApi && !liveQrisUrl ? (
                       <div className="flex flex-col items-center gap-2 text-xs text-gray-500 font-medium py-8">
                         <div className="w-6 h-6 border-2 border-[#51000d] border-t-transparent rounded-full animate-spin"></div>
-                        <span>Membuat QRIS Live Midtrans...</span>
+                        <span>Membuat QRIS Live IPaymu...</span>
                       </div>
                     ) : (
                       <img
@@ -600,7 +600,7 @@ export default function TrackOrderPage() {
                   </div>
 
                   <div className="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 space-y-2">
-                    <span className="text-[11px] font-bold text-gray-500">Nomor Virtual Account {selectedBank} (Midtrans)</span>
+                    <span className="text-[11px] font-bold text-gray-500">Nomor Virtual Account {selectedBank} (IPaymu)</span>
                     <div className="flex items-center justify-between bg-white p-3 rounded-xl border border-gray-300">
                       <span className="font-mono text-base font-black text-gray-900">
                         {liveVaNumbers[selectedBank] || vaNumbers[selectedBank]}
