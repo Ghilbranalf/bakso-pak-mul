@@ -179,22 +179,27 @@ export default function TrackOrderPage() {
     if (!displayOrder.orderNumber) return;
     setIsChargingCoreApi(true);
     try {
-      const res = await fetch("/api/charge", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderId: displayOrder.orderNumber,
-          grossAmount: displayOrder.finalTotal,
-          paymentType,
-          bank: bankName ? bankName.toLowerCase() : undefined,
-        }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        if (paymentType === "qris" && data.qrCodeUrl) {
+      if (paymentType === "qris") {
+        const res = await fetch(
+          `/api/payment/qris?orderNumber=${encodeURIComponent(displayOrder.orderNumber)}&amount=${displayOrder.finalTotal}`
+        );
+        const data = await res.json();
+        if (data.success && data.qrCodeUrl) {
           setLiveQrisUrl(data.qrCodeUrl);
         }
-        if (bankName && data.vaNumber) {
+      } else {
+        const res = await fetch("/api/charge", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            orderId: displayOrder.orderNumber,
+            grossAmount: displayOrder.finalTotal,
+            paymentType,
+            bank: bankName ? bankName.toLowerCase() : undefined,
+          }),
+        });
+        const data = await res.json();
+        if (data.success && bankName && data.vaNumber) {
           setLiveVaNumbers((prev) => ({
             ...prev,
             [bankName]: data.vaNumber,
@@ -202,7 +207,7 @@ export default function TrackOrderPage() {
         }
       }
     } catch (err) {
-      console.error("Core API Charge fetch error:", err);
+      console.error("QRIS / Core API Charge fetch error:", err);
     } finally {
       setIsChargingCoreApi(false);
     }
@@ -558,26 +563,42 @@ export default function TrackOrderPage() {
             <div className="p-4 sm:p-5 space-y-4">
               {activePaymentTab === "qris" && (
                 <div className="flex flex-col items-center text-center space-y-3">
-                  <div className="p-3.5 bg-white rounded-2xl border-2 border-[#51000d]/20 shadow-md min-h-[200px] flex items-center justify-center">
+                  <div className="flex items-center justify-center gap-2 bg-gradient-to-r from-red-50 to-amber-50 px-3 py-1.5 rounded-full border border-red-200/60 w-full">
+                    <span className="text-[11px] font-black uppercase text-[#51000d]">QRIS GPN RESMI</span>
+                    <span className="text-[10px] font-extrabold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-300">
+                      NMID: ID1026563066301
+                    </span>
+                  </div>
+
+                  <div className="p-3.5 bg-white rounded-2xl border-2 border-[#51000d]/20 shadow-md min-h-[220px] flex items-center justify-center relative w-full">
                     {isChargingCoreApi && !liveQrisUrl ? (
-                      <div className="flex flex-col items-center gap-2 text-xs text-gray-500 font-medium py-8">
-                        <div className="w-6 h-6 border-2 border-[#51000d] border-t-transparent rounded-full animate-spin"></div>
-                        <span>Membuat QRIS Live IPaymu...</span>
+                      <div className="flex flex-col items-center gap-2 text-xs text-gray-500 font-medium py-10">
+                        <div className="w-8 h-8 border-3 border-[#51000d] border-t-transparent rounded-full animate-spin"></div>
+                        <span>Memuat QRIS Dinamis Bakso Pak Mul...</span>
                       </div>
                     ) : (
                       <img
                         src={
                           liveQrisUrl ||
-                          `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(
-                            "00020101021226670016COM.GO-JEK.WWW0118936009143000000000021520260731000000153033605802ID5913BAKSO PAK MUL6013JAKARTA TIMUR61051331062070703A0163044F2A"
-                          )}`
+                          `/api/payment/qris?orderNumber=${encodeURIComponent(displayOrder.orderNumber)}&amount=${displayOrder.finalTotal}`
                         }
-                        alt="Kode QRIS Resmi Bakso Pak Mul"
-                        className="w-56 h-56 object-contain rounded-lg p-1"
+                        alt="Kode QRIS Dinamis Bakso Pak Mul"
+                        className="w-60 h-60 object-contain rounded-lg p-1 mx-auto"
                       />
                     )}
                   </div>
-                  <p className="text-xs font-bold text-gray-900">Scan QRIS via GoPay / ShopeePay / Banking</p>
+
+                  <div className="flex items-center justify-center gap-2 text-xs font-bold text-amber-800 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200/80 w-full">
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+                    </span>
+                    <span>Nominal Pas: Rp {formatPrice(displayOrder.finalTotal)} (Otomatis Terverifikasi)</span>
+                  </div>
+
+                  <p className="text-[11px] text-gray-500 font-medium">
+                    Scan via GoPay, OVO, DANA, ShopeePay, LinkAja, BCA, Mandiri, atau m-Banking Anda.
+                  </p>
                 </div>
               )}
 
