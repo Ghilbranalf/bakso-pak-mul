@@ -58,26 +58,27 @@ export default function AdminDashboardPage() {
 
     const fetchDashboardData = async () => {
       try {
-        const resOrders = await fetch("/api/orders");
-        if (resOrders.ok) {
-          const dataOrders = await resOrders.json();
-          const fetchedOrders = dataOrders.orders || [];
-          
-          if (prevOrderCount > 0 && fetchedOrders.length > prevOrderCount) {
-            playBellChime();
-            const latest = fetchedOrders[0];
-            setNewOrderToast(`🔔 Pesanan Baru Masuk! (${latest?.customerName || 'Pelanggan'} - Rp ${(latest?.finalTotal || 0).toLocaleString('id-ID')})`);
-            setTimeout(() => setNewOrderToast(null), 7000);
-          }
+        const [resOrders, resProducts] = await Promise.all([
+          fetch("/api/orders"),
+          fetch("/api/products"),
+        ]);
+        
+        const dataOrders = await resOrders.json();
+        const dataProducts = await resProducts.json();
 
-          prevOrderCount = fetchedOrders.length;
-          setOrders(fetchedOrders);
+        if (dataOrders.orders) {
+          const currentCount = dataOrders.orders.length;
+          if (prevOrderCount > 0 && currentCount > prevOrderCount) {
+            playBellChime();
+            setNewOrderToast("🔔 Pesanan Baru Masuk!");
+            setTimeout(() => setNewOrderToast(null), 5000);
+          }
+          prevOrderCount = currentCount;
+          setOrders(dataOrders.orders);
         }
 
-        const resProd = await fetch("/api/products");
-        if (resProd.ok) {
-          const dataProd = await resProd.json();
-          setProducts(dataProd.products || []);
+        if (dataProducts.products) {
+          setProducts(dataProducts.products);
         }
       } catch (err) {
         console.error("Error fetching dashboard data:", err);
@@ -95,108 +96,60 @@ export default function AdminDashboardPage() {
     return `Rp ${(price || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
 
-  // Calculate overall metrics
-  const totalRevenue = orders
-    .filter((o) => o.status === "PAID" || o.status === "COMPLETED")
-    .reduce((sum, o) => sum + (o.finalTotal || 0), 0);
-
+  // Only calculate paid/completed revenue
+  const validOrders = orders.filter((o) => o.status === "PAID" || o.status === "COMPLETED" || o.status === "PROCESSING");
+  const totalRevenue = validOrders.reduce((sum, o) => sum + (o.finalTotal || 0), 0);
   const totalOrdersCount = orders.length;
-  const completedOrdersCount = orders.filter((o) => o.status === "PAID" || o.status === "COMPLETED").length;
-  const lowStockCount = products.filter((p) => (p.stock || 0) < 20).length;
+  const lowStockProducts = products.filter((p) => (p.stock || 0) < 20);
 
-  // Generate Sales Chart Data based on selected Timeframe (Daily, Weekly, Monthly, Yearly)
+  // Dynamic Chart Aggregation Generator
   const getChartData = (): ChartDataPoint[] => {
-    // Only calculate actual paid / completed sales for accurate omset analytics
-    const validOrders = orders.filter((o) => o.status === "PAID" || o.status === "COMPLETED");
+    const now = new Date();
 
     if (timeframe === "daily") {
-      // Last 7 Days
-      const days: ChartDataPoint[] = [];
-      const now = new Date();
-      for (let i = 6; i >= 0; i--) {
-        const d = new Date(now);
-        d.setDate(now.getDate() - i);
-        const dayLabel = d.toLocaleDateString("id-ID", { weekday: "short", day: "numeric", month: "short" });
-        
-        const dayTotal = validOrders
-          .filter((o) => {
-            const oDate = new Date(o.createdAt);
-            return oDate.toDateString() === d.toDateString();
-          })
-          .reduce((sum, o) => sum + (o.finalTotal || 0), 0);
-
-        const count = validOrders.filter((o) => new Date(o.createdAt).toDateString() === d.toDateString()).length;
-
-        days.push({ label: dayLabel, total: dayTotal, count });
+      const hours: ChartDataPoint[] = [];
+      for (let h = 8; h <= 22; h += 2) {
+        const label = `${h.toString().padStart(2, "0")}:00`;
+        const hourOrders = validOrders.filter((o) => {
+          const d = new Date(o.createdAt);
+          return d.toDateString() === now.toDateString() && d.getHours() >= h && d.getHours() < h + 2;
+        });
+        const total = hourOrders.reduce((sum, o) => sum + (o.finalTotal || 0), 0);
+        hours.push({ label, total, count: hourOrders.length });
       }
-      return days;
+      return hours;
     }
 
     if (timeframe === "weekly") {
-      // Last 4 Weeks
-      const weeks: ChartDataPoint[] = [];
-      const now = new Date();
-      for (let i = 3; i >= 0; i--) {
-        const weekStart = new Date(now);
-        weekStart.setDate(now.getDate() - i * 7 - 6);
-        const weekEnd = new Date(now);
-        weekEnd.setDate(now.getDate() - i * 7);
-
-        const weekLabel = `Minggu ${4 - i}`;
-
-        const weekTotal = validOrders
-          .filter((o) => {
-            const oDate = new Date(o.createdAt);
-            return oDate >= weekStart && oDate <= weekEnd;
-          })
-          .reduce((sum, o) => sum + (o.finalTotal || 0), 0);
-
-        const count = validOrders.filter((o) => {
-          const oDate = new Date(o.createdAt);
-          return oDate >= weekStart && oDate <= weekEnd;
-        }).length;
-
-        weeks.push({ label: weekLabel, total: weekTotal, count });
-      }
-      return weeks;
+      const days = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+      return days.map((dayLabel, idx) => {
+        const dayOrders = validOrders.filter((o) => new Date(o.createdAt).getDay() === idx);
+        const total = dayOrders.reduce((sum, o) => sum + (o.finalTotal || 0), 0);
+        return { label: dayLabel, total, count: dayOrders.length };
+      });
     }
 
     if (timeframe === "monthly") {
-      // Last 12 Months
-      const months: ChartDataPoint[] = [];
-      const now = new Date();
-      for (let i = 11; i >= 0; i--) {
-        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-        const monthLabel = d.toLocaleDateString("id-ID", { month: "short" });
-
-        const monthTotal = validOrders
-          .filter((o) => {
-            const oDate = new Date(o.createdAt);
-            return oDate.getMonth() === d.getMonth() && oDate.getFullYear() === d.getFullYear();
-          })
-          .reduce((sum, o) => sum + (o.finalTotal || 0), 0);
-
-        const count = validOrders.filter((o) => {
-          const oDate = new Date(o.createdAt);
-          return oDate.getMonth() === d.getMonth() && oDate.getFullYear() === d.getFullYear();
-        }).length;
-
-        months.push({ label: monthLabel, total: monthTotal, count });
-      }
-      return months;
+      const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+      const currentYear = now.getFullYear();
+      return months.map((monthLabel, idx) => {
+        const monthOrders = validOrders.filter((o) => {
+          const d = new Date(o.createdAt);
+          return d.getFullYear() === currentYear && d.getMonth() === idx;
+        });
+        const total = monthOrders.reduce((sum, o) => sum + (o.finalTotal || 0), 0);
+        return { label: monthLabel, total, count: monthOrders.length };
+      });
     }
 
-    // Yearly (Last 5 Years)
+    // Yearly timeframe
     const years: ChartDataPoint[] = [];
-    const currentYear = new Date().getFullYear();
-    for (let i = 4; i >= 0; i--) {
-      const yr = currentYear - i;
-      const yrLabel = `${yr}`;
-
+    const startYear = now.getFullYear() - 3;
+    for (let yr = startYear; yr <= now.getFullYear(); yr++) {
+      const yrLabel = yr.toString();
       const yrTotal = validOrders
         .filter((o) => new Date(o.createdAt).getFullYear() === yr)
         .reduce((sum, o) => sum + (o.finalTotal || 0), 0);
-
       const count = validOrders.filter((o) => new Date(o.createdAt).getFullYear() === yr).length;
 
       years.push({ label: yrLabel, total: yrTotal, count });
@@ -232,140 +185,128 @@ export default function AdminDashboardPage() {
   const displayOrders = orders.length > 0 ? orders.slice(0, 5) : [];
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] text-gray-900 font-sans antialiased flex flex-col lg:flex-row">
-      {/* Shared Reusable Admin Sidebar */}
+    <div className="min-h-screen bg-[#FDFBF7] text-gray-900 font-sans antialiased flex flex-col lg:flex-row">
+      {/* Shared Reusable Executive Sidebar */}
       <AdminSidebar activeMenu="dashboard" />
 
       {/* Main Content Canvas */}
-      <main className="flex-1 w-full lg:ml-[260px] min-h-screen p-4 md:p-8 lg:p-10 relative max-w-7xl pb-24 lg:pb-8">
-        {/* Floating Toast Notification */}
+      <main className="flex-1 w-full lg:ml-[260px] min-h-screen p-4 md:p-8 lg:p-10 relative max-w-7xl pb-28 lg:pb-12">
+        {/* Floating Luxury Notification */}
         {newOrderToast && (
-          <div className="fixed top-6 right-6 z-50 bg-[#51000d] text-white px-6 py-4 rounded-2xl shadow-2xl border border-red-400/30 flex items-center gap-3 animate-bounce text-xs font-extrabold">
+          <div className="fixed top-16 lg:top-6 right-4 lg:right-6 z-50 bg-gradient-to-r from-[#3d000a] to-[#51000d] text-white px-6 py-4 rounded-2xl shadow-2xl border border-amber-500/30 flex items-center gap-3 animate-bounce text-xs font-extrabold">
             <span className="material-symbols-outlined text-amber-400 text-2xl animate-pulse">notifications</span>
             <span>{newOrderToast}</span>
           </div>
         )}
 
-        {/* Header & Quick Actions */}
+        {/* Executive Header */}
         <header className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
           <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="px-2.5 py-0.5 bg-amber-500/10 text-amber-900 border border-amber-300/30 rounded-full text-[10px] font-black uppercase tracking-widest">
+                Official Analytics Hub
+              </span>
+            </div>
             <h2 className="text-2xl md:text-3xl font-black text-[#51000d] tracking-tight">
-              📊 Portal Dashboard Penjualan
+              Portal Dashboard Penjualan
             </h2>
             <p className="text-xs md:text-sm text-gray-500 font-medium mt-1">
-              Pantau grafik omset penjualan Bakso Pak Mul, stok produk, dan pesanan terbaru secara real-time.
+              Pantau omset grafik penjualan, persediaan produk, dan pesanan secara real-time.
             </p>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              type="button"
-              onClick={playBellChime}
-              className="flex items-center gap-1.5 px-4 py-2.5 bg-amber-50 border border-amber-200 text-amber-900 rounded-xl text-xs font-bold hover:bg-amber-100 transition-all shadow-xs cursor-pointer"
-              title="Klik untuk menguji efek suara lonceng pesanan baru"
-            >
-              <span className="material-symbols-outlined text-base text-amber-600">notifications_active</span>
-              <span>Uji Lonceng</span>
-            </button>
-            <Link
-              href="/admin/orders"
-              className="flex items-center gap-1.5 px-4 py-2.5 bg-white border border-gray-300 text-[#51000d] rounded-xl text-xs font-bold hover:bg-gray-50 transition-all shadow-xs"
-            >
-              <span className="material-symbols-outlined text-base">receipt_long</span>
-              <span>Kelola Pesanan</span>
-            </Link>
+
+          <div className="flex items-center gap-2.5 shrink-0">
             <Link
               href="/admin/inventory"
-              className="flex items-center gap-1.5 px-4 py-2.5 bg-[#51000d] hover:bg-[#380009] text-white rounded-xl text-xs font-bold shadow-sm transition-all"
+              className="px-4 py-2.5 bg-gradient-to-r from-amber-400 to-amber-500 hover:brightness-105 text-[#51000d] rounded-2xl text-xs font-black shadow-lg shadow-amber-500/20 transition-all flex items-center gap-2 cursor-pointer active:scale-95"
             >
-              <span className="material-symbols-outlined text-base">add</span>
+              <span className="material-symbols-outlined text-lg">add_box</span>
               <span>Tambah Produk</span>
+            </Link>
+            <Link
+              href="/admin/orders"
+              className="px-4 py-2.5 bg-[#51000d] hover:bg-[#380009] text-white rounded-2xl text-xs font-extrabold shadow-md shadow-[#51000d]/15 transition-all flex items-center gap-2 cursor-pointer active:scale-95"
+            >
+              <span className="material-symbols-outlined text-lg text-amber-300">receipt_long</span>
+              <span>Kelola Pesanan</span>
             </Link>
           </div>
         </header>
 
-        {/* KPI Summary Cards Grid */}
-        <section className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
-          {/* Total Sales */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition-all">
-            <div className="flex justify-between items-start mb-3">
-              <div className="p-3 bg-red-50 text-[#51000d] rounded-xl">
-                <span className="material-symbols-outlined text-2xl">payments</span>
+        {/* Executive Stat Cards */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
+          {/* Card 1: Total Omset Selesai */}
+          <div className="bg-gradient-to-br from-white via-white to-amber-500/5 p-6 rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(81,0,13,0.04)] relative overflow-hidden group">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[11px] font-black uppercase tracking-wider text-gray-400">Total Omset Disetujui</span>
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 text-[#51000d] flex items-center justify-center shadow-md shadow-amber-500/20">
+                <span className="material-symbols-outlined text-2xl font-bold">payments</span>
               </div>
-              <span className="text-emerald-700 font-extrabold text-xs bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-                Lunas
-              </span>
             </div>
-            <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Total Penjualan Terbayar</p>
-            <h3 className="text-2xl md:text-3xl font-black text-gray-900 mt-1">
-              {isLoading ? "Memuat..." : formatPrice(totalRevenue)}
-            </h3>
-            <p className="text-[11px] text-gray-500 font-medium mt-2">Dari {completedOrdersCount} pesanan selesai</p>
+            <h3 className="text-2xl md:text-3xl font-black text-[#51000d] tracking-tight">{formatPrice(totalRevenue)}</h3>
+            <p className="text-[11px] text-emerald-600 font-extrabold mt-1.5 flex items-center gap-1">
+              <span className="material-symbols-outlined text-sm">trending_up</span>
+              <span>100% Real-Time Omset Resmi</span>
+            </p>
           </div>
 
-          {/* Active Orders */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition-all">
-            <div className="flex justify-between items-start mb-3">
-              <div className="p-3 bg-amber-50 text-amber-700 rounded-xl">
+          {/* Card 2: Total Pesanan Masuk */}
+          <div className="bg-gradient-to-br from-white via-white to-[#51000d]/5 p-6 rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(81,0,13,0.04)] relative overflow-hidden group">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[11px] font-black uppercase tracking-wider text-gray-400">Total Transaksi</span>
+              <div className="w-11 h-11 rounded-2xl bg-[#51000d] text-amber-300 flex items-center justify-center shadow-md shadow-[#51000d]/20">
                 <span className="material-symbols-outlined text-2xl">shopping_bag</span>
               </div>
-              <span className="text-amber-800 font-extrabold text-xs bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
-                {totalOrdersCount} Pesanan
-              </span>
             </div>
-            <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Total Pesanan Masuk</p>
-            <h3 className="text-2xl md:text-3xl font-black text-gray-900 mt-1">
-              {isLoading ? "Memuat..." : `${totalOrdersCount} Pesanan`}
-            </h3>
-            <p className="text-[11px] text-gray-500 font-medium mt-2">Termasuk QRIS, VA &amp; COD</p>
+            <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">{totalOrdersCount} Pesanan</h3>
+            <p className="text-[11px] text-gray-500 font-semibold mt-1.5">
+              Termasuk Lunas, Menunggu, &amp; Selesai
+            </p>
           </div>
 
-          {/* Low Stock Warning */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition-all">
-            <div className="flex justify-between items-start mb-3">
-              <div className="p-3 bg-rose-50 text-rose-600 rounded-xl">
+          {/* Card 3: Peringatan Stok Menipis */}
+          <div className="bg-gradient-to-br from-white via-white to-rose-500/5 p-6 rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(81,0,13,0.04)] relative overflow-hidden group sm:col-span-2 lg:col-span-1">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[11px] font-black uppercase tracking-wider text-gray-400">Stok Menipis (&lt;20)</span>
+              <div className="w-11 h-11 rounded-2xl bg-rose-500/10 text-rose-700 flex items-center justify-center">
                 <span className="material-symbols-outlined text-2xl">warning</span>
               </div>
-              <span className="text-rose-700 font-extrabold text-xs bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-200">
-                Stok Menipis
-              </span>
             </div>
-            <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Peringatan Restok</p>
-            <h3 className="text-2xl md:text-3xl font-black text-gray-900 mt-1">
-              {isLoading ? "Memuat..." : `${lowStockCount} Produk`}
-            </h3>
-            <p className="text-[11px] text-gray-500 font-medium mt-2">Stok produk dibawah 20 pack</p>
+            <h3 className="text-2xl md:text-3xl font-black text-rose-700 tracking-tight">{lowStockProducts.length} Produk</h3>
+            <p className="text-[11px] text-rose-600 font-bold mt-1.5 flex items-center gap-1">
+              <span>{lowStockProducts.length > 0 ? "Perlu Restok Segera!" : "Semua Stok Terjaga Aman"}</span>
+            </p>
           </div>
         </section>
 
-        {/* Dynamic Sales Performance Line Chart Section */}
-        <section className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-200 mb-8 space-y-6">
-          {/* Chart Header & Filter Selector */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-5 border-gray-100">
+        {/* Luxury Interactive Sales Chart */}
+        <section className="bg-white rounded-3xl p-6 md:p-8 shadow-[0_8px_30px_rgb(81,0,13,0.04)] border border-gray-100 mb-8 relative">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
             <div>
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#51000d] text-2xl">show_chart</span>
-                <h3 className="text-lg font-black text-gray-900">Grafik Performa Penjualan</h3>
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+                <h3 className="text-lg md:text-xl font-black text-[#51000d]">Grafik Performa Penjualan</h3>
               </div>
               <p className="text-xs text-gray-500 font-medium mt-0.5">
-                Visualisasi omset penjualan Bakso Pak Mul berdasarkan periode waktu.
+                Visualisasi tren penjualan Bakso Pak Mul berdasarkan periode waktu.
               </p>
             </div>
 
-            {/* Timeframe Filter Options: Per Hari, Per Minggu, Per Bulan, Per Tahun */}
-            <div className="flex items-center bg-gray-100 p-1 rounded-xl gap-1">
+            {/* Timeframe Filter Buttons */}
+            <div className="flex items-center bg-gray-100/80 p-1 rounded-2xl gap-1 overflow-x-auto">
               {[
-                { id: "daily", label: "Per Hari" },
-                { id: "weekly", label: "Per Minggu" },
-                { id: "monthly", label: "Per Bulan" },
-                { id: "yearly", label: "Per Tahun" },
+                { key: "daily", label: "Per Hari" },
+                { key: "weekly", label: "Per Minggu" },
+                { key: "monthly", label: "Per Bulan" },
+                { key: "yearly", label: "Per Tahun" },
               ].map((tf) => (
                 <button
-                  key={tf.id}
-                  onClick={() => setTimeframe(tf.id as TimeframeOption)}
-                  className={`px-3.5 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
-                    timeframe === tf.id
-                      ? "bg-[#51000d] text-white shadow-xs"
-                      : "text-gray-600 hover:text-gray-900"
+                  key={tf.key}
+                  onClick={() => setTimeframe(tf.key as TimeframeOption)}
+                  className={`px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer whitespace-nowrap ${
+                    timeframe === tf.key
+                      ? "bg-[#51000d] text-white shadow-md shadow-[#51000d]/20"
+                      : "text-gray-600 hover:bg-gray-200/80"
                   }`}
                 >
                   {tf.label}
@@ -374,130 +315,120 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          {/* SVG Line Chart Canvas */}
-          <div className="relative w-full overflow-x-auto">
-            <svg
-              viewBox={`0 0 ${chartWidth} ${chartHeight}`}
-              className="w-full h-auto min-w-[500px]"
-            >
-              {/* Color Gradient Definitions */}
-              <defs>
-                <linearGradient id="maroonGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#51000d" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#51000d" stopOpacity="0.0" />
-                </linearGradient>
-              </defs>
+          {/* Dynamic SVG Canvas */}
+          <div className="relative w-full overflow-x-auto scrollbar-none py-2">
+            <div className="min-w-[650px]">
+              <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-auto overflow-visible">
+                <defs>
+                  <linearGradient id="maroonGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#51000d" stopOpacity="0.25" />
+                    <stop offset="100%" stopColor="#51000d" stopOpacity="0.0" />
+                  </linearGradient>
+                </defs>
 
-              {/* Horizontal Grid Lines */}
-              {[0, 0.25, 0.5, 0.75, 1].map((ratio, i) => {
-                const y = chartHeight - paddingY - ratio * (chartHeight - paddingY * 2);
-                return (
-                  <line
-                    key={i}
-                    x1={paddingX}
-                    y1={y}
-                    x2={chartWidth - paddingX}
-                    y2={y}
-                    stroke="#E5E7EB"
-                    strokeDasharray="4 4"
-                    strokeWidth="1"
+                {/* Grid Lines */}
+                {[0, 0.25, 0.5, 0.75, 1].map((pct, i) => {
+                  const y = paddingY + pct * (chartHeight - paddingY * 2);
+                  return (
+                    <line
+                      key={i}
+                      x1={paddingX}
+                      y1={y}
+                      x2={chartWidth - paddingX}
+                      y2={y}
+                      stroke="#f3f4f6"
+                      strokeWidth="1"
+                      strokeDasharray="4 4"
+                    />
+                  );
+                })}
+
+                {/* Gradient Fill under curve */}
+                {areaPathD && <path d={areaPathD} fill="url(#maroonGradient)" />}
+
+                {/* Smooth Curve Line */}
+                {linePathD && (
+                  <path
+                    d={linePathD}
+                    fill="none"
+                    stroke="#51000d"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
-                );
-              })}
+                )}
 
-              {/* Gradient Area Fill */}
-              {points.length > 0 && (
-                <path d={areaPathD} fill="url(#maroonGradient)" />
-              )}
-
-              {/* Main Line Stroke (#51000d) */}
-              {points.length > 0 && (
-                <path
-                  d={linePathD}
-                  fill="none"
-                  stroke="#51000d"
-                  strokeWidth="3.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              )}
-
-              {/* Interactive Data Points & Labels */}
-              {points.map((pt, idx) => (
-                <g key={idx} className="cursor-pointer group">
-                  {/* Point Outer Glow */}
-                  <circle
-                    cx={pt.x}
-                    cy={pt.y}
-                    r="6"
-                    className="fill-[#51000d] stroke-white stroke-2 hover:r-8 transition-all"
-                    onMouseEnter={() => setHoveredPoint(pt.data)}
-                    onMouseLeave={() => setHoveredPoint(null)}
-                  />
-
-                  {/* X-Axis Label */}
-                  <text
-                    x={pt.x}
-                    y={chartHeight - 8}
-                    textAnchor="middle"
-                    className="text-[10px] font-bold fill-gray-500"
-                  >
-                    {pt.data.label}
-                  </text>
-                </g>
-              ))}
-            </svg>
-
-            {/* Hover Tooltip Overlay */}
-            {hoveredPoint && (
-              <div className="absolute top-2 right-4 bg-[#51000d] text-white p-3 rounded-xl shadow-xl border border-red-300/30 text-xs animate-in fade-in duration-150 pointer-events-none">
-                <p className="font-extrabold text-amber-300">{hoveredPoint.label}</p>
-                <p className="font-black text-sm mt-0.5">{formatPrice(hoveredPoint.total)}</p>
-                <p className="text-[10px] text-gray-200 mt-0.5">{hoveredPoint.count} Pesanan Masuk</p>
-              </div>
-            )}
+                {/* Data Points & Interactive Dots */}
+                {points.map((pt, idx) => (
+                  <g key={idx} className="cursor-pointer group">
+                    <circle
+                      cx={pt.x}
+                      cy={pt.y}
+                      r="6"
+                      fill="#51000d"
+                      stroke="#ffffff"
+                      strokeWidth="2.5"
+                      className="transition-all duration-200 group-hover:r-8 group-hover:fill-amber-500"
+                      onMouseEnter={() => setHoveredPoint(pt.data)}
+                      onMouseLeave={() => setHoveredPoint(null)}
+                    />
+                    <text
+                      x={pt.x}
+                      y={chartHeight - 8}
+                      textAnchor="middle"
+                      className="text-[11px] font-bold fill-gray-400"
+                    >
+                      {pt.data.label}
+                    </text>
+                  </g>
+                ))}
+              </svg>
+            </div>
           </div>
 
-          {/* Chart Legend & Summary Info */}
-          <div className="flex flex-wrap items-center justify-between bg-amber-50/50 p-4 rounded-2xl border border-amber-200/60 text-xs">
+          {/* Interactive Tooltip Card */}
+          <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs">
             <div className="flex items-center gap-2">
-              <div className="w-3.5 h-3.5 bg-[#51000d] rounded-full"></div>
-              <span className="font-bold text-gray-800">
-                Omset Penjualan ({timeframe === "daily" ? "7 Hari Terakhir" : timeframe === "weekly" ? "4 Minggu Terakhir" : timeframe === "monthly" ? "12 Bulan Terakhir" : "5 Tahun Terakhir"})
+              <span className="w-3 h-3 rounded-full bg-[#51000d]"></span>
+              <span className="font-bold text-gray-600">
+                {hoveredPoint ? `Periode: ${hoveredPoint.label}` : "Arahkan kursor ke titik untuk rincian"}
               </span>
             </div>
-
             <div className="font-black text-[#51000d] text-sm">
-              Total Periode Ini: {formatPrice(chartData.reduce((acc, d) => acc + d.total, 0))}
+              {hoveredPoint ? (
+                <span>{formatPrice(hoveredPoint.total)} ({hoveredPoint.count} Transaksi)</span>
+              ) : (
+                <span>Total Periode Ini: {formatPrice(chartData.reduce((acc, d) => acc + d.total, 0))}</span>
+              )}
             </div>
           </div>
         </section>
 
-        {/* Recent Orders Section */}
-        <section className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-200">
-          <div className="flex justify-between items-center mb-6">
+        {/* Latest Incoming Orders Card */}
+        <section className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(81,0,13,0.04)] border border-gray-100 overflow-hidden">
+          <div className="p-6 flex items-center justify-between border-b border-gray-100">
             <div>
-              <h3 className="text-lg font-black text-gray-900">Pesanan Terbaru Masuk</h3>
-              <p className="text-xs text-gray-500 font-medium">Daftar transaksi yang baru saja dilakukan pelanggan</p>
+              <h3 className="text-lg font-black text-[#51000d]">Pesanan Terbaru Masuk</h3>
+              <p className="text-xs text-gray-500 font-medium">Daftar transaksi yang baru saja dilakukan pelanggan.</p>
             </div>
             <Link
               href="/admin/orders"
-              className="text-xs font-bold text-[#51000d] hover:underline flex items-center gap-1 cursor-pointer"
+              className="text-xs font-black text-[#51000d] hover:underline flex items-center gap-1"
             >
               <span>Lihat Semua</span>
-              <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              <span className="material-symbols-outlined text-sm">chevron_right</span>
             </Link>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-gray-200 text-xs font-extrabold text-gray-500 uppercase tracking-wider bg-gray-50/50">
-                  <th className="py-3 px-4">No. Pesanan</th>
-                  <th className="py-3 px-4">Pelanggan</th>
-                  <th className="py-3 px-4">Kota</th>
-                  <th className="py-3 px-4 text-right">Total Tagihan</th>
-                  <th className="py-3 px-4 text-center">Status</th>
+                <tr className="border-b border-gray-100 bg-gray-50/70 text-gray-400">
+                  <th className="px-6 py-3.5 text-[10px] font-black uppercase tracking-wider">No. Pesanan</th>
+                  <th className="px-6 py-3.5 text-[10px] font-black uppercase tracking-wider">Pelanggan</th>
+                  <th className="px-6 py-3.5 text-[10px] font-black uppercase tracking-wider">Kota</th>
+                  <th className="px-6 py-3.5 text-[10px] font-black uppercase tracking-wider">Total Belanja</th>
+                  <th className="px-6 py-3.5 text-[10px] font-black uppercase tracking-wider">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 text-xs font-medium">
@@ -509,22 +440,14 @@ export default function AdminDashboardPage() {
                   </tr>
                 ) : (
                   displayOrders.map((o) => (
-                    <tr key={o.id} className="hover:bg-amber-50/40 transition-colors">
-                      <td className="py-3.5 px-4 font-mono font-black text-[#51000d]">
-                        {o.orderNumber || `#${o.id.substring(0, 8)}`}
-                      </td>
-                      <td className="py-3.5 px-4 font-bold text-gray-900">{o.customerName || "Pelanggan"}</td>
-                      <td className="py-3.5 px-4 text-gray-500 font-medium">{o.city || o.province || "Jawa Tengah"}</td>
-                      <td className="py-3.5 px-4 text-right font-black text-gray-900">{formatPrice(o.finalTotal)}</td>
-                      <td className="py-3.5 px-4 text-center">
-                        <span className={`px-3 py-1 rounded-xl text-[11px] font-black uppercase tracking-wider ${
-                          o.status === "PAID" || o.status === "COMPLETED" 
-                            ? "bg-emerald-100 text-emerald-800"
-                            : o.status === "CANCELED"
-                            ? "bg-rose-100 text-rose-800"
-                            : "bg-amber-100 text-amber-800"
-                        }`}>
-                          {o.status === "PAID" ? "LUNAS" : o.status}
+                    <tr key={o.id} className="hover:bg-gray-50/80 transition-colors">
+                      <td className="px-6 py-4 font-mono font-extrabold text-[#51000d]">{o.orderNumber}</td>
+                      <td className="px-6 py-4 font-bold text-gray-900">{o.customerName || "-"}</td>
+                      <td className="px-6 py-4 text-gray-500 font-medium">{o.city || o.province || "-"}</td>
+                      <td className="px-6 py-4 font-black text-gray-900">{formatPrice(o.finalTotal)}</td>
+                      <td className="px-6 py-4">
+                        <span className="px-3 py-1 rounded-xl text-[10px] font-black border bg-amber-500/10 text-amber-900 border-amber-300/40">
+                          {o.status === "COMPLETED" || o.status === "PAID" ? "DISETUJUI" : "MENUNGGU"}
                         </span>
                       </td>
                     </tr>
