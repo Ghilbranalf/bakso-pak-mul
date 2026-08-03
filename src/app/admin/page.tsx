@@ -232,12 +232,12 @@ export default function AdminDashboardPage() {
   const displayOrders = orders.length > 0 ? orders.slice(0, 5) : [];
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] text-gray-900 font-sans antialiased flex">
+    <div className="min-h-screen bg-[#F8F9FA] text-gray-900 font-sans antialiased flex flex-col lg:flex-row">
       {/* Shared Reusable Admin Sidebar */}
       <AdminSidebar activeMenu="dashboard" />
 
       {/* Main Content Canvas */}
-      <main className="md:ml-[280px] flex-1 min-h-screen p-4 md:p-8 lg:p-10 relative max-w-7xl">
+      <main className="flex-1 w-full lg:ml-[260px] min-h-screen p-4 md:p-8 lg:p-10 relative max-w-7xl pb-24 lg:pb-8">
         {/* Floating Toast Notification */}
         {newOrderToast && (
           <div className="fixed top-6 right-6 z-50 bg-[#51000d] text-white px-6 py-4 rounded-2xl shadow-2xl border border-red-400/30 flex items-center gap-3 animate-bounce text-xs font-extrabold">

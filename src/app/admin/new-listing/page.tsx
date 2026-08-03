@@ -9,10 +9,10 @@ export default function NewListingPage() {
   const [showInMarketplace, setShowInMarketplace] = useState(true);
 
   return (
-    <div className="flex min-h-screen bg-[#F8F8F8] text-[#1A1C1C] font-sans antialiased">
-      <AdminSidebar />
+    <div className="flex flex-col lg:flex-row min-h-screen bg-[#F8F9FA] text-[#1A1C1C] font-sans antialiased">
+      <AdminSidebar activeMenu="inventory" />
 
-      <main className="md:ml-[280px] flex-1 flex flex-col">
+      <main className="flex-1 w-full lg:ml-[260px] flex flex-col pb-24 lg:pb-8">
         {/* TopNavBar */}
         <header className="h-20 bg-white/70 backdrop-blur-[20px] flex items-center justify-between px-6 md:px-12 sticky top-0 z-30 border-b border-gray-200">
           <div className="flex items-center gap-4">

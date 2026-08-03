@@ -183,11 +183,11 @@ export default function AdminInventoryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8F8] text-[#1a1c1c] font-sans antialiased flex">
-      <AdminSidebar />
+    <div className="min-h-screen bg-[#F8F9FA] text-[#1a1c1c] font-sans antialiased flex flex-col lg:flex-row">
+      <AdminSidebar activeMenu="inventory" />
 
       {/* Main Content Area */}
-      <main className="md:ml-[280px] flex-1 min-h-screen p-4 md:p-8 lg:p-12 pb-24 lg:pb-8">
+      <main className="flex-1 w-full lg:ml-[260px] min-h-screen p-4 md:p-8 lg:p-10 pb-24 lg:pb-8 max-w-7xl">
         {/* Header / Stats Bar */}
         <header className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
           <div>

@@ -9,12 +9,12 @@ export default function AdminSettingsPage() {
   const [bannerActive, setBannerActive] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#F8F8F8] text-[#1a1c1c] font-sans antialiased flex flex-col md:flex-row">
+    <div className="min-h-screen bg-[#F8F9FA] text-[#1a1c1c] font-sans antialiased flex flex-col lg:flex-row">
       {/* Shared Reusable Admin Sidebar */}
-      <AdminSidebar />
+      <AdminSidebar activeMenu="settings" />
 
       {/* Main Content Area */}
-      <main className="md:ml-[280px] flex-1 min-h-screen flex flex-col">
+      <main className="flex-1 w-full lg:ml-[260px] min-h-screen pb-24 lg:pb-8">
         {/* TopAppBar Shell */}
         <header className="sticky top-0 w-full z-30 h-20 bg-white/70 backdrop-blur-xl border-b border-gray-200 flex items-center justify-between px-6 md:px-12 shadow-sm">
           <div className="flex items-center gap-4">

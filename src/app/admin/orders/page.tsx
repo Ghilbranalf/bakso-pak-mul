@@ -169,7 +169,7 @@ export default function AdminOrdersPage() {
       <AdminSidebar activeMenu="orders" />
 
       {/* Main Content Area */}
-      <main className="flex-1 lg:ml-64 p-4 md:p-8 max-w-7xl pb-24 lg:pb-8">
+      <main className="flex-1 w-full lg:ml-[260px] p-4 md:p-8 max-w-7xl pb-24 lg:pb-8">
         {/* Toast Notification */}
         {toastMessage && (
           <div className="fixed top-16 lg:top-6 right-4 lg:right-6 bg-[#51000d] text-white px-4 py-3 rounded-2xl shadow-xl z-50 flex items-center gap-2 animate-in fade-in duration-200 text-xs font-bold">
