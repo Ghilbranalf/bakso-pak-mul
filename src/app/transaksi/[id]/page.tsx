@@ -297,21 +297,21 @@ export default function TrackOrderPage() {
 
         {/* PAYMENT STATUS ALERT BANNER */}
         {isPending && (
-          <div className="bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-2xl p-5 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="bg-gradient-to-r from-[#51000d] to-[#7a0019] text-white rounded-2xl p-5 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-amber-400/20 flex items-center justify-center text-amber-300 shrink-0">
                 <span className="material-symbols-outlined text-2xl">pending_actions</span>
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-black uppercase tracking-wider bg-white/20 px-2 py-0.5 rounded text-white">
+                  <span className="text-xs font-black uppercase tracking-wider bg-amber-400/20 text-amber-300 px-2 py-0.5 rounded">
                     Belum Dibayar
                   </span>
-                  <span className="text-xs text-white/90">Batas Waktu: 23:59:59</span>
+                  <span className="text-xs text-white/70">Batas Waktu: 23:59:59</span>
                 </div>
                 <h3 className="text-base font-bold mt-0.5">Pesanan Anda Menunggu Pembayaran</h3>
                 <p className="text-xs text-white/80">
-                  Total Tagihan: <span className="font-extrabold text-white">Rp {formatPrice(displayOrder.finalTotal)}</span>
+                  Total Tagihan: <span className="font-extrabold text-amber-300">Rp {formatPrice(displayOrder.finalTotal)}</span>
                 </p>
               </div>
             </div>
@@ -319,7 +319,7 @@ export default function TrackOrderPage() {
             <button
               onClick={handleMidtransPay}
               disabled={isProcessingPayment}
-              className="w-full sm:w-auto px-6 py-3 bg-white text-[#51000d] hover:bg-amber-50 rounded-xl text-xs font-black shadow-md transition-all uppercase tracking-wider cursor-pointer shrink-0 flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full sm:w-auto px-6 py-3 bg-amber-400 text-[#51000d] hover:bg-amber-300 rounded-xl text-xs font-black shadow-md transition-all uppercase tracking-wider cursor-pointer shrink-0 flex items-center justify-center gap-2 disabled:opacity-50"
             >
               <span className="material-symbols-outlined text-base">payments</span>
               <span>{isProcessingPayment ? "Memuat Midtrans..." : "Bayar Sekarang (Midtrans)"}</span>
