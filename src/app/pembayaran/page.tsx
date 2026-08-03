@@ -43,12 +43,51 @@ export default function CheckoutPage() {
   const [checkoutShipping, setCheckoutShipping] = useState(0);
   const checkoutFinalTotal = items.length > 0 ? Math.max(0, totalPrice + checkoutShipping - discount) : 0;
 
-  const [paymentType, setPaymentType] = useState<"online" | "cod">("online");
+  const [paymentType, setPaymentType] = useState<"online" | "cod" | "qris">("qris");
   const [isProcessing, setIsProcessing] = useState(false);
 
   const formatPrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
+
+  const [qrisModalData, setQrisModalData] = useState<{
+    show: boolean;
+    qrCodeUrl: string;
+    orderNumber: string;
+    amount: number;
+    qrisString: string;
+    isPaid: boolean;
+  }>({
+    show: false,
+    qrCodeUrl: "",
+    orderNumber: "",
+    amount: 0,
+    qrisString: "",
+    isPaid: false,
+  });
+
+  // Real-time polling effect for QRIS payment status
+  React.useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (qrisModalData.show && qrisModalData.orderNumber && !qrisModalData.isPaid) {
+      interval = setInterval(async () => {
+        try {
+          const res = await fetch(`/api/orders/track?orderNumber=${qrisModalData.orderNumber}`);
+          const data = await res.json();
+          if (data && (data.status === "PAID" || data.status === "COMPLETED")) {
+            setQrisModalData(prev => ({ ...prev, isPaid: true }));
+            clearInterval(interval);
+            setTimeout(() => {
+              window.location.href = `/pembayaran/berhasil?orderNumber=${qrisModalData.orderNumber}`;
+            }, 1800);
+          }
+        } catch (e) {
+          console.error("Polling status error:", e);
+        }
+      }, 3000);
+    }
+    return () => clearInterval(interval);
+  }, [qrisModalData.show, qrisModalData.orderNumber, qrisModalData.isPaid]);
 
   const handleCheckout = async () => {
     if (!shippingInfo.province || !shippingInfo.city) {
@@ -80,8 +119,28 @@ export default function CheckoutPage() {
       }
 
       if (paymentType === "cod") {
-        // COD bypasses Midtrans
         window.location.href = "/transaksi";
+        return;
+      }
+
+      if ((paymentType as string) === "qris") {
+        const orderNum = data.orderNumber || "BPM-" + Date.now().toString().slice(-6);
+        const qrisRes = await fetch(`/api/payment/qris?orderNumber=${orderNum}&amount=${data.amount || checkoutFinalTotal}`);
+        const qrisData = await qrisRes.json();
+
+        if (qrisData.success) {
+          setQrisModalData({
+            show: true,
+            qrCodeUrl: qrisData.qrCodeUrl,
+            orderNumber: orderNum,
+            amount: qrisData.amount,
+            qrisString: qrisData.qrisString,
+            isPaid: false,
+          });
+        } else {
+          alert("Gagal membuat QRIS Dinamis: " + (qrisData.error || ""));
+        }
+        setIsProcessing(false);
         return;
       }
 
@@ -314,11 +373,24 @@ export default function CheckoutPage() {
             </div>
 
             <h2 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">Metode Pembayaran</h2>
-            <div className="grid grid-cols-2 gap-3 mb-8">
+            <div className="grid grid-cols-3 gap-3 mb-8">
+              <button
+                type="button"
+                onClick={() => setPaymentType("qris" as any)}
+                className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                  (paymentType as string) === "qris"
+                  ? "border-[#51000d] bg-[#51000d]/10 text-[#51000d] ring-2 ring-[#51000d] shadow-md font-bold" 
+                  : "border-gray-200 bg-white text-gray-500 hover:border-gray-300"
+                }`}
+              >
+                <span className="material-symbols-outlined text-2xl text-red-600">qr_code_2</span>
+                <span className="text-xs font-bold text-center">QRIS Dinamis<br/><span className="text-[9px] font-semibold text-red-700 bg-red-100 px-1.5 py-0.5 rounded-full mt-0.5 inline-block">Bebas Biaya</span></span>
+              </button>
+
               <button
                 type="button"
                 onClick={() => setPaymentType("online")}
-                className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all cursor-pointer ${
+                className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${
                   paymentType === "online" 
                   ? "border-[#51000d] bg-[#51000d]/5 text-[#51000d] ring-1 ring-[#51000d]" 
                   : "border-gray-200 bg-white text-gray-500 hover:border-gray-300"
@@ -331,7 +403,7 @@ export default function CheckoutPage() {
               <button
                 type="button"
                 onClick={() => setPaymentType("cod")}
-                className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all cursor-pointer ${
+                className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${
                   paymentType === "cod" 
                   ? "border-emerald-600 bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600" 
                   : "border-gray-200 bg-white text-gray-500 hover:border-gray-300"
@@ -342,13 +414,25 @@ export default function CheckoutPage() {
               </button>
             </div>
 
+            {(paymentType as string) === "qris" && (
+              <div className="bg-gradient-to-br from-red-50 to-amber-50/50 p-4 rounded-2xl border border-red-200/60 mb-6 text-center shadow-inner">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <span className="text-xs font-black uppercase text-[#51000d] tracking-wider">QRIS Resmi GPN</span>
+                  <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-300">NMID: ID1026563066301</span>
+                </div>
+                <p className="text-xs text-gray-600 font-medium">
+                  Scan QRIS dengan GoPay, OVO, DANA, ShopeePay, LinkAja, atau m-Banking Anda.
+                </p>
+              </div>
+            )}
+
             <button
               type="button"
               onClick={handleCheckout}
               disabled={isProcessing}
               className={`w-full h-14 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-xl shadow-red-900/20 uppercase tracking-wider cursor-pointer mt-4 ${isProcessing ? "opacity-75 cursor-wait" : ""}`}
             >
-              <span>{isProcessing ? "Memproses..." : "Selesaikan Pesanan"}</span>
+              <span>{isProcessing ? "Memproses..." : (paymentType as string) === "qris" ? "Tampilkan QRIS Pembayaran" : "Selesaikan Pesanan"}</span>
               {!isProcessing && <span className="material-symbols-outlined text-lg">check_circle</span>}
             </button>
             <p className="text-center text-[10px] text-gray-400 mt-4">
@@ -357,6 +441,66 @@ export default function CheckoutPage() {
           </div>
         </section>
       </main>
+
+      {/* ==================== QRIS DYNAMIC PAYMENT MODAL ==================== */}
+      {qrisModalData.show && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fadeIn">
+          <div className="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl border border-amber-500/30 text-center relative overflow-hidden">
+            {/* Modal Header */}
+            <button
+              onClick={() => setQrisModalData(prev => ({ ...prev, show: false }))}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition-all cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-lg">close</span>
+            </button>
+
+            <div className="flex items-center justify-center gap-2 mb-1 mt-2">
+              <span className="text-base font-black text-[#51000d]">QRIS PEMBAYARAN</span>
+              <span className="bg-amber-100 text-[#51000d] text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-amber-300">GPN</span>
+            </div>
+            <p className="text-[11px] text-gray-500 font-semibold mb-4">Bakso Pak Mul • NMID: ID1026563066301</p>
+
+            {/* Total Nominal Badge */}
+            <div className="bg-red-50 p-3 rounded-2xl border border-red-100 mb-4">
+              <span className="text-[11px] text-gray-500 block font-medium">Total Nominal Pas (Otomatis)</span>
+              <span className="text-2xl font-black text-[#51000d]">
+                Rp {qrisModalData.amount.toLocaleString("id-ID")}
+              </span>
+              <span className="text-[10px] text-gray-400 block mt-0.5">Order ID: {qrisModalData.orderNumber}</span>
+            </div>
+
+            {/* QR Code Container */}
+            <div className="bg-white p-3 rounded-2xl border-2 border-[#51000d]/20 shadow-md inline-block relative mb-4">
+              {qrisModalData.isPaid ? (
+                <div className="w-64 h-64 flex flex-col items-center justify-center bg-emerald-50 rounded-xl text-emerald-700 space-y-2 animate-bounce">
+                  <span className="material-symbols-outlined text-6xl text-emerald-600">check_circle</span>
+                  <span className="font-black text-lg">Pembayaran Berhasil!</span>
+                  <span className="text-xs text-emerald-600 font-medium">Mengalihkan halaman...</span>
+                </div>
+              ) : (
+                <img
+                  src={qrisModalData.qrCodeUrl}
+                  alt="QRIS Dinamis Bakso Pak Mul"
+                  className="w-64 h-64 object-contain rounded-lg mx-auto"
+                />
+              )}
+            </div>
+
+            {/* Status Indicator */}
+            <div className="flex items-center justify-center gap-2 text-xs font-bold mb-3">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+              </span>
+              <span className="text-amber-800">Menunggu Pembayaran (Otomatis Terverifikasi)</span>
+            </div>
+
+            <p className="text-[11px] text-gray-500 leading-relaxed font-medium">
+              Buka aplikasi e-Wallet / m-Banking Anda, pilih menu <strong className="text-[#51000d]">Scan QRIS</strong>, lalu bayar sesuai nominal di atas.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
