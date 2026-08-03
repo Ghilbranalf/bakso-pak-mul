@@ -187,7 +187,7 @@ export default function AdminInventoryPage() {
       <AdminSidebar />
 
       {/* Main Content Area */}
-      <main className="md:ml-[280px] flex-1 min-h-screen p-4 md:p-8 lg:p-12">
+      <main className="md:ml-[280px] flex-1 min-h-screen p-4 md:p-8 lg:p-12 pb-24 lg:pb-8">
         {/* Header / Stats Bar */}
         <header className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
           <div>
@@ -240,8 +240,64 @@ export default function AdminInventoryPage() {
           </div>
         </section>
 
-        {/* Data Table Card */}
-        <section className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+        {/* ==================== MOBILE CARDS LAYOUT (< md) ==================== */}
+        <div className="md:hidden space-y-3 mb-6">
+          {isLoading ? (
+            <div className="bg-white p-8 rounded-2xl border border-gray-200 text-center text-xs text-gray-500 font-bold">
+              Memuat produk...
+            </div>
+          ) : filteredProducts.length === 0 ? (
+            <div className="bg-white p-8 rounded-2xl border border-gray-200 text-center text-xs text-gray-500 font-bold">
+              Tidak ada produk ditemukan.
+            </div>
+          ) : (
+            filteredProducts.map((p) => (
+              <div key={p.id} className="bg-white p-4 rounded-2xl border border-gray-200 shadow-xs space-y-3">
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-14 h-14 rounded-xl bg-cover bg-center border border-gray-200 shrink-0"
+                    style={{ backgroundImage: `url('${p.image}')` }}
+                  ></div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-bold text-gray-900 truncate">{p.name}</p>
+                    <p className="text-[10px] text-gray-400 font-medium">{p.sku} • {p.category}</p>
+                    <p className="text-xs font-black text-[#51000d] mt-0.5">{formatPrice(p.price)}</p>
+                  </div>
+                  <span className={`px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase shrink-0 ${p.statusColor}`}>
+                    {p.status}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between pt-2 border-t border-gray-100 text-xs">
+                  <div>
+                    <span className="text-gray-500 font-medium">Stok: </span>
+                    <span className="font-extrabold text-gray-900">{p.stock} {p.unit}</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleOpenEditModal(p)}
+                      className="px-3 py-1.5 bg-[#51000d] text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1 cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-xs">edit</span>
+                      <span>Edit</span>
+                    </button>
+                    <button
+                      onClick={() => setDeleteId(p.id)}
+                      className="px-3 py-1.5 bg-gray-100 text-rose-700 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-xs">delete</span>
+                      <span>Hapus</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* ==================== DESKTOP TABLE LAYOUT (>= md) ==================== */}
+        <section className="hidden md:block bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>

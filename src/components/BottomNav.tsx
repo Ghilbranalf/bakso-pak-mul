@@ -7,14 +7,11 @@ import { usePathname } from "next/navigation";
 export default function BottomNav() {
   const pathname = usePathname();
 
-  // If we are on checkout, payment, or auth pages, we might want to hide the bottom nav
-  // But let's just show it everywhere as requested, or hide it on specific pages if needed.
-  const hiddenRoutes = ["/login", "/register", "/checkout"];
+  // Hide customer bottom nav on admin routes and auth/checkout routes
+  const hiddenRoutes = ["/login", "/register", "/checkout", "/admin"];
   if (hiddenRoutes.some(route => pathname.startsWith(route))) {
     return null;
   }
-
-  const isAdminRoute = pathname.startsWith("/admin");
 
   const publicNavItems = [
     { name: "Beranda", icon: "home", href: "/" },
@@ -24,22 +21,12 @@ export default function BottomNav() {
     { name: "Tentang", icon: "info", href: "/tentang" },
   ];
 
-  const adminNavItems = [
-    { name: "Dashboard", icon: "home", href: "/admin" },
-    { name: "Stok", icon: "inventory_2", href: "/admin/inventory" },
-    { name: "Order", icon: "receipt_long", href: "/transaksi" },
-    { name: "Panel", icon: "settings", href: "/admin/settings" },
-  ];
-
-  const items = isAdminRoute ? adminNavItems : publicNavItems;
-
   return (
     <nav className="md:hidden fixed bottom-6 left-0 right-0 z-50 flex justify-around items-center h-20 mx-auto">
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] max-w-lg rounded-full px-3 py-2 bg-white/70 backdrop-blur-xl border border-white/20 shadow-2xl shadow-[#51000d]/10 flex justify-around items-center h-20">
-        {items.map((item) => {
-          // Exact match for '/' and '/admin', prefix match for others
+        {publicNavItems.map((item) => {
           const isActive = 
-            item.href === '/' || item.href === '/admin' 
+            item.href === '/'
               ? pathname === item.href 
               : pathname.startsWith(item.href);
 
