@@ -13,30 +13,7 @@ export default function NewListingPage() {
       <AdminSidebar activeMenu="inventory" />
 
       <main className="flex-1 w-full lg:ml-[260px] flex flex-col pb-24 lg:pb-8">
-        {/* TopNavBar */}
-        <header className="h-20 bg-white/70 backdrop-blur-[20px] flex items-center justify-between px-6 md:px-12 sticky top-0 z-30 border-b border-gray-200">
-          <div className="flex items-center gap-4">
-            <button className="md:hidden text-gray-900">
-              <span className="material-symbols-outlined">menu</span>
-            </button>
-            <h2 className="text-xl md:text-2xl font-bold text-gray-900">Tambah Menu Baru</h2>
-          </div>
-          <div className="flex items-center gap-6">
-            <div className="relative hidden lg:block">
-              <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
-              <input className="pl-12 pr-6 py-2 bg-gray-100 border-none rounded-full w-64 focus:ring-2 focus:ring-[#7a0019]/20 text-sm transition-all outline-none" placeholder="Cari menu atau SKU..." type="text"/>
-            </div>
-            <div className="flex items-center gap-4">
-              <button className="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors relative">
-                <span className="material-symbols-outlined">notifications</span>
-                <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
-              <div className="h-10 w-10 rounded-full bg-gray-200 overflow-hidden">
-                <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXnVNMiH0kjQuX9aYTlGhsfLdAmC-5DxBvcnS2ZaF5Usg020nK4IGp6KxBk25_SOnXqhunPIzWxfKfkxF6wCvBzUooamLMwFUR-3w6Eti90JG-wtEdGSNP-rG00fbnwF2YHn6_mXp6O0NmAn4K_BViGEI53QYMEES0gfaWNKxnVJB3D8osrVZVaNTx4-r16zB4-rRlojwVaZvXwJOw9sH953n4asiRdL6CBZKbsAL1FJxPsTwQJdnNcQD--tIR203eEM0mKiOBECuA" alt="Admin Profile" />
-              </div>
-            </div>
-          </div>
-        </header>
+
 
         {/* Content Area */}
         <div className="p-6 md:p-12 space-y-8 max-w-[1200px] mx-auto w-full">

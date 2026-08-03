@@ -93,28 +93,7 @@ export default function AdminSidebar({ activeMenu }: AdminSidebarProps = {}) {
         </div>
       </aside>
 
-      {/* ==================== MOBILE TOP BAR (< lg) ==================== */}
-      <header className="lg:hidden sticky top-0 z-40 bg-[#51000d] text-white border-b border-amber-500/20 px-4 py-3 flex items-center justify-between shadow-md">
-        <Link href="/admin" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-gradient-to-br from-amber-400 to-amber-500 text-[#51000d] rounded-xl flex items-center justify-center shadow-md">
-            <span className="material-symbols-outlined text-lg font-bold">restaurant_menu</span>
-          </div>
-          <div>
-            <span className="font-black text-sm text-white block tracking-tight">Portal Admin</span>
-            <span className="text-[10px] text-amber-300 font-bold block -mt-1 tracking-widest uppercase">
-              Bakso Pak Mul
-            </span>
-          </div>
-        </Link>
 
-        <Link
-          href="/"
-          className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-amber-200 rounded-xl text-xs font-bold transition-all flex items-center gap-1 cursor-pointer border border-white/10"
-        >
-          <span className="material-symbols-outlined text-sm text-amber-400">logout</span>
-          <span>Keluar</span>
-        </Link>
-      </header>
 
       {/* ==================== MOBILE FLOATING GLASS BOTTOM BAR (< lg) ==================== */}
       <nav className="lg:hidden fixed bottom-6 left-0 right-0 z-50 flex justify-around items-center h-20 mx-auto pointer-events-none">

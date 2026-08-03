@@ -15,26 +15,7 @@ export default function AdminSettingsPage() {
 
       {/* Main Content Area */}
       <main className="flex-1 w-full lg:ml-[260px] min-h-screen pb-24 lg:pb-8">
-        {/* TopAppBar Shell */}
-        <header className="sticky top-0 w-full z-30 h-20 bg-white/70 backdrop-blur-xl border-b border-gray-200 flex items-center justify-between px-6 md:px-12 shadow-sm">
-          <div className="flex items-center gap-4">
-            <button className="md:hidden p-2 text-[#51000d]">
-              <span className="material-symbols-outlined">menu</span>
-            </button>
-            <h2 className="text-xl md:text-2xl font-black text-[#51000d]">Bakso Pak Mul</h2>
-          </div>
-          <div className="flex items-center gap-6">
-            <div className="hidden md:flex items-center gap-4 text-gray-500 font-medium text-sm">
-              <Link href="/" className="hover:text-[#51000d] transition-colors">Lihat Website</Link>
-              <Link href="/produk" className="hover:text-[#51000d] transition-colors">Katalog Produk</Link>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#51000d] text-white flex items-center justify-center font-bold text-sm shadow-sm">
-                A
-              </div>
-            </div>
-          </div>
-        </header>
+
 
         {/* Scrollable Content */}
         <div className="p-6 md:p-12 space-y-8 max-w-[1200px] mx-auto w-full">
