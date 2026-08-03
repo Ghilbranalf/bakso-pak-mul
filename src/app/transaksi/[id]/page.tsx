@@ -11,6 +11,7 @@ export default function TrackOrderPage() {
   const rawId = params?.id as string;
   const [order, setOrder] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [pendingAutoPay, setPendingAutoPay] = useState(false);
 
   // Re-pay Modal State
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
@@ -55,10 +56,10 @@ export default function TrackOrderPage() {
         setPaymentResultModal("failed");
       }
 
+      // Mark auto_pay as pending — actual payment modal will open
+      // once order data is loaded from DB (see useEffect below)
       if (isAutoPay) {
-        setTimeout(() => {
-          handleMidtransPay();
-        }, 600);
+        setPendingAutoPay(true);
       }
 
       if (window.location.search.includes("print=true")) {
@@ -68,6 +69,14 @@ export default function TrackOrderPage() {
       }
     }
   }, [rawId]);
+
+  // Auto-pay: wait until real order is loaded, then open payment modal with correct amount
+  useEffect(() => {
+    if (pendingAutoPay && order && order.finalTotal > 0) {
+      setPendingAutoPay(false);
+      handleMidtransPay();
+    }
+  }, [pendingAutoPay, order]);
 
   useEffect(() => {
     let interval: any;
@@ -176,12 +185,17 @@ export default function TrackOrderPage() {
   const [isChargingCoreApi, setIsChargingCoreApi] = useState(false);
 
   const fetchCoreApiCharge = async (paymentType: string, bankName?: string) => {
-    if (!displayOrder.orderNumber) return;
+    // CRITICAL: Only use real order data from DB, never fallback demo data
+    const realOrder = order;
+    if (!realOrder || !realOrder.orderNumber || !realOrder.finalTotal) {
+      console.warn("fetchCoreApiCharge called before order loaded from DB — skipping");
+      return;
+    }
     setIsChargingCoreApi(true);
     try {
       if (paymentType === "qris") {
         const res = await fetch(
-          `/api/payment/qris?orderNumber=${encodeURIComponent(displayOrder.orderNumber)}&amount=${displayOrder.finalTotal}`
+          `/api/payment/qris?orderNumber=${encodeURIComponent(realOrder.orderNumber)}&amount=${realOrder.finalTotal}`
         );
         const data = await res.json();
         if (data.success && data.qrCodeUrl) {
@@ -192,8 +206,8 @@ export default function TrackOrderPage() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            orderId: displayOrder.orderNumber,
-            grossAmount: displayOrder.finalTotal,
+            orderId: realOrder.orderNumber,
+            grossAmount: realOrder.finalTotal,
             paymentType,
             bank: bankName ? bankName.toLowerCase() : undefined,
           }),
