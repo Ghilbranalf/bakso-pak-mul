@@ -108,25 +108,28 @@ export default function AdminSidebar({ activeMenu }: AdminSidebarProps = {}) {
         </Link>
       </header>
 
-      {/* ==================== MOBILE BOTTOM BAR (< lg) ==================== */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 px-2 py-2 flex items-center justify-around shadow-lg">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href;
-          return (
-            <Link
-              key={item.id}
-              href={item.href}
-              className={`flex flex-col items-center py-1 px-3 rounded-xl transition-all ${
-                isActive ? "text-[#51000d] font-black scale-105" : "text-gray-400 font-medium hover:text-gray-700"
-              }`}
-            >
-              <span className={`material-symbols-outlined text-xl ${isActive ? "text-[#51000d]" : ""}`}>
-                {item.icon}
-              </span>
-              <span className="text-[10px] mt-0.5">{item.name}</span>
-            </Link>
-          );
-        })}
+      {/* ==================== MOBILE FLOATING GLASS BOTTOM BAR (< lg) ==================== */}
+      <nav className="lg:hidden fixed bottom-6 left-0 right-0 z-50 flex justify-around items-center h-20 mx-auto">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] max-w-lg rounded-full px-3 py-2 bg-white/80 backdrop-blur-xl border border-white/30 shadow-2xl shadow-[#51000d]/15 flex justify-around items-center h-20">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+
+            return (
+              <Link
+                key={item.id}
+                href={item.href}
+                className={`flex flex-col items-center justify-center transition-all duration-300 active:scale-90 ${
+                  isActive
+                    ? "bg-[#51000d] text-white rounded-full w-12 h-12 shadow-[0_0_15px_rgba(81,0,13,0.5)]"
+                    : "text-gray-700 hover:text-black"
+                }`}
+              >
+                <span className="material-symbols-outlined">{item.icon}</span>
+                {!isActive && <span className="text-[10px] font-bold mt-1">{item.name}</span>}
+              </Link>
+            );
+          })}
+        </div>
       </nav>
     </>
   );
