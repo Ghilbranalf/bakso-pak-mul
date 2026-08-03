@@ -164,15 +164,15 @@ export default function AdminOrdersPage() {
   const totalOmset = orders.filter((o) => o.statusText === "Disetujui").reduce((acc, o) => acc + (o.finalTotal || 0), 0);
 
   return (
-    <div className="flex min-h-screen bg-[#F8F9FA] text-[#1A1C1C] font-sans antialiased">
-      {/* Admin Sidebar */}
+    <div className="flex flex-col lg:flex-row min-h-screen bg-[#F8F9FA] text-[#1A1C1C] font-sans antialiased">
+      {/* Admin Sidebar & Navigation */}
       <AdminSidebar activeMenu="orders" />
 
       {/* Main Content Area */}
-      <main className="flex-1 lg:ml-64 p-4 md:p-8 max-w-7xl">
+      <main className="flex-1 lg:ml-64 p-4 md:p-8 max-w-7xl pb-24 lg:pb-8">
         {/* Toast Notification */}
         {toastMessage && (
-          <div className="fixed top-6 right-6 bg-[#51000d] text-white px-5 py-3 rounded-2xl shadow-xl z-50 flex items-center gap-2 animate-in fade-in duration-200 text-xs font-bold">
+          <div className="fixed top-16 lg:top-6 right-4 lg:right-6 bg-[#51000d] text-white px-4 py-3 rounded-2xl shadow-xl z-50 flex items-center gap-2 animate-in fade-in duration-200 text-xs font-bold">
             <span className="material-symbols-outlined text-base text-amber-300">check_circle</span>
             <span>{toastMessage}</span>
           </div>
@@ -181,10 +181,10 @@ export default function AdminOrdersPage() {
         {/* Header Section */}
         <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl md:text-3xl font-black text-[#51000d] tracking-tight">
+            <h1 className="text-xl md:text-3xl font-black text-[#51000d] tracking-tight">
               Kelola Pesanan Pelanggan
             </h1>
-            <p className="text-xs md:text-sm text-gray-500 font-medium mt-0.5">
+            <p className="text-xs text-gray-500 font-medium mt-0.5">
               Kelola persetujuan transaksi masuk dan unduh laporan struk secara simpel.
             </p>
           </div>
@@ -192,66 +192,66 @@ export default function AdminOrdersPage() {
           <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={handleExportExcel}
-              className="px-4 py-2.5 bg-[#51000d] hover:bg-[#380009] text-white rounded-xl text-xs font-bold shadow-xs transition-all flex items-center gap-2 cursor-pointer"
+              className="px-3.5 py-2 bg-[#51000d] hover:bg-[#380009] text-white rounded-xl text-xs font-bold shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <span className="material-symbols-outlined text-base">download</span>
-              <span>Unduh Rekap Excel</span>
+              <span>Unduh Rekap</span>
             </button>
             <button
               onClick={() => window.print()}
-              className="px-4 py-2.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
+              className="px-3.5 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <span className="material-symbols-outlined text-base">print</span>
-              <span>Cetak Struk</span>
+              <span>Cetak</span>
             </button>
           </div>
         </div>
 
-        {/* Stat Cards Grid (Unified Brand Palette) */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white p-4 rounded-2xl border border-gray-200 shadow-xs flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#51000d]/10 text-[#51000d] rounded-xl flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined">shopping_bag</span>
+        {/* Stat Cards Grid (Responsive 2 columns on mobile) */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
+          <div className="bg-white p-3.5 md:p-4 rounded-2xl border border-gray-200 shadow-xs flex items-center gap-3">
+            <div className="w-9 h-9 md:w-10 md:h-10 bg-[#51000d]/10 text-[#51000d] rounded-xl flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-lg md:text-xl">shopping_bag</span>
             </div>
             <div>
-              <p className="text-[11px] font-bold text-gray-500">Total Transaksi</p>
-              <p className="text-lg font-black text-gray-900">{totalOrdersCount} Pesanan</p>
+              <p className="text-[10px] md:text-[11px] font-bold text-gray-500">Total Transaksi</p>
+              <p className="text-base md:text-lg font-black text-gray-900">{totalOrdersCount} Pesanan</p>
             </div>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-gray-200 shadow-xs flex items-center gap-3">
-            <div className="w-10 h-10 bg-amber-50 text-amber-800 rounded-xl flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined">schedule</span>
+          <div className="bg-white p-3.5 md:p-4 rounded-2xl border border-gray-200 shadow-xs flex items-center gap-3">
+            <div className="w-9 h-9 md:w-10 md:h-10 bg-amber-50 text-amber-800 rounded-xl flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-lg md:text-xl">schedule</span>
             </div>
             <div>
-              <p className="text-[11px] font-bold text-gray-500">Menunggu</p>
-              <p className="text-lg font-black text-gray-900">{pendingCount} Pesanan</p>
+              <p className="text-[10px] md:text-[11px] font-bold text-gray-500">Menunggu</p>
+              <p className="text-base md:text-lg font-black text-gray-900">{pendingCount} Pesanan</p>
             </div>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-gray-200 shadow-xs flex items-center gap-3">
-            <div className="w-10 h-10 bg-emerald-50 text-emerald-800 rounded-xl flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined">check_circle</span>
+          <div className="bg-white p-3.5 md:p-4 rounded-2xl border border-gray-200 shadow-xs flex items-center gap-3">
+            <div className="w-9 h-9 md:w-10 md:h-10 bg-emerald-50 text-emerald-800 rounded-xl flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-lg md:text-xl">check_circle</span>
             </div>
             <div>
-              <p className="text-[11px] font-bold text-gray-500">Disetujui</p>
-              <p className="text-lg font-black text-gray-900">{approvedCount} Pesanan</p>
+              <p className="text-[10px] md:text-[11px] font-bold text-gray-500">Disetujui</p>
+              <p className="text-base md:text-lg font-black text-gray-900">{approvedCount} Pesanan</p>
             </div>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-gray-200 shadow-xs flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#51000d]/10 text-[#51000d] rounded-xl flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined">payments</span>
+          <div className="bg-white p-3.5 md:p-4 rounded-2xl border border-gray-200 shadow-xs flex items-center gap-3">
+            <div className="w-9 h-9 md:w-10 md:h-10 bg-[#51000d]/10 text-[#51000d] rounded-xl flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-lg md:text-xl">payments</span>
             </div>
             <div>
-              <p className="text-[11px] font-bold text-gray-500">Total Omset Disetujui</p>
-              <p className="text-lg font-black text-gray-900">{formatPrice(totalOmset)}</p>
+              <p className="text-[10px] md:text-[11px] font-bold text-gray-500">Total Omset</p>
+              <p className="text-base md:text-lg font-black text-gray-900">{formatPrice(totalOmset)}</p>
             </div>
           </div>
         </div>
 
         {/* Toolbar Cari & Filter */}
-        <div className="bg-white p-4 rounded-2xl shadow-xs border border-gray-200 mb-6 flex flex-col md:flex-row gap-3 justify-between items-center">
+        <div className="bg-white p-3.5 md:p-4 rounded-2xl shadow-xs border border-gray-200 mb-6 flex flex-col md:flex-row gap-3 justify-between items-center">
           <div className="relative w-full md:w-80">
             <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
               search
@@ -271,7 +271,7 @@ export default function AdminOrdersPage() {
               <button
                 key={status}
                 onClick={() => setFilterStatus(status)}
-                className={`px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                className={`px-3.5 py-1.5 md:py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
                   filterStatus === status
                     ? "bg-[#51000d] text-white shadow-xs"
                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -283,8 +283,79 @@ export default function AdminOrdersPage() {
           </div>
         </div>
 
-        {/* Table Main Container */}
-        <div className="bg-white rounded-2xl shadow-xs border border-gray-200 overflow-hidden">
+        {/* ==================== MOBILE CARDS LAYOUT (< md) ==================== */}
+        <div className="md:hidden space-y-3 mb-6">
+          {isLoading ? (
+            <div className="bg-white p-8 rounded-2xl border border-gray-200 text-center text-xs text-gray-500 font-bold">
+              Memuat data pesanan...
+            </div>
+          ) : filteredOrders.length === 0 ? (
+            <div className="bg-white p-8 rounded-2xl border border-gray-200 text-center text-xs text-gray-500 font-bold">
+              Tidak ada pesanan ditemukan.
+            </div>
+          ) : (
+            filteredOrders.map((order) => (
+              <div key={order.id} className="bg-white p-4 rounded-2xl border border-gray-200 shadow-xs space-y-3">
+                <div className="flex items-start justify-between border-b pb-2.5 border-gray-100">
+                  <div>
+                    <span className="font-extrabold text-[#51000d] font-mono text-sm">{order.orderNumber}</span>
+                    <p className="text-[11px] text-gray-400 font-medium">{order.date}</p>
+                  </div>
+                  <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-black border ${order.statusBg}`}>
+                    <span className="material-symbols-outlined text-xs">{order.statusBadgeIcon}</span>
+                    <span>{order.statusText}</span>
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between text-xs">
+                  <div>
+                    <p className="font-bold text-gray-900">{order.customerName}</p>
+                    <p className="text-[11px] text-gray-500 font-medium">📍 {order.city || order.province || "Alamat tercantum"}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-black text-[#51000d] text-sm">{formatPrice(order.finalTotal)}</p>
+                    <p className="text-[10px] text-gray-500 font-medium">{order.totalItems} Barang</p>
+                  </div>
+                </div>
+
+                {/* Touch-Friendly Action Buttons */}
+                <div className="flex items-center justify-end gap-1.5 pt-1 border-t border-gray-100">
+                  <button
+                    onClick={() => setSelectedOrderDetail(order)}
+                    className="flex-1 py-2 bg-[#51000d] text-white rounded-xl text-xs font-extrabold flex items-center justify-center gap-1 cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-sm">visibility</span>
+                    <span>Detail</span>
+                  </button>
+
+                  {order.statusText !== "Disetujui" && (
+                    <button
+                      disabled={updatingId === order.id}
+                      onClick={() => handleStatusChange(order.id, "COMPLETED")}
+                      className="flex-1 py-2 bg-emerald-700 text-white rounded-xl text-xs font-extrabold flex items-center justify-center gap-1 cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-sm">check</span>
+                      <span>Setujui</span>
+                    </button>
+                  )}
+
+                  {order.statusText !== "Dibatalkan" && (
+                    <button
+                      onClick={() => setCancelTargetOrder(order)}
+                      className="px-3 py-2 bg-gray-100 text-gray-700 rounded-xl text-xs font-extrabold flex items-center justify-center gap-1 cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-sm">close</span>
+                      <span>Batal</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* ==================== DESKTOP TABLE LAYOUT (>= md) ==================== */}
+        <div className="hidden md:block bg-white rounded-2xl shadow-xs border border-gray-200 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
@@ -315,38 +386,28 @@ export default function AdminOrdersPage() {
                 ) : (
                   filteredOrders.map((order) => (
                     <tr key={order.id} className="hover:bg-gray-50/80 transition-colors">
-                      {/* No. Pesanan */}
                       <td className="px-5 py-4">
                         <p className="font-extrabold text-[#51000d] font-mono text-sm">{order.orderNumber}</p>
                         <p className="text-[11px] text-gray-500 font-medium mt-0.5">{order.date}</p>
                       </td>
-
-                      {/* Pelanggan */}
                       <td className="px-5 py-4">
                         <p className="font-bold text-gray-900 text-sm">{order.customerName}</p>
                         <p className="text-[11px] text-gray-500 font-medium">
                           📍 {order.city || order.province || "Alamat tercantum"}
                         </p>
                       </td>
-
-                      {/* Total */}
                       <td className="px-5 py-4">
                         <p className="font-black text-gray-900 text-sm">{formatPrice(order.finalTotal)}</p>
                         <p className="text-[11px] text-gray-500 font-medium">{order.totalItems} Barang</p>
                       </td>
-
-                      {/* Badge Status */}
                       <td className="px-5 py-4">
                         <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black border ${order.statusBg}`}>
                           <span className="material-symbols-outlined text-sm">{order.statusBadgeIcon}</span>
                           <span>{order.statusText}</span>
                         </span>
                       </td>
-
-                      {/* Tombol Aksi Langsung Admin */}
                       <td className="px-5 py-4 text-center">
                         <div className="flex items-center justify-center gap-1.5">
-                          {/* Detail */}
                           <button
                             onClick={() => setSelectedOrderDetail(order)}
                             className="px-3 py-1.5 bg-[#51000d] text-white hover:bg-[#380009] rounded-xl text-xs font-extrabold transition-all shadow-xs flex items-center gap-1 cursor-pointer"
@@ -356,7 +417,6 @@ export default function AdminOrdersPage() {
                             <span>Detail</span>
                           </button>
 
-                          {/* Tombol Setujui (1-Click Approve) */}
                           {order.statusText !== "Disetujui" && (
                             <button
                               disabled={updatingId === order.id}
@@ -369,7 +429,6 @@ export default function AdminOrdersPage() {
                             </button>
                           )}
 
-                          {/* Tombol Batalkan (1-Click Cancel) */}
                           {order.statusText !== "Dibatalkan" && (
                             <button
                               onClick={() => setCancelTargetOrder(order)}
@@ -393,13 +452,12 @@ export default function AdminOrdersPage() {
 
       {/* MODAL VIEW DETAIL PESANAN LENGKAP */}
       {selectedOrderDetail && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-5 animate-in zoom-in-95 duration-150 border border-gray-100 my-8 text-xs">
-            {/* Modal Header */}
-            <div className="flex items-start justify-between border-b pb-4 border-gray-100">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-[90] flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-xl w-full p-5 md:p-6 shadow-2xl space-y-4 animate-in zoom-in-95 duration-150 border border-gray-100 my-8 text-xs">
+            <div className="flex items-start justify-between border-b pb-3 border-gray-100">
               <div>
                 <span className="text-[11px] font-bold text-gray-500 uppercase">Rincian Transaksi</span>
-                <h2 className="text-xl font-black text-[#51000d] font-mono mt-0.5">{selectedOrderDetail.orderNumber}</h2>
+                <h2 className="text-lg font-black text-[#51000d] font-mono mt-0.5">{selectedOrderDetail.orderNumber}</h2>
                 <p className="text-xs text-gray-500 font-medium">Tanggal: {selectedOrderDetail.date}</p>
               </div>
 
@@ -411,8 +469,7 @@ export default function AdminOrdersPage() {
               </button>
             </div>
 
-            {/* Customer Info Card */}
-            <div className="bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-2.5">
+            <div className="bg-gray-50 p-3.5 rounded-2xl border border-gray-200 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="font-black text-[#51000d] text-xs flex items-center gap-1">
                   <span className="material-symbols-outlined text-base">person</span>
@@ -450,16 +507,15 @@ export default function AdminOrdersPage() {
               </div>
             </div>
 
-            {/* Ordered Items List */}
             <div className="space-y-2">
               <h3 className="font-black text-gray-800 uppercase flex items-center gap-1">
                 <span className="material-symbols-outlined text-base">shopping_cart</span>
                 Daftar Barang ({selectedOrderDetail.items?.length || 0} Jenis)
               </h3>
 
-              <div className="divide-y divide-gray-100 border border-gray-200 rounded-xl overflow-hidden max-h-40 overflow-y-auto bg-white">
+              <div className="divide-y divide-gray-100 border border-gray-200 rounded-xl overflow-hidden max-h-36 overflow-y-auto bg-white">
                 {(selectedOrderDetail.items || []).map((item: any, idx: number) => (
-                  <div key={idx} className="p-3 flex items-center justify-between">
+                  <div key={idx} className="p-2.5 flex items-center justify-between">
                     <div>
                       <p className="font-bold text-gray-900">{item.productName || item.product?.name || "Produk Bakso Pak Mul"}</p>
                       <p className="text-[11px] text-gray-500">{item.quantity} x {formatPrice(item.price)}</p>
@@ -470,8 +526,7 @@ export default function AdminOrdersPage() {
               </div>
             </div>
 
-            {/* Total Breakdown */}
-            <div className="bg-gray-50 p-3.5 rounded-xl border border-gray-200 space-y-1.5">
+            <div className="bg-gray-50 p-3 rounded-xl border border-gray-200 space-y-1 text-xs">
               <div className="flex justify-between text-gray-600">
                 <span>Subtotal Barang:</span>
                 <span className="font-bold">{formatPrice(selectedOrderDetail.totalAmount || selectedOrderDetail.finalTotal)}</span>
@@ -482,7 +537,6 @@ export default function AdminOrdersPage() {
               </div>
             </div>
 
-            {/* Modal Actions */}
             <div className="flex items-center justify-between pt-2">
               <a
                 href={`/transaksi/${selectedOrderDetail.orderNumber}?print=true`}
@@ -507,8 +561,8 @@ export default function AdminOrdersPage() {
 
       {/* CONFIRMATION CANCEL MODAL */}
       {cancelTargetOrder && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-in zoom-in-95 duration-150 border border-gray-100 text-xs">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-[90] flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-md w-full p-5 shadow-2xl space-y-3 animate-in zoom-in-95 duration-150 border border-gray-100 text-xs">
             <div className="w-10 h-10 bg-[#51000d]/10 text-[#51000d] rounded-xl flex items-center justify-center">
               <span className="material-symbols-outlined text-xl">warning</span>
             </div>
