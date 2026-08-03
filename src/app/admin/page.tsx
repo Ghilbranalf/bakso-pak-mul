@@ -106,7 +106,8 @@ export default function AdminDashboardPage() {
 
   // Generate Sales Chart Data based on selected Timeframe (Daily, Weekly, Monthly, Yearly)
   const getChartData = (): ChartDataPoint[] => {
-    const validOrders = orders.filter((o) => o.status !== "CANCELED" && o.status !== "CANCELLED");
+    // Only calculate actual paid / completed sales for accurate omset analytics
+    const validOrders = orders.filter((o) => o.status === "PAID" || o.status === "COMPLETED");
 
     if (timeframe === "daily") {
       // Last 7 Days
