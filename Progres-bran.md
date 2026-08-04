@@ -1,17 +1,6 @@
 # 📋 Progres Proyek Bakso Pak Mul — Ghilbran
-> **Terakhir Diperbarui:** 31 Juli 2026  
-> **Branch:** `master` | **Stack:** Next.js 15, Prisma, Supabase, Midtrans, Tailwind CSS
-
----
-
-## ✅ SUDAH SELESAI
-
-### 🏗️ Fondasi & Infrastruktur
-- [x] **Setup Project Next.js 15** — Struktur folder, konfigurasi TypeScript, ESLint
-- [x] **Database Prisma + Supabase** — Schema lengkap (User, Product, Order, OrderItem, Cart), migrasi, seed data
-- [x] **Autentikasi Supabase** — Login, Register, Verify OTP, Logout, Middleware proteksi rute
-- [x] **Context API** — `CartContext` untuk manajemen keranjang belanja global
-- [x] **Prisma Client Singleton** — `src/lib/prisma.ts` untuk koneksi DB yang efisien
+2: > **Terakhir Diperbarui:** 4 Agustus 2026  
+3: > **Branch:** `master` | **Stack:** Next.js 15, Prisma, Supabase, Midtrans, Tailwind CSS
 
 ---
 
@@ -21,6 +10,7 @@
 |---------|-----|--------|
 | Beranda / Hero | `/` | ✅ Selesai |
 | Katalog Produk | `/produk` | ✅ Selesai |
+| Pencarian Produk (Search Bar) | `/produk?q=...` | ✅ Selesai |
 | Keranjang Belanja (Sidebar) | — | ✅ Selesai |
 | Checkout & Pembayaran | `/checkout` | ✅ Selesai |
 | Lacak Pesanan Live | `/lacak` | ✅ Selesai |
@@ -94,7 +84,7 @@
 ### 🎨 UI / UX
 - [x] **Design System** — Warna maroon `#51000d` sebagai brand color utama
 - [x] **Google Fonts Inter** — Tipografi konsisten di seluruh aplikasi
-- [x] **Navbar** — Logo, navigasi, tombol profil/login, ikon keranjang
+- [x] **Navbar** — Logo, navigasi, tombol profil/login, ikon keranjang, & search bar aktif
 - [x] **Bottom Nav Mobile** — Navigasi bawah untuk tampilan mobile
 - [x] **Cart Sidebar** — Slide-in dari kanan, daftar item, total, tombol ke checkout
 - [x] **Footer** — Informasi toko & tautan
@@ -125,8 +115,8 @@
 - [ ] **WhatsApp Notifikasi** — Integrasi dengan Fonnte/Wablas untuk notifikasi WA
 
 ### 🔍 Fitur Lanjutan Customer
-- [ ] **Pencarian Produk** — Search bar di halaman `/produk` masih tampilan saja, belum fungsional
-- [ ] **Filter Produk** — Filter per kategori di halaman produk belum terhubung ke API
+- [x] **Pencarian Produk** — Search bar di Navbar terhubung dengan filter kata kunci di `/produk?q=...`
+- [ ] **Filter Lanjutan (Harga & Multi-kategori)** — Modal Filter Lanjut di halaman produk belum terhubung ke backend/query parameter
 - [ ] **Review / Rating Produk** — Belum ada fitur ulasan produk
 - [ ] **Wishlist / Favorit** — Belum ada fitur simpan produk favorit
 

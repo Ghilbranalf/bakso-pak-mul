@@ -36,6 +36,17 @@ export default function Navbar() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      const { createClient } = await import('@/utils/supabase/client');
+      const supabase = createClient();
+      await supabase.auth.signOut();
+      window.location.reload();
+    } catch (err) {
+      console.error("Logout error:", err);
+    }
+  };
+
   const navLinks = [
     { name: "Beranda", href: "/" },
     { name: "Produk", href: "/produk" },
@@ -96,22 +107,24 @@ export default function Navbar() {
             <div className="flex items-center space-x-4">
               {user ? (
                 <div className="flex items-center gap-2 relative group cursor-pointer">
-                  <div className="bg-[#51000d] text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md">
+                  <Link href="/profil" className="bg-[#51000d] text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md hover:scale-105 transition-transform" title="Profil Saya">
                     {(user.user_metadata?.full_name || user.email || 'U').charAt(0).toUpperCase()}
-                  </div>
+                  </Link>
                   
-                  {/* Dropdown Logout */}
-                  <div className="absolute top-full right-0 mt-2 w-32 bg-white rounded-xl shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all flex flex-col py-2 z-50">
-                    <div className="px-4 py-2 text-[10px] text-gray-500 font-bold border-b border-gray-50 truncate">
+                  {/* Dropdown Menu */}
+                  <div className="absolute top-full right-0 mt-2 w-36 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 flex flex-col py-2 z-50">
+                    <div className="px-4 py-1.5 text-[10px] text-gray-500 font-bold border-b border-gray-100 truncate">
                       {user.user_metadata?.full_name || user.email}
                     </div>
-                    <Link href="/profil" className="px-4 py-2 text-xs font-bold text-gray-700 hover:bg-gray-50 text-left">Profil Saya</Link>
-                    <button onClick={async () => {
-                      const { createClient } = await import('@/utils/supabase/client');
-                      const supabase = createClient();
-                      await supabase.auth.signOut();
-                      window.location.reload();
-                    }} className="px-4 py-2 text-xs font-bold text-red-600 hover:bg-gray-50 text-left cursor-pointer">Keluar</button>
+                    <Link href="/profil" className="px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 hover:text-[#51000d] transition-colors">
+                      Profil Saya
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="px-4 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 text-left transition-colors cursor-pointer"
+                    >
+                      Keluar
+                    </button>
                   </div>
                 </div>
               ) : (

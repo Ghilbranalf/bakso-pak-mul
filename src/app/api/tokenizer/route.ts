@@ -6,7 +6,7 @@ export async function POST(request: Request) {
     const body = await request.json().catch(() => ({}));
     const { items = [], totalPrice = 0, shippingCost = 0, discount = 0, shippingInfo = {}, paymentType = "online" } = body;
 
-    const serverKey = process.env.MIDTRANS_SERVER_KEY || "Mid-server-nUgGimDS95Y1taLsqv8zNakM";
+    const serverKey = process.env.MIDTRANS_SERVER_KEY || "";
     const authString = Buffer.from(`${serverKey}:`).toString("base64");
 
     const orderId = body.orderNumber || body.orderId || `BPM-${Date.now()}`;
