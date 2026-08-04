@@ -154,7 +154,7 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-end mb-10">
               <div>
-                <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Pilihan Favorit Keluarga</h2>
+                <h2 className="text-3xl font-semibold text-gray-900 tracking-tight">Pilihan Favorit Keluarga</h2>
                 <p className="mt-2 text-lg text-gray-500">Produk terlaris yang wajib ada di kulkas Anda.</p>
               </div>
               <Link className="hidden sm:inline-flex items-center text-maroon font-semibold hover:text-maroon-dark group" href="/produk">
@@ -224,7 +224,7 @@ export default function HomePage() {
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Cara Belanja Mudah</h2>
+              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Cara Belanja Mudah</h2>
               <p className="mt-4 text-lg text-red-200">Pesanan sampai di tempat Anda dalam 4 langkah praktis.</p>
             </div>
             <div className="relative">
@@ -277,7 +277,7 @@ export default function HomePage() {
         <section className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Kata Mereka</h2>
+              <h2 className="text-3xl font-semibold text-gray-900 tracking-tight">Kata Mereka</h2>
               <p className="mt-4 text-lg text-gray-500">Pengalaman pelanggan setia kami bersama Bakso Pak Mul.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -332,7 +332,7 @@ export default function HomePage() {
         <section className="py-20 bg-white border-t border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Keunggulan Produk Kami</h2>
+              <h2 className="text-3xl font-semibold text-gray-900 tracking-tight">Keunggulan Produk Kami</h2>
               <p className="mt-4 text-lg text-gray-500">Mengapa ribuan keluarga dan pedagang memilih Bakso Pak Mul.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
@@ -382,7 +382,7 @@ export default function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                   <div className="absolute bottom-4 left-4 right-4 text-white">
                     <p className="text-xs font-bold uppercase tracking-wider text-amber-300">📍 Lokasi Otentik</p>
-                    <p className="text-sm font-extrabold">Kios Bakso Pak Mul - Pasar Kramat Jati, Jakarta Timur</p>
+                    <p className="text-sm font-semibold">Kios Bakso Pak Mul - Pasar Kramat Jati, Jakarta Timur</p>
                   </div>
                 </div>
                 <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-xl border border-gray-100 hidden md:block">
@@ -392,7 +392,7 @@ export default function HomePage() {
               </div>
               <div>
                 <span className="text-maroon font-bold tracking-wider uppercase text-sm">Tentang Kami</span>
-                <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mt-4 mb-6">Jakarta Timur, Pasar Kramat Jati</h2>
+                <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 mt-4 mb-6">Jakarta Timur, Pasar Kramat Jati</h2>
                 <p className="text-gray-600 mb-8 leading-relaxed">Kunjungi gerai utama kami di Pasar Kramat Jati untuk mendapatkan produk bakso dan mie ayam segar setiap hari. Kami hadir lebih dekat untuk melayani kebutuhan dapur keluarga dan mitra pedagang di wilayah Jakarta Timur.</p>
                 <div className="flex items-center space-x-4">
                   <div className="flex -space-x-2">

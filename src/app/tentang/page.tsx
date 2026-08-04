@@ -68,14 +68,17 @@ export default function AboutPage() {
             </div>
 
             <div className="relative">
-              <div className="aspect-square rounded-[32px] overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 border border-gray-100">
-                <div
-                  className="w-full h-full bg-cover bg-center"
-                  style={{
-                    backgroundImage:
-                      "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDXspxaLg8lF-dIMJ7EfsjFMAu4OfHBrogPhc875xep-NBNKyXN9nYJwNaRgSCnXrZd7Ej0CihWA7X2a2nwgEMY3ykhFqgAmxRP8eKfL659pYxGbz2PjrvvFZ1NhN1IIA_Ws9uyRWE_SBxcaEryx8vB86YOnv2ADU2lg2Y8s8NUJVgJDUE6r5QxaJA3TPRR7UZbMbU7ZN0Gh-oNYt72khnLmtNEePBarYBloSn4N6OKqi_gOoVpLGkBtZUvaYhnRyYfZsu-Eh3z7pOU')",
-                  }}
-                ></div>
+              <div className="aspect-square rounded-[32px] overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 border border-gray-100 relative bg-gray-100">
+                <iframe
+                  title="Peta Lokasi Bakso Pak Mul Pasar Kramat Jati"
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=106.8600%2C-6.2680%2C106.8750%2C-6.2580&amp;layer=mapnik&amp;marker=-6.2628%2C106.8672"
+                  className="w-full h-full border-0"
+                  loading="lazy"
+                ></iframe>
+                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full shadow-md text-[11px] font-bold text-[#51000d] flex items-center gap-1.5 border border-red-100">
+                  <span className="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
+                  📍 Pasar Kramat Jati, Jakarta Timur
+                </div>
               </div>
               <div className="absolute -bottom-8 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-gray-100 hidden md:block max-w-[300px]">
                 <p className="italic text-gray-600 text-xs md:text-sm leading-relaxed">
