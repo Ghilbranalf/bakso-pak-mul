@@ -82,6 +82,12 @@ export async function POST(req: Request) {
         });
       }
 
+      if (msgLower.includes("jual apa") || msgLower.includes("menjual apa") || msgLower.includes("jualan apa") || msgLower.includes("produk apa")) {
+        return NextResponse.json({
+          reply: "Toko Bakso Pak Mul menjual Pusat Bahan Baku Bakso & Mie Ayam berkualitas! 🍲\n\nProduk kami meliputi:\n1. 🥩 Bakso Sapi Asli (Urat Super, Polos Halus, Premium)\n2. 🍜 Mie Ayam & Kulit Pangsit (Mie Keriting Kenyal, Pangsit Goreng/Rebus)\n3. 🧂 Bumbu & Saus (Bumbu Kuah Rahasia, Kecap Manis, Saos Pedas)\n4. 🥢 Pelengkap (Sumpit Bambu Steril)\n\nApakah ada produk tertentu yang ingin Anda tanyakan harganya?"
+        });
+      }
+
       if (msgLower.includes("harga") || msgLower.includes("berapa") || msgLower.includes("katalog") || msgLower.includes("ada apa aja")) {
         return NextResponse.json({
           reply: productCatalogText 
