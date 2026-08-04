@@ -4,11 +4,17 @@ import { createClient } from "@/utils/supabase/server";
 
 export async function GET(request: Request) {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    let user = null;
+    try {
+      const supabase = await createClient();
+      const { data } = await supabase.auth.getUser();
+      user = data?.user || null;
+    } catch (authErr) {
+      console.warn("Cart GET Auth Session bypass:", authErr);
+    }
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ items: [] });
     }
 
     const userEmail = user.email || `${user.id}@user.com`;
@@ -65,17 +71,23 @@ export async function GET(request: Request) {
     return NextResponse.json({ items: formattedItems });
   } catch (error: any) {
     console.error("Cart GET Error:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ items: [] });
   }
 }
 
 export async function POST(request: Request) {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    let user = null;
+    try {
+      const supabase = await createClient();
+      const { data } = await supabase.auth.getUser();
+      user = data?.user || null;
+    } catch (authErr) {
+      console.warn("Cart POST Auth Session bypass:", authErr);
+    }
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ success: true, guest: true });
     }
 
     const body = await request.json();
