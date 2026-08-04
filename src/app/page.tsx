@@ -373,16 +373,16 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
               <div className="relative mb-12 lg:mb-0">
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
-                  <img 
-                    src="/images/toko-pak-mul-kramat-jati.jpg" 
-                    alt="Toko Bakso Pak Mul Pasar Kramat Jati Jakarta Timur" 
-                    className="w-full h-[420px] object-cover object-center transform hover:scale-105 transition-transform duration-500" 
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <p className="text-xs font-bold uppercase tracking-wider text-amber-300">📍 Lokasi Otentik</p>
-                    <p className="text-sm font-semibold">Kios Bakso Pak Mul - Pasar Kramat Jati, Jakarta Timur</p>
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-gray-100 h-[420px]">
+                  <iframe
+                    title="Peta Lokasi Bakso Pak Mul Pasar Kramat Jati Beranda"
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=106.8600%2C-6.2680%2C106.8750%2C-6.2580&amp;layer=mapnik&amp;marker=-6.2628%2C106.8672"
+                    className="w-full h-full border-0"
+                    loading="lazy"
+                  ></iframe>
+                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3.5 py-2 rounded-full shadow-md text-xs font-bold text-[#51000d] flex items-center gap-2 border border-red-100 z-10">
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping"></span>
+                    📍 Kios Pasar Kramat Jati, Jakarta Timur
                   </div>
                 </div>
                 <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-xl border border-gray-100 hidden md:block">
