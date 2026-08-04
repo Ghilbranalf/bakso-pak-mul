@@ -25,35 +25,39 @@ export async function POST(request: Request) {
       );
     }
 
-    // Try to get authenticated Supabase user
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-
+    // Try to get authenticated Supabase user safely
     let userId: string | null = null;
+    try {
+      const supabase = await createClient();
+      const { data } = await supabase.auth.getUser();
+      const user = data?.user || null;
 
-    if (user) {
-      // Ensure user exists in Prisma DB
-      const existingUser = await prisma.user.findFirst({
-        where: {
-          OR: [
-            { id: user.id },
-            { email: user.email || customerEmail }
-          ]
-        }
-      });
-
-      if (!existingUser) {
-        const created = await prisma.user.create({
-          data: {
-            id: user.id,
-            email: user.email || customerEmail || `${user.id}@user.com`,
-            name: customerName,
+      if (user) {
+        // Ensure user exists in Prisma DB
+        const existingUser = await prisma.user.findFirst({
+          where: {
+            OR: [
+              { id: user.id },
+              { email: user.email || customerEmail || `${user.id}@user.com` }
+            ]
           }
         });
-        userId = created.id;
-      } else {
-        userId = existingUser.id;
+
+        if (!existingUser) {
+          const created = await prisma.user.create({
+            data: {
+              id: user.id,
+              email: user.email || customerEmail || `${user.id}@user.com`,
+              name: customerName,
+            }
+          });
+          userId = created.id;
+        } else {
+          userId = existingUser.id;
+        }
       }
+    } catch (authErr) {
+      console.warn("Checkout Supabase Auth Session bypass:", authErr);
     }
 
     // Generate unique order number: BPM-YYYYMMDD-XXXX
@@ -62,14 +66,43 @@ export async function POST(request: Request) {
     const randomDigits = Math.floor(1000 + Math.random() * 9000);
     const orderNumber = `BPM-${dateStr}-${randomDigits}`;
 
-    // Calculate totals & unique payment code (1-999) to prevent payment ambiguity
-    const subtotal = items.reduce(
-      (acc: number, item: any) => acc + (Number(item.price) * Number(item.quantity)),
-      0
-    );
+    // Validate items & fetch real database products
+    const validItemsData: any[] = [];
+    let calculatedSubtotal = 0;
+
+    for (const item of items) {
+      try {
+        const dbProduct = await prisma.product.findUnique({
+          where: { id: item.id }
+        });
+
+        if (dbProduct) {
+          const qty = Math.max(1, Number(item.quantity) || 1);
+          const price = Number(item.price) || dbProduct.price;
+          calculatedSubtotal += price * qty;
+
+          validItemsData.push({
+            product: { connect: { id: dbProduct.id } },
+            quantity: qty,
+            priceAtTime: price
+          });
+        }
+      } catch (itemErr) {
+        console.warn(`Skipping missing product ID ${item.id} during checkout:`, itemErr);
+      }
+    }
+
+    // Fallback if no valid products found from database
+    if (validItemsData.length === 0) {
+      return NextResponse.json(
+        { error: "Item di keranjang tidak valid atau telah diperbarui. Silakan tambahkan kembali produk ke keranjang." },
+        { status: 400 }
+      );
+    }
+
     const shippingCost = Number(body.shippingFee || body.shippingCost || 0);
     const uniqueCode = Math.floor(1 + Math.random() * 999);
-    const finalTotal = subtotal + shippingCost + uniqueCode;
+    const finalTotal = calculatedSubtotal + shippingCost + uniqueCode;
 
     // Create Order in DB according to exact Prisma schema
     const newOrder = await prisma.order.create({
@@ -89,11 +122,7 @@ export async function POST(request: Request) {
         finalTotal,
         paymentType: paymentMethod,
         items: {
-          create: items.map((item: any) => ({
-            product: { connect: { id: item.id } },
-            quantity: Number(item.quantity),
-            priceAtTime: Number(item.price),
-          }))
+          create: validItemsData
         }
       },
       include: {
