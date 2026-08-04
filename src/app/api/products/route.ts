@@ -3,16 +3,23 @@ import prisma from "@/lib/prisma";
 
 export async function GET() {
   try {
-    const products = await prisma.product.findMany({
-      where: { isActive: true },
-      orderBy: { createdAt: "desc" },
-    });
+    const products = await Promise.race([
+      prisma.product.findMany({
+        where: { isActive: true },
+        orderBy: { createdAt: "desc" },
+      }),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Database query timeout")), 8000)
+      ),
+    ]);
 
     return NextResponse.json({ products });
   } catch (error: any) {
     console.error("Error fetching products:", error);
-    // Return empty array fallback on network/DB connection timeout
-    return NextResponse.json({ products: [], error: "Gagal mengambil data produk" });
+    return NextResponse.json(
+      { products: [], error: "Gagal mengambil data produk" },
+      { status: 200 }
+    );
   }
 }
 

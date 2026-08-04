@@ -24,18 +24,28 @@ function ProductsContent() {
   const itemsPerPage = 12;
 
   useEffect(() => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 12000);
+
     const fetchProducts = async () => {
       try {
-        const res = await fetch("/api/products");
+        const res = await fetch("/api/products", { signal: controller.signal });
         const data = await res.json();
         setProducts(data.products || []);
-      } catch (err) {
-        console.error("Failed to fetch products", err);
+      } catch (err: any) {
+        if (err.name !== "AbortError") {
+          console.error("Failed to fetch products", err);
+        }
       } finally {
         setIsLoading(false);
       }
     };
     fetchProducts();
+
+    return () => {
+      clearTimeout(timeoutId);
+      controller.abort();
+    };
   }, []);
 
   const formatPrice = (price: number) => {
