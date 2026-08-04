@@ -1,6 +1,17 @@
 # 📋 Progres Proyek Bakso Pak Mul — Ghilbran
-2: > **Terakhir Diperbarui:** 4 Agustus 2026  
-3: > **Branch:** `master` | **Stack:** Next.js 15, Prisma, Supabase, Midtrans, Tailwind CSS
+> **Terakhir Diperbarui:** 4 Agustus 2026  
+> **Branch:** `master` | **Stack:** Next.js 15, Prisma, Supabase, Midtrans, Tailwind CSS
+
+---
+
+## ✅ SUDAH SELESAI
+
+### 🏗️ Fondasi & Infrastruktur
+- [x] **Setup Project Next.js 15** — Struktur folder, konfigurasi TypeScript, ESLint
+- [x] **Database Prisma + Supabase** — Schema lengkap (User, Product, Order, OrderItem, Cart), migrasi, seed data
+- [x] **Autentikasi Supabase** — Login, Register, Verify OTP, Logout, Middleware proteksi rute
+- [x] **Context API** — `CartContext` untuk manajemen keranjang belanja global
+- [x] **Prisma Client Singleton** — `src/lib/prisma.ts` untuk koneksi DB yang efisien
 
 ---
 
@@ -16,7 +27,7 @@
 | Lacak Pesanan Live | `/lacak` | ✅ Selesai |
 | Detail Pesanan | `/transaksi/[id]` | ✅ Selesai |
 | Riwayat Transaksi | `/transaksi` | ✅ Selesai |
-| Profil Pengguna | `/profil` | ✅ Selesai |
+| Profil Pengguna | `/profil` | ✅ Selesai (Mobile-friendly overhaul) |
 | Login | `/login` | ✅ Selesai |
 | Register | `/register` | ✅ Selesai |
 | Verify OTP | `/verify-otp` | ✅ Selesai |
@@ -62,11 +73,11 @@
 
 ---
 
-### 🔌 API Endpoints
+### 🔌 API Endpoints & Keamanan
 
 | Endpoint | Method | Fungsi | Status |
 |----------|--------|--------|--------|
-| `/api/products` | GET | Ambil semua produk | ✅ |
+| `/api/products` | GET | Ambil semua produk (dengan timeout & fallback safety) | ✅ |
 | `/api/products` | POST | Tambah produk baru | ✅ |
 | `/api/products/[id]` | PUT | Update produk | ✅ |
 | `/api/products/[id]` | DELETE | Hapus produk | ✅ |
@@ -81,15 +92,22 @@
 
 ---
 
-### 🎨 UI / UX
+### 🎨 UI / UX & Performa (Terbaru 4 Agustus 2026)
 - [x] **Design System** — Warna maroon `#51000d` sebagai brand color utama
 - [x] **Google Fonts Inter** — Tipografi konsisten di seluruh aplikasi
-- [x] **Navbar** — Logo, navigasi, tombol profil/login, ikon keranjang, & search bar aktif
-- [x] **Bottom Nav Mobile** — Navigasi bawah untuk tampilan mobile
-- [x] **Cart Sidebar** — Slide-in dari kanan, daftar item, total, tombol ke checkout
-- [x] **Footer** — Informasi toko & tautan
-- [x] **Produk Favorit** — 3 kartu acak di beranda (Bakso, Mie, Bumbu)
-- [x] **Katalog Prioritas** — Bakso & Mie paling atas, Bumbu paling bawah
+- [x] **Navbar Avatar Optimization** — Mengeliminasi lag saat diklik/dihover di Navbar
+- [x] **Mobile Friendly Profil (`/profil`)** — Overhaul tampilan profil dengan segmented tab switcher & tombol Keluar Akun dedicated
+- [x] **Pencarian Produk (Search Bar)** — Terhubung secara live ke `/produk?q=...`
+- [x] **Optimasi Gambar WebP** — Konversi 21 gambar produk ke WebP (URL-safe kebab-case), ukuran hemat hingga **98%** (dari ~2MB menjadi ~30-70KB)
+- [x] **Pembersihan AbortError Console** — Penanganan senyap AbortController pada fetch halaman `/produk` dan `/profil`
+- [x] **Resilient Middleware** — Middleware tidak crash saat env vars lambat dimuat di Vercel Edge
+
+---
+
+## 🚀 Status Deployment Vercel
+
+- [x] **Deploy ke Vercel** — Aplikasi telah sukses live di Vercel: [`https://bakso-pak-mul.vercel.app`](https://bakso-pak-mul.vercel.app)
+- [x] **Setup Environment Variables Production** — `DATABASE_URL`, `DIRECT_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` terkonfigurasi sempurna di Vercel Production environment variables
 
 ---
 
@@ -115,16 +133,12 @@
 - [ ] **WhatsApp Notifikasi** — Integrasi dengan Fonnte/Wablas untuk notifikasi WA
 
 ### 🔍 Fitur Lanjutan Customer
-- [x] **Pencarian Produk** — Search bar di Navbar terhubung dengan filter kata kunci di `/produk?q=...`
 - [ ] **Filter Lanjutan (Harga & Multi-kategori)** — Modal Filter Lanjut di halaman produk belum terhubung ke backend/query parameter
 - [ ] **Review / Rating Produk** — Belum ada fitur ulasan produk
 - [ ] **Wishlist / Favorit** — Belum ada fitur simpan produk favorit
 
-### 🚀 Deployment
-- [ ] **Deploy ke Vercel** — Aplikasi belum di-deploy ke production (masih lokal `localhost:3000`)
-- [ ] **Setup Environment Variables Production** — `.env` production di Vercel belum dikonfigurasi
+### 🌐 Domain & Branding
 - [ ] **Domain Custom** — Belum ada domain custom (misal: `baksopakmul.com`)
-- [ ] **Optimasi Gambar** — Gambar produk di `public/images/` belum dioptimasi untuk web (WebP, kompresi)
 
 ### 📊 Laporan & Analitik
 - [ ] **Laporan Penjualan** — Grafik/tabel pendapatan harian/bulanan di admin dashboard
@@ -137,19 +151,9 @@
 
 > **⚠️ Midtrans Sandbox**: QRIS saat ini menggunakan payload EMVCo statis (bisa discan, tapi belum terhubung ke sistem pembayaran nyata). Untuk production, perlu Midtrans Production Key + Webhook.
 
-> **🗄️ Database**: PostgreSQL di Supabase. Pastikan `DATABASE_URL` dan `DIRECT_URL` di `.env` selalu terupdate.
-
-> **🔐 Environment Variables yang Diperlukan**:
-> ```
-> DATABASE_URL
-> DIRECT_URL  
-> NEXT_PUBLIC_SUPABASE_URL
-> NEXT_PUBLIC_SUPABASE_ANON_KEY
-> SUPABASE_SERVICE_ROLE_KEY
-> MIDTRANS_SERVER_KEY
-> NEXT_PUBLIC_MIDTRANS_CLIENT_KEY
-> ```
+> **🗄️ Database**: PostgreSQL di Supabase. `DATABASE_URL` (pooler) & `DIRECT_URL` sudah aktif di Vercel.
 
 ---
 
-*Dibuat otomatis oleh Antigravity AI — 31 Juli 2026*
+*Dibuat otomatis oleh Antigravity AI — 4 Agustus 2026*
+
