@@ -100,11 +100,11 @@ export async function POST(req: Request) {
       );
 
       const baksoText = baksoProducts.length > 0
-        ? baksoProducts.map((p) => `• *${p.name}*\n  👉 *Rp ${p.price.toLocaleString("id-ID")}* / ${p.unit || "bks"}`).join("\n\n")
-        : "• *Bakso Cita Rasa Premium*: Rp 80.000/bks\n• *Bakso Super Essem Spesial*: Rp 75.000/bks\n• *Bakso Jeruk SB (50pcs)*: Rp 60.000/bks\n• *Bakso Mekar Wangi (50pcs)*: Rp 50.000/bks";
+        ? baksoProducts.map((p) => `• ${p.name} — Rp ${p.price.toLocaleString("id-ID")}/${p.unit || "bks"}`).join("\n")
+        : "• Bakso Cita Rasa Premium — Rp 80.000/bks\n• Bakso Super Essem Spesial — Rp 75.000/bks\n• Bakso Jeruk SB (50pcs) — Rp 60.000/bks\n• Bakso Mekar Wangi (50pcs) — Rp 50.000/bks";
 
       return NextResponse.json({
-        reply: `Berikut daftar varian *Bakso Sapi Asli* Bakso Pak Mul ya kak 🥩:\n\n${baksoText}\n\n100% daging sapi pilihan fresh dari Kios Pasar Kramat Jati. Kakak tertarik coba varian yang mana nih? 😊`
+        reply: `Berikut pilihan varian Bakso Sapi Asli di toko kami ya kak 🥩:\n\n${baksoText}\n\nSemuanya 100% daging sapi asli fresh dari Kios Pasar Kramat Jati. Ada varian yang ingin kakak pesan?`
       });
     }
 
@@ -115,11 +115,11 @@ export async function POST(req: Request) {
       );
 
       const mieText = mieProducts.length > 0
-        ? mieProducts.map((p) => `• *${p.name}*\n  👉 *Rp ${p.price.toLocaleString("id-ID")}* / ${p.unit || "bks"}`).join("\n\n")
-        : "• *Mie Ayam Resto Telur Bebek*: Rp 20.000/bks\n• *Mie Keriting ACI*: Rp 15.000/bks\n• *Kulit Pangsit Dimsum / Goreng*: Rp 20.000/bks";
+        ? mieProducts.map((p) => `• ${p.name} — Rp ${p.price.toLocaleString("id-ID")}/${p.unit || "bks"}`).join("\n")
+        : "• Mie Ayam Resto Telur Bebek — Rp 20.000/bks\n• Mie Keriting ACI — Rp 15.000/bks\n• Kulit Pangsit Dimsum / Goreng — Rp 20.000/bks";
 
       return NextResponse.json({
-        reply: `Berikut varian *Mie Ayam & Kulit Pangsit* kenyal khas toko kami 🍜:\n\n${mieText}\n\nTanpa pengawet & kenyal sempurna kak! ✨`
+        reply: `Berikut varian Mie Ayam & Kulit Pangsit kenyal di toko kami kak 🍜:\n\n${mieText}\n\nTanpa pengawet & teksturnya kenyal sempurna!`
       });
     }
 
@@ -130,11 +130,11 @@ export async function POST(req: Request) {
       );
 
       const bumbuText = bumbuProducts.length > 0
-        ? bumbuProducts.map((p) => `• *${p.name}*\n  👉 *Rp ${p.price.toLocaleString("id-ID")}* / ${p.unit || "bks"}`).join("\n\n")
-        : "• *Bumbu Multi Guna Kuah Bakso/Sop*: Rp 30.000/bks\n• *Saos Pedas Lima Delapan*: Rp 8.000/bks\n• *Kecap Manis Nasional*: Rp 10.000/bks";
+        ? bumbuProducts.map((p) => `• ${p.name} — Rp ${p.price.toLocaleString("id-ID")}/${p.unit || "bks"}`).join("\n")
+        : "• Bumbu Multi Guna Kuah Bakso/Sop — Rp 30.000/bks\n• Saos Pedas Lima Delapan — Rp 8.000/bks\n• Kecap Manis Nasional — Rp 10.000/bks";
 
       return NextResponse.json({
-        reply: `Berikut koleksi *Bumbu Rahasia & Saus/Kecap* Bakso Pak Mul 🧂:\n\n${bumbuText}\n\nBikin racikan kuah bakso & mie ayam kakak makin mantap! 😋`
+        reply: `Berikut koleksi Bumbu & Saus khas Bakso Pak Mul kak 🧂:\n\n${bumbuText}\n\nSiap bikin kuah & masakan kakak seenak langganan!`
       });
     }
 
@@ -142,7 +142,7 @@ export async function POST(req: Request) {
     const matchedProduct = productList.find(p => msgLower.includes(p.name.toLowerCase()) || p.name.toLowerCase().includes(msgLower));
     if (matchedProduct) {
       return NextResponse.json({
-        reply: `Iya kak, kami menjual *${matchedProduct.name}*! 🏷️\n\nHarga: *Rp ${matchedProduct.price.toLocaleString("id-ID")}* / ${matchedProduct.unit || "pcs"}.\n${matchedProduct.description ? `Keterangan: ${matchedProduct.description}.` : ""}`
+        reply: `Iya kak, kami menjual ${matchedProduct.name}! Harganya Rp ${matchedProduct.price.toLocaleString("id-ID")} per ${matchedProduct.unit || "pcs"}. ${matchedProduct.description ? `Keterangan: ${matchedProduct.description}.` : ""}`
       });
     }
 
