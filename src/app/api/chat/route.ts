@@ -54,6 +54,17 @@ export async function POST(req: Request) {
       });
     }
 
+    // Sapaan / Salam Sederhana (Halo, Hi, P, Selamat Pagi/Siang/Sore/Malam, Permisi)
+    const isGreeting = ["halo", "hai", "hi", "p", "permisi", "selamat", "tes", "test"].some((g) =>
+      msgLower === g || msgLower.startsWith(g + " ") || msgLower.endsWith(" " + g)
+    );
+
+    if (isGreeting) {
+      return NextResponse.json({
+        reply: "Halo! 👋 Selamat datang di Bakso Pak Mul (Pusat Bahan Baku Bakso & Mie Ayam Pasar Kramat Jati). Ada yang bisa saya bantu seputar varian produk, daftar harga, ongkir, atau pemesanan hari ini?"
+      });
+    }
+
     // Direct Matcher jika API Key tidak ada atau jika pengguna bertanya produk spesifik (misal: "sumpit", "harga", "bakso")
     if (!apiKey) {
       // Cari jika pengguna bertanya tentang produk spesifik di database
@@ -92,11 +103,11 @@ export async function POST(req: Request) {
       }
 
       return NextResponse.json({
-        reply: "Kami menyediakan varian Baso Sapi Asli (Urat & Polos), Mie Keriting Kenyal, Bumbu Kuah, Saus, hingga Sumpit Steril. Ada produk spesifik yang ingin Anda tanyakan harganya?"
+        reply: "Halo! 👋 Kami menyediakan varian Baso Sapi Asli (Urat & Polos), Mie Keriting Kenyal, Bumbu Kuah, Saus, hingga Sumpit Steril. Ada produk spesifik yang ingin Anda tanyakan harganya?"
       });
     }
 
-    // 3. Gemini 2.5 Flash Prompt dengan konteks penuh
+    // 3. Gemini 1.5 Flash Prompt dengan konteks penuh
     const systemPrompt = `
 Kamu adalah Customer Service AI Resmi dari Toko "Bakso Pak Mul" (Pusat Bahan Baku Bakso & Mie Ayam Pasar Kramat Jati, Jakarta Timur).
 
@@ -110,9 +121,10 @@ ${productCatalogText || `
 - Sumpit Bambu Steril: Rp 100 / pcs
 `}
 
-ATURAN PENTING:
-1. Jawablah pertanyaan pengguna dengan LANGSUNG, SPESIFIK, dan AKURAT sesuai katalog produk di atas. (Contoh: Jika ditanya "apakah ada sumpit?", jawab "Ya ada, Sumpit Bambu Steril harganya Rp 100/pcs").
-2. JIKA PENGGUNA MENANYAKAN HAL DI LUAR TOKO (politik, koding, cuaca, game, dll), TOLAK DENGAN SOPAN: "Maaf, saya adalah AI Asisten Toko Bakso Pak Mul. Saya hanya dapat menjawab pertanyaan seputar produk bahan bakso, mie ayam, ongkir, dan pemesanan."
+ATURAN PENTING & CONTOH JAWABAN:
+1. Jika pengguna menyapa (misal: "halo", "selamat siang"), jawablah salam secara ramah dan tanyakan apa yang bisa dibantu. JANGAN langsung mencetak seluruh daftar panjang produk kecuali pengguna meminta harga / katalog!
+2. Jika pengguna bertanya produk spesifik (misal: "ada sumpit?"), jawab spesifik: "Ya ada, Sumpit Bambu Steril harganya Rp 100/pcs".
+3. JIKA PENGGUNA MENANYAKAN HAL DI LUAR TOKO (politik, koding, cuaca, game, dll), TOLAK DENGAN SOPAN: "Maaf, saya adalah AI Asisten Toko Bakso Pak Mul. Saya hanya dapat menjawab pertanyaan seputar produk bahan bakso, mie ayam, ongkir, dan pemesanan."
 
 Pertanyaan Pengguna: "${message}"
 `;
@@ -136,9 +148,7 @@ Pertanyaan Pengguna: "${message}"
       const errorBody = await res.text();
       console.error("Gemini API failed:", res.status, errorBody);
       return NextResponse.json({
-        reply: productCatalogText 
-          ? `Ya, kami menjual berbagai produk bahan baku bakso & mie ayam. Berikut daftarnya:\n${productCatalogText}`
-          : "Ya, kami menjual Baso Sapi, Mie Keriting, Bumbu Kuah, Saus, hingga Sumpit Steril. Silakan cek menu Produk untuk detailnya!"
+        reply: "Halo! 👋 Ada yang bisa kami bantu seputar varian bahan bakso, mie ayam, atau cek ongkir hari ini?"
       });
     }
 
