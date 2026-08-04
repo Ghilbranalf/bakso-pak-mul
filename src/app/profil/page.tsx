@@ -105,96 +105,106 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8F8] text-[#1a1c1c] font-sans antialiased flex flex-col pt-20">
+    <div className="min-h-screen bg-[#F8F9FA] text-[#1a1c1c] font-sans antialiased flex flex-col pt-16 sm:pt-20">
       <Navbar />
 
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 w-full">
-        {/* Profile Header */}
-        <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-5 w-full md:w-auto justify-between md:justify-start">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-[#51000d] text-white flex items-center justify-center font-black text-2xl shadow-md">
-                {(formData.name || "U").charAt(0).toUpperCase()}
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 w-full">
+        {/* Profile Card Banner */}
+        <div className="bg-white rounded-3xl p-5 sm:p-8 shadow-sm border border-gray-100 mb-6 sm:mb-8 transition-all">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
+            
+            {/* User Avatar & Info */}
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+              <div className="relative">
+                <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-2xl bg-gradient-to-br from-[#51000d] to-[#7a0019] text-white flex items-center justify-center font-black text-3xl shadow-lg shadow-[#51000d]/20 border-2 border-white">
+                  {(formData.name || "U").charAt(0).toUpperCase()}
+                </div>
+                <div className="absolute -bottom-1 -right-1 bg-green-500 w-5 h-5 rounded-full border-2 border-white flex items-center justify-center">
+                  <span className="material-symbols-outlined text-[10px] text-white font-black">check</span>
+                </div>
               </div>
-              <div>
-                <h1 className="text-xl md:text-2xl font-extrabold text-gray-900">{formData.name}</h1>
-                <p className="text-xs text-gray-500 font-medium">{formData.email}</p>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="px-2.5 py-0.5 bg-green-100 text-green-700 rounded-full text-[10px] font-extrabold uppercase tracking-wider">
-                    Pelanggan Aktif
+
+              <div className="space-y-1">
+                <h1 className="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight leading-snug">
+                  {formData.name || "Pelanggan Setia"}
+                </h1>
+                <p className="text-xs text-gray-500 font-medium">{formData.email || "email@pelanggan.com"}</p>
+                <div className="flex items-center justify-center sm:justify-start gap-2 pt-1">
+                  <span className="px-3 py-0.5 bg-green-50 text-green-700 border border-green-200/60 rounded-full text-[10px] font-extrabold uppercase tracking-wider">
+                    Pelanggan VIP
                   </span>
                   <span className="text-[10px] text-gray-400 font-medium">• Terverifikasi</span>
                 </div>
               </div>
             </div>
 
-            {/* Mobile Sign Out Button */}
-            <button
-              onClick={handleSignOut}
-              className="md:hidden px-3.5 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl text-xs font-extrabold flex items-center gap-1.5 transition-colors cursor-pointer"
-              title="Keluar dari Akun"
-            >
-              <span className="material-symbols-outlined text-base">logout</span>
-              <span>Keluar</span>
-            </button>
-          </div>
-
-          {/* Tab Navigation & Desktop Sign Out */}
-          <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-            <div className="flex items-center bg-gray-100 p-1.5 rounded-2xl w-full sm:w-auto">
+            {/* Desktop & Mobile Actions */}
+            <div className="w-full sm:w-auto pt-2 sm:pt-0">
               <button
-                onClick={() => setActiveTab("profile")}
-                className={`flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                  activeTab === "profile"
-                    ? "bg-white text-[#51000d] shadow-sm"
-                    : "text-gray-500 hover:text-gray-900"
-                }`}
+                onClick={handleSignOut}
+                className="w-full sm:w-auto px-5 py-2.5 bg-red-50 hover:bg-red-600 hover:text-white text-red-600 rounded-2xl text-xs font-bold flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer border border-red-100 hover:border-transparent active:scale-95 shadow-sm"
               >
-                Data Diri &amp; Alamat
-              </button>
-              <button
-                onClick={() => setActiveTab("orders")}
-                className={`flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                  activeTab === "orders"
-                    ? "bg-white text-[#51000d] shadow-sm"
-                    : "text-gray-500 hover:text-gray-900"
-                }`}
-              >
-                Riwayat Pesanan ({orders.length})
+                <span className="material-symbols-outlined text-base">logout</span>
+                <span>Keluar Akun</span>
               </button>
             </div>
+          </div>
 
+          {/* Mobile Navigation Segmented Switcher */}
+          <div className="mt-6 pt-5 border-t border-gray-100 flex p-1.5 bg-gray-100/80 rounded-2xl gap-1">
             <button
-              onClick={handleSignOut}
-              className="hidden md:flex px-4 py-2.5 bg-red-50 hover:bg-red-600 hover:text-white text-red-600 rounded-2xl text-xs font-bold items-center gap-2 transition-all cursor-pointer shadow-sm"
+              onClick={() => setActiveTab("profile")}
+              className={`flex-1 py-3 px-4 rounded-xl text-xs font-extrabold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
+                activeTab === "profile"
+                  ? "bg-white text-[#51000d] shadow-md shadow-gray-200/50"
+                  : "text-gray-500 hover:text-gray-900"
+              }`}
             >
-              <span className="material-symbols-outlined text-base">logout</span>
-              <span>Keluar</span>
+              <span className="material-symbols-outlined text-base">person</span>
+              <span>Data Diri &amp; Alamat</span>
+            </button>
+            <button
+              onClick={() => setActiveTab("orders")}
+              className={`flex-1 py-3 px-4 rounded-xl text-xs font-extrabold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
+                activeTab === "orders"
+                  ? "bg-white text-[#51000d] shadow-md shadow-gray-200/50"
+                  : "text-gray-500 hover:text-gray-900"
+              }`}
+            >
+              <span className="material-symbols-outlined text-base">receipt_long</span>
+              <span>Riwayat Pesanan ({orders.length})</span>
             </button>
           </div>
         </div>
 
-        {/* Tab 1: Profile & Address */}
+        {/* Tab 1: Profile & Address Form */}
         {activeTab === "profile" && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-8 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
-              <h2 className="text-base font-bold text-gray-900 border-b border-gray-100 pb-4">
-                Informasi Akun Pelanggan
-              </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
+            <div className="lg:col-span-8 bg-white p-5 sm:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
+              <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+                <div className="flex items-center gap-2.5">
+                  <span className="material-symbols-outlined text-[#51000d] text-xl">manage_accounts</span>
+                  <h2 className="text-base font-extrabold text-gray-900">Pengaturan Profil &amp; Alamat</h2>
+                </div>
+                <span className="text-[10px] bg-amber-50 text-amber-700 border border-amber-200 px-2.5 py-1 rounded-full font-bold">
+                  Otomatis Terisi saat Checkout
+                </span>
+              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Nama Lengkap</label>
+                  <label className="block text-xs font-bold text-gray-700 mb-1.5">Nama Lengkap *</label>
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50 focus:bg-white focus:border-[#51000d] outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50/50 focus:bg-white focus:border-[#51000d] focus:ring-2 focus:ring-[#51000d]/10 transition-all outline-none"
+                    placeholder="Masukkan nama lengkap Anda"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Alamat Email</label>
+                  <label className="block text-xs font-bold text-gray-700 mb-1.5">Alamat Email (Akun)</label>
                   <input
                     type="email"
                     disabled
@@ -203,30 +213,31 @@ export default function ProfilePage() {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Nomor Telepon / WhatsApp</label>
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-bold text-gray-700 mb-1.5">Nomor Telepon / WhatsApp *</label>
                   <input
                     type="text"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50 focus:bg-white focus:border-[#51000d] outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50/50 focus:bg-white focus:border-[#51000d] focus:ring-2 focus:ring-[#51000d]/10 transition-all outline-none"
+                    placeholder="Contoh: 085600436463"
                   />
                 </div>
 
-                <div className="md:col-span-2">
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Alamat Utama Pengiriman</label>
-                  <input
-                    type="text"
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-bold text-gray-700 mb-1.5">Detail Alamat Lengkap Pengiriman *</label>
+                  <textarea
+                    rows={3}
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50 focus:bg-white focus:border-[#51000d] outline-none"
-                    placeholder="Nama jalan, RT/RW, desa/kelurahan, kecamatan"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50/50 focus:bg-white focus:border-[#51000d] focus:ring-2 focus:ring-[#51000d]/10 transition-all outline-none resize-none leading-relaxed"
+                    placeholder="Nama Jalan, RT/RW, Patokan Rumah, Desa/Kelurahan"
                   />
                 </div>
 
-                {/* Provinsi Select */}
+                {/* Regional Selects */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Provinsi *</label>
+                  <label className="block text-xs font-bold text-gray-700 mb-1.5">Provinsi *</label>
                   <select
                     value={formData.province}
                     onChange={(e) => {
@@ -241,7 +252,7 @@ export default function ProfilePage() {
                         district: availableDistricts[0] || ""
                       });
                     }}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50 focus:bg-white focus:border-[#51000d] outline-none cursor-pointer"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50/50 focus:bg-white focus:border-[#51000d] outline-none cursor-pointer"
                   >
                     {Object.keys(INDONESIA_REGIONS).map((prov) => (
                       <option key={prov} value={prov}>
@@ -251,9 +262,8 @@ export default function ProfilePage() {
                   </select>
                 </div>
 
-                {/* Kota / Kabupaten Select */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Kota / Kabupaten *</label>
+                  <label className="block text-xs font-bold text-gray-700 mb-1.5">Kota / Kabupaten *</label>
                   <select
                     value={formData.city}
                     onChange={(e) => {
@@ -265,7 +275,7 @@ export default function ProfilePage() {
                         district: availableDistricts[0] || ""
                       });
                     }}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50 focus:bg-white focus:border-[#51000d] outline-none cursor-pointer"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50/50 focus:bg-white focus:border-[#51000d] outline-none cursor-pointer"
                   >
                     {formData.province && INDONESIA_REGIONS[formData.province]
                       ? Object.keys(INDONESIA_REGIONS[formData.province]).map((city) => (
@@ -277,13 +287,12 @@ export default function ProfilePage() {
                   </select>
                 </div>
 
-                {/* Kecamatan Select */}
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Kecamatan *</label>
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-bold text-gray-700 mb-1.5">Kecamatan *</label>
                   <select
                     value={formData.district}
                     onChange={(e) => setFormData({ ...formData, district: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50 focus:bg-white focus:border-[#51000d] outline-none cursor-pointer"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50/50 focus:bg-white focus:border-[#51000d] outline-none cursor-pointer"
                   >
                     {formData.province && formData.city && INDONESIA_REGIONS[formData.province]?.[formData.city]
                       ? INDONESIA_REGIONS[formData.province][formData.city].map((dist) => (
@@ -296,35 +305,44 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              <div className="pt-4 flex justify-end">
+              <div className="pt-2 flex justify-end">
                 <button
                   type="button"
                   onClick={handleSaveProfile}
-                  className="px-6 py-3 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold shadow-md uppercase tracking-wider cursor-pointer flex items-center gap-2"
+                  className="w-full sm:w-auto px-8 py-3.5 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-2xl text-xs font-extrabold shadow-lg shadow-[#51000d]/20 active:scale-95 transition-all uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2"
                 >
-                  <span className="material-symbols-outlined text-base">save</span>
+                  <span className="material-symbols-outlined text-lg">save</span>
                   <span>Simpan Alamat ke Profil</span>
                 </button>
               </div>
             </div>
 
-            <div className="lg:col-span-4 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-4">
-              <h3 className="text-base font-bold text-gray-900 border-b border-gray-100 pb-4">
-                Layanan &amp; Keuntungan Member
-              </h3>
+            {/* Member Benefits Sidebar */}
+            <div className="lg:col-span-4 bg-white p-5 sm:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-4">
+              <div className="flex items-center gap-2 border-b border-gray-100 pb-4">
+                <span className="material-symbols-outlined text-[#51000d] text-xl">verified</span>
+                <h3 className="text-base font-extrabold text-gray-900">Keuntungan Member</h3>
+              </div>
               <div className="space-y-3 text-xs text-gray-600">
-                <div className="flex items-start gap-3 p-3 bg-red-50/50 rounded-xl border border-red-100">
-                  <span className="material-symbols-outlined text-lg text-[#51000d]">stars</span>
+                <div className="flex items-start gap-3 p-3.5 bg-red-50/60 rounded-2xl border border-red-100/80">
+                  <span className="material-symbols-outlined text-xl text-[#51000d]">stars</span>
                   <div>
-                    <p className="font-bold text-[#51000d]">Pelanggan Prioritas</p>
-                    <p className="text-[11px] text-gray-500">Mendapatkan harga khusus untuk pesanan grosir.</p>
+                    <p className="font-bold text-[#51000d]">Harga Prioritas Mitra</p>
+                    <p className="text-[11px] text-gray-500 mt-0.5">Dapatkan otomatis harga grosir murah untuk pesanan besar.</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-3 p-3 bg-green-50/50 rounded-xl border border-green-100">
-                  <span className="material-symbols-outlined text-lg text-green-700">local_shipping</span>
+                <div className="flex items-start gap-3 p-3.5 bg-green-50/60 rounded-2xl border border-green-100/80">
+                  <span className="material-symbols-outlined text-xl text-green-700">local_shipping</span>
                   <div>
-                    <p className="font-bold text-green-800">Gratis Ongkir Jabodetabek</p>
-                    <p className="text-[11px] text-gray-500">Untuk setiap pembelian minimal Rp 200.000.</p>
+                    <p className="font-bold text-green-800">Subsidi Ongkir Toko</p>
+                    <p className="text-[11px] text-gray-500 mt-0.5">Gratis ongkir untuk pembelian minimal Rp 200.000.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 p-3.5 bg-blue-50/60 rounded-2xl border border-blue-100/80">
+                  <span className="material-symbols-outlined text-xl text-blue-700">support_agent</span>
+                  <div>
+                    <p className="font-bold text-blue-800">Layanan Pelanggan WhatsApp</p>
+                    <p className="text-[11px] text-gray-500 mt-0.5">Bantuan langsung admin toko Pak Mul dari aplikasi.</p>
                   </div>
                 </div>
               </div>
@@ -332,50 +350,60 @@ export default function ProfilePage() {
           </div>
         )}
 
-        {/* Tab 2: Transaction History */}
+        {/* Tab 2: Orders List */}
         {activeTab === "orders" && (
           <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="p-6 border-b border-gray-100">
-              <h2 className="text-base font-bold text-gray-900">Daftar Transaksi Saya</h2>
-              <p className="text-xs text-gray-500">Pantau status pengiriman atau cetak invoice pesanan Anda.</p>
+            <div className="p-5 sm:p-6 border-b border-gray-100 flex items-center justify-between">
+              <div>
+                <h2 className="text-base font-extrabold text-gray-900">Riwayat Pesanan Saya</h2>
+                <p className="text-xs text-gray-500 mt-0.5">Pantau status pesanan dan rincian transaksi Anda.</p>
+              </div>
+              <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-bold">
+                {orders.length} Pesanan
+              </span>
             </div>
 
             {orders.length === 0 ? (
-              <div className="p-12 text-center text-gray-500 text-xs">
-                Belum ada riwayat pesanan.
+              <div className="p-12 text-center text-gray-400 space-y-3">
+                <span className="material-symbols-outlined text-4xl text-gray-300">receipt_long</span>
+                <p className="text-xs font-medium">Belum ada riwayat pesanan.</p>
+                <Link href="/produk" className="inline-block px-5 py-2.5 bg-[#51000d] text-white rounded-xl text-xs font-bold">
+                  Mulai Belanja Now
+                </Link>
               </div>
             ) : (
               <div className="divide-y divide-gray-100">
                 {orders.map((order) => (
-                  <div key={order.id} className="p-6 hover:bg-gray-50/50 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm font-extrabold text-[#51000d]">{order.orderNumber}</span>
-                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase ${
-                          order.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
-                          order.status === 'CANCELED' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                  <div key={order.id} className="p-5 sm:p-6 hover:bg-gray-50/60 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-2.5 flex-wrap">
+                        <span className="text-sm font-black text-[#51000d] tracking-wide">{order.orderNumber}</span>
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                          order.status === 'COMPLETED' ? 'bg-green-100 text-green-800 border border-green-200' :
+                          order.status === 'CANCELED' ? 'bg-red-100 text-red-800 border border-red-200' : 'bg-amber-100 text-amber-800 border border-amber-200'
                         }`}>
                           {order.status === 'COMPLETED' ? 'Selesai' : order.status === 'CANCELED' ? 'Dibatalkan' : 'Diproses'}
                         </span>
                       </div>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-600">
                         Penerima: <span className="font-semibold text-gray-900">{order.customerName}</span> ({order.customerPhone})
                       </p>
-                      <p className="text-[11px] text-gray-400">
-                        {new Date(order.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}
+                      <p className="text-[11px] text-gray-400 font-medium">
+                        {new Date(order.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })}
                       </p>
                     </div>
 
-                    <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-t-0 pt-3 md:pt-0">
+                    <div className="flex items-center justify-between sm:justify-end gap-4 border-t sm:border-t-0 pt-3 sm:pt-0">
                       <div>
-                        <p className="text-[10px] text-gray-400 font-bold uppercase">Total Tagihan</p>
-                        <p className="text-base font-black text-gray-900">Rp {formatPrice(order.finalTotal)}</p>
+                        <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">Total Tagihan</p>
+                        <p className="text-base font-black text-[#51000d]">Rp {formatPrice(order.finalTotal)}</p>
                       </div>
                       <Link
                         href={`/transaksi/${order.orderNumber}`}
-                        className="px-4 py-2 bg-gray-100 hover:bg-[#51000d] hover:text-white rounded-xl text-xs font-bold text-gray-700 transition-all cursor-pointer"
+                        className="px-4 py-2.5 bg-gray-100 hover:bg-[#51000d] hover:text-white rounded-xl text-xs font-bold text-gray-700 transition-all active:scale-95 cursor-pointer flex items-center gap-1.5"
                       >
-                        Lacak Pesanan
+                        <span>Detail</span>
+                        <span className="material-symbols-outlined text-sm">arrow_forward</span>
                       </Link>
                     </div>
                   </div>
