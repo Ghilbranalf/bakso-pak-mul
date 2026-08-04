@@ -104,7 +104,7 @@ export default function CheckoutPage() {
         const res = await fetch("/api/shipping/rates", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ postalCode: 13510, weight: 1000 }),
+          body: JSON.stringify({ city: formData.city || "Kota Jakarta Timur", weight: 1000 }),
         });
         const data = await res.json();
         if (data.couriers && data.couriers.length > 0) {
@@ -112,13 +112,13 @@ export default function CheckoutPage() {
           setSelectedCourier(data.couriers[0]);
         }
       } catch (e) {
-        console.error("Failed to load Biteship rates:", e);
+        console.error("Failed to load shipping rates:", e);
       } finally {
         setIsLoadingCouriers(false);
       }
     };
     fetchRates();
-  }, []);
+  }, [formData.city]);
 
   const shippingFee = selectedCourier?.price ?? (totalPrice >= 200000 ? 0 : 15000);
   const finalTotal = totalPrice + shippingFee;
