@@ -59,9 +59,9 @@ export async function POST(request: Request) {
     } else {
       return NextResponse.json({
         success: false,
-        error: resData.Message || "Gagal membuat tagihan IPaymu.",
+        error: resData.Message || "Pembayaran langsung via IPaymu sedang diproses. Silakan gunakan transfer manual atau QRIS resmi.",
         raw: resData,
-      }, { status: 400 });
+      }, { status: 200 });
     }
   } catch (error: any) {
     console.error("IPaymu Charge Error:", error);
