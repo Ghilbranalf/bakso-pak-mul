@@ -71,12 +71,6 @@ export default function HomePage() {
             <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
               {/* Hero Content */}
               <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
-                <span className="inline-block py-1.5 px-4 rounded-full bg-red-100 text-maroon font-semibold text-sm mb-6 shadow-sm border border-red-200">
-                  <i className="fas fa-truck-fast mr-2"></i> Pengiriman Instan Tersedia
-                </span>
-                <span className="inline-block py-1.5 px-4 rounded-full bg-red-50 text-maroon font-semibold text-sm mb-6 ml-2 shadow-sm border border-red-200">
-                  <i className="fas fa-certificate mr-2"></i> Stok Selalu Fresh
-                </span>
                 <h1 className="text-3xl tracking-tight text-gray-900 sm:text-4xl md:text-5xl lg:leading-tight mb-6 font-bold">
                   Pusat Bahan Baku <span className="text-maroon">Bakso &amp; Mie Ayam</span>
                 </h1>
@@ -90,13 +84,6 @@ export default function HomePage() {
                     href="/produk"
                   >
                     Belanja Sekarang
-                  </Link>
-                  <Link
-                    className="w-full flex items-center justify-center px-8 py-3.5 border-2 border-maroon text-base font-medium rounded-full text-maroon bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 transition-all duration-300 transform hover:-translate-y-1"
-                    href="https://wa.me/6281234567890"
-                    target="_blank"
-                  >
-                    Kemitraan Grosir
                   </Link>
                 </div>
               </div>

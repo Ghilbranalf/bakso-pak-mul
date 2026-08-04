@@ -417,10 +417,6 @@ export default function CheckoutPage() {
                       <p className="text-xs text-gray-500">Dikirim langsung dari Kios Pasar Kramat Jati, Jakarta Timur</p>
                     </div>
                   </div>
-                  <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span>
-                    API Biteship Live
-                  </span>
                 </div>
 
                 {isLoadingCouriers ? (

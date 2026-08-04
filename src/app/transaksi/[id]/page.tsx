@@ -501,12 +501,18 @@ export default function TrackOrderPage() {
               <div className="border-t border-gray-100 pt-4 space-y-2 text-xs">
                 <div className="flex justify-between text-gray-500 font-medium">
                   <span>Subtotal Produk</span>
-                  <span>Rp {formatPrice(Math.max(0, displayOrder.finalTotal - (displayOrder.shippingCost || 0)))}</span>
+                  <span>Rp {formatPrice(Math.max(0, displayOrder.finalTotal - (displayOrder.shippingCost || 0) - (displayOrder.uniqueCode || 0)))}</span>
                 </div>
                 <div className="flex justify-between text-gray-500 font-medium">
                   <span>Ongkos Kirim (Biteship)</span>
                   <span>{displayOrder.shippingCost ? `Rp ${formatPrice(displayOrder.shippingCost)}` : "Rp 0 (Gratis / Standar)"}</span>
                 </div>
+                {Boolean(displayOrder.uniqueCode && displayOrder.uniqueCode > 0) && (
+                  <div className="flex justify-between text-emerald-700 font-semibold bg-emerald-50/60 px-2 py-1 rounded-md border border-emerald-200/50">
+                    <span>Kode Unik Verifikasi</span>
+                    <span>+Rp {formatPrice(displayOrder.uniqueCode)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between items-baseline pt-2 border-t border-gray-100">
                   <span className="font-bold text-gray-900">Total Pembayaran</span>
                   <span className="text-xl font-black text-[#51000d]">
@@ -575,12 +581,19 @@ export default function TrackOrderPage() {
                   )}
                 </div>
 
-                <div className="flex items-center justify-center gap-2 text-xs font-bold text-amber-800 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200/80 w-full">
-                  <span className="relative flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
-                  </span>
-                  <span>Nominal Pas: Rp {formatPrice(displayOrder.finalTotal)} (Otomatis Terverifikasi)</span>
+                <div className="flex flex-col items-center justify-center gap-1 text-xs font-bold text-amber-800 bg-amber-50 px-3 py-2 rounded-xl border border-amber-200/80 w-full">
+                  <div className="flex items-center gap-2">
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+                    </span>
+                    <span>Transfer TEPAT: Rp {formatPrice(displayOrder.finalTotal)}</span>
+                  </div>
+                  {Boolean(displayOrder.uniqueCode && displayOrder.uniqueCode > 0) && (
+                    <p className="text-[10px] font-normal text-amber-700">
+                      Termasuk kode unik 3-digit (<span className="font-bold">+{displayOrder.uniqueCode}</span>) agar pesanan tidak tertukar &amp; otomatis terverifikasi.
+                    </p>
+                  )}
                 </div>
 
                 <p className="text-[11px] text-gray-500 font-medium">

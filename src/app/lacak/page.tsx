@@ -69,9 +69,6 @@ function TrackingContent() {
       <main className="flex-grow pt-24 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
         {/* Header Title */}
         <div className="text-center mb-10">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-widest bg-red-100/80 text-[#51000d] mb-3">
-            <span className="material-symbols-outlined text-sm">radar</span> Live Order Tracker
-          </span>
           <h1 className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">
             Lacak Pesanan Bakso Pak Mul
           </h1>

@@ -62,13 +62,14 @@ export async function POST(request: Request) {
     const randomDigits = Math.floor(1000 + Math.random() * 9000);
     const orderNumber = `BPM-${dateStr}-${randomDigits}`;
 
-    // Calculate totals
+    // Calculate totals & unique payment code (1-999) to prevent payment ambiguity
     const subtotal = items.reduce(
       (acc: number, item: any) => acc + (Number(item.price) * Number(item.quantity)),
       0
     );
     const shippingCost = Number(body.shippingFee || body.shippingCost || 0);
-    const finalTotal = subtotal + shippingCost;
+    const uniqueCode = Math.floor(1 + Math.random() * 999);
+    const finalTotal = subtotal + shippingCost + uniqueCode;
 
     // Create Order in DB according to exact Prisma schema
     const newOrder = await prisma.order.create({
@@ -84,6 +85,7 @@ export async function POST(request: Request) {
         status: "PENDING",
         shippingCost,
         discount: 0,
+        uniqueCode,
         finalTotal,
         paymentType: paymentMethod,
         items: {
