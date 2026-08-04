@@ -504,7 +504,7 @@ export default function TrackOrderPage() {
                   <span>Rp {formatPrice(Math.max(0, displayOrder.finalTotal - (displayOrder.shippingCost || 0) - (displayOrder.uniqueCode || 0)))}</span>
                 </div>
                 <div className="flex justify-between text-gray-500 font-medium">
-                  <span>Ongkos Kirim (Biteship)</span>
+                  <span>Ongkos Kirim Ekspedisi</span>
                   <span>{displayOrder.shippingCost ? `Rp ${formatPrice(displayOrder.shippingCost)}` : "Rp 0 (Gratis / Standar)"}</span>
                 </div>
                 {Boolean(displayOrder.uniqueCode && displayOrder.uniqueCode > 0) && (

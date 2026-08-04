@@ -405,7 +405,7 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* Biteship Shipping Courier Card */}
+              {/* Shipping Courier Card */}
               <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-5">
                 <div className="flex items-center justify-between border-b border-gray-100 pb-4">
                   <div className="flex items-center gap-3">
@@ -413,7 +413,7 @@ export default function CheckoutPage() {
                       <span className="material-symbols-outlined text-xl">local_shipping</span>
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-gray-900">2. PILIH KURIR EKSPEDISI (BITESHIP)</h3>
+                      <h3 className="text-base font-bold text-gray-900">2. PILIH KURIR EKSPEDISI</h3>
                       <p className="text-xs text-gray-500">Dikirim langsung dari Kios Pasar Kramat Jati, Jakarta Timur</p>
                     </div>
                   </div>
@@ -422,7 +422,7 @@ export default function CheckoutPage() {
                 {isLoadingCouriers ? (
                   <div className="py-6 text-center text-xs font-semibold text-gray-500 flex items-center justify-center gap-2">
                     <span className="w-4 h-4 border-2 border-[#51000d] border-t-transparent rounded-full animate-spin"></span>
-                    Menghubungkan ke API Biteship untuk cek ongkir kurir...
+                    Menghubungkan ke API RajaOngkir untuk cek tarif kurir...
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
