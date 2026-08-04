@@ -24,6 +24,8 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const loadUserData = async () => {
       try {
         setIsLoading(true);
@@ -51,8 +53,8 @@ export default function ProfilePage() {
             province: parsedSaved.province || "Jawa Tengah",
           });
 
-          // Fetch user's orders
-          const res = await fetch("/api/orders");
+          // Fetch user's orders safely
+          const res = await fetch("/api/orders", { signal: controller.signal });
           const data = await res.json();
           if (data.orders) {
             const userOrders = data.orders.filter(
@@ -66,13 +68,20 @@ export default function ProfilePage() {
             ...parsedSaved,
           }));
         }
-      } catch (err) {
-        console.error("Error loading user profile:", err);
+      } catch (err: any) {
+        if (err.name !== "AbortError") {
+          console.error("Error loading user profile:", err);
+        }
       } finally {
         setIsLoading(false);
       }
     };
+
     loadUserData();
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   const handleSaveProfile = () => {
