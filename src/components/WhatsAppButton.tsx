@@ -14,11 +14,22 @@ export default function WhatsAppButton() {
     {
       sender: "bot",
       text: "Halo! 👋 Selamat datang di Bakso Pak Mul. Ada yang bisa saya bantu seputar bahan bakso, mie ayam, ongkir, atau cara pemesanan?",
-      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      time: "12:00",
     },
   ]);
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    // Set accurate local client time after hydration
+    setMessages([
+      {
+        sender: "bot",
+        text: "Halo! 👋 Selamat datang di Bakso Pak Mul. Ada yang bisa saya bantu seputar bahan bakso, mie ayam, ongkir, atau cara pemesanan?",
+        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      },
+    ]);
+  }, []);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
