@@ -42,6 +42,19 @@ function TrackingContent() {
     }
   }, [initialQuery]);
 
+  // Live Auto Polling (Setiap 5 detik otomatis update data jika pengguna sedang membuka lacak pesanan)
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+    if (orderData && orderData.id) {
+      interval = setInterval(() => {
+        fetchTracking(orderData.id || searchId);
+      }, 5000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [orderData, searchId]);
+
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     fetchTracking(searchId);
