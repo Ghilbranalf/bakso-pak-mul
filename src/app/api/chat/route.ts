@@ -124,11 +124,18 @@ Pertanyaan Pengguna: "${message}"
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contents: [{ parts: [{ text: systemPrompt }] }],
+          generationConfig: {
+            maxOutputTokens: 500,
+            temperature: 0.7,
+            thinkingConfig: { thinkingBudget: 0 },
+          },
         }),
       }
     );
 
     if (!res.ok) {
+      const errorBody = await res.text();
+      console.error("Gemini API failed:", res.status, errorBody);
       return NextResponse.json({
         reply: productCatalogText 
           ? `Ya, kami menjual berbagai produk bahan baku bakso & mie ayam. Berikut daftarnya:\n${productCatalogText}`
@@ -137,6 +144,7 @@ Pertanyaan Pengguna: "${message}"
     }
 
     const data = await res.json();
+    console.log("Gemini raw response:", JSON.stringify(data));
     const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Ada yang bisa saya bantu seputar produk Bakso Pak Mul?";
 
     return NextResponse.json({ reply });
