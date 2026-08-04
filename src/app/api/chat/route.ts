@@ -38,7 +38,7 @@ export async function POST(req: Request) {
 
     const apiKey = process.env.GEMINI_API_KEY;
 
-    // 2. Intelligent Rule Engine (Periksadulu pertanyaan spesifik pengguna)
+    // 2. Intelligent Rule Engine (Sistem Pengenal Pertanyaan Pintar & Manusiawi)
     const msgLower = message.toLowerCase();
 
     // Guardrail Check: Tolak pertanyaan di luar konteks toko
@@ -50,66 +50,63 @@ export async function POST(req: Request) {
     const isOutOfScope = outOfScopeKeywords.some((k) => msgLower.includes(k));
     if (isOutOfScope) {
       return NextResponse.json({
-        reply: "Maaf, saya adalah Asisten AI khusus Toko Bakso Pak Mul 🍲. Saya hanya dapat membantu pertanyaan seputar produk bahan bakso, mie ayam, ongkir, dan pemesanan di toko kami.",
+        reply: "Waduh maaf ya kak, saya cuma bisa bantu jawab seputar produk Bakso Pak Mul, ongkir, dan pemesanan di toko kami aja nih 🙏 Ada yang bisa dibantu untuk pesanan bakso atau mienya?",
       });
     }
 
     // Sapaan / Salam Sederhana (Halo, Hi, P, Selamat Pagi/Siang/Sore/Malam, Permisi)
     const isGreeting = ["halo", "hai", "hi", "p", "permisi", "selamat", "tes", "test"].some((g) =>
-      msgLower === g || msgLower.startsWith(g + " ") || msgLower.endsWith(" " + g)
+      msgLower === g || msgLower === g + "!" || msgLower.startsWith(g + " ") || msgLower.endsWith(" " + g)
     );
 
     if (isGreeting) {
       return NextResponse.json({
-        reply: "Halo! 👋 Selamat datang di Bakso Pak Mul (Pusat Bahan Baku Bakso & Mie Ayam Pasar Kramat Jati). Ada yang bisa saya bantu seputar varian produk, daftar harga, ongkir, atau pemesanan hari ini?"
+        reply: "Halo kak! 👋 Selamat datang di Bakso Pak Mul. Ada yang bisa Mas Mul bantu seputar bahan bakso, mie ayam, cek ongkir, atau cara pemesanan hari ini?"
       });
     }
 
-    // Direct Matcher jika API Key tidak ada atau jika pengguna bertanya produk spesifik (misal: "sumpit", "harga", "bakso")
-    if (!apiKey) {
-      // Cari jika pengguna bertanya tentang produk spesifik di database
-      const matchedProduct = productList.find(p => msgLower.includes(p.name.toLowerCase()) || p.name.toLowerCase().includes(msgLower));
-      
-      if (msgLower.includes("sumpit")) {
-        return NextResponse.json({
-          reply: "Ya, kami menyediakan Sumpit Bambu Steril! 🥢 Harganya Rp 100 / pcs. Anda dapat menambahkannya langsung ke keranjang belanja saat checkout."
-        });
-      }
-
-      if (matchedProduct) {
-        return NextResponse.json({
-          reply: `Ya, kami menjual ${matchedProduct.name}! Harganya Rp ${matchedProduct.price.toLocaleString("id-ID")} per ${matchedProduct.unit || "pcs"}. ${matchedProduct.description ? `Keterangan: ${matchedProduct.description}.` : ""}`
-        });
-      }
-
-      if (msgLower.includes("jual apa") || msgLower.includes("menjual apa") || msgLower.includes("jualan apa") || msgLower.includes("produk apa")) {
-        return NextResponse.json({
-          reply: "Toko Bakso Pak Mul menjual Pusat Bahan Baku Bakso & Mie Ayam berkualitas! 🍲\n\nProduk kami meliputi:\n1. 🥩 Bakso Sapi Asli (Urat Super, Polos Halus, Premium)\n2. 🍜 Mie Ayam & Kulit Pangsit (Mie Keriting Kenyal, Pangsit Goreng/Rebus)\n3. 🧂 Bumbu & Saus (Bumbu Kuah Rahasia, Kecap Manis, Saos Pedas)\n4. 🥢 Pelengkap (Sumpit Bambu Steril)\n\nApakah ada produk tertentu yang ingin Anda tanyakan harganya?"
-        });
-      }
-
-      if (msgLower.includes("harga") || msgLower.includes("berapa") || msgLower.includes("katalog") || msgLower.includes("ada apa aja")) {
-        return NextResponse.json({
-          reply: productCatalogText 
-            ? `Berikut daftar produk & harga Bakso Pak Mul saat ini:\n\n${productCatalogText}\n\nAnda dapat memesannya langsung melalui menu Produk di website kami!`
-            : "Berikut beberapa daftar produk & harga Bakso Pak Mul:\n- Baso Sapi Urat Super: Rp 35.000 / pack 500g\n- Baso Sapi Polos Halus: Rp 30.000 / pack 500g\n- Mie Keriting Kenyal: Rp 12.000 / pack 500g\n- Bumbu Kuah Bakso Rahasia: Rp 8.000 / botol\n- Sumpit Bambu Steril: Rp 100 / pcs\n\nUntuk melihat katalog lengkap, silakan buka menu Produk!"
-        });
-      }
-
-      if (msgLower.includes("ongkir") || msgLower.includes("kirim") || msgLower.includes("kurir")) {
-        return NextResponse.json({
-          reply: "Pengiriman dilakukan dari Kios Pasar Kramat Jati, Jakarta Timur. Kami mendukung JNE, SiCepat, J&T, serta GoSend Instant/SameDay. Ongkir dihitung otomatis saat checkout sesuai lokasi kota Anda!"
-        });
-      }
-
-      if (msgLower.includes("bayar") || msgLower.includes("qris") || msgLower.includes("cod") || msgLower.includes("transfer")) {
-        return NextResponse.json({
-          reply: "Pembayaran mendukung QRIS All Payment (GoPay, OVO, DANA, ShopeePay, m-Banking), Virtual Account, maupun COD (Bayar di Tempat)."
-        });
-      }
-
+    // Pertanyaan: "Disini menjual apa?" / "Jual apa aja?" / "Produknya apa?"
+    if (msgLower.includes("jual apa") || msgLower.includes("menjual apa") || msgLower.includes("jualan apa") || msgLower.includes("produk apa")) {
       return NextResponse.json({
-        reply: "Halo! 👋 Kami menyediakan varian Baso Sapi Asli (Urat & Polos), Mie Keriting Kenyal, Bumbu Kuah, Saus, hingga Sumpit Steril. Ada produk spesifik yang ingin Anda tanyakan harganya?"
+        reply: "Halo kak! Kami adalah Pusat Bahan Baku Bakso & Mie Ayam berkualitas di Pasar Kramat Jati! 🍲\n\nProduk pilihan kami antara lain:\n1. 🥩 Bakso Sapi Asli (Urat Super & Polos Halus)\n2. 🍜 Mie Ayam & Kulit Pangsit (Mie Keriting Kenyal, Pangsit Goreng/Rebus)\n3. 🧂 Bumbu & Saus (Bumbu Kuah Rahasia, Kecap Manis, Saos Pedas)\n4. 🥢 Pelengkap (Sumpit Bambu Steril)\n\nKakak lagi cari bahan yang mana nih? Mau Mas Mul infokan harganya?"
+      });
+    }
+
+    // Pertanyaan: Sumpit
+    if (msgLower.includes("sumpit")) {
+      return NextResponse.json({
+        reply: "Iya betul kak, kami menyediakan Sumpit Bambu Steril! 🥢 Harganya cuma Rp 100 / pcs. Bisa langsung kakak tambahkan ke keranjang pas checkout ya."
+      });
+    }
+
+    // Pertanyaan: Ongkir / Pengiriman / Kurir
+    if (msgLower.includes("ongkir") || msgLower.includes("kirim") || msgLower.includes("kurir")) {
+      return NextResponse.json({
+        reply: "Pengiriman kami dari Kios Pasar Kramat Jati, Jakarta Timur kak! 🚚 Kami pakai JNE, SiCepat, J&T, dan GoSend Instant/SameDay. Ongkirnya otomatis dihitung sistem saat checkout sesuai lokasi kota kakak ya!"
+      });
+    }
+
+    // Pertanyaan: Cara Bayar / Pembayaran / QRIS / COD
+    if (msgLower.includes("bayar") || msgLower.includes("qris") || msgLower.includes("cod") || msgLower.includes("transfer")) {
+      return NextResponse.json({
+        reply: "Untuk pembayaran bisa pakai QRIS All Payment (GoPay, OVO, DANA, ShopeePay, m-Banking), Virtual Account, maupun COD (Bayar di Tempat saat barang sampai) kak!"
+      });
+    }
+
+    // Cari jika pengguna bertanya tentang produk spesifik di database
+    const matchedProduct = productList.find(p => msgLower.includes(p.name.toLowerCase()) || p.name.toLowerCase().includes(msgLower));
+    if (matchedProduct) {
+      return NextResponse.json({
+        reply: `Iya kak, kami jual ${matchedProduct.name}! Harganya Rp ${matchedProduct.price.toLocaleString("id-ID")} per ${matchedProduct.unit || "pcs"}. ${matchedProduct.description ? `Keterangan: ${matchedProduct.description}.` : ""}`
+      });
+    }
+
+    // Pertanyaan: Harga / Berapa / Katalog
+    if (msgLower.includes("harga") || msgLower.includes("berapa") || msgLower.includes("katalog") || msgLower.includes("ada apa aja")) {
+      return NextResponse.json({
+        reply: productCatalogText 
+          ? `Berikut daftar produk & harga Bakso Pak Mul saat ini ya kak:\n\n${productCatalogText}\n\nKakak bisa pilih dan pesan langsung lewat menu Produk di website!`
+          : "Berikut beberapa daftar produk & harga kami kak:\n- Baso Sapi Urat Super: Rp 35.000 / pack 500g\n- Baso Sapi Polos Halus: Rp 30.000 / pack 500g\n- Mie Keriting Kenyal: Rp 12.000 / pack 500g\n- Bumbu Kuah Bakso Rahasia: Rp 8.000 / botol\n- Sumpit Bambu Steril: Rp 100 / pcs\n\nUntuk melihat katalog lengkap, silakan buka menu Produk ya kak!"
       });
     }
 
