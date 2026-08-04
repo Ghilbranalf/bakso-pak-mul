@@ -80,6 +80,17 @@ export default function ProfilePage() {
     alert("✅ Data Diri & Alamat Utama berhasil disimpan ke Profil!\nAlamat ini akan otomatis terisi saat Anda Checkout.");
   };
 
+  const handleSignOut = async () => {
+    try {
+      const { createClient } = await import("@/utils/supabase/client");
+      const supabase = createClient();
+      await supabase.auth.signOut();
+      window.location.href = "/";
+    } catch (err) {
+      console.error("Sign out error:", err);
+    }
+  };
+
   const formatPrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
@@ -91,43 +102,65 @@ export default function ProfilePage() {
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 w-full">
         {/* Profile Header */}
         <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-5">
-            <div className="w-16 h-16 rounded-2xl bg-[#51000d] text-white flex items-center justify-center font-black text-2xl shadow-md">
-              {(formData.name || "U").charAt(0).toUpperCase()}
-            </div>
-            <div>
-              <h1 className="text-xl md:text-2xl font-extrabold text-gray-900">{formData.name}</h1>
-              <p className="text-xs text-gray-500 font-medium">{formData.email}</p>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="px-2.5 py-0.5 bg-green-100 text-green-700 rounded-full text-[10px] font-extrabold uppercase tracking-wider">
-                  Pelanggan Aktif
-                </span>
-                <span className="text-[10px] text-gray-400 font-medium">• Terverifikasi</span>
+          <div className="flex items-center gap-5 w-full md:w-auto justify-between md:justify-start">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 rounded-2xl bg-[#51000d] text-white flex items-center justify-center font-black text-2xl shadow-md">
+                {(formData.name || "U").charAt(0).toUpperCase()}
+              </div>
+              <div>
+                <h1 className="text-xl md:text-2xl font-extrabold text-gray-900">{formData.name}</h1>
+                <p className="text-xs text-gray-500 font-medium">{formData.email}</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="px-2.5 py-0.5 bg-green-100 text-green-700 rounded-full text-[10px] font-extrabold uppercase tracking-wider">
+                    Pelanggan Aktif
+                  </span>
+                  <span className="text-[10px] text-gray-400 font-medium">• Terverifikasi</span>
+                </div>
               </div>
             </div>
+
+            {/* Mobile Sign Out Button */}
+            <button
+              onClick={handleSignOut}
+              className="md:hidden px-3.5 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl text-xs font-extrabold flex items-center gap-1.5 transition-colors cursor-pointer"
+              title="Keluar dari Akun"
+            >
+              <span className="material-symbols-outlined text-base">logout</span>
+              <span>Keluar</span>
+            </button>
           </div>
 
-          {/* Tab Navigation */}
-          <div className="flex items-center bg-gray-100 p-1.5 rounded-2xl w-full md:w-auto">
+          {/* Tab Navigation & Desktop Sign Out */}
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+            <div className="flex items-center bg-gray-100 p-1.5 rounded-2xl w-full sm:w-auto">
+              <button
+                onClick={() => setActiveTab("profile")}
+                className={`flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  activeTab === "profile"
+                    ? "bg-white text-[#51000d] shadow-sm"
+                    : "text-gray-500 hover:text-gray-900"
+                }`}
+              >
+                Data Diri &amp; Alamat
+              </button>
+              <button
+                onClick={() => setActiveTab("orders")}
+                className={`flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  activeTab === "orders"
+                    ? "bg-white text-[#51000d] shadow-sm"
+                    : "text-gray-500 hover:text-gray-900"
+                }`}
+              >
+                Riwayat Pesanan ({orders.length})
+              </button>
+            </div>
+
             <button
-              onClick={() => setActiveTab("profile")}
-              className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                activeTab === "profile"
-                  ? "bg-white text-[#51000d] shadow-sm"
-                  : "text-gray-500 hover:text-gray-900"
-              }`}
+              onClick={handleSignOut}
+              className="hidden md:flex px-4 py-2.5 bg-red-50 hover:bg-red-600 hover:text-white text-red-600 rounded-2xl text-xs font-bold items-center gap-2 transition-all cursor-pointer shadow-sm"
             >
-              Data Diri &amp; Alamat
-            </button>
-            <button
-              onClick={() => setActiveTab("orders")}
-              className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                activeTab === "orders"
-                  ? "bg-white text-[#51000d] shadow-sm"
-                  : "text-gray-500 hover:text-gray-900"
-              }`}
-            >
-              Riwayat Pesanan ({orders.length})
+              <span className="material-symbols-outlined text-base">logout</span>
+              <span>Keluar</span>
             </button>
           </div>
         </div>
