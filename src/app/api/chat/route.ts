@@ -93,14 +93,6 @@ export async function POST(req: Request) {
       });
     }
 
-    // Cari jika pengguna bertanya tentang produk spesifik di database
-    const matchedProduct = productList.find(p => msgLower.includes(p.name.toLowerCase()) || p.name.toLowerCase().includes(msgLower));
-    if (matchedProduct) {
-      return NextResponse.json({
-        reply: `Iya kak, kami jual ${matchedProduct.name}! Harganya Rp ${matchedProduct.price.toLocaleString("id-ID")} per ${matchedProduct.unit || "pcs"}. ${matchedProduct.description ? `Keterangan: ${matchedProduct.description}.` : ""}`
-      });
-    }
-
     // Pertanyaan Spesifik Kategori: Bakso Sapi
     if (msgLower.includes("bakso") || msgLower.includes("baso")) {
       const baksoProducts = productList.filter((p) =>
@@ -112,7 +104,7 @@ export async function POST(req: Request) {
         : "- Bakso Cita Rasa Premium: Rp 80.000/bks\n- Bakso Super Essem Spesial: Rp 75.000/bks\n- Bakso Jeruk SB (50pcs): Rp 60.000/bks\n- Bakso Mekar Wangi (50pcs): Rp 50.000/bks";
 
       return NextResponse.json({
-        reply: `Berikut varian Bakso Sapi Asli yang kami jual ya kak 🥩:\n\n${baksoText}\n\nSemua terbuat dari daging sapi pilihan fresh dari Kios Pasar Kramat Jati. Kakak tertarik coba varian yang mana?`
+        reply: `Berikut varian Bakso Sapi Asli yang ada di toko kami ya kak 🥩:\n\n${baksoText}\n\nSemua terbuat dari daging sapi pilihan fresh dari Kios Pasar Kramat Jati. Kakak berminat varian yang mana?`
       });
     }
 
@@ -127,12 +119,12 @@ export async function POST(req: Request) {
         : "- Mie Ayam Resto Telur Bebek: Rp 20.000/bks\n- Mie Keriting ACI: Rp 15.000/bks\n- Kulit Pangsit Dimsum / Goreng / Rebus: Rp 20.000/bks";
 
       return NextResponse.json({
-        reply: `Berikut varian Mie Ayam & Kulit Pangsit kenyal khas toko kami 🍜:\n\n${mieText}\n\nBebas bahan pengawet & kenyal sempurna kak!`
+        reply: `Berikut varian Mie Ayam & Kulit Pangsit yang tersedia di toko kami ya kak 🍜:\n\n${mieText}\n\nSemua kenyal dan bebas bahan pengawet kak!`
       });
     }
 
     // Pertanyaan Spesifik Kategori: Bumbu & Saus
-    if (msgLower.includes("bumbu") || msgLower.includes("saus") || msgLower.includes("saos") || msgLower.includes("kecap")) {
+    if (msgLower.includes("bumbu") || msgLower.includes("saus") || msgLower.includes("saos") || msgLower.includes("kecap") || msgLower.includes("sambal")) {
       const bumbuProducts = productList.filter((p) =>
         p.category?.toLowerCase().includes("bumbu") || p.name.toLowerCase().includes("bumbu") || p.name.toLowerCase().includes("saos") || p.name.toLowerCase().includes("saus") || p.name.toLowerCase().includes("kecap")
       );
@@ -142,7 +134,15 @@ export async function POST(req: Request) {
         : "- Bumbu Multi Guna Kuah Bakso/Sop: Rp 30.000/bks\n- Saos Pedas Lima Delapan: Rp 8.000/bks\n- Kecap Manis Nasional: Rp 10.000/bks";
 
       return NextResponse.json({
-        reply: `Berikut koleksi Bumbu Rahasia & Saus/Kecap khas Bakso Pak Mul 🧂:\n\n${bumbuText}\n\nBikin kuah bakso & mie ayam jadi seenak langganan kak!`
+        reply: `Berikut koleksi Bumbu & Saus khas Bakso Pak Mul 🧂:\n\n${bumbuText}\n\nDijamin bikin racikan kuah bakso & mie ayam kakak makin enak!`
+      });
+    }
+
+    // Cari jika pengguna bertanya tentang produk spesifik nama dari database
+    const matchedProduct = productList.find(p => msgLower.includes(p.name.toLowerCase()) || p.name.toLowerCase().includes(msgLower));
+    if (matchedProduct) {
+      return NextResponse.json({
+        reply: `Iya kak, kami menjual ${matchedProduct.name}! Harganya Rp ${matchedProduct.price.toLocaleString("id-ID")} per ${matchedProduct.unit || "pcs"}. ${matchedProduct.description ? `Keterangan: ${matchedProduct.description}.` : ""}`
       });
     }
 
