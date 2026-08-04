@@ -122,13 +122,33 @@ export default function WhatsAppButton() {
                 className={`flex flex-col ${msg.sender === "user" ? "items-end" : "items-start"}`}
               >
                 <div
-                  className={`max-w-[82%] px-4 py-2.5 rounded-2xl shadow-sm leading-relaxed ${
+                  className={`max-w-[85%] px-4 py-3 rounded-2xl shadow-sm leading-relaxed ${
                     msg.sender === "user"
                       ? "bg-[#51000d] text-white rounded-br-none"
-                      : "bg-white text-gray-800 border border-gray-100 rounded-bl-none"
+                      : "bg-white text-gray-800 border border-red-100 rounded-bl-none"
                   }`}
                 >
-                  <p className="whitespace-pre-line">{msg.text}</p>
+                  <p className="whitespace-pre-line">
+                    {msg.text.split("\n").map((line, lIdx) => {
+                      // Simple bold formatter for *text*
+                      const parts = line.split(/(\*[^*]+\*)/g);
+                      return (
+                        <React.Fragment key={lIdx}>
+                          {parts.map((part, pIdx) => {
+                            if (part.startsWith("*") && part.endsWith("*")) {
+                              return (
+                                <strong key={pIdx} className="font-bold text-[#51000d]">
+                                  {part.slice(1, -1)}
+                                </strong>
+                              );
+                            }
+                            return part;
+                          })}
+                          {lIdx < msg.text.split("\n").length - 1 && <br />}
+                        </React.Fragment>
+                      );
+                    })}
+                  </p>
                 </div>
                 <span className="text-[9px] text-gray-400 mt-1 px-1">{msg.time}</span>
               </div>
