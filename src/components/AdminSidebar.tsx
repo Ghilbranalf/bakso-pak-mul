@@ -85,7 +85,7 @@ export default function AdminSidebar() {
       >
         {/* Brand */}
         <div className="px-5 mb-6">
-          <Link href="/admin" className="block">
+          <Link href="/admin" className="block group">
             <BrandLogo
               variant={isDark ? "light" : "dark"}
               size="sm"

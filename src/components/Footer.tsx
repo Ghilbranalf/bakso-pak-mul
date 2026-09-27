@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 pb-10 border-b border-slate-800/80">
           {/* Brand Info */}
           <div className="md:col-span-5 space-y-4">
-            <Link href="/" className="inline-block">
+            <Link href="/" className="inline-block group">
               <BrandLogo variant="light" size="md" />
             </Link>
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">

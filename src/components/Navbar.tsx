@@ -81,7 +81,7 @@ export default function Navbar() {
             {/* Brand Logo */}
             <Link
               href="/"
-              className="flex-shrink-0 flex items-center cursor-pointer"
+              className="flex-shrink-0 flex items-center cursor-pointer group"
               title="Bakso Pak Mul"
             >
               <BrandLogo size="md" />

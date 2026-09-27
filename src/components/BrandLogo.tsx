@@ -15,84 +15,50 @@ export default function BrandLogo({
 }: BrandLogoProps) {
   const isLight = variant === "light";
 
-  const iconDimensions = {
-    sm: "w-8 h-8 rounded-lg",
-    md: "w-9 h-9 rounded-xl",
-    lg: "w-11 h-11 rounded-xl",
+  const iconSizes = {
+    sm: "w-8 h-8",
+    md: "w-10 h-10",
+    lg: "w-12 h-12",
   }[size];
 
-  const titleSize = {
-    sm: "text-base font-bold tracking-tight",
-    md: "text-lg font-extrabold tracking-tight",
-    lg: "text-xl font-black tracking-tight",
+  const titleSizes = {
+    sm: "text-base font-extrabold tracking-tight",
+    md: "text-lg sm:text-xl font-black tracking-tight",
+    lg: "text-xl sm:text-2xl font-black tracking-tight",
   }[size];
 
   return (
-    <div className={`inline-flex items-center gap-2.5 select-none ${className}`}>
-      {/* Signature Maroon Emblem */}
+    <div className={`inline-flex items-center gap-3 select-none ${className}`}>
+      {/* Authentic BPM Monogram Logo */}
       <div
-        className={`${iconDimensions} flex items-center justify-center shrink-0 ${
+        className={`${iconSizes} flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105 ${
           isLight
-            ? "bg-white text-[#7a0019]"
-            : "bg-[#7a0019] text-white shadow-xs"
+            ? "bg-white p-1 rounded-xl shadow-sm ring-1 ring-white/20"
+            : "p-0.5"
         }`}
       >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-5 h-5"
-        >
-          {/* Steam */}
-          <path
-            d="M8.5 4.5C8 5.8 9.5 6.5 9 7.8M12 3.5C11.5 5 13 6 12.5 7.5M15.5 4.5C15 5.8 16.5 6.5 16 7.8"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-          {/* Authentic Bowl */}
-          <path
-            d="M4.5 10C4.5 10 5.2 18 12 18C18.8 18 19.5 10 19.5 10H4.5Z"
-            fill="currentColor"
-            fillOpacity="0.2"
-            stroke="currentColor"
-            strokeWidth="1.75"
-            strokeLinejoin="round"
-          />
-          {/* Rim */}
-          <path
-            d="M3.5 10H20.5"
-            stroke="currentColor"
-            strokeWidth="1.75"
-            strokeLinecap="round"
-          />
-          {/* Meatballs */}
-          <circle cx="9.5" cy="11.5" r="1.8" fill="currentColor" />
-          <circle cx="14.5" cy="11.5" r="1.8" fill="currentColor" />
-          {/* Base */}
-          <path
-            d="M9 18L8.5 20H15.5L15 18"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <img
+          src="/images/logo.png"
+          alt="Bakso Pak Mul (BPM) Logo"
+          className={`w-full h-full object-contain ${
+            isLight ? "" : "mix-blend-multiply drop-shadow-xs"
+          }`}
+        />
       </div>
 
-      {/* Typography */}
-      <div className="flex flex-col leading-none">
+      {/* Classic, Professional Typography */}
+      <div className="flex flex-col justify-center leading-none">
         <span
-          className={`${titleSize} ${
-            isLight ? "text-white" : "text-[#1a1a1a]"
+          className={`${titleSizes} ${
+            isLight ? "text-white" : "text-[#51000d]"
           }`}
         >
           Bakso Pak Mul
         </span>
         {withSubtitle && (
           <span
-            className={`text-[10px] font-medium tracking-wide mt-0.5 ${
-              isLight ? "text-slate-300" : "text-slate-500"
+            className={`text-[9.5px] font-bold tracking-[0.16em] uppercase mt-1 ${
+              isLight ? "text-slate-300" : "text-[#7a0019]"
             }`}
           >
             Kramat Jati • Est. 2000
