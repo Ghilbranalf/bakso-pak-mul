@@ -89,7 +89,7 @@ function TrackingContent() {
             <span>Pantau Status Pengiriman</span>
             <span className="w-5 h-[1px] bg-[#7a0019]" />
           </div>
-          <h1 className="font-serif text-3xl sm:text-5xl font-bold text-stone-950 tracking-tight">
+          <h1 className="font-display text-3xl sm:text-5xl font-bold text-stone-950 tracking-tight">
             Lacak Pesanan Anda
           </h1>
           <p className="text-xs sm:text-sm text-stone-600 max-w-lg mx-auto font-normal">
@@ -139,7 +139,7 @@ function TrackingContent() {
             <div className="w-12 h-12 bg-rose-100 text-rose-800 rounded-xl flex items-center justify-center mx-auto mb-3">
               <span className="material-symbols-outlined text-2xl">error_meds</span>
             </div>
-            <h3 className="font-serif text-base font-bold text-rose-950 mb-1">
+            <h3 className="font-display text-base font-bold text-rose-950 mb-1">
               Pesanan Tidak Ditemukan
             </h3>
             <p className="text-xs text-rose-700 max-w-md mx-auto">{errorMsg}</p>
@@ -155,7 +155,7 @@ function TrackingContent() {
                 <span className="text-[10px] font-bold uppercase tracking-wider text-amber-200 bg-white/10 px-3 py-1 rounded-md border border-white/10">
                   ID Pesanan Terverifikasi
                 </span>
-                <h2 className="font-serif text-2xl sm:text-3xl font-bold mt-2">
+                <h2 className="font-display text-2xl sm:text-3xl font-bold mt-2">
                   {orderData.orderNumber}
                 </h2>
                 <p className="text-xs text-stone-300 mt-1">
@@ -173,7 +173,7 @@ function TrackingContent() {
 
               <div className="text-left sm:text-right">
                 <span className="text-xs text-stone-300 block font-medium">Total Pembayaran</span>
-                <span className="font-serif text-2xl sm:text-3xl font-bold text-amber-200">
+                <span className="font-display text-2xl sm:text-3xl font-bold text-amber-200">
                   Rp {formatPrice(orderData.finalTotal)}
                 </span>
               </div>
@@ -203,7 +203,7 @@ function TrackingContent() {
                     <span className="material-symbols-outlined text-xl">receipt_long</span>
                   </div>
                   <div>
-                    <h4 className="font-serif text-sm font-bold text-stone-900">
+                    <h4 className="font-display text-sm font-bold text-stone-900">
                       Pesanan Tercatat
                     </h4>
                     <p className="text-[11px] text-stone-500 mt-0.5">
@@ -228,7 +228,7 @@ function TrackingContent() {
                     <span className="material-symbols-outlined text-xl">verified</span>
                   </div>
                   <div>
-                    <h4 className="font-serif text-sm font-bold text-stone-900">
+                    <h4 className="font-display text-sm font-bold text-stone-900">
                       Pembayaran Sah
                     </h4>
                     <p className="text-[11px] text-stone-500 mt-0.5">
@@ -253,7 +253,7 @@ function TrackingContent() {
                     <span className="material-symbols-outlined text-xl">soup_kitchen</span>
                   </div>
                   <div>
-                    <h4 className="font-serif text-sm font-bold text-stone-900">
+                    <h4 className="font-display text-sm font-bold text-stone-900">
                       Pengolahan Kios
                     </h4>
                     <p className="text-[11px] text-stone-500 mt-0.5">
@@ -278,7 +278,7 @@ function TrackingContent() {
                     <span className="material-symbols-outlined text-xl">local_shipping</span>
                   </div>
                   <div>
-                    <h4 className="font-serif text-sm font-bold text-stone-900">
+                    <h4 className="font-display text-sm font-bold text-stone-900">
                       Pengiriman / Selesai
                     </h4>
                     <p className="text-[11px] text-stone-500 mt-0.5">
@@ -346,14 +346,14 @@ function TrackingContent() {
                         className="w-12 h-12 object-contain bg-white rounded-lg p-1 border border-stone-200"
                       />
                       <div className="flex-grow min-w-0">
-                        <h5 className="font-serif text-xs font-bold text-stone-900 truncate">
+                        <h5 className="font-display text-xs font-bold text-stone-900 truncate">
                           {item.product?.name || "Produk Bakso Pak Mul"}
                         </h5>
                         <p className="text-[11px] text-stone-500 mt-0.5">
                           {item.quantity} x Rp {formatPrice(item.priceAtTime || item.product?.price || 0)}
                         </p>
                       </div>
-                      <span className="font-serif text-xs font-bold text-[#51000d] shrink-0">
+                      <span className="font-display text-xs font-bold text-[#51000d] shrink-0">
                         Rp {formatPrice((item.priceAtTime || item.product?.price || 0) * item.quantity)}
                       </span>
                     </div>

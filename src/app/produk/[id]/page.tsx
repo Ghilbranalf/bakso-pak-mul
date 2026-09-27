@@ -167,7 +167,7 @@ export default function ProductDetailPage() {
                   </span>
                 </div>
               </div>
-              <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-stone-950 tracking-tight leading-tight">
+              <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-stone-950 tracking-tight leading-tight">
                 {displayProduct.name}
               </h1>
               <p className="text-xs text-stone-500 font-medium mt-1 uppercase tracking-wider">
@@ -176,7 +176,7 @@ export default function ProductDetailPage() {
             </div>
 
             <div className="flex items-baseline gap-3 pt-1">
-              <span className="font-serif text-3xl sm:text-4xl font-bold text-[#51000d]">
+              <span className="font-display text-3xl sm:text-4xl font-extrabold text-[#7a0019]">
                 Rp {formatPrice(displayProduct.price)}
               </span>
               {displayProduct.originalPrice && (
@@ -227,10 +227,10 @@ export default function ProductDetailPage() {
         <section className="bg-white rounded-2xl p-6 sm:p-10 shadow-xs border border-stone-200/80 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-100 pb-6">
             <div>
-              <h2 className="font-serif text-2xl font-bold text-stone-950 tracking-tight">
+              <h2 className="font-display text-2xl font-bold text-stone-950 tracking-tight">
                 Rating &amp; Ulasan Pembeli
               </h2>
-              <p className="text-xs text-stone-500 font-normal mt-0.5">
+              <p className="font-sans text-xs text-stone-500 font-normal mt-0.5">
                 Pengalaman jujur dari pembeli dan penikmat setia Bakso Pak Mul
               </p>
             </div>
@@ -247,7 +247,7 @@ export default function ProductDetailPage() {
           {/* Rating Overview */}
           <div className="bg-[#faf7f2] p-6 rounded-2xl border border-stone-200/80 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
             <div className="text-center shrink-0">
-              <span className="font-serif text-5xl font-bold text-[#51000d]">
+              <span className="font-display text-5xl font-black text-[#51000d]">
                 {avgRating}
               </span>
               <div className="flex justify-center text-amber-500 text-lg my-1">
@@ -288,11 +288,11 @@ export default function ProductDetailPage() {
                 >
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-[#51000d] text-amber-200 font-serif font-bold text-xs flex items-center justify-center">
+                      <div className="w-9 h-9 rounded-xl bg-[#51000d] text-amber-200 font-display font-bold text-xs flex items-center justify-center">
                         {(rev.userName || "U").charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <h4 className="text-xs font-bold text-stone-900">{rev.userName}</h4>
+                        <h4 className="font-display text-xs font-bold text-stone-900">{rev.userName}</h4>
                         <div className="flex text-amber-500 text-xs">
                           {"★".repeat(rev.rating || 5)}
                         </div>
@@ -302,7 +302,7 @@ export default function ProductDetailPage() {
                       {new Date(rev.createdAt || Date.now()).toLocaleDateString("id-ID")}
                     </span>
                   </div>
-                  <p className="text-xs text-stone-700 font-normal pl-12 leading-relaxed">
+                  <p className="font-sans text-xs text-stone-700 font-normal pl-12 leading-relaxed">
                     {rev.comment}
                   </p>
                 </div>
@@ -317,7 +317,7 @@ export default function ProductDetailPage() {
         <div className="fixed inset-0 bg-stone-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 space-y-5 border border-stone-200 animate-in zoom-in-95">
             <div className="flex justify-between items-center border-b border-stone-100 pb-3">
-              <h3 className="font-serif text-lg font-bold text-stone-900 flex items-center gap-2">
+              <h3 className="font-display text-lg font-bold text-stone-900 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#51000d]">rate_review</span>
                 <span>Tulis Ulasan Produk</span>
               </h3>

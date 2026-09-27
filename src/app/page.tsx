@@ -119,18 +119,18 @@ export default function HomePage() {
               {/* Heritage Quote Snippet */}
               <div className="pt-8 border-t border-stone-200/80 flex items-center gap-6">
                 <div>
-                  <p className="font-serif text-2xl font-bold text-[#51000d]">100%</p>
-                  <p className="text-xs text-stone-500 font-medium mt-0.5">Daging Sapi Murni</p>
+                  <p className="font-display text-2xl font-black text-[#7a0019]">100%</p>
+                  <p className="font-sans text-xs text-stone-500 font-medium mt-0.5">Daging Sapi Murni</p>
                 </div>
                 <div className="w-[1px] h-9 bg-stone-200" />
                 <div>
-                  <p className="font-serif text-2xl font-bold text-[#51000d]">24+ Thn</p>
-                  <p className="text-xs text-stone-500 font-medium mt-0.5">Tradisi &amp; Mutu Rasa</p>
+                  <p className="font-display text-2xl font-black text-[#7a0019]">24+ Thn</p>
+                  <p className="font-sans text-xs text-stone-500 font-medium mt-0.5">Tradisi &amp; Mutu Rasa</p>
                 </div>
                 <div className="w-[1px] h-9 bg-stone-200" />
                 <div>
-                  <p className="font-serif text-2xl font-bold text-[#51000d]">500+</p>
-                  <p className="text-xs text-stone-500 font-medium mt-0.5">Warung &amp; Mitra Kuliner</p>
+                  <p className="font-display text-2xl font-black text-[#7a0019]">500+</p>
+                  <p className="font-sans text-xs text-stone-500 font-medium mt-0.5">Warung &amp; Mitra Kuliner</p>
                 </div>
               </div>
             </div>
@@ -150,7 +150,7 @@ export default function HomePage() {
                     <p className="text-[10px] tracking-[0.2em] uppercase font-bold text-amber-200">
                       Sajian Klasik
                     </p>
-                    <p className="font-serif text-lg font-bold text-white mt-0.5">
+                    <p className="font-display text-lg font-bold text-white mt-0.5">
                       Bakso Urat &amp; Halus Pak Mul
                     </p>
                     <p className="text-xs text-stone-300 mt-1">
@@ -171,25 +171,25 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
               <div className="space-y-2">
-                <p className="font-serif text-2xl text-[#51000d] font-bold">01</p>
-                <h3 className="text-base font-bold text-stone-900">Daging Sapi Segar Subuh Hari</h3>
-                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
-                  Dipilih langsung dari pemotongan halal pasar induk setiap pagi, menjaga serat alami dan aroma manis gurih asli daging sapi tanpa boraks.
+                <p className="font-display text-2xl text-[#7a0019] font-black">01</p>
+                <h3 className="font-display text-base font-bold text-stone-900">Daging Sapi Segar Subuh Hari</h3>
+                <p className="font-sans text-xs sm:text-sm text-stone-700 leading-relaxed">
+                  Dipilih langsung dari pemotongan halal pasar induk setiap pagi, menjaga serat alami dan rasa gurih asli daging sapi tanpa boraks.
                 </p>
               </div>
 
               <div className="space-y-2">
-                <p className="font-serif text-2xl text-[#51000d] font-bold">02</p>
-                <h3 className="text-base font-bold text-stone-900">Kuah Kaldu Rempah Otentik</h3>
-                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+                <p className="font-display text-2xl text-[#7a0019] font-black">02</p>
+                <h3 className="font-display text-base font-bold text-stone-900">Kuah Kaldu Rempah Otentik</h3>
+                <p className="font-sans text-xs sm:text-sm text-stone-700 leading-relaxed">
                   Sari rebusan tulang sumsum sapi berpadu racikan bawang putih goreng dan rempah istimewa, menghasilkan aroma kaldu yang harum pekat.
                 </p>
               </div>
 
               <div className="space-y-2">
-                <p className="font-serif text-2xl text-[#51000d] font-bold">03</p>
-                <h3 className="text-base font-bold text-stone-900">Kemasan Dingin &amp; Kirim Cepat</h3>
-                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+                <p className="font-display text-2xl text-[#7a0019] font-black">03</p>
+                <h3 className="font-display text-base font-bold text-stone-900">Kemasan Dingin &amp; Kirim Cepat</h3>
+                <p className="font-sans text-xs sm:text-sm text-stone-700 leading-relaxed">
                   Disegel rapi dalam kemasan vakum udara untuk menjaga kebersihan dan kesegaran maksimal saat diantar langsung ke dapur Anda.
                 </p>
               </div>
@@ -206,11 +206,11 @@ export default function HomePage() {
                 <span className="w-6 h-[1px] bg-[#7a0019]" />
                 <span>Koleksi Pilihan</span>
               </div>
-              <h2 className="font-serif text-3xl sm:text-5xl font-bold text-stone-950 tracking-tight">
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-950 tracking-tight">
                 Racikan Paling Diminati
               </h2>
-              <p className="text-stone-600 text-xs sm:text-sm mt-2 max-w-lg">
-                Pilihan favorit santapan rumahan dan resep rahasia ratusan mitra warung bakso &amp; mie ayam.
+              <p className="font-sans text-stone-700 text-xs sm:text-sm mt-2 max-w-lg">
+                Pilihan favorit santapan rumahan dan resep rahasia ratusan mitra warung bakso &amp; mie ayam se-Jabodetabek.
               </p>
             </div>
 
@@ -279,7 +279,7 @@ export default function HomePage() {
                       </div>
 
                       <Link href={`/produk/${product.id}`} className="block">
-                        <h3 className="font-serif text-sm sm:text-base font-bold text-stone-900 leading-snug line-clamp-2 group-hover:text-[#51000d] transition-colors">
+                        <h3 className="font-display text-sm sm:text-base font-bold text-stone-900 leading-snug line-clamp-2 group-hover:text-[#7a0019] transition-colors">
                           {product.name}
                         </h3>
                       </Link>
@@ -297,7 +297,7 @@ export default function HomePage() {
                             Rp {product.originalPrice.toLocaleString("id-ID")}
                           </p>
                         )}
-                        <p className="font-serif text-base sm:text-lg font-bold text-[#51000d]">
+                        <p className="font-display text-base sm:text-lg font-extrabold text-[#7a0019]">
                           Rp {(product.price || 0).toLocaleString("id-ID")}
                         </p>
                       </div>
@@ -363,10 +363,10 @@ export default function HomePage() {
                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-300">
                       Dokumentasi Kios Asli
                     </span>
-                    <p className="font-serif text-lg font-bold mt-1">
+                    <p className="font-display text-lg font-bold mt-1">
                       Pak Mul di Kios Pasar Kramat Jati
                     </p>
-                    <p className="text-xs text-stone-300 mt-0.5">
+                    <p className="font-sans text-xs text-stone-300 mt-0.5">
                       Melayani pelanggan sejak subuh hari tanpa henti
                     </p>
                   </div>
@@ -382,11 +382,11 @@ export default function HomePage() {
                   </p>
                 </div>
 
-                <blockquote className="font-serif italic text-2xl sm:text-3xl text-stone-900 leading-snug">
+                <blockquote className="font-display text-2xl sm:text-3xl font-extrabold text-stone-900 leading-snug">
                   &ldquo;Bagi kami, membuat bakso bukan sekadar menggiling daging, melainkan menjaga amanah rasa yang sudah dipercaya keluarga dan ratusan warung sejak generasi pertama.&rdquo;
                 </blockquote>
 
-                <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
+                <p className="font-sans text-stone-700 text-sm sm:text-base leading-relaxed">
                   Bermula dari kios kayu sederhana di lantai dasar Pasar Kramat Jati Jakarta Timur, Pak Mul mengawali hari setiap pukul 04.30 subuh untuk memilih potongan daging sapi terbaik dari pemotongan lokal. Tanpa pengenyal kimiawi, tanpa rekayasa buatan. Hanya daging sapi murni, takaran bumbu rempah yang pas, dan dedikasi menjaga konsistensi rasa selama lebih dari 24 tahun.
                 </p>
 
@@ -422,7 +422,7 @@ export default function HomePage() {
               <p className="text-xs font-bold tracking-[0.2em] text-[#7a0019] uppercase mb-1">
                 Ulasan Pelanggan Setia
               </p>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-950 tracking-tight">
+              <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-stone-950 tracking-tight">
                 Dipercaya Turun Temurun
               </h2>
             </div>
@@ -431,17 +431,17 @@ export default function HomePage() {
               {/* Testimonial 1 */}
               <div className="bg-white p-7 rounded-2xl shadow-xs border border-stone-200/80 flex flex-col justify-between">
                 <div>
-                  <div className="text-amber-600 text-sm mb-3">★★★★★</div>
-                  <p className="font-serif text-sm sm:text-base text-stone-800 leading-relaxed italic">
+                  <div className="text-amber-500 text-sm mb-3">★★★★★</div>
+                  <p className="font-sans text-sm sm:text-base text-stone-700 leading-relaxed font-normal">
                     &ldquo;Sudah 6 tahun langganan mie telor bebek dan bakso urat Pak Mul untuk gerobak mie ayam saya. Mie-nya kenyal tidak mudah hancur saat direbus, pelanggan selalu puji kuahnya mantap.&rdquo;
                   </p>
                 </div>
                 <div className="pt-6 mt-6 border-t border-stone-100 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#51000d] text-amber-200 font-serif font-bold text-xs flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-[#51000d] text-amber-200 font-display font-bold text-xs flex items-center justify-center">
                     MB
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-stone-900">Mas Bambang</p>
+                    <p className="font-display text-xs font-bold text-stone-900">Mas Bambang</p>
                     <p className="text-[11px] text-stone-500">Mie Ayam Podomoro, Ciracas</p>
                   </div>
                 </div>
@@ -450,17 +450,17 @@ export default function HomePage() {
               {/* Testimonial 2 */}
               <div className="bg-white p-7 rounded-2xl shadow-xs border border-stone-200/80 flex flex-col justify-between">
                 <div>
-                  <div className="text-amber-600 text-sm mb-3">★★★★★</div>
-                  <p className="font-serif text-sm sm:text-base text-stone-800 leading-relaxed italic">
+                  <div className="text-amber-500 text-sm mb-3">★★★★★</div>
+                  <p className="font-sans text-sm sm:text-base text-stone-700 leading-relaxed font-normal">
                     &ldquo;Beli bakso halus buat acara arisan dan hajatan keluarga di rumah. Daging sapinya berasa sekali, bukan cuma tepung. Pengiriman tepat waktu dan baksonya masih dingin beku segar.&rdquo;
                   </p>
                 </div>
                 <div className="pt-6 mt-6 border-t border-stone-100 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#51000d] text-amber-200 font-serif font-bold text-xs flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-[#51000d] text-amber-200 font-display font-bold text-xs flex items-center justify-center">
                     SR
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-stone-900">Ibu Siti Rahma</p>
+                    <p className="font-display text-xs font-bold text-stone-900">Ibu Siti Rahma</p>
                     <p className="text-[11px] text-stone-500">Ibu Rumah Tangga, Kramat Jati</p>
                   </div>
                 </div>
@@ -469,17 +469,17 @@ export default function HomePage() {
               {/* Testimonial 3 */}
               <div className="bg-white p-7 rounded-2xl shadow-xs border border-stone-200/80 flex flex-col justify-between">
                 <div>
-                  <div className="text-amber-600 text-sm mb-3">★★★★★</div>
-                  <p className="font-serif text-sm sm:text-base text-stone-800 leading-relaxed italic">
+                  <div className="text-amber-500 text-sm mb-3">★★★★★</div>
+                  <p className="font-sans text-sm sm:text-base text-stone-700 leading-relaxed font-normal">
                     &ldquo;Pesanan grosir untuk katering pabrik selalu aman. Kulit pangsitnya renyah kalau digoreng, tidak banyak menyerap minyak. Pelayanan cepat dan responsif saat ada pesanan dadakan.&rdquo;
                   </p>
                 </div>
                 <div className="pt-6 mt-6 border-t border-stone-100 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#51000d] text-amber-200 font-serif font-bold text-xs flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-[#51000d] text-amber-200 font-display font-bold text-xs flex items-center justify-center">
                     HW
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-stone-900">Pak Hendra Wijaya</p>
+                    <p className="font-display text-xs font-bold text-stone-900">Pak Hendra Wijaya</p>
                     <p className="text-[11px] text-stone-500">Katering Berkah Mandiri, Pulogadung</p>
                   </div>
                 </div>
@@ -495,10 +495,10 @@ export default function HomePage() {
               <p className="text-xs font-bold tracking-[0.2em] uppercase text-amber-300">
                 Pesan Mudah Dari Rumah
               </p>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
+              <h2 className="font-display text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
                 Hadirkan Kelezatan Bakso Sapi Asli di Meja Makan Anda Hari Ini
               </h2>
-              <p className="text-stone-300 text-sm sm:text-base leading-relaxed">
+              <p className="font-sans text-stone-200 text-sm sm:text-base leading-relaxed">
                 Nikmati kemudahan belanja online dengan garansi kualitas terbaik. Pesanan dikirim langsung dalam kondisi tersegel higienis dan segar.
               </p>
               <div className="flex flex-wrap items-center gap-3.5 pt-3">

@@ -37,7 +37,7 @@ export default function CartSidebar() {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-stone-200 bg-white">
           <div className="flex items-center gap-3">
-            <h2 className="font-serif text-xl font-bold text-stone-950">
+            <h2 className="font-display text-xl font-bold text-stone-950">
               Keranjang Pesanan
             </h2>
             <span className="bg-amber-50 text-[#7a0019] border border-amber-200/60 text-xs font-bold px-2.5 py-0.5 rounded-md">
@@ -82,14 +82,14 @@ export default function CartSidebar() {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-serif text-xs font-bold text-stone-900 truncate">
+                  <h3 className="font-display text-xs font-bold text-stone-900 truncate">
                     {item.name}
                   </h3>
                   <p className="text-[11px] text-stone-400 mb-2 truncate">
                     {item.unit || "Pack Pilihan"}
                   </p>
                   <div className="flex items-center justify-between">
-                    <span className="font-serif text-sm font-bold text-[#51000d]">
+                    <span className="font-display text-sm font-bold text-[#51000d]">
                       Rp {formatPrice(item.price)}
                     </span>
                     <div className="flex items-center border border-stone-200 rounded-lg bg-stone-50">
@@ -157,7 +157,7 @@ export default function CartSidebar() {
             <span className="text-xs font-bold text-stone-700 uppercase tracking-wider">
               Total Pembayaran
             </span>
-            <span className="font-serif text-2xl font-bold text-[#51000d]">
+            <span className="font-display text-2xl font-bold text-[#51000d]">
               Rp {formatPrice(finalTotal)}
             </span>
           </div>

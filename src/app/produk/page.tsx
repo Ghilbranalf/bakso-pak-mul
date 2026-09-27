@@ -122,7 +122,7 @@ function ProductsContent() {
                 <span className="w-6 h-[1px] bg-[#7a0019]" />
                 <span>Kios Pasar Kramat Jati</span>
               </div>
-              <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-stone-950 tracking-tight">
+              <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-950 tracking-tight">
                 Koleksi Menu &amp; Bahan Baku
               </h1>
               <p className="text-stone-600 text-xs sm:text-sm mt-2 max-w-xl">
@@ -226,7 +226,7 @@ function ProductsContent() {
                     </div>
 
                     <Link href={`/produk/${product.id}`} className="block">
-                      <h3 className="font-serif text-sm sm:text-base font-bold text-stone-900 leading-snug line-clamp-2 group-hover:text-[#51000d] transition-colors">
+                      <h3 className="font-display text-sm sm:text-base font-bold text-stone-900 leading-snug line-clamp-2 group-hover:text-[#7a0019] transition-colors">
                         {product.name}
                       </h3>
                     </Link>
@@ -243,7 +243,7 @@ function ProductsContent() {
                           Rp {product.originalPrice.toLocaleString("id-ID")}
                         </p>
                       )}
-                      <p className="font-serif text-base sm:text-lg font-bold text-[#51000d]">
+                      <p className="font-display text-base sm:text-lg font-extrabold text-[#7a0019]">
                         Rp {(product.price || 0).toLocaleString("id-ID")}
                       </p>
                     </div>

@@ -19,7 +19,7 @@ export default function AboutPage() {
               <span>Dedikasi &amp; Tradisi Sejak 2000</span>
               <span className="w-6 h-[1px] bg-[#7a0019]" />
             </div>
-            <h1 className="font-serif text-4xl sm:text-6xl font-bold text-stone-950 tracking-tight leading-tight">
+            <h1 className="font-display text-4xl sm:text-6xl font-bold text-stone-950 tracking-tight leading-tight">
               Kisah di Balik Kios Kramat Jati
             </h1>
             <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto font-normal">
@@ -33,7 +33,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left Narrative */}
             <div className="lg:col-span-7 space-y-6 text-left">
-              <p className="font-serif italic text-2xl sm:text-3xl text-stone-900 leading-snug">
+              <p className="font-display italic text-2xl sm:text-3xl text-stone-900 leading-snug">
                 &ldquo;Rasa tidak pernah bisa dibohongi. Ketika daging sapi murni diolah dengan kejujuran resep rempah, lidah pelanggan akan selalu ingat jalan pulang.&rdquo;
               </p>
 
@@ -49,15 +49,15 @@ export default function AboutPage() {
               {/* Legacy Milestones */}
               <div className="pt-6 border-t border-stone-200 grid grid-cols-3 gap-6">
                 <div>
-                  <p className="font-serif text-3xl font-bold text-[#51000d]">2000</p>
+                  <p className="font-display text-3xl font-bold text-[#51000d]">2000</p>
                   <p className="text-xs text-stone-500 font-medium mt-1">Tahun Berdiri di Kramat Jati</p>
                 </div>
                 <div>
-                  <p className="font-serif text-3xl font-bold text-[#51000d]">100%</p>
+                  <p className="font-display text-3xl font-bold text-[#51000d]">100%</p>
                   <p className="text-xs text-stone-500 font-medium mt-1">Daging Sapi Segar Pilihan</p>
                 </div>
                 <div>
-                  <p className="font-serif text-3xl font-bold text-[#51000d]">500+</p>
+                  <p className="font-display text-3xl font-bold text-[#51000d]">500+</p>
                   <p className="text-xs text-stone-500 font-medium mt-1">Mitra Warung &amp; Katering</p>
                 </div>
               </div>
@@ -76,7 +76,7 @@ export default function AboutPage() {
                   <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-300">
                     Dokumentasi Kios Asli
                   </span>
-                  <p className="font-serif text-lg font-bold mt-1">
+                  <p className="font-display text-lg font-bold mt-1">
                     Kios Bakso Pak Mul
                   </p>
                   <p className="text-xs text-stone-300 mt-0.5">
@@ -95,15 +95,15 @@ export default function AboutPage() {
               <p className="text-xs font-bold tracking-[0.2em] text-[#7a0019] uppercase mb-1">
                 Prinsip Tanpa Kompromi
               </p>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-950 tracking-tight">
+              <h2 className="font-display text-3xl sm:text-4xl font-bold text-stone-950 tracking-tight">
                 Tiga Pilar Kualitas Bakso Pak Mul
               </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
               <div className="bg-[#faf7f2] p-8 rounded-2xl border border-stone-200/80 space-y-3">
-                <span className="font-serif text-2xl font-bold text-[#51000d]">01</span>
-                <h3 className="font-serif text-lg font-bold text-stone-900">
+                <span className="font-display text-2xl font-bold text-[#51000d]">01</span>
+                <h3 className="font-display text-lg font-bold text-stone-900">
                   Daging Murni Tanpa Boraks
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
@@ -112,8 +112,8 @@ export default function AboutPage() {
               </div>
 
               <div className="bg-[#faf7f2] p-8 rounded-2xl border border-stone-200/80 space-y-3">
-                <span className="font-serif text-2xl font-bold text-[#51000d]">02</span>
-                <h3 className="font-serif text-lg font-bold text-stone-900">
+                <span className="font-display text-2xl font-bold text-[#51000d]">02</span>
+                <h3 className="font-display text-lg font-bold text-stone-900">
                   Resep Rempah Warisan
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
@@ -122,8 +122,8 @@ export default function AboutPage() {
               </div>
 
               <div className="bg-[#faf7f2] p-8 rounded-2xl border border-stone-200/80 space-y-3">
-                <span className="font-serif text-2xl font-bold text-[#51000d]">03</span>
-                <h3 className="font-serif text-lg font-bold text-stone-900">
+                <span className="font-display text-2xl font-bold text-[#51000d]">03</span>
+                <h3 className="font-display text-lg font-bold text-stone-900">
                   Kemasan Higienis &amp; Rantai Dingin
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
@@ -141,7 +141,7 @@ export default function AboutPage() {
               <p className="text-xs font-bold tracking-[0.2em] uppercase text-amber-300">
                 Kemitraan Usaha &amp; Hajatan
               </p>
-              <h2 className="font-serif text-2xl sm:text-4xl font-bold leading-tight">
+              <h2 className="font-display text-2xl sm:text-4xl font-bold leading-tight">
                 Tertarik Bermitra atau Butuh Pasokan Rutin?
               </h2>
               <p className="text-stone-300 text-xs sm:text-sm leading-relaxed">
