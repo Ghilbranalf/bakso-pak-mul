@@ -20,8 +20,9 @@
   --color-text-muted: #78716c;
   --color-outline: #e7e2d9;
 
-  --font-sans: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
-  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-display: "Outfit", system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-serif: "Outfit", system-ui, sans-serif;
 }
 
 /* Base resets & typography */
@@ -38,8 +39,12 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+.font-display {
+  font-family: var(--font-display, "Outfit", sans-serif);
+}
+
 .font-serif {
-  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-family: var(--font-display, "Outfit", sans-serif);
 }
 
 .font-sans {

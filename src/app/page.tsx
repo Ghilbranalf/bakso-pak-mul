@@ -83,13 +83,13 @@ export default function HomePage() {
               </div>
 
               {/* Editorial Headline */}
-              <h1 className="font-serif text-3xl sm:text-5xl lg:text-[54px] font-bold tracking-tight text-stone-950 leading-[1.15]">
+              <h1 className="font-display text-3xl sm:text-5xl lg:text-[54px] font-black tracking-tight text-stone-950 leading-[1.14]">
                 Nikmatnya Bakso Sapi Asli &amp;{" "}
-                <span className="text-[#51000d]">Kuah Kaldu Gurih</span> Khas Kramat Jati.
+                <span className="text-[#7a0019]">Kuah Kaldu Gurih</span> Khas Kramat Jati.
               </h1>
 
               {/* Appetite Subtitle - Modern Sans Tegas */}
-              <p className="font-sans text-stone-800 text-base sm:text-lg font-medium leading-relaxed max-w-xl">
+              <p className="font-sans text-stone-700 text-base sm:text-lg font-medium leading-relaxed max-w-xl">
                 Dibuat segar setiap hari dari 100% daging sapi pilihan dan rempah warisan sejak tahun 2000. Nikmati kehangatan semangkuk bakso otentik di meja makan keluarga, atau pesan pasokan bahan baku segar untuk usaha warung Anda.
               </p>
 

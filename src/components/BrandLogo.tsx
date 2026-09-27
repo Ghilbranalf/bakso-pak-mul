@@ -46,10 +46,10 @@ export default function BrandLogo({
         />
       </div>
 
-      {/* Artisanal Heritage Serif Typography */}
+      {/* Modern Culinary Display Typography */}
       <div className="flex flex-col justify-center leading-none">
         <span
-          className={`font-serif ${titleSizes} ${
+          className={`font-display font-extrabold ${titleSizes} ${
             isLight ? "text-white" : "text-[#51000d]"
           }`}
         >
