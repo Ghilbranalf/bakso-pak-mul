@@ -36,13 +36,13 @@ export default function BottomNav() {
               href={item.href}
               className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all ${
                 isActive
-                  ? "text-red-600 font-semibold"
+                  ? "text-[#7a0019] font-semibold"
                   : "text-slate-400 hover:text-slate-700 font-medium"
               }`}
             >
               <div
                 className={`w-7 h-7 rounded-lg flex items-center justify-center transition-all ${
-                  isActive ? "bg-red-50 text-red-600" : "text-slate-500"
+                  isActive ? "bg-[#7a0019]/10 text-[#7a0019]" : "text-slate-500"
                 }`}
               >
                 <span className="material-symbols-outlined text-[20px]">

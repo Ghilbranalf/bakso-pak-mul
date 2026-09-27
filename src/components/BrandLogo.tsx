@@ -29,12 +29,12 @@ export default function BrandLogo({
 
   return (
     <div className={`inline-flex items-center gap-2.5 select-none ${className}`}>
-      {/* Modern Red Bowl Mark */}
+      {/* Signature Maroon Emblem */}
       <div
         className={`${iconDimensions} flex items-center justify-center shrink-0 ${
           isLight
-            ? "bg-white text-red-600"
-            : "bg-red-600 text-white shadow-sm"
+            ? "bg-white text-[#7a0019]"
+            : "bg-[#7a0019] text-white shadow-xs"
         }`}
       >
         <svg
@@ -50,7 +50,7 @@ export default function BrandLogo({
             strokeWidth="1.5"
             strokeLinecap="round"
           />
-          {/* Modern Bowl */}
+          {/* Authentic Bowl */}
           <path
             d="M4.5 10C4.5 10 5.2 18 12 18C18.8 18 19.5 10 19.5 10H4.5Z"
             fill="currentColor"
@@ -84,7 +84,7 @@ export default function BrandLogo({
       <div className="flex flex-col leading-none">
         <span
           className={`${titleSize} ${
-            isLight ? "text-white" : "text-slate-900"
+            isLight ? "text-white" : "text-[#1a1a1a]"
           }`}
         >
           Bakso Pak Mul

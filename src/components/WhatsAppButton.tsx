@@ -110,7 +110,7 @@ export default function WhatsAppButton() {
           {/* Header */}
           <div className="bg-slate-900 text-white p-3.5 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-xs">
+              <div className="w-8 h-8 rounded-full bg-[#7a0019] text-white flex items-center justify-center font-bold text-xs">
                 CS
               </div>
               <div>
@@ -136,7 +136,7 @@ export default function WhatsAppButton() {
                 <div
                   className={`max-w-[85%] px-3.5 py-2 rounded-xl text-xs leading-relaxed ${
                     msg.sender === "user"
-                      ? "bg-red-600 text-white rounded-br-xs"
+                      ? "bg-[#7a0019] text-white rounded-br-xs"
                       : "bg-white text-slate-800 border border-slate-200 rounded-bl-xs shadow-2xs"
                   }`}
                 >
@@ -177,12 +177,12 @@ export default function WhatsAppButton() {
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder="Tulis pesan Anda..."
-              className="flex-1 px-3 py-2 rounded-lg bg-slate-100 border border-transparent focus:border-slate-300 focus:bg-white text-xs outline-none transition-all"
+              className="flex-1 px-3 py-2 rounded-lg bg-slate-100 border border-transparent focus:border-[#7a0019]/40 focus:bg-white text-xs outline-none transition-all"
             />
             <button
               type="submit"
               disabled={!inputText.trim() || isLoading}
-              className="w-8 h-8 rounded-lg bg-red-600 hover:bg-red-700 disabled:opacity-40 text-white flex items-center justify-center transition-colors cursor-pointer shrink-0"
+              className="w-8 h-8 rounded-lg bg-[#7a0019] hover:bg-[#51000d] disabled:opacity-40 text-white flex items-center justify-center transition-colors cursor-pointer shrink-0"
             >
               <span className="material-symbols-outlined text-sm">send</span>
             </button>
@@ -205,7 +205,7 @@ export default function WhatsAppButton() {
         <button
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Tutup atau Buka Chatbot CS Bakso Pak Mul"
-          className="w-12 h-12 bg-red-600 hover:bg-red-700 text-white rounded-full flex items-center justify-center shadow-lg transition-transform active:scale-95 cursor-pointer relative"
+          className="w-12 h-12 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-full flex items-center justify-center shadow-lg transition-transform active:scale-95 cursor-pointer relative"
         >
           <span className="material-symbols-outlined text-2xl">
             {isOpen ? "close" : "chat"}

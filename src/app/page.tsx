@@ -56,7 +56,7 @@ export default function HomePage() {
   }, [products, activeCategory]);
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans antialiased selection:bg-red-600 selection:text-white">
+    <div className="min-h-screen bg-white text-slate-900 font-sans antialiased selection:bg-[#7a0019] selection:text-white">
       <Navbar />
 
       <main className="pt-20 sm:pt-24">
@@ -65,8 +65,8 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Column: Clear & Impactful */}
             <div className="lg:col-span-7 space-y-6 text-left">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-red-700 text-xs font-semibold">
-                <span className="w-2 h-2 rounded-full bg-red-600" />
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#7a0019]/10 text-[#7a0019] text-xs font-semibold">
+                <span className="w-2 h-2 rounded-full bg-[#7a0019]" />
                 Pasar Kramat Jati, Jakarta Timur • Est. 2000
               </span>
 
@@ -82,7 +82,7 @@ export default function HomePage() {
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 <Link
                   href="/produk"
-                  className="px-6 py-3.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm shadow-sm hover:shadow transition-all flex items-center gap-2"
+                  className="px-6 py-3.5 rounded-xl bg-[#7a0019] hover:bg-[#51000d] text-white font-bold text-sm shadow-sm hover:shadow transition-all flex items-center gap-2"
                 >
                   <span className="material-symbols-outlined text-lg">shopping_bag</span>
                   <span>Belanja Sekarang</span>
@@ -115,7 +115,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Column: Clean Food Photography */}
+            {/* Right Column: Food Showcase */}
             <div className="lg:col-span-5">
               <div className="relative rounded-3xl overflow-hidden shadow-lg border border-slate-100 aspect-[4/3] sm:aspect-square bg-slate-100">
                 <img
@@ -158,7 +158,7 @@ export default function HomePage() {
                     onClick={() => setActiveCategory(cat)}
                     className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                       activeCategory === cat
-                        ? "bg-red-600 text-white font-semibold shadow-xs"
+                        ? "bg-[#7a0019] text-white font-semibold shadow-xs"
                         : "bg-white text-slate-600 hover:text-slate-900 border border-slate-200"
                     }`}
                   >
@@ -201,7 +201,7 @@ export default function HomePage() {
                     <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between">
                       <div>
                         <Link href={`/produk/${product.id}`} className="block">
-                          <h3 className="text-xs sm:text-sm font-bold text-slate-900 line-clamp-2 hover:text-red-600 transition-colors leading-snug">
+                          <h3 className="text-xs sm:text-sm font-bold text-slate-900 line-clamp-2 hover:text-[#7a0019] transition-colors leading-snug">
                             {product.name}
                           </h3>
                         </Link>
@@ -217,7 +217,7 @@ export default function HomePage() {
                               Rp {product.originalPrice.toLocaleString("id-ID")}
                             </p>
                           )}
-                          <p className="text-xs sm:text-sm font-extrabold text-slate-900">
+                          <p className="text-xs sm:text-sm font-extrabold text-[#7a0019]">
                             Rp {(product.price || 0).toLocaleString("id-ID")}
                           </p>
                         </div>
@@ -239,7 +239,7 @@ export default function HomePage() {
                           className={`h-8 sm:h-9 px-3 rounded-lg font-semibold text-xs flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 ${
                             addedId === product.id
                               ? "bg-emerald-600 text-white"
-                              : "bg-red-600 hover:bg-red-700 text-white"
+                              : "bg-[#7a0019] hover:bg-[#51000d] text-white"
                           }`}
                           title="Tambah ke Keranjang"
                         >
@@ -271,7 +271,7 @@ export default function HomePage() {
         <section className="py-12 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-slate-900 rounded-3xl p-6 sm:p-10 text-white grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8 space-y-3">
-              <span className="text-red-400 text-xs font-bold uppercase tracking-wider">
+              <span className="text-[#ffb3b2] text-xs font-bold uppercase tracking-wider">
                 Kios Fisik Resmi
               </span>
               <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
@@ -282,11 +282,11 @@ export default function HomePage() {
               </p>
               <div className="flex flex-wrap items-center gap-4 text-xs text-slate-300 pt-2">
                 <span className="flex items-center gap-1.5">
-                  <span className="material-symbols-outlined text-red-400 text-base">location_on</span>
+                  <span className="material-symbols-outlined text-[#ffb3b2] text-base">location_on</span>
                   Pasar Kramat Jati, Jakarta Timur
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="material-symbols-outlined text-red-400 text-base">schedule</span>
+                  <span className="material-symbols-outlined text-[#ffb3b2] text-base">schedule</span>
                   06.00 – 17.00 WIB
                 </span>
               </div>

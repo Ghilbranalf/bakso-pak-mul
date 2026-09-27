@@ -100,8 +100,8 @@ export default function Navbar() {
                     href={link.href}
                     className={`text-sm font-medium px-3.5 py-2 rounded-lg transition-colors ${
                       isActive
-                        ? "text-red-600 bg-red-50/80 font-semibold"
-                        : "text-slate-600 hover:text-red-600 hover:bg-slate-50"
+                        ? "text-[#7a0019] bg-[#7a0019]/10 font-semibold"
+                        : "text-slate-600 hover:text-[#7a0019] hover:bg-slate-50"
                     }`}
                   >
                     {link.name}
@@ -117,7 +117,7 @@ export default function Navbar() {
                 <input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-48 xl:w-56 bg-slate-100 focus:bg-white border border-transparent focus:border-slate-300 rounded-full py-2 pl-9 pr-3 text-xs text-slate-800 placeholder:text-slate-400 outline-none transition-all"
+                  className="w-48 xl:w-56 bg-slate-100 focus:bg-white border border-transparent focus:border-[#7a0019]/40 rounded-full py-2 pl-9 pr-3 text-xs text-slate-800 placeholder:text-slate-400 outline-none transition-all"
                   placeholder="Cari bakso, mie, bumbu..."
                   type="text"
                 />
@@ -131,7 +131,7 @@ export default function Navbar() {
                 <div className="relative group">
                   <Link
                     href="/profil"
-                    className="w-9 h-9 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-xs shadow-xs hover:bg-red-700 transition-colors"
+                    className="w-9 h-9 rounded-full bg-[#7a0019] text-white flex items-center justify-center font-bold text-xs shadow-xs hover:bg-[#51000d] transition-colors"
                     title="Profil Saya"
                   >
                     {(user.user_metadata?.full_name || user.email || "U")
@@ -169,7 +169,7 @@ export default function Navbar() {
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors text-left cursor-pointer w-full mt-1 border-t border-slate-100"
+                      className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-rose-600 hover:bg-rose-50 rounded-lg transition-colors text-left cursor-pointer w-full mt-1 border-t border-slate-100"
                     >
                       <span className="material-symbols-outlined text-base">
                         logout
@@ -181,7 +181,7 @@ export default function Navbar() {
               ) : (
                 <Link
                   href="/login"
-                  className="flex items-center gap-1 text-xs font-medium text-slate-600 hover:text-red-600 px-3 py-2 rounded-lg hover:bg-slate-50 transition-colors"
+                  className="flex items-center gap-1 text-xs font-medium text-slate-600 hover:text-[#7a0019] px-3 py-2 rounded-lg hover:bg-slate-50 transition-colors"
                 >
                   <span className="material-symbols-outlined text-lg">
                     account_circle
@@ -201,7 +201,7 @@ export default function Navbar() {
                   shopping_bag
                 </span>
                 {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-600 text-white font-bold text-[10px] min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center ring-2 ring-white">
+                  <span className="absolute -top-1 -right-1 bg-[#7a0019] text-white font-bold text-[10px] min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center ring-2 ring-white">
                     {totalItems > 99 ? "99+" : totalItems}
                   </span>
                 )}

@@ -120,7 +120,7 @@ export default function AdminSidebar() {
                   isActive
                     ? isDark
                       ? "bg-slate-800 text-white"
-                      : "bg-red-600 text-white"
+                      : "bg-[#7a0019] text-white"
                     : isDark
                     ? "text-slate-400 hover:bg-slate-900 hover:text-slate-200"
                     : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
@@ -134,8 +134,8 @@ export default function AdminSidebar() {
                   <span
                     className={`min-w-[18px] h-[18px] px-1.5 rounded-full text-[10px] font-bold flex items-center justify-center ${
                       isActive
-                        ? "bg-white text-red-600"
-                        : "bg-red-100 text-red-700"
+                        ? "bg-white text-[#7a0019]"
+                        : "bg-[#7a0019]/10 text-[#7a0019]"
                     }`}
                   >
                     {item.badge > 99 ? "99+" : item.badge}
@@ -180,7 +180,7 @@ export default function AdminSidebar() {
           {/* Logout */}
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-xl transition-colors text-red-500 hover:bg-red-50 cursor-pointer"
+            className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-xl transition-colors text-rose-500 hover:bg-rose-50 cursor-pointer"
           >
             <span className="material-symbols-outlined text-base">logout</span>
             <span>Keluar Akun</span>
@@ -219,7 +219,7 @@ export default function AdminSidebar() {
           </button>
           <button
             onClick={handleLogout}
-            className="w-8 h-8 rounded-lg text-red-500 flex items-center justify-center hover:bg-red-50 transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-lg text-rose-500 flex items-center justify-center hover:bg-rose-50 transition-colors cursor-pointer"
             title="Keluar"
           >
             <span className="material-symbols-outlined text-base">logout</span>
@@ -248,7 +248,9 @@ export default function AdminSidebar() {
                 href={item.href}
                 className={`flex flex-col items-center justify-center py-1.5 px-2 rounded-xl transition-all relative ${
                   isActive
-                    ? "text-red-600 font-bold"
+                    ? isDark
+                      ? "text-red-400 font-bold"
+                      : "text-[#7a0019] font-bold"
                     : isDark
                     ? "text-slate-400 font-medium"
                     : "text-slate-500 font-medium"
@@ -259,7 +261,7 @@ export default function AdminSidebar() {
                     isActive
                       ? isDark
                         ? "bg-slate-800 text-red-400"
-                        : "bg-red-50 text-red-600"
+                        : "bg-[#7a0019]/10 text-[#7a0019]"
                       : ""
                   }`}
                 >
@@ -267,7 +269,7 @@ export default function AdminSidebar() {
                     {item.icon}
                   </span>
                   {item.badge != null && item.badge > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[8px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center">
+                    <span className="absolute -top-1 -right-1 bg-[#7a0019] text-white text-[8px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center">
                       {item.badge > 9 ? "9+" : item.badge}
                     </span>
                   )}

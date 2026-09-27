@@ -132,7 +132,7 @@ function ProductsContent() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 outline-none focus:border-red-500 cursor-pointer"
+                className="bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 outline-none focus:border-[#7a0019] cursor-pointer"
               >
                 <option value="rekomendasi">Rekomendasi</option>
                 <option value="murah">Harga Terendah</option>
@@ -147,7 +147,7 @@ function ProductsContent() {
               <span>Hasil pencarian untuk: &ldquo;<strong>{queryParam}</strong>&rdquo;</span>
               <button
                 onClick={() => router.push("/produk")}
-                className="ml-auto text-xs text-red-600 hover:underline font-semibold cursor-pointer"
+                className="ml-auto text-xs text-[#7a0019] hover:underline font-semibold cursor-pointer"
               >
                 Hapus Pencarian ✕
               </button>
@@ -165,7 +165,7 @@ function ProductsContent() {
                 }}
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
                   selectedCategory === cat
-                    ? "bg-red-600 text-white font-semibold shadow-xs"
+                    ? "bg-[#7a0019] text-white font-semibold shadow-xs"
                     : "bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200"
                 }`}
               >
@@ -214,7 +214,7 @@ function ProductsContent() {
                 <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between">
                   <div>
                     <Link href={`/produk/${product.id}`} className="block">
-                      <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug line-clamp-2 hover:text-red-600 transition-colors">
+                      <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug line-clamp-2 hover:text-[#7a0019] transition-colors">
                         {product.name}
                       </h3>
                     </Link>
@@ -230,7 +230,7 @@ function ProductsContent() {
                           Rp {product.originalPrice.toLocaleString("id-ID")}
                         </p>
                       )}
-                      <p className="text-xs sm:text-sm font-extrabold text-slate-900">
+                      <p className="text-xs sm:text-sm font-extrabold text-[#7a0019]">
                         Rp {(product.price || 0).toLocaleString("id-ID")}
                       </p>
                     </div>
@@ -253,7 +253,7 @@ function ProductsContent() {
                       className={`h-8 sm:h-9 px-3 rounded-lg font-semibold text-xs flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 ${
                         addedId === product.id
                           ? "bg-emerald-600 text-white"
-                          : "bg-red-600 hover:bg-red-700 text-white"
+                          : "bg-[#7a0019] hover:bg-[#51000d] text-white"
                       }`}
                     >
                       <span className="material-symbols-outlined text-sm">
@@ -286,7 +286,7 @@ function ProductsContent() {
                   onClick={() => setCurrentPage(page)}
                   className={`w-9 h-9 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
                     currentPage === page
-                      ? "bg-red-600 text-white"
+                      ? "bg-[#7a0019] text-white"
                       : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
                   }`}
                 >
@@ -327,7 +327,7 @@ export default function ProductsPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center text-red-600 font-bold">
+        <div className="min-h-screen flex items-center justify-center text-[#7a0019] font-bold">
           Memuat katalog produk...
         </div>
       }
