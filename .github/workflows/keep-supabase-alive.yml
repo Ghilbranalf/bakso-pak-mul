@@ -1,0 +1,27 @@
+name: Supabase Keep Alive Pulse
+
+on:
+  schedule:
+    # Run every 3 days at 02:00 UTC (09:00 WIB)
+    - cron: '0 2 */3 * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  ping-keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Keep-Alive Endpoint
+        run: |
+          echo "Sending keep-alive pulse to Bakso Pak Mul API..."
+          RESPONSE=$(curl -s -w "\n%{http_code}" "https://bakso-pak-mul.vercel.app/api/keep-alive")
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n 1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+          echo "Response HTTP Code: $HTTP_CODE"
+          echo "Response Body: $BODY"
+          if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 400 ]; then
+            echo "Keep-alive pulse succeeded!"
+            exit 0
+          else
+            echo "Warning: Response code was $HTTP_CODE"
+            exit 0
+          fi
