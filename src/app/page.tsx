@@ -84,7 +84,7 @@ export default function HomePage() {
                 {/* Main Headline */}
                 <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-950 tracking-tight leading-[1.12]">
                   Sensasi Bakso Sapi Asli yang{" "}
-                  <span className="text-[#7a0019] underline decoration-[#7a0019]/30 decoration-wavy underline-offset-8">
+                  <span className="text-[#7a0019]">
                     Kenyal, Gurih &amp; Melegenda
                   </span>
                   .
