@@ -83,14 +83,14 @@ export default function HomePage() {
               </div>
 
               {/* Editorial Headline */}
-              <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-stone-950 leading-[1.08]">
-                Sensasi Daging Sapi Asli yang{" "}
-                <span className="italic font-normal text-[#51000d]">Kenyal, Gurih</span> &amp; Melegenda.
+              <h1 className="font-serif text-3xl sm:text-5xl lg:text-[54px] font-bold tracking-tight text-stone-950 leading-[1.15]">
+                Nikmatnya Bakso Sapi Asli &amp;{" "}
+                <span className="text-[#51000d]">Kuah Kaldu Gurih</span> Khas Kramat Jati.
               </h1>
 
               {/* Appetite Subtitle */}
-              <p className="text-stone-600 text-base sm:text-lg leading-relaxed max-w-xl font-normal">
-                Setiap butir bakso kami diracik dari daging sapi murni segar pilihan subuh hari dengan bumbu rempah warisan lebih dari dua dekade. Menghadirkan kenikmatan kaldu asli untuk meja makan keluarga hingga rahasia sukses ratusan warung kuliner di Jabodetabek.
+              <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-xl font-normal">
+                Dibuat segar setiap hari dari 100% daging sapi pilihan dan rempah warisan sejak tahun 2000. Nikmati kehangatan semangkuk bakso otentik di meja makan keluarga, atau pesan pasokan bahan baku segar untuk usaha warung Anda.
               </p>
 
               {/* Action Buttons */}
