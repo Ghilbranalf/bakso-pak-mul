@@ -25,13 +25,19 @@ export default function TransaksiPage() {
 
             if (order.status === "COMPLETED") {
               statusLabel = "Selesai";
-              statusColor = "bg-green-100 text-green-800 border-green-200";
+              statusColor = "bg-emerald-500/10 text-emerald-700 border-emerald-300";
+            } else if (order.status === "SHIPPED") {
+              statusLabel = "Sedang Dikirim";
+              statusColor = "bg-indigo-500/10 text-indigo-700 border-indigo-300";
+            } else if (order.status === "PROCESSING") {
+              statusLabel = "Sedang Dikemas";
+              statusColor = "bg-blue-500/10 text-blue-700 border-blue-300";
             } else if (order.status === "CANCELED" || order.status === "CANCELLED") {
               statusLabel = "Dibatalkan";
-              statusColor = "bg-red-100 text-red-800 border-red-200";
-            } else if (order.status === "PENDING" || order.status === "AWAITING_PAYMENT") {
-              statusLabel = "Menunggu Pembayaran";
-              statusColor = "bg-yellow-100 text-yellow-800 border-yellow-200";
+              statusColor = "bg-red-500/10 text-red-700 border-red-300";
+            } else {
+              statusLabel = "Menunggu Konfirmasi";
+              statusColor = "bg-amber-500/10 text-amber-800 border-amber-300";
             }
 
             // Format date

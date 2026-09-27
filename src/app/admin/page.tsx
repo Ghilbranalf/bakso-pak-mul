@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import AdminSidebar from "@/components/AdminSidebar";
+import { useAdminTheme } from "@/context/AdminThemeContext";
 
-type TimeframeOption = "daily" | "weekly" | "monthly" | "yearly";
+type TimeframeOption = "weekly" | "monthly" | "yearly";
 
 interface ChartDataPoint {
   label: string;
@@ -12,371 +13,447 @@ interface ChartDataPoint {
   count: number;
 }
 
+const formatPrice = (price: number) =>
+  `Rp ${(price || 0).toLocaleString("id-ID")}`;
+
 export default function AdminDashboardPage() {
+  const { isDark } = useAdminTheme();
   const [timeframe, setTimeframe] = useState<TimeframeOption>("monthly");
   const [orders, setOrders] = useState<any[]>([]);
   const [products, setProducts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [newOrderToast, setNewOrderToast] = useState<string | null>(null);
   const [hoveredPoint, setHoveredPoint] = useState<ChartDataPoint | null>(null);
+  const [newOrderToast, setNewOrderToast] = useState<string | null>(null);
+  const prevCountRef = React.useRef(0);
 
-  // Play a pleasant 2-tone bell chime using Web Audio API
   const playBellChime = () => {
     try {
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioCtx =
+        window.AudioContext || (window as any).webkitAudioContext;
       if (!AudioCtx) return;
       const ctx = new AudioCtx();
-      
       const osc1 = ctx.createOscillator();
       const gain1 = ctx.createGain();
       osc1.type = "sine";
       osc1.frequency.setValueAtTime(659.25, ctx.currentTime);
-      gain1.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain1.gain.setValueAtTime(0.2, ctx.currentTime);
       gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
       osc1.connect(gain1);
       gain1.connect(ctx.destination);
       osc1.start();
       osc1.stop(ctx.currentTime + 1.2);
-
-      const osc2 = ctx.createOscillator();
-      const gain2 = ctx.createGain();
-      osc2.type = "sine";
-      osc2.frequency.setValueAtTime(987.77, ctx.currentTime + 0.15);
-      gain2.gain.setValueAtTime(0.4, ctx.currentTime + 0.15);
-      gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.5);
-      osc2.connect(gain2);
-      gain2.connect(ctx.destination);
-      osc2.start(ctx.currentTime + 0.15);
-      osc2.stop(ctx.currentTime + 1.5);
-    } catch (err) {
-      console.warn("Audio chime play error:", err);
-    }
+    } catch (_) {}
   };
 
-  useEffect(() => {
-    let prevOrderCount = 0;
+  const fetchDashboardData = useCallback(async () => {
+    try {
+      const [resOrders, resProducts] = await Promise.all([
+        fetch("/api/orders"),
+        fetch("/api/products"),
+      ]);
+      const dataOrders = await resOrders.json();
+      const dataProducts = await resProducts.json();
 
-    const fetchDashboardData = async () => {
-      try {
-        const [resOrders, resProducts] = await Promise.all([
-          fetch("/api/orders"),
-          fetch("/api/products"),
-        ]);
-        
-        const dataOrders = await resOrders.json();
-        const dataProducts = await resProducts.json();
-
-        if (dataOrders.orders) {
-          const currentCount = dataOrders.orders.length;
-          if (prevOrderCount > 0 && currentCount > prevOrderCount) {
-            playBellChime();
-            setNewOrderToast("🔔 Pesanan Baru Masuk!");
-            setTimeout(() => setNewOrderToast(null), 5000);
-          }
-          prevOrderCount = currentCount;
-          setOrders(dataOrders.orders);
+      if (dataOrders.orders) {
+        const currentCount = dataOrders.orders.length;
+        if (prevCountRef.current > 0 && currentCount > prevCountRef.current) {
+          playBellChime();
+          setNewOrderToast("Pesanan baru telah masuk!");
+          setTimeout(() => setNewOrderToast(null), 5000);
         }
-
-        if (dataProducts.products) {
-          setProducts(dataProducts.products);
-        }
-      } catch (err) {
-        console.error("Error fetching dashboard data:", err);
-      } finally {
-        setIsLoading(false);
+        prevCountRef.current = currentCount;
+        setOrders(dataOrders.orders);
       }
-    };
+      if (dataProducts.products) {
+        setProducts(dataProducts.products);
+      }
+    } catch (_) {
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
+  useEffect(() => {
     fetchDashboardData();
     const interval = setInterval(fetchDashboardData, 10000);
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchDashboardData]);
 
-  const formatPrice = (price: number) => {
-    return `Rp ${(price || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
-  };
+  // Statistics Calculation
+  const today = new Date();
+  const todayOrders = useMemo(() => {
+    return orders.filter((o) => {
+      const d = new Date(o.createdAt);
+      return (
+        d.getDate() === today.getDate() &&
+        d.getMonth() === today.getMonth() &&
+        d.getFullYear() === today.getFullYear()
+      );
+    });
+  }, [orders]);
 
-  // Only calculate paid/completed revenue
-  const validOrders = orders.filter((o) => o.status === "PAID" || o.status === "COMPLETED" || o.status === "PROCESSING");
-  const totalRevenue = validOrders.reduce((sum, o) => sum + (o.finalTotal || 0), 0);
-  const totalOrdersCount = orders.length;
-  const lowStockProducts = products.filter((p) => (p.stock || 0) < 20);
+  const todayRevenue = useMemo(() => {
+    return todayOrders
+      .filter((o) => o.status === "COMPLETED" || o.status === "PAID")
+      .reduce((s, o) => s + (o.finalTotal || 0), 0);
+  }, [todayOrders]);
 
-  // Dynamic Chart Aggregation Generator
-  const getChartData = (): ChartDataPoint[] => {
-    const now = new Date();
+  const pendingCount = useMemo(() => {
+    return orders.filter(
+      (o) =>
+        o.status !== "COMPLETED" &&
+        o.status !== "PAID" &&
+        o.status !== "CANCELED" &&
+        o.status !== "CANCELLED"
+    ).length;
+  }, [orders]);
 
-    if (timeframe === "daily") {
-      const hours: ChartDataPoint[] = [];
-      for (let h = 8; h <= 22; h += 2) {
-        const label = `${h.toString().padStart(2, "0")}:00`;
-        const hourOrders = validOrders.filter((o) => {
-          const d = new Date(o.createdAt);
-          return d.toDateString() === now.toDateString() && d.getHours() >= h && d.getHours() < h + 2;
-        });
-        const total = hourOrders.reduce((sum, o) => sum + (o.finalTotal || 0), 0);
-        hours.push({ label, total, count: hourOrders.length });
-      }
-      return hours;
-    }
+  const lowStockProducts = useMemo(() => {
+    return products.filter((p) => p.stock != null && p.stock < 15);
+  }, [products]);
 
+  const totalRevenue = useMemo(() => {
+    return orders
+      .filter((o) => o.status === "COMPLETED" || o.status === "PAID")
+      .reduce((s, o) => s + (o.finalTotal || 0), 0);
+  }, [orders]);
+
+  // Recent 5 orders
+  const recentOrders = useMemo(() => {
+    return [...orders].slice(0, 5);
+  }, [orders]);
+
+  // Chart Data Builder
+  const chartData: ChartDataPoint[] = useMemo(() => {
     if (timeframe === "weekly") {
       const days = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
-      return days.map((dayLabel, idx) => {
-        const dayOrders = validOrders.filter((o) => new Date(o.createdAt).getDay() === idx);
-        const total = dayOrders.reduce((sum, o) => sum + (o.finalTotal || 0), 0);
-        return { label: dayLabel, total, count: dayOrders.length };
-      });
+      const result: ChartDataPoint[] = [];
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const dayOrders = orders.filter((o) => {
+          const od = new Date(o.createdAt);
+          return (
+            od.getDate() === d.getDate() &&
+            od.getMonth() === d.getMonth() &&
+            od.getFullYear() === d.getFullYear()
+          );
+        });
+        const total = dayOrders
+          .filter((o) => o.status === "COMPLETED" || o.status === "PAID")
+          .reduce((s, o) => s + (o.finalTotal || 0), 0);
+        result.push({
+          label: days[d.getDay()],
+          total,
+          count: dayOrders.length,
+        });
+      }
+      return result;
     }
 
     if (timeframe === "monthly") {
-      const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
-      const currentYear = now.getFullYear();
-      return months.map((monthLabel, idx) => {
-        const monthOrders = validOrders.filter((o) => {
-          const d = new Date(o.createdAt);
-          return d.getFullYear() === currentYear && d.getMonth() === idx;
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "Mei",
+        "Jun",
+        "Jul",
+        "Agu",
+        "Sep",
+        "Okt",
+        "Nov",
+        "Des",
+      ];
+      return months.map((m, idx) => {
+        const mOrders = orders.filter((o) => {
+          const od = new Date(o.createdAt);
+          return (
+            od.getMonth() === idx && od.getFullYear() === today.getFullYear()
+          );
         });
-        const total = monthOrders.reduce((sum, o) => sum + (o.finalTotal || 0), 0);
-        return { label: monthLabel, total, count: monthOrders.length };
+        const total = mOrders
+          .filter((o) => o.status === "COMPLETED" || o.status === "PAID")
+          .reduce((s, o) => s + (o.finalTotal || 0), 0);
+        return { label: m, total, count: mOrders.length };
       });
     }
 
-    // Yearly timeframe
-    const years: ChartDataPoint[] = [];
-    const startYear = now.getFullYear() - 3;
-    for (let yr = startYear; yr <= now.getFullYear(); yr++) {
-      const yrLabel = yr.toString();
-      const yrTotal = validOrders
-        .filter((o) => new Date(o.createdAt).getFullYear() === yr)
-        .reduce((sum, o) => sum + (o.finalTotal || 0), 0);
-      const count = validOrders.filter((o) => new Date(o.createdAt).getFullYear() === yr).length;
+    // Yearly
+    const currentYear = today.getFullYear();
+    const years = [currentYear - 2, currentYear - 1, currentYear];
+    return years.map((y) => {
+      const yOrders = orders.filter((o) => {
+        const od = new Date(o.createdAt);
+        return od.getFullYear() === y;
+      });
+      const total = yOrders
+        .filter((o) => o.status === "COMPLETED" || o.status === "PAID")
+        .reduce((s, o) => s + (o.finalTotal || 0), 0);
+      return { label: String(y), total, count: yOrders.length };
+    });
+  }, [orders, timeframe]);
 
-      years.push({ label: yrLabel, total: yrTotal, count });
-    }
-    return years;
-  };
+  const maxTotal = Math.max(...chartData.map((d) => d.total), 1);
 
-  const chartData = getChartData();
-  const maxChartValue = Math.max(...chartData.map((d) => d.total), 100000);
+  // SVG Chart Dimensions
+  const cW = 600;
+  const cH = 180;
+  const pX = 35;
+  const pY = 25;
 
-  // SVG Chart Calculations
-  const chartHeight = 220;
-  const chartWidth = 700;
-  const paddingX = 40;
-  const paddingY = 30;
-
-  const points = chartData.map((d, index) => {
-    const x = paddingX + (index / (chartData.length - 1 || 1)) * (chartWidth - paddingX * 2);
-    const y = chartHeight - paddingY - (d.total / maxChartValue) * (chartHeight - paddingY * 2);
+  const points = chartData.map((d, idx) => {
+    const step = (cW - pX * 2) / (chartData.length - 1 || 1);
+    const x = pX + idx * step;
+    const y = cH - pY - (d.total / maxTotal) * (cH - pY * 2);
     return { x, y, data: d };
   });
 
-  // SVG Line Path Generator
-  const linePathD = points.reduce((acc, pt, idx) => {
-    return idx === 0 ? `M ${pt.x} ${pt.y}` : `${acc} L ${pt.x} ${pt.y}`;
+  const linePath = points.reduce((acc, pt, i) => {
+    return i === 0 ? `M ${pt.x} ${pt.y}` : `${acc} L ${pt.x} ${pt.y}`;
   }, "");
 
-  // SVG Area Fill Path
-  const areaPathD = points.length > 0
-    ? `${linePathD} L ${points[points.length - 1].x} ${chartHeight - paddingY} L ${points[0].x} ${chartHeight - paddingY} Z`
+  const areaPath = points.length
+    ? `${linePath} L ${points[points.length - 1].x} ${cH - pY} L ${points[0].x} ${cH - pY} Z`
     : "";
 
-  const displayOrders = orders.length > 0 ? orders.slice(0, 5) : [];
+  const statCards = [
+    {
+      label: "Omset Selesai Hari Ini",
+      value: formatPrice(todayRevenue),
+      subtext: `${todayOrders.length} transaksi tercatat`,
+      icon: "payments",
+      iconColor: isDark ? "text-amber-400 bg-amber-400/10" : "text-[#540b13] bg-amber-100",
+    },
+    {
+      label: "Pesanan Menunggu",
+      value: String(pendingCount),
+      subtext: pendingCount > 0 ? "Perlu segera diproses" : "Semua pesanan tertangani",
+      icon: "pending_actions",
+      iconColor:
+        pendingCount > 0
+          ? "text-amber-500 bg-amber-500/15"
+          : isDark
+          ? "text-stone-400 bg-stone-800"
+          : "text-stone-500 bg-stone-100",
+      link: "/admin/orders",
+    },
+    {
+      label: "Peringatan Stok Menipis",
+      value: `${lowStockProducts.length} Produk`,
+      subtext: lowStockProducts.length > 0 ? "Stok di bawah 15 item" : "Semua stok mencukupi",
+      icon: "inventory_2",
+      iconColor:
+        lowStockProducts.length > 0
+          ? "text-rose-500 bg-rose-500/15"
+          : "text-emerald-500 bg-emerald-500/15",
+      link: "/admin/inventory",
+    },
+    {
+      label: "Akumulasi Penjualan",
+      value: formatPrice(totalRevenue),
+      subtext: `${orders.length} total pesanan masuk`,
+      icon: "account_balance_wallet",
+      iconColor: isDark ? "text-emerald-400 bg-emerald-400/10" : "text-emerald-700 bg-emerald-100",
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-gray-900 font-sans antialiased flex flex-col lg:flex-row">
-      {/* Shared Reusable Executive Sidebar */}
-      <AdminSidebar activeMenu="dashboard" />
+    <div
+      className={`min-h-screen font-sans antialiased flex transition-colors ${
+        isDark ? "bg-[#0c0c0e] text-stone-100" : "bg-[#f8f9fa] text-stone-900"
+      }`}
+    >
+      <AdminSidebar />
 
-      {/* Main Content Canvas */}
-      <main className="flex-1 w-full lg:ml-[260px] min-h-screen p-4 md:p-8 lg:p-10 relative max-w-7xl pb-28 lg:pb-12">
-        {/* Floating Luxury Notification */}
+      <main className="flex-1 min-w-0 max-w-full overflow-x-hidden lg:ml-[240px] min-h-screen p-4 sm:p-6 lg:p-8 pt-18 lg:pt-8 pb-28 lg:pb-12">
+        {/* Toast Notification */}
         {newOrderToast && (
-          <div className="fixed top-16 lg:top-6 right-4 lg:right-6 z-50 bg-gradient-to-r from-[#3d000a] to-[#51000d] text-white px-6 py-4 rounded-2xl shadow-2xl border border-amber-500/30 flex items-center gap-3 animate-bounce text-xs font-extrabold">
-            <span className="material-symbols-outlined text-amber-400 text-2xl animate-pulse">notifications</span>
+          <div className="fixed top-4 right-4 z-50 px-4 py-3 rounded-xl shadow-xl flex items-center gap-2.5 text-xs font-semibold bg-[#540b13] text-white border border-amber-400/30 animate-in fade-in">
+            <span className="material-symbols-outlined text-amber-400 text-lg">
+              notifications_active
+            </span>
             <span>{newOrderToast}</span>
           </div>
         )}
 
-        {/* Executive Header */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+        {/* Header Bar */}
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="px-2.5 py-0.5 bg-amber-500/10 text-amber-900 border border-amber-300/30 rounded-full text-[10px] font-black uppercase tracking-widest">
-                Official Analytics Hub
-              </span>
-            </div>
-            <h2 className="text-2xl md:text-3xl font-black text-[#51000d] tracking-tight">
-              Portal Dashboard Penjualan
-            </h2>
-            <p className="text-xs md:text-sm text-gray-500 font-medium mt-1">
-              Pantau omset grafik penjualan, persediaan produk, dan pesanan secara real-time.
+            <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight">
+              Ringkasan Operasional
+            </h1>
+            <p className={`text-xs mt-0.5 ${isDark ? "text-stone-400" : "text-stone-500"}`}>
+              {today.toLocaleDateString("id-ID", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })} • Kios Pusat Pasar Kramat Jati
             </p>
           </div>
 
-          <div className="flex items-center gap-2.5 shrink-0">
-            <Link
-              href="/admin/inventory"
-              className="px-4 py-2.5 bg-gradient-to-r from-amber-400 to-amber-500 hover:brightness-105 text-[#51000d] rounded-2xl text-xs font-black shadow-lg shadow-amber-500/20 transition-all flex items-center gap-2 cursor-pointer active:scale-95"
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => fetchDashboardData()}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer border ${
+                isDark
+                  ? "bg-stone-800/80 border-stone-700 hover:bg-stone-800 text-stone-200"
+                  : "bg-white border-stone-200 hover:bg-stone-50 text-stone-700 shadow-2xs"
+              }`}
             >
-              <span className="material-symbols-outlined text-lg">add_box</span>
-              <span>Tambah Produk</span>
-            </Link>
+              <span className="material-symbols-outlined text-sm">refresh</span>
+              <span>Muat Ulang</span>
+            </button>
             <Link
               href="/admin/orders"
-              className="px-4 py-2.5 bg-[#51000d] hover:bg-[#380009] text-white rounded-2xl text-xs font-extrabold shadow-md shadow-[#51000d]/15 transition-all flex items-center gap-2 cursor-pointer active:scale-95"
+              className="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[#540b13] hover:bg-[#720f1a] text-white transition-colors flex items-center gap-1.5 shadow-2xs"
             >
-              <span className="material-symbols-outlined text-lg text-amber-300">receipt_long</span>
-              <span>Kelola Pesanan</span>
+              <span className="material-symbols-outlined text-sm">receipt_long</span>
+              <span>Pesanan ({pendingCount})</span>
             </Link>
           </div>
         </header>
 
-        {/* Executive Stat Cards */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
-          {/* Card 1: Total Omset Selesai */}
-          <div className="bg-gradient-to-br from-white via-white to-amber-500/5 p-6 rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(81,0,13,0.04)] relative overflow-hidden group">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-[11px] font-black uppercase tracking-wider text-gray-400">Total Omset Disetujui</span>
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 text-[#51000d] flex items-center justify-center shadow-md shadow-amber-500/20">
-                <span className="material-symbols-outlined text-2xl font-bold">payments</span>
-              </div>
-            </div>
-            <h3 className="text-2xl md:text-3xl font-black text-[#51000d] tracking-tight">{formatPrice(totalRevenue)}</h3>
-            <p className="text-[11px] text-emerald-600 font-extrabold mt-1.5 flex items-center gap-1">
-              <span className="material-symbols-outlined text-sm">trending_up</span>
-              <span>100% Real-Time Omset Resmi</span>
-            </p>
-          </div>
-
-          {/* Card 2: Total Pesanan Masuk */}
-          <div className="bg-gradient-to-br from-white via-white to-[#51000d]/5 p-6 rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(81,0,13,0.04)] relative overflow-hidden group">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-[11px] font-black uppercase tracking-wider text-gray-400">Total Transaksi</span>
-              <div className="w-11 h-11 rounded-2xl bg-[#51000d] text-amber-300 flex items-center justify-center shadow-md shadow-[#51000d]/20">
-                <span className="material-symbols-outlined text-2xl">shopping_bag</span>
-              </div>
-            </div>
-            <h3 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">{totalOrdersCount} Pesanan</h3>
-            <p className="text-[11px] text-gray-500 font-semibold mt-1.5">
-              Termasuk Lunas, Menunggu, &amp; Selesai
-            </p>
-          </div>
-
-          {/* Card 3: Peringatan Stok Menipis */}
-          <div className="bg-gradient-to-br from-white via-white to-rose-500/5 p-6 rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(81,0,13,0.04)] relative overflow-hidden group sm:col-span-2 lg:col-span-1">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-[11px] font-black uppercase tracking-wider text-gray-400">Stok Menipis (&lt;20)</span>
-              <div className="w-11 h-11 rounded-2xl bg-rose-500/10 text-rose-700 flex items-center justify-center">
-                <span className="material-symbols-outlined text-2xl">warning</span>
-              </div>
-            </div>
-            <h3 className="text-2xl md:text-3xl font-black text-rose-700 tracking-tight">{lowStockProducts.length} Produk</h3>
-            <p className="text-[11px] text-rose-600 font-bold mt-1.5 flex items-center gap-1">
-              <span>{lowStockProducts.length > 0 ? "Perlu Restok Segera!" : "Semua Stok Terjaga Aman"}</span>
-            </p>
-          </div>
+        {/* 4 KPI Metric Cards */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          {isLoading
+            ? Array.from({ length: 4 }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`rounded-2xl p-5 border h-28 animate-pulse ${
+                    isDark ? "bg-[#161618] border-stone-800" : "bg-white border-stone-200"
+                  }`}
+                />
+              ))
+            : statCards.map((card, i) => (
+                <div
+                  key={i}
+                  className={`rounded-2xl p-5 border transition-all ${
+                    isDark
+                      ? "bg-[#141417] border-stone-800 hover:border-stone-700"
+                      : "bg-white border-stone-200/90 shadow-2xs hover:shadow-xs"
+                  } ${card.link ? "cursor-pointer" : ""}`}
+                  onClick={() => card.link && (window.location.href = card.link)}
+                >
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className={`text-xs font-medium ${isDark ? "text-stone-400" : "text-stone-500"}`}>
+                        {card.label}
+                      </p>
+                      <h3 className="text-xl sm:text-2xl font-extrabold mt-1 tracking-tight">
+                        {card.value}
+                      </h3>
+                      <p className={`text-[11px] mt-1 ${isDark ? "text-stone-500" : "text-stone-400"}`}>
+                        {card.subtext}
+                      </p>
+                    </div>
+                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${card.iconColor}`}>
+                      <span className="material-symbols-outlined text-[20px]">{card.icon}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
         </section>
 
-        {/* Luxury Interactive Sales Chart */}
-        <section className="bg-white rounded-3xl p-6 md:p-8 shadow-[0_8px_30px_rgb(81,0,13,0.04)] border border-gray-100 mb-8 relative">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        {/* Sales Chart Section */}
+        <section
+          className={`rounded-2xl p-5 md:p-6 border mb-6 transition-colors ${
+            isDark ? "bg-[#141417] border-stone-800" : "bg-white border-stone-200/90 shadow-2xs"
+          }`}
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
             <div>
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
-                <h3 className="text-lg md:text-xl font-black text-[#51000d]">Grafik Performa Penjualan</h3>
-              </div>
-              <p className="text-xs text-gray-500 font-medium mt-0.5">
-                Visualisasi tren penjualan Bakso Pak Mul berdasarkan periode waktu.
+              <h2 className="text-sm font-bold tracking-tight">Grafik Penjualan &amp; Omset</h2>
+              <p className={`text-xs mt-0.5 ${isDark ? "text-stone-400" : "text-stone-500"}`}>
+                Total omset terverifikasi: <strong className="text-amber-500">{formatPrice(totalRevenue)}</strong>
               </p>
             </div>
-
-            {/* Timeframe Filter Buttons */}
-            <div className="flex items-center bg-gray-100/80 p-1 rounded-2xl gap-1 overflow-x-auto">
-              {[
-                { key: "daily", label: "Per Hari" },
-                { key: "weekly", label: "Per Minggu" },
-                { key: "monthly", label: "Per Bulan" },
-                { key: "yearly", label: "Per Tahun" },
-              ].map((tf) => (
+            <div
+              className={`flex items-center p-1 rounded-xl gap-1 border ${
+                isDark ? "bg-stone-900 border-stone-800" : "bg-stone-100 border-stone-200"
+              }`}
+            >
+              {(["weekly", "monthly", "yearly"] as TimeframeOption[]).map((tf) => (
                 <button
-                  key={tf.key}
-                  onClick={() => setTimeframe(tf.key as TimeframeOption)}
-                  className={`px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer whitespace-nowrap ${
-                    timeframe === tf.key
-                      ? "bg-[#51000d] text-white shadow-md shadow-[#51000d]/20"
-                      : "text-gray-600 hover:bg-gray-200/80"
+                  key={tf}
+                  onClick={() => setTimeframe(tf)}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                    timeframe === tf
+                      ? isDark
+                        ? "bg-stone-800 text-white shadow-2xs"
+                        : "bg-white text-stone-900 shadow-2xs"
+                      : isDark
+                      ? "text-stone-400 hover:text-stone-200"
+                      : "text-stone-500 hover:text-stone-900"
                   }`}
                 >
-                  {tf.label}
+                  {tf === "weekly" ? "7 Hari" : tf === "monthly" ? "Bulanan" : "Tahunan"}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Dynamic SVG Canvas */}
-          <div className="relative w-full overflow-x-auto scrollbar-none py-2">
-            <div className="min-w-[650px]">
-              <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-auto overflow-visible">
+          {/* SVG Canvas */}
+          <div className="relative w-full overflow-x-auto">
+            <div className="min-w-[560px]">
+              <svg viewBox={`0 0 ${cW} ${cH}`} className="w-full h-auto">
                 <defs>
-                  <linearGradient id="maroonGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#51000d" stopOpacity="0.25" />
-                    <stop offset="100%" stopColor="#51000d" stopOpacity="0.0" />
+                  <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#d97706" stopOpacity="0.25" />
+                    <stop offset="100%" stopColor="#d97706" stopOpacity="0.0" />
                   </linearGradient>
                 </defs>
-
-                {/* Grid Lines */}
                 {[0, 0.25, 0.5, 0.75, 1].map((pct, i) => {
-                  const y = paddingY + pct * (chartHeight - paddingY * 2);
+                  const y = pY + pct * (cH - pY * 2);
                   return (
                     <line
                       key={i}
-                      x1={paddingX}
+                      x1={pX}
                       y1={y}
-                      x2={chartWidth - paddingX}
+                      x2={cW - pX}
                       y2={y}
-                      stroke="#f3f4f6"
+                      stroke={isDark ? "#ffffff0c" : "#0000000a"}
                       strokeWidth="1"
                       strokeDasharray="4 4"
                     />
                   );
                 })}
-
-                {/* Gradient Fill under curve */}
-                {areaPathD && <path d={areaPathD} fill="url(#maroonGradient)" />}
-
-                {/* Smooth Curve Line */}
-                {linePathD && (
+                {areaPath && <path d={areaPath} fill="url(#chartGrad)" />}
+                {linePath && (
                   <path
-                    d={linePathD}
+                    d={linePath}
                     fill="none"
-                    stroke="#51000d"
-                    strokeWidth="3.5"
+                    stroke="#d97706"
+                    strokeWidth="2.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
                 )}
-
-                {/* Data Points & Interactive Dots */}
                 {points.map((pt, idx) => (
-                  <g key={idx} className="cursor-pointer group">
+                  <g
+                    key={idx}
+                    className="cursor-pointer"
+                    onMouseEnter={() => setHoveredPoint(pt.data)}
+                    onMouseLeave={() => setHoveredPoint(null)}
+                  >
                     <circle
                       cx={pt.x}
                       cy={pt.y}
-                      r="6"
-                      fill="#51000d"
-                      stroke="#ffffff"
-                      strokeWidth="2.5"
-                      className="transition-all duration-200 group-hover:r-8 group-hover:fill-amber-500"
-                      onMouseEnter={() => setHoveredPoint(pt.data)}
-                      onMouseLeave={() => setHoveredPoint(null)}
+                      r="4.5"
+                      fill="#d97706"
+                      stroke={isDark ? "#141417" : "#ffffff"}
+                      strokeWidth="2"
                     />
                     <text
                       x={pt.x}
-                      y={chartHeight - 8}
+                      y={cH - 6}
                       textAnchor="middle"
-                      className="text-[11px] font-bold fill-gray-400"
+                      fontSize="9"
+                      fill={isDark ? "#a1a1aa" : "#71717a"}
+                      fontFamily="Inter, sans-serif"
+                      fontWeight="500"
                     >
                       {pt.data.label}
                     </text>
@@ -386,77 +463,177 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          {/* Interactive Tooltip Card */}
-          <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs">
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#51000d]"></span>
-              <span className="font-bold text-gray-600">
-                {hoveredPoint ? `Periode: ${hoveredPoint.label}` : "Arahkan kursor ke titik untuk rincian"}
-              </span>
-            </div>
-            <div className="font-black text-[#51000d] text-sm">
-              {hoveredPoint ? (
-                <span>{formatPrice(hoveredPoint.total)} ({hoveredPoint.count} Transaksi)</span>
-              ) : (
-                <span>Total Periode Ini: {formatPrice(chartData.reduce((acc, d) => acc + d.total, 0))}</span>
-              )}
-            </div>
+          <div
+            className={`mt-3 pt-3 border-t flex items-center justify-between text-xs ${
+              isDark ? "border-stone-800 text-stone-400" : "border-stone-100 text-stone-500"
+            }`}
+          >
+            <span>
+              {hoveredPoint
+                ? `Periode: ${hoveredPoint.label} • ${hoveredPoint.count} transaksi`
+                : "Arahkan kursor pada titik grafik untuk detail omset"}
+            </span>
+            <span className="font-extrabold text-amber-500">
+              {hoveredPoint
+                ? formatPrice(hoveredPoint.total)
+                : formatPrice(chartData.reduce((s, d) => s + d.total, 0))}
+            </span>
           </div>
         </section>
 
-        {/* Latest Incoming Orders Card */}
-        <section className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(81,0,13,0.04)] border border-gray-100 overflow-hidden">
-          <div className="p-6 flex items-center justify-between border-b border-gray-100">
-            <div>
-              <h3 className="text-lg font-black text-[#51000d]">Pesanan Terbaru Masuk</h3>
-              <p className="text-xs text-gray-500 font-medium">Daftar transaksi yang baru saja dilakukan pelanggan.</p>
+        {/* Recent Orders & Quick Actions Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Recent Orders Table */}
+          <section
+            className={`lg:col-span-8 rounded-2xl p-5 border transition-colors ${
+              isDark ? "bg-[#141417] border-stone-800" : "bg-white border-stone-200/90 shadow-2xs"
+            }`}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-sm font-bold tracking-tight">Pesanan Terbaru</h2>
+              <Link
+                href="/admin/orders"
+                className="text-xs font-semibold text-amber-500 hover:underline flex items-center gap-1"
+              >
+                <span>Buka Semua</span>
+                <span className="material-symbols-outlined text-xs">arrow_forward</span>
+              </Link>
             </div>
-            <Link
-              href="/admin/orders"
-              className="text-xs font-black text-[#51000d] hover:underline flex items-center gap-1"
-            >
-              <span>Lihat Semua</span>
-              <span className="material-symbols-outlined text-sm">chevron_right</span>
-            </Link>
-          </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-gray-100 bg-gray-50/70 text-gray-400">
-                  <th className="px-6 py-3.5 text-[10px] font-black uppercase tracking-wider">No. Pesanan</th>
-                  <th className="px-6 py-3.5 text-[10px] font-black uppercase tracking-wider">Pelanggan</th>
-                  <th className="px-6 py-3.5 text-[10px] font-black uppercase tracking-wider">Kota</th>
-                  <th className="px-6 py-3.5 text-[10px] font-black uppercase tracking-wider">Total Belanja</th>
-                  <th className="px-6 py-3.5 text-[10px] font-black uppercase tracking-wider">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100 text-xs font-medium">
-                {displayOrders.length === 0 ? (
-                  <tr>
-                    <td colSpan={5} className="py-8 text-center text-gray-500 font-semibold">
-                      Belum ada transaksi masuk.
-                    </td>
-                  </tr>
-                ) : (
-                  displayOrders.map((o) => (
-                    <tr key={o.id} className="hover:bg-gray-50/80 transition-colors">
-                      <td className="px-6 py-4 font-mono font-extrabold text-[#51000d]">{o.orderNumber}</td>
-                      <td className="px-6 py-4 font-bold text-gray-900">{o.customerName || "-"}</td>
-                      <td className="px-6 py-4 text-gray-500 font-medium">{o.city || o.province || "-"}</td>
-                      <td className="px-6 py-4 font-black text-gray-900">{formatPrice(o.finalTotal)}</td>
-                      <td className="px-6 py-4">
-                        <span className="px-3 py-1 rounded-xl text-[10px] font-black border bg-amber-500/10 text-amber-900 border-amber-300/40">
-                          {o.status === "COMPLETED" || o.status === "PAID" ? "DISETUJUI" : "MENUNGGU"}
+            {isLoading ? (
+              <div className="space-y-2 py-4">
+                <div className={`h-10 rounded-xl animate-pulse ${isDark ? "bg-stone-800" : "bg-stone-100"}`} />
+                <div className={`h-10 rounded-xl animate-pulse ${isDark ? "bg-stone-800" : "bg-stone-100"}`} />
+              </div>
+            ) : recentOrders.length === 0 ? (
+              <p className={`text-xs py-6 text-center ${isDark ? "text-stone-500" : "text-stone-400"}`}>
+                Belum ada transaksi pesanan yang masuk.
+              </p>
+            ) : (
+              <div className="divide-y divide-stone-100 dark:divide-stone-800/80">
+                {recentOrders.map((ord: any) => {
+                  const isCompleted = ord.status === "COMPLETED" || ord.status === "PAID";
+                  const isCanceled = ord.status === "CANCELED" || ord.status === "CANCELLED";
+                  return (
+                    <div
+                      key={ord.id}
+                      className="py-3 flex items-center justify-between gap-3 text-xs"
+                    >
+                      <div className="min-w-0">
+                        <p className="font-bold truncate">
+                          {ord.customerName || ord.userEmail || `Pesanan #${ord.id.slice(0, 6)}`}
+                        </p>
+                        <p className={`text-[11px] truncate ${isDark ? "text-stone-500" : "text-stone-400"}`}>
+                          {new Date(ord.createdAt).toLocaleDateString("id-ID", {
+                            day: "numeric",
+                            month: "short",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </p>
+                      </div>
+
+                      <div className="text-right shrink-0">
+                        <p className="font-extrabold text-[#540b13] dark:text-amber-400">
+                          {formatPrice(ord.finalTotal)}
+                        </p>
+                        <span
+                          className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase mt-0.5 ${
+                            isCompleted
+                              ? "bg-emerald-500/15 text-emerald-500"
+                              : isCanceled
+                              ? "bg-stone-500/15 text-stone-500"
+                              : "bg-amber-500/20 text-amber-500 animate-pulse"
+                          }`}
+                        >
+                          {ord.status || "PENDING"}
                         </span>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </section>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </section>
+
+          {/* Quick Actions & Stock Alerts */}
+          <section className="lg:col-span-4 space-y-4">
+            <div
+              className={`rounded-2xl p-5 border transition-colors ${
+                isDark ? "bg-[#141417] border-stone-800" : "bg-white border-stone-200/90 shadow-2xs"
+              }`}
+            >
+              <h2 className="text-sm font-bold tracking-tight mb-3">Tindakan Cepat</h2>
+              <div className="space-y-2">
+                <Link
+                  href="/admin/inventory"
+                  className="w-full flex items-center justify-between p-3 rounded-xl bg-[#540b13] text-white hover:bg-[#720f1a] transition-colors"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="material-symbols-outlined text-base">add_box</span>
+                    <span className="text-xs font-bold">Tambah / Edit Produk</span>
+                  </div>
+                  <span className="material-symbols-outlined text-sm">chevron_right</span>
+                </Link>
+
+                <Link
+                  href="/admin/orders"
+                  className={`w-full flex items-center justify-between p-3 rounded-xl border transition-colors ${
+                    isDark
+                      ? "bg-stone-800/80 border-stone-700 text-stone-200 hover:bg-stone-800"
+                      : "bg-stone-50 border-stone-200 text-stone-800 hover:bg-stone-100"
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="material-symbols-outlined text-base">local_shipping</span>
+                    <span className="text-xs font-bold">Proses Pengiriman</span>
+                  </div>
+                  <span className="material-symbols-outlined text-sm">chevron_right</span>
+                </Link>
+
+                <Link
+                  href="/admin/promotions"
+                  className={`w-full flex items-center justify-between p-3 rounded-xl border transition-colors ${
+                    isDark
+                      ? "bg-stone-800/80 border-stone-700 text-stone-200 hover:bg-stone-800"
+                      : "bg-stone-50 border-stone-200 text-stone-800 hover:bg-stone-100"
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="material-symbols-outlined text-base">campaign</span>
+                    <span className="text-xs font-bold">Kupon &amp; Diskon Mitra</span>
+                  </div>
+                  <span className="material-symbols-outlined text-sm">chevron_right</span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Low stock reminder */}
+            {lowStockProducts.length > 0 && (
+              <div
+                className={`rounded-2xl p-4 border border-rose-500/30 ${
+                  isDark ? "bg-rose-950/20 text-rose-300" : "bg-rose-50 text-rose-900"
+                }`}
+              >
+                <div className="flex items-center gap-2 mb-1.5 font-bold text-xs">
+                  <span className="material-symbols-outlined text-rose-500 text-base">
+                    warning
+                  </span>
+                  <span>{lowStockProducts.length} Produk Segera Habis</span>
+                </div>
+                <p className="text-[11px] opacity-80 leading-relaxed mb-3">
+                  Pastikan persediaan daging dan bumbu kuah tetap terjaga untuk melayani pesanan warung.
+                </p>
+                <Link
+                  href="/admin/inventory"
+                  className="inline-block text-xs font-extrabold underline decoration-rose-400"
+                >
+                  Buka Kelola Stok →
+                </Link>
+              </div>
+            )}
+          </section>
+        </div>
       </main>
     </div>
   );

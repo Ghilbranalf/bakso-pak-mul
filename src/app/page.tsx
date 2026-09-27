@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import CartSidebar from "@/components/CartSidebar";
@@ -10,16 +10,17 @@ import { useCart } from "@/context/CartContext";
 export default function HomePage() {
   const [addedId, setAddedId] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const { openCart, totalItems, addToCart } = useCart();
+  const { addToCart } = useCart();
 
   const [products, setProducts] = useState<any[]>([]);
   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+  const [activeCategory, setActiveCategory] = useState<string>("Semua");
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 4000);
+        const timeoutId = setTimeout(() => controller.abort(), 6000);
 
         const res = await fetch("/api/products", { signal: controller.signal });
         clearTimeout(timeoutId);
@@ -39,368 +40,501 @@ export default function HomePage() {
     fetchProducts();
   }, []);
 
-  const featuredProducts = React.useMemo(() => {
+  const filteredDisplayProducts = useMemo(() => {
     if (!products.length) return [];
-    
-    const baksoList = products.filter(p => p.category.toLowerCase().includes("bakso") || p.name.toLowerCase().includes("bakso"));
-    const mieList = products.filter(p => p.category.toLowerCase().includes("mie") || p.name.toLowerCase().includes("mie") || p.name.toLowerCase().includes("pangsit"));
-    const bumbuList = products.filter(p => p.category.toLowerCase().includes("bumbu") || p.name.toLowerCase().includes("saos") || p.name.toLowerCase().includes("kecap") || p.name.toLowerCase().includes("bumbu"));
-
-    const pickRandom = (arr: any[]) => arr.length ? arr[Math.floor(Math.random() * arr.length)] : null;
-
-    const b = pickRandom(baksoList);
-    const m = pickRandom(mieList);
-    const s = pickRandom(bumbuList);
-
-    const list = [b, m, s].filter(Boolean);
-    if (list.length < 3) {
-      return products.slice(0, 3);
+    if (activeCategory === "Semua") {
+      return products.slice(0, 8);
     }
-    return list;
-  }, [products]);
+    const cat = activeCategory.toLowerCase();
+    return products
+      .filter(
+        (p) =>
+          p.category?.toLowerCase().includes(cat) ||
+          p.name?.toLowerCase().includes(cat)
+      )
+      .slice(0, 8);
+  }, [products, activeCategory]);
 
   return (
-    <div className="antialiased selection:bg-maroon selection:text-white font-sans tracking-tight bg-background text-gray-800">
+    <div className="antialiased min-h-screen bg-[#faf8f5] text-stone-900 font-sans selection:bg-[#540b13] selection:text-white">
       <Navbar />
-      {/* END: Navigation */}
 
-      <main>
-        {/* BEGIN: Hero Section */}
-        <section className="relative pt-20 pb-32 overflow-hidden hero-gradient">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
-              {/* Hero Content */}
-              <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
-                <h1 className="text-3xl tracking-tight text-gray-900 sm:text-4xl md:text-5xl lg:leading-tight mb-6 font-bold">
-                  Pusat Bahan Baku <span className="text-maroon">Bakso &amp; Mie Ayam</span>
+      <main className="pt-26 sm:pt-28">
+        {/* ================= HERO SECTION ================= */}
+        <section className="relative overflow-hidden border-b border-stone-200/80 bg-gradient-to-b from-stone-100/60 via-stone-50/40 to-[#faf8f5] py-12 md:py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+              {/* Left Column: Authentic Copy */}
+              <div className="lg:col-span-7 space-y-6 text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200/80 text-amber-900 text-xs font-semibold">
+                  <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                  <span>Kios Pusat Pasar Kramat Jati, Jakarta Timur</span>
+                </div>
+
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#18181b] tracking-tight leading-[1.15]">
+                  Pusat Bahan Baku{" "}
+                  <span className="text-[#540b13] underline decoration-amber-400 decoration-4 underline-offset-4">
+                    Bakso &amp; Mie Ayam
+                  </span>{" "}
+                  Pilihan Sejak 2000.
                 </h1>
-                <p className="mt-6 text-lg md:text-xl text-gray-600 font-medium leading-relaxed max-w-xl">
-                  Ciptakan kelezatan bakso dan mie ayam seenak langganan Anda langsung dari dapur sendiri. Sedia baso sapi asli, mie keriting kenyal, hingga saus dan kecap pilihan.
+
+                <p className="text-stone-600 text-base sm:text-lg leading-relaxed max-w-2xl font-normal">
+                  Sedia bakso sapi asli dengan tekstur kenyal alami, mie telor bebek basah, kulit pangsit lembut, bumbu kuah kaldu sapi, hingga saus rempah autentik. Melayani kebutuhan dapur keluarga, hajatan, hingga ratusan warung mitra di Jabodetabek.
                 </p>
 
-                <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
+                {/* Key Selling Highlights */}
+                <div className="grid grid-cols-3 gap-3 pt-2 max-w-lg">
+                  <div className="p-3 bg-white rounded-xl border border-stone-200/80 shadow-xs">
+                    <p className="text-[#540b13] font-extrabold text-base">100% Sapi</p>
+                    <p className="text-[11px] text-stone-500 font-medium">Bebas Boraks/Kimia</p>
+                  </div>
+                  <div className="p-3 bg-white rounded-xl border border-stone-200/80 shadow-xs">
+                    <p className="text-[#540b13] font-extrabold text-base">500+ Mitra</p>
+                    <p className="text-[11px] text-stone-500 font-medium">Warung &amp; Katering</p>
+                  </div>
+                  <div className="p-3 bg-white rounded-xl border border-stone-200/80 shadow-xs">
+                    <p className="text-[#540b13] font-extrabold text-base">Fresh Daily</p>
+                    <p className="text-[11px] text-stone-500 font-medium">Kirim Cepat Hari Ini</p>
+                  </div>
+                </div>
+
+                {/* CTA Buttons */}
+                <div className="flex flex-wrap items-center gap-3 pt-2">
                   <Link
-                    className="w-full flex items-center justify-center px-8 py-3.5 border border-transparent text-base font-medium rounded-full text-white bg-maroon hover:bg-maroon-dark md:py-4 md:text-lg md:px-10 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                     href="/produk"
+                    className="px-6 py-3.5 rounded-xl bg-[#540b13] hover:bg-[#720f1a] text-white font-bold text-sm shadow-sm transition-all hover:shadow-md cursor-pointer flex items-center gap-2"
                   >
-                    Belanja Sekarang
+                    <span className="material-symbols-outlined text-lg">storefront</span>
+                    <span>Lihat Daftar Produk</span>
                   </Link>
+                  <a
+                    href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20ingin%20tanya%20harga%20grosir%20dan%20pemesanan%20bahan%20baku"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-5 py-3.5 rounded-xl bg-white hover:bg-stone-50 text-stone-800 border border-stone-300 font-bold text-sm transition-all shadow-xs flex items-center gap-2"
+                  >
+                    <span className="material-symbols-outlined text-emerald-600 text-lg">chat</span>
+                    <span>Konsultasi Grosir (WA)</span>
+                  </a>
                 </div>
               </div>
-              {/* Hero Image/Graphic */}
-              <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
-                <div className="relative mx-auto w-full rounded-3xl shadow-2xl lg:max-w-md floating glass-effect p-3.5 border border-white/80 bg-white/40">
+
+              {/* Right Column: Authentic Image Showcase */}
+              <div className="lg:col-span-5">
+                <div className="relative rounded-2xl overflow-hidden border border-stone-300 shadow-lg bg-white">
                   <img
-                    alt="Aneka produk Bakso Pak Mul"
-                    className="w-full h-[460px] rounded-2xl object-cover shadow-sm"
-                    src="/images/hero-banner.jpg"
+                    alt="Etalase Bahan Baku Bakso Pak Mul Kramat Jati"
+                    className="w-full h-[380px] sm:h-[420px] object-cover"
+                    src="/images/hero-banner.webp"
                   />
-                  {/* Floating Badge */}
-                  <div className="absolute -right-6 -bottom-6 glass-effect p-4 rounded-2xl shadow-xl flex items-center space-x-3 border border-white bg-white/90 backdrop-blur-md">
-                    <div className="bg-green-100 p-2.5 rounded-xl text-green-600 shrink-0">
-                      <i className="fas fa-check text-lg"></i>
-                    </div>
+                  {/* Overlay Store Badge */}
+                  <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-3.5 rounded-xl border border-stone-200/80 shadow-md flex items-center justify-between">
                     <div>
-                      <p className="text-[11px] text-gray-500 font-bold uppercase tracking-wider">Stok Selalu</p>
-                      <p className="text-sm font-black text-gray-900">Fresh &amp; 100% Halal</p>
+                      <p className="text-xs font-bold text-stone-900">
+                        Kios Toko Bakso Pak Mul
+                      </p>
+                      <p className="text-[11px] text-stone-500">
+                        Pasar Kramat Jati, Jakarta Timur
+                      </p>
                     </div>
+                    <span className="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full">
+                      ✓ Halal &amp; Higienis
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
-        {/* END: Hero Section */}
 
-        {/* BEGIN: Benefits Section */}
-        <section className="bg-white border-t border-gray-100 py-20">
+        {/* ================= VALUE PROPOSITIONS ================= */}
+        <section className="py-12 bg-white border-b border-stone-200/80">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
-              <div className="text-center p-6 rounded-2xl hover:bg-gray-50 transition-colors duration-300 cursor-pointer">
-                <div className="inline-flex items-center justify-center h-14 w-14 rounded-full bg-red-50 text-maroon mb-4">
-                  <i className="fas fa-wallet text-2xl"></i>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="p-5 rounded-2xl bg-stone-50/70 border border-stone-200/70">
+                <div className="w-10 h-10 rounded-xl bg-amber-100 text-[#540b13] flex items-center justify-center mb-3">
+                  <span className="material-symbols-outlined text-xl">savings</span>
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Harga Fleksibel</h3>
-                <p className="text-sm text-gray-500">Ramah di kantong, untung buat jualan.</p>
+                <h3 className="text-sm font-bold text-stone-900 mb-1">
+                  Harga Tangan Pertama
+                </h3>
+                <p className="text-xs text-stone-600 leading-relaxed">
+                  Langsung dari kios pusat pasar grosir, modal lebih hemat &amp; margin jualan lebih untung.
+                </p>
               </div>
-              <div className="text-center p-6 rounded-2xl hover:bg-gray-50 transition-colors duration-300 cursor-pointer">
-                <div className="inline-flex items-center justify-center h-14 w-14 rounded-full bg-red-50 text-maroon mb-4">
-                  <i className="fas fa-star text-2xl"></i>
+
+              <div className="p-5 rounded-2xl bg-stone-50/70 border border-stone-200/70">
+                <div className="w-10 h-10 rounded-xl bg-amber-100 text-[#540b13] flex items-center justify-center mb-3">
+                  <span className="material-symbols-outlined text-xl">award_star</span>
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Kualitas Konsisten</h3>
-                <p className="text-sm text-gray-500">Pelanggan ruko/gerobak pasti suka.</p>
+                <h3 className="text-sm font-bold text-stone-900 mb-1">
+                  Kekenyalan Konsisten
+                </h3>
+                <p className="text-xs text-stone-600 leading-relaxed">
+                  Daging sapi segar olahan mesin presisi menghasilkan tekstur garing dan rasa kaldu gurih.
+                </p>
               </div>
-              <div className="text-center p-6 rounded-2xl hover:bg-gray-50 transition-colors duration-300 cursor-pointer">
-                <div className="inline-flex items-center justify-center h-14 w-14 rounded-full bg-red-50 text-maroon mb-4">
-                  <i className="fas fa-motorcycle text-2xl"></i>
+
+              <div className="p-5 rounded-2xl bg-stone-50/70 border border-stone-200/70">
+                <div className="w-10 h-10 rounded-xl bg-amber-100 text-[#540b13] flex items-center justify-center mb-3">
+                  <span className="material-symbols-outlined text-xl">local_shipping</span>
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Pengiriman Instan</h3>
-                <p className="text-sm text-gray-500">Cepat sampai untuk menjaga kesegaran bahan.</p>
+                <h3 className="text-sm font-bold text-stone-900 mb-1">
+                  Pengiriman Dingin &amp; Cepat
+                </h3>
+                <p className="text-xs text-stone-600 leading-relaxed">
+                  Kemasan vacuum tebal dan es batu menjaga mutu kesegaran produk sampai di dapur Anda.
+                </p>
               </div>
-              <div className="text-center p-6 rounded-2xl hover:bg-gray-50 transition-colors duration-300 cursor-pointer">
-                <div className="inline-flex items-center justify-center h-14 w-14 rounded-full bg-red-50 text-maroon mb-4">
-                  <i className="fas fa-certificate text-2xl"></i>
+
+              <div className="p-5 rounded-2xl bg-stone-50/70 border border-stone-200/70">
+                <div className="w-10 h-10 rounded-xl bg-amber-100 text-[#540b13] flex items-center justify-center mb-3">
+                  <span className="material-symbols-outlined text-xl">verified</span>
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">100% Halal Terjamin</h3>
-                <p className="text-sm text-gray-500">Bersertifikasi Halal &amp; BPOM.</p>
+                <h3 className="text-sm font-bold text-stone-900 mb-1">
+                  100% Halal Terjamin
+                </h3>
+                <p className="text-xs text-stone-600 leading-relaxed">
+                  Bahan baku tersertifikasi halal MUI &amp; diproses higienis sesuai standar keamanan pangan.
+                </p>
               </div>
             </div>
           </div>
         </section>
-        {/* END: Benefits Section */}
 
-        {/* BEGIN: Top Products */}
-        <section className="py-20 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-end mb-10">
-              <div>
-                <h2 className="text-3xl font-semibold text-gray-900 tracking-tight">Pilihan Favorit Keluarga</h2>
-                <p className="mt-2 text-lg text-gray-500">Produk terlaris yang wajib ada di kulkas Anda.</p>
+        {/* ================= POPULAR PRODUCTS SHOWCASE ================= */}
+        <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+            <div>
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#540b13] uppercase tracking-wider mb-1">
+                <span className="material-symbols-outlined text-sm">local_fire_department</span>
+                <span>Paling Diminati</span>
               </div>
-              <Link className="hidden sm:inline-flex items-center text-maroon font-semibold hover:text-maroon-dark group" href="/produk">
-                Lihat Semua Produk
-                <i className="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
+                Pilihan Bahan Baku Terlaris
+              </h2>
+              <p className="text-stone-500 text-xs sm:text-sm mt-1">
+                Koleksi favorit pemilik warung bakso dan mie ayam langganan se-Jakarta.
+              </p>
+            </div>
+
+            {/* Category Filter Chips */}
+            <div className="flex flex-wrap items-center gap-2">
+              {["Semua", "Bakso", "Mie", "Pangsit", "Bumbu"].map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                    activeCategory === cat
+                      ? "bg-[#540b13] text-white shadow-xs"
+                      : "bg-white border border-stone-200 text-stone-600 hover:bg-stone-50"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+              <Link
+                href="/produk"
+                className="text-xs font-bold text-[#540b13] hover:underline px-2 py-1 flex items-center gap-1"
+              >
+                <span>Lihat Semua</span>
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
               </Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {isLoadingProducts ? (
-                <div className="col-span-full text-center py-10 text-gray-500 font-medium">Memuat produk...</div>
-              ) : featuredProducts.length === 0 ? (
-                <div className="col-span-full text-center py-10 text-gray-500 font-medium">Tidak ada produk tersedia.</div>
-              ) : (
-                featuredProducts.map((product: any, idx: number) => (
-                  <div key={`${product.id}-${idx}`} className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col">
-                    <div className="relative h-60 bg-[#fbfbfb] p-4 flex items-center justify-center overflow-hidden group">
+          </div>
+
+          {/* Product Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {isLoadingProducts ? (
+              Array.from({ length: 4 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="bg-white rounded-2xl border border-stone-200 p-4 h-80 animate-pulse"
+                />
+              ))
+            ) : filteredDisplayProducts.length === 0 ? (
+              <div className="col-span-full py-12 text-center text-stone-500 text-sm">
+                Belum ada produk untuk kategori ini.
+              </div>
+            ) : (
+              filteredDisplayProducts.map((product: any) => (
+                <div
+                  key={product.id}
+                  className="product-card bg-white rounded-2xl border border-stone-200/90 overflow-hidden flex flex-col justify-between"
+                >
+                  <Link href={`/produk/${product.id}`} className="block">
+                    <div className="relative aspect-square bg-stone-50 p-4 flex items-center justify-center overflow-hidden">
                       <img
                         alt={product.name}
-                        className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500"
-                        src={product.image || "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=60"}
+                        className="w-full h-full object-contain transition-transform duration-300 hover:scale-105"
+                        src={product.image || "/images/hero-banner.webp"}
                       />
-                      {product.badge && (
-                        <span className="absolute top-3 left-3 bg-maroon text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">{product.badge}</span>
-                      )}
+                      <span className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs text-[#540b13] text-[10px] font-bold px-2 py-0.5 rounded-md border border-stone-200/80 shadow-xs">
+                        {product.category || "Bakso"}
+                      </span>
                     </div>
-                    <div className="p-5 flex-1 flex flex-col">
-                      <h3 className="text-sm font-bold text-gray-900 mb-1 leading-tight">{product.name}</h3>
-                      <p className="text-xs text-gray-500 mb-4 flex-1">
-                        Kategori: <span className="font-medium text-maroon">{product.category}</span>
+                  </Link>
+
+                  <div className="p-4 flex-1 flex flex-col justify-between">
+                    <div>
+                      <Link href={`/produk/${product.id}`} className="block">
+                        <h3 className="text-xs sm:text-sm font-bold text-stone-900 leading-snug line-clamp-2 hover:text-[#540b13] transition-colors">
+                          {product.name}
+                        </h3>
+                      </Link>
+                      <p className="text-[11px] text-stone-400 mt-1">
+                        Kemasan: <span className="text-stone-600 font-medium">{product.unit || "Pack"}</span>
                       </p>
-                      <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
-                        <div>
-                          {product.originalPrice && (
-                            <p className="text-[10px] text-gray-400 line-through">Rp {product.originalPrice.toLocaleString('id-ID')}</p>
-                          )}
-                          <p className="text-base font-black text-maroon">Rp {product.price.toLocaleString('id-ID')} <span className="text-[10px] text-gray-400 font-normal">/{product.unit}</span></p>
-                        </div>
-                        <button 
-                          onClick={() => {
-                            addToCart({ id: product.id, name: product.name, price: product.price, image: product.image, unit: product.unit });
-                            setAddedId(product.id);
-                            setToastMessage(product.name);
-                            setTimeout(() => setAddedId(null), 1500);
-                            setTimeout(() => setToastMessage(null), 3000);
-                          }}
-                          className={`h-9 w-9 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer shadow-sm border ${addedId === product.id ? "bg-green-500 text-white border-green-600" : "bg-white text-maroon border-maroon hover:bg-maroon hover:text-white"}`}
-                        >
-                          {addedId === product.id ? <i className="fas fa-check text-sm"></i> : <i className="fas fa-cart-plus text-sm"></i>}
-                        </button>
+                    </div>
+
+                    <div className="pt-4 mt-2 border-t border-stone-100 flex items-center justify-between">
+                      <div>
+                        {product.originalPrice && (
+                          <p className="text-[10px] text-stone-400 line-through">
+                            Rp {product.originalPrice.toLocaleString("id-ID")}
+                          </p>
+                        )}
+                        <p className="text-sm sm:text-base font-extrabold text-[#540b13]">
+                          Rp {(product.price || 0).toLocaleString("id-ID")}
+                        </p>
                       </div>
+
+                      <button
+                        onClick={() => {
+                          addToCart({
+                            id: product.id,
+                            name: product.name,
+                            price: product.price,
+                            image: product.image,
+                            unit: product.unit,
+                          });
+                          setAddedId(product.id);
+                          setToastMessage(product.name);
+                          setTimeout(() => setAddedId(null), 1500);
+                          setTimeout(() => setToastMessage(null), 3000);
+                        }}
+                        className={`h-9 px-3 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer ${
+                          addedId === product.id
+                            ? "bg-emerald-600 text-white"
+                            : "bg-[#540b13] text-white hover:bg-[#720f1a]"
+                        }`}
+                        title="Tambah ke Keranjang"
+                      >
+                        <span className="material-symbols-outlined text-sm">
+                          {addedId === product.id ? "check" : "add_shopping_cart"}
+                        </span>
+                        <span>{addedId === product.id ? "Masuk" : "+ Beli"}</span>
+                      </button>
                     </div>
                   </div>
-                ))
-              )}
-            </div>
-            <div className="mt-8 text-center sm:hidden">
-              <Link className="inline-flex items-center text-maroon font-semibold" href="#">
-                Lihat Semua Produk <i className="fas fa-arrow-right ml-2"></i>
-              </Link>
-            </div>
+                </div>
+              ))
+            )}
           </div>
         </section>
-        {/* END: Top Products */}
 
-        {/* BEGIN: Shopping Flow */}
-        <section className="py-20 bg-maroon text-white relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Cara Belanja Mudah</h2>
-              <p className="mt-4 text-lg text-red-200">Pesanan sampai di tempat Anda dalam 4 langkah praktis.</p>
-            </div>
-            <div className="relative">
-              <div className="hidden md:block absolute top-12 left-[10%] right-[10%] h-0.5 bg-red-800/50"></div>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-10 text-center relative">
-                <div className="relative">
-                  <div className="w-24 h-24 mx-auto glass-dark rounded-full flex items-center justify-center mb-6 shadow-lg relative z-10 border-2 border-red-400/30">
-                    <span className="absolute -top-2 -right-2 w-8 h-8 bg-white text-maroon rounded-full flex items-center justify-center font-bold text-sm shadow-md">1</span>
-                    <i className="fas fa-hand-pointer text-3xl text-white"></i>
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Pilih Bahan</h3>
-                  <p className="text-red-200 text-sm">Pilih baso, mie, atau bumbu pilihan Anda.</p>
-                </div>
-                <div className="relative">
-                  <div className="w-24 h-24 mx-auto glass-dark rounded-full flex items-center justify-center mb-6 shadow-lg relative z-10 border-2 border-red-400/30">
-                    <span className="absolute -top-2 -right-2 w-8 h-8 bg-white text-maroon rounded-full flex items-center justify-center font-bold text-sm shadow-md">2</span>
-                    <i className="fas fa-shopping-basket text-3xl text-white"></i>
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Masukkan Keranjang</h3>
-                  <p className="text-red-200 text-sm">Sesuaikan jumlah dan cek kembali pesanan Anda.</p>
-                </div>
-                <div className="relative">
-                  <div className="w-24 h-24 mx-auto glass-dark rounded-full flex items-center justify-center mb-6 shadow-lg relative z-10 border-2 border-red-400/30">
-                    <span className="absolute -top-2 -right-2 w-8 h-8 bg-white text-maroon rounded-full flex items-center justify-center font-bold text-sm shadow-md">3</span>
-                    <i className="fas fa-credit-card text-3xl text-white"></i>
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Bayar Praktis</h3>
-                  <p className="text-red-200 text-sm">Metode pembayaran yang aman dan praktis.</p>
-                </div>
-                <div className="relative">
-                  <div className="w-24 h-24 mx-auto glass-dark rounded-full flex items-center justify-center mb-6 shadow-lg relative z-10 border-2 border-red-400/30">
-                    <span className="absolute -top-2 -right-2 w-8 h-8 bg-white text-maroon rounded-full flex items-center justify-center font-bold text-sm shadow-md">4</span>
-                    <i className="fas fa-truck-fast text-3xl text-white"></i>
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Langsung Masak / Jualan</h3>
-                  <p className="text-red-200 text-sm">Pesanan dikirim instan hari ini juga.</p>
-                </div>
-              </div>
-            </div>
-            <div className="mt-16 text-center">
-              <button className="bg-white text-maroon font-bold py-4 px-10 rounded-full hover:bg-gray-100 transition-colors shadow-lg transform hover:-translate-y-1">
-                Mulai Belanja Sekarang
-              </button>
-            </div>
-          </div>
-        </section>
-        {/* END: Shopping Flow */}
-
-        {/* BEGIN: Testimonials */}
-        <section className="py-20 bg-gray-50">
+        {/* ================= KIOS FISIK KRAMAT JATI SECTION ================= */}
+        <section className="py-16 bg-white border-t border-stone-200/80">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-semibold text-gray-900 tracking-tight">Kata Mereka</h2>
-              <p className="mt-4 text-lg text-gray-500">Pengalaman pelanggan setia kami bersama Bakso Pak Mul.</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative">
-                <i className="fas fa-quote-right text-4xl text-gray-100 absolute top-6 right-6"></i>
-                <div className="flex items-center space-x-1 text-yellow-400 mb-4">
-                  <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
-                </div>
-                <p className="text-gray-600 mb-6 italic">&quot;Senang karena bisa masak mie ayam pangsit komplit untuk anak-anak di rumah dengan mudah.&quot;</p>
-                <div className="flex items-center">
-                  <img alt="Ibu Siti" className="w-12 h-12 rounded-full mr-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnr1wjKDi05Fu5VfiTIpu21zWvZ_9SdkyiFJhGIWGhDoisTM4d4him2AbqNKPCSmu13x6enSNKscIIRW-iCLseKH67O8455rgrxsbw6vonLLYh7G0aYcHoeLg2x2p_MvQtnPkrOudni74vr1ktXahJ-DEZ2TLYyefkFDoDrlIO_yHzVEw7bVdCvVj-nGoavF7dBTS7gNkREVOwDfh7ES2aeYcw34SwfMqsSfjBx4VPecU_Go0Jb0W1MBQeXOEBAjDtY5aQm8G39-gf" />
-                  <div>
-                    <h4 className="font-bold text-gray-900">Ibu Siti M.</h4>
-                    <p className="text-sm text-gray-500"><span className="text-maroon font-medium">Kenyal dan gurih.</span></p>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative">
-                <i className="fas fa-quote-right text-4xl text-gray-100 absolute top-6 right-6"></i>
-                <div className="flex items-center space-x-1 text-yellow-400 mb-4">
-                  <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i>
-                </div>
-                <p className="text-gray-600 mb-6 italic">&quot;Terbantu karena harga grosirnya murah, untung nambah, dan mie-nya tidak gampang hancur.&quot;</p>
-                <div className="flex items-center">
-                  <img alt="Pak Bambang" className="w-12 h-12 rounded-full mr-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0-_ZjuCY_Vz0STeHI6yUvr7NPTiPcaeUS7hIUC4V7dex0tB09sqZJB1r4SrEomfWHD-xCThfFhye-sMoQ_eYLqMCx2IojSujs3ATV2uNwWhfoVhgsTAq6HI3PDlhXxgzgXWmm6j0EwnvKEf4VrVPEu9b4JpuFsyqZlhh8PaU-V_Ncx1pfEsWc6Kpa4Hc_sslBG4uUpizWspbHwqxVMmZ9milE8_DX2PgdfXAGlnkFeJBHhvvF6nFfnZdI8-fTCK575WBntz0lFD63" />
-                  <div>
-                    <h4 className="font-bold text-gray-900">Pak Bambang</h4>
-                    <p className="text-sm text-gray-500">Tekstur <span className="text-maroon font-medium">anti-lembek</span>.</p>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative">
-                <i className="fas fa-quote-right text-4xl text-gray-100 absolute top-6 right-6"></i>
-                <div className="flex items-center space-x-1 text-yellow-400 mb-4">
-                  <i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star"></i><i className="fas fa-star-half-alt"></i>
-                </div>
-                <p className="text-gray-600 mb-6 italic">&quot;Pengiriman selalu tepat waktu, bakso sampai dalam keadaan beku sempurna. Kualitas premium sungguhan.&quot;</p>
-                <div className="flex items-center">
-                  <img alt="Koh Ahong" className="w-12 h-12 rounded-full mr-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYOW2xE-wNgoDejc-QUCOitIdi6LyoASlA8JmPDIFfsWhGBU8fF0B22Wg-t934EwbhldQ3SZAI76IUKrPjxYrPZ1i16pkCtcHVFDADMgP0-0twPWWnFh8cAopzNeoJQZiszV9IjhNY6XQEslVgDAz3AwTDnlhfZEOMHBNCk_hpvatxbo3n2UXGZj1gXU4nNEnl1_ycH7YJIJR3A3XCFGbbs4bIaZbEaZGJDXnsq9dtNuHa_orYA1th1-xKw-Jhvm6hyEGtyf_fv5f5" />
-                  <div>
-                    <h4 className="font-bold text-gray-900">Koh Ahong</h4>
-                    <p className="text-sm text-gray-500">Kebutuhan <span className="text-maroon font-medium">komplit</span>.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        {/* END: Testimonials */}
-
-        {/* BEGIN: Features */}
-        <section className="py-20 bg-white border-t border-gray-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-semibold text-gray-900 tracking-tight">Keunggulan Produk Kami</h2>
-              <p className="mt-4 text-lg text-gray-500">Mengapa ribuan keluarga dan pedagang memilih Bakso Pak Mul.</p>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
-              <div className="p-8 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center text-maroon mb-6">
-                  <i className="fas fa-leaf text-2xl"></i>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Bahan Pilihan</h3>
-                <p className="text-gray-600 leading-relaxed">Menggunakan daging sapi segar pilihan dan bumbu rempah alami berkualitas tinggi untuk rasa yang otentik.</p>
-              </div>
-              <div className="p-8 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center text-maroon mb-6">
-                  <i className="fas fa-shield-virus text-2xl"></i>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Proses Higienis</h3>
-                <p className="text-gray-600 leading-relaxed">Diproduksi dengan standar kebersihan ketat dan pengawasan kualitas berkala untuk menjamin keamanan pangan.</p>
-              </div>
-              <div className="p-8 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center text-maroon mb-6">
-                  <i className="fas fa-ban text-2xl"></i>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Tanpa Pengawet</h3>
-                <p className="text-gray-600 leading-relaxed">Produk kami bebas dari bahan pengawet berbahaya, menjadikannya pilihan sehat untuk konsumsi keluarga setiap hari.</p>
-              </div>
-              <div className="p-8 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center text-maroon mb-6">
-                  <span className="material-symbols-outlined text-2xl">sync</span>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Garansi Kualitas & Tukar</h3>
-                <p className="text-gray-600 leading-relaxed">Produk tidak segar atau kualitas buruk? Kami menjamin penukaran produk baru untuk kepuasan Anda.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* BEGIN: About */}
-        <section className="py-20 bg-gray-50 overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
-              <div className="relative mb-12 lg:mb-0">
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-gray-100 h-[420px]">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+              {/* Left Column: Interactive Map & Kios Photo */}
+              <div className="lg:col-span-6 space-y-4">
+                <div className="rounded-2xl overflow-hidden border border-stone-300 shadow-md bg-stone-100 h-[340px] relative">
                   <iframe
-                    title="Peta Lokasi Bakso Pak Mul Pasar Kramat Jati Beranda"
+                    title="Peta Lokasi Toko Bakso Pak Mul Kramat Jati"
                     src="https://www.openstreetmap.org/export/embed.html?bbox=106.8600%2C-6.2680%2C106.8750%2C-6.2580&amp;layer=mapnik&amp;marker=-6.2628%2C106.8672"
                     className="w-full h-full border-0"
                     loading="lazy"
-                  ></iframe>
-                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3.5 py-2 rounded-full shadow-md text-xs font-bold text-[#51000d] flex items-center gap-2 border border-red-100 z-10">
-                    <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping"></span>
-                    📍 Kios Pasar Kramat Jati, Jakarta Timur
+                  />
+                  <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-lg shadow-sm text-xs font-bold text-[#540b13] flex items-center gap-2 border border-stone-200">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                    Kios Pasar Kramat Jati
                   </div>
                 </div>
-                <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-xl border border-gray-100 hidden md:block">
-                  <p className="text-maroon font-bold text-4xl">10+</p>
-                  <p className="text-gray-500 text-sm">Kota di Indonesia</p>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="p-3 bg-stone-50 rounded-xl border border-stone-200 text-xs">
+                    <p className="font-bold text-stone-900">Jam Operasional</p>
+                    <p className="text-stone-500 mt-0.5">Senin – Minggu: 06.00 – 17.00 WIB</p>
+                  </div>
+                  <div className="p-3 bg-stone-50 rounded-xl border border-stone-200 text-xs">
+                    <p className="font-bold text-stone-900">Parkir &amp; Akses</p>
+                    <p className="text-stone-500 mt-0.5">Mobil &amp; Motor Langsung Pasar Kramat Jati</p>
+                  </div>
                 </div>
               </div>
-              <div>
-                <span className="text-maroon font-bold tracking-wider uppercase text-sm">Tentang Kami</span>
-                <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 mt-4 mb-6">Jakarta Timur, Pasar Kramat Jati</h2>
-                <p className="text-gray-600 mb-8 leading-relaxed">Kunjungi gerai utama kami di Pasar Kramat Jati untuk mendapatkan produk bakso dan mie ayam segar setiap hari. Kami hadir lebih dekat untuk melayani kebutuhan dapur keluarga dan mitra pedagang di wilayah Jakarta Timur.</p>
-                <div className="flex items-center space-x-4">
-                  <div className="flex -space-x-2">
-                    <div className="w-10 h-10 rounded-full border-2 border-white bg-gray-200"></div>
-                    <div className="w-10 h-10 rounded-full border-2 border-white bg-gray-300"></div>
-                    <div className="w-10 h-10 rounded-full border-2 border-white bg-gray-400"></div>
+
+              {/* Right Column: Grounded Warisan Copy */}
+              <div className="lg:col-span-6 space-y-5">
+                <div className="inline-block px-3 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200 text-xs font-bold uppercase tracking-wider">
+                  Kunjungi Kios Langsung
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight leading-snug">
+                  Beli Eceran Maupun Partai Besar Langsung di Pasar Kramat Jati
+                </h2>
+
+                <p className="text-stone-600 text-sm leading-relaxed">
+                  Ingin melihat langsung kualitas butiran bakso, mencium harum kaldu rempah, atau mencoba mie telor kenyal kami? Anda dipersilakan berkunjung langsung ke kios kami setiap hari. Tim kami siap merekomendasikan takaran dan bahan terbaik sesuai modal dan target pasar warung Anda.
+                </p>
+
+                <div className="space-y-3 pt-1">
+                  <div className="flex items-start gap-3">
+                    <div className="w-7 h-7 rounded-lg bg-[#540b13] text-white flex items-center justify-center shrink-0 text-xs font-bold">
+                      1
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-stone-900">Bisa Cicip &amp; Pilih Grade Bakso</p>
+                      <p className="text-[11px] text-stone-500">Tersedia bakso urat super, halus premium, hingga bakso kerikil hemat untuk jualan.</p>
+                    </div>
                   </div>
-                  <p className="text-sm text-gray-500 font-medium">Tersedia di berbagai pusat kuliner dan mitra resmi kami.</p>
+
+                  <div className="flex items-start gap-3">
+                    <div className="w-7 h-7 rounded-lg bg-[#540b13] text-white flex items-center justify-center shrink-0 text-xs font-bold">
+                      2
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-stone-900">Harga Khusus Mitra Jangka Panjang</p>
+                      <p className="text-[11px] text-stone-500">Dapatkan skema pasokan teratur harian dengan potongan harga grosir terbaik.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-2 flex items-center gap-3">
+                  <a
+                    href="https://maps.google.com/?q=Pasar+Kramat+Jati+Jakarta+Timur"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-5 py-2.5 rounded-xl bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs flex items-center gap-2 shadow-xs transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-base">near_me</span>
+                    <span>Buka Petunjuk Arah</span>
+                  </a>
+                  <a
+                    href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20mau%20mampir%20ke%20kios%20Pasar%20Kramat%20Jati"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2.5 rounded-xl border border-stone-300 text-stone-700 hover:bg-stone-50 font-bold text-xs flex items-center gap-1.5 transition-colors"
+                  >
+                    <span>Hubungi Kios</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= CARA PEMESANAN PRAKTIS ================= */}
+        <section className="py-14 bg-stone-900 text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-xl mx-auto mb-10">
+              <h2 className="text-2xl font-bold tracking-tight">4 Langkah Belanja Praktis</h2>
+              <p className="text-stone-400 text-xs mt-1">
+                Pesan online dari rumah, pesanan bahan baku sampai siap olah di hari yang sama.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="p-5 bg-stone-800/80 rounded-2xl border border-stone-700/60">
+                <span className="text-amber-400 font-extrabold text-sm font-mono">01</span>
+                <h3 className="text-sm font-bold text-white mt-2">Pilih Bahan Baku</h3>
+                <p className="text-xs text-stone-400 mt-1 leading-relaxed">
+                  Pilih varian bakso, mie segar, pangsit, atau saus botol sesuai kebutuhan.
+                </p>
+              </div>
+
+              <div className="p-5 bg-stone-800/80 rounded-2xl border border-stone-700/60">
+                <span className="text-amber-400 font-extrabold text-sm font-mono">02</span>
+                <h3 className="text-sm font-bold text-white mt-2">Atur Jumlah &amp; Alamat</h3>
+                <p className="text-xs text-stone-400 mt-1 leading-relaxed">
+                  Masukkan alamat kirim di Jabodetabek dan tentukan jadwal penerimaan.
+                </p>
+              </div>
+
+              <div className="p-5 bg-stone-800/80 rounded-2xl border border-stone-700/60">
+                <span className="text-amber-400 font-extrabold text-sm font-mono">03</span>
+                <h3 className="text-sm font-bold text-white mt-2">Bayar Instan QRIS / Transfer</h3>
+                <p className="text-xs text-stone-400 mt-1 leading-relaxed">
+                  Sistem pembayaran aman dengan verifikasi otomatis tanpa repot kirim bukti manual.
+                </p>
+              </div>
+
+              <div className="p-5 bg-stone-800/80 rounded-2xl border border-stone-700/60">
+                <span className="text-amber-400 font-extrabold text-sm font-mono">04</span>
+                <h3 className="text-sm font-bold text-white mt-2">Dikirim Dingin &amp; Segar</h3>
+                <p className="text-xs text-stone-400 mt-1 leading-relaxed">
+                  Kurir instan mengantar paket tersegel rapat untuk menjaga higienitas daging.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= REAL TESTIMONIALS ================= */}
+        <section className="py-16 bg-[#faf8f5]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-xl mx-auto mb-10">
+              <span className="text-xs font-bold text-[#540b13] uppercase tracking-wider">
+                Ulasan Nyata Pelanggan
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight mt-1">
+                Dipercaya Sejak Generasi Pertama
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="p-6 bg-white rounded-2xl border border-stone-200/80 shadow-xs flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="flex text-amber-500 text-xs">★★★★★</div>
+                  <p className="text-xs text-stone-600 leading-relaxed italic">
+                    &ldquo;Sudah 6 tahun berlangganan mie telor bebek dan bakso urat Pak Mul untuk gerobak mie ayam saya. Mie-nya kenyal tidak mudah putus kalau direbus, pelanggan selalu puji kuahnya mantap.&rdquo;
+                  </p>
+                </div>
+                <div className="pt-4 mt-4 border-t border-stone-100 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-[#540b13] text-amber-300 font-bold text-xs flex items-center justify-center">
+                    MB
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-stone-900">Mas Bambang</p>
+                    <p className="text-[11px] text-stone-500">Pemilik Mie Ayam Podomoro, Ciracas</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6 bg-white rounded-2xl border border-stone-200/80 shadow-xs flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="flex text-amber-500 text-xs">★★★★★</div>
+                  <p className="text-xs text-stone-600 leading-relaxed italic">
+                    &ldquo;Beli bakso halus buat acara arisan dan hajatan keluarga di rumah. Daging sapinya berasa banget, bukan cuma tepung. Pengiriman tepat waktu dan baksonya masih dingin beku segar.&rdquo;
+                  </p>
+                </div>
+                <div className="pt-4 mt-4 border-t border-stone-100 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-[#540b13] text-amber-300 font-bold text-xs flex items-center justify-center">
+                    IS
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-stone-900">Ibu Siti Rahma</p>
+                    <p className="text-[11px] text-stone-500">Ibu Rumah Tangga, Kramat Jati</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6 bg-white rounded-2xl border border-stone-200/80 shadow-xs flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="flex text-amber-500 text-xs">★★★★★</div>
+                  <p className="text-xs text-stone-600 leading-relaxed italic">
+                    &ldquo;Pesanan grosir untuk katering pabrik selalu aman. Kulit pangsitnya garing kalau digoreng, tidak banyak menyerap minyak. Pelayanan cepat dan responsif kalau ada pesanan mendadak.&rdquo;
+                  </p>
+                </div>
+                <div className="pt-4 mt-4 border-t border-stone-100 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-[#540b13] text-amber-300 font-bold text-xs flex items-center justify-center">
+                    KW
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-stone-900">Pak Hendra Wijaya</p>
+                    <p className="text-[11px] text-stone-500">Pengelola Katering Berkah Mandiri</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -408,22 +542,19 @@ export default function HomePage() {
         </section>
       </main>
 
-      {/* BEGIN: Footer */}
       <Footer />
-      {/* END: Footer */}
 
-      {/* Toast Notification */}
+      {/* Cart Notification Toast */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-gray-900/95 backdrop-blur text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3 border border-gray-700/50">
-          <span className="material-symbols-outlined text-green-400 text-2xl">check_circle</span>
-          <div>
-            <p className="text-xs font-bold text-white">Berhasil Masuk Keranjang!</p>
-            <p className="text-[11px] text-gray-300 max-w-xs truncate">{toastMessage}</p>
-          </div>
+        <div className="fixed bottom-20 md:bottom-8 right-6 z-50 bg-stone-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-2.5 text-xs font-medium border border-stone-700 animate-in fade-in slide-in-from-bottom-2">
+          <span className="material-symbols-outlined text-emerald-400 text-base">
+            check_circle
+          </span>
+          <span>{toastMessage} berhasil masuk keranjang</span>
         </div>
       )}
 
-      {/* Cart Sidebar */}
+      {/* Cart Sidebar Drawer */}
       <CartSidebar />
     </div>
   );

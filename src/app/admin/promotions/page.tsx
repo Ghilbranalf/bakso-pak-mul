@@ -3,19 +3,22 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import AdminSidebar from "@/components/AdminSidebar";
+import { useAdminTheme } from "@/context/AdminThemeContext";
 
 export default function AdminPromotionsPage() {
+  const { isDark } = useAdminTheme();
   const [promos, setPromos] = useState([
     {
       id: "promo-1",
       name: "Diskon Akhir Tahun Bakso Pak Mul",
       target: "Berlaku untuk: Semua Paket",
       type: "Diskon 20%",
-      typeBg: "bg-red-100 text-[#51000d]",
+      typeBg: "bg-amber-400/10 text-amber-400 border border-amber-400/20",
+      lightTypeBg: "bg-red-100 text-red-700 border border-red-200",
       duration: "15 Des - 01 Jan",
       status: "Aktif",
-      statusColor: "text-green-600",
-      dotColor: "bg-green-500",
+      statusColor: "text-emerald-500",
+      dotColor: "bg-emerald-500",
       performance: "1.2k Terpakai",
       percentage: 65,
     },
@@ -24,10 +27,11 @@ export default function AdminPromotionsPage() {
       name: "Spesial Kemitraan Reseller Baru",
       target: "Sasaran: Reseller Baru",
       type: "Potongan Rp 50rb",
-      typeBg: "bg-red-50 text-red-700 border border-red-200",
+      typeBg: "bg-white/5 text-white/60 border border-white/10",
+      lightTypeBg: "bg-gray-100 text-gray-700 border border-gray-200",
       duration: "05 Jan - 12 Jan",
       status: "Terjadwal",
-      statusColor: "text-gray-500",
+      statusColor: "text-gray-400",
       dotColor: "bg-gray-400",
       performance: "Belum Dimulai",
       percentage: 0,
@@ -37,11 +41,12 @@ export default function AdminPromotionsPage() {
       name: "Flash Deal Senin - Selasa",
       target: "Produk Pilihan",
       type: "Diskon 15%",
-      typeBg: "bg-red-100 text-[#51000d]",
+      typeBg: "bg-amber-400/10 text-amber-400 border border-amber-400/20",
+      lightTypeBg: "bg-red-100 text-red-700 border border-red-200",
       duration: "Mingguan",
       status: "Aktif",
-      statusColor: "text-green-600",
-      dotColor: "bg-green-500",
+      statusColor: "text-emerald-500",
+      dotColor: "bg-emerald-500",
       performance: "842 Terpakai",
       percentage: 40,
     },
@@ -64,11 +69,12 @@ export default function AdminPromotionsPage() {
         name: newPromo.name,
         target: "Berlaku untuk: Produk Pilihan",
         type: newPromo.value ? `Diskon ${newPromo.value}%` : "Penawaran Khusus",
-        typeBg: "bg-red-100 text-[#51000d]",
+        typeBg: "bg-amber-400/10 text-amber-400 border border-amber-400/20",
+        lightTypeBg: "bg-red-100 text-red-700 border border-red-200",
         duration: newPromo.duration || "Waktu Terbatas",
         status: "Aktif",
-        statusColor: "text-green-600",
-        dotColor: "bg-green-500",
+        statusColor: "text-emerald-500",
+        dotColor: "bg-emerald-500",
         performance: "0 Terpakai",
         percentage: 10,
       },
@@ -77,124 +83,128 @@ export default function AdminPromotionsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] text-[#1a1c1c] font-sans antialiased flex flex-col lg:flex-row">
-      <AdminSidebar activeMenu="promotions" />
+    <div className={`min-h-screen font-sans antialiased flex transition-colors ${
+      isDark ? "bg-[#0f0f0f] text-white" : "bg-[#f8f9fa] text-gray-900"
+    }`}>
+      <AdminSidebar />
 
       {/* Main Content Canvas */}
-      <main className="flex-1 w-full lg:ml-[260px] min-h-screen p-4 md:p-8 lg:p-10 pb-24 lg:pb-8 max-w-7xl">
+      <main className="flex-1 min-w-0 max-w-full overflow-x-hidden lg:ml-[240px] min-h-screen p-4 md:p-6 lg:p-8 pt-18 lg:pt-8 pb-32 lg:pb-8">
         {/* Top Bar / Header */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
           <div>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-[#51000d] tracking-tight">
-              Manajemen Promosi &amp; Diskon
-            </h2>
-            <p className="text-xs md:text-sm text-gray-500 font-medium mt-1">
+            <h1 className={`text-xl font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>Manajemen Promosi &amp; Diskon</h1>
+            <p className={`text-sm mt-0.5 ${isDark ? "text-white/40" : "text-gray-500"}`}>
               Kelola kampanye promosi, voucher, dan penawaran diskon kilat.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <button className="flex items-center gap-2 bg-white border border-gray-300 px-4 py-2.5 rounded-xl font-bold text-xs text-gray-700 hover:bg-gray-50 transition-all shadow-sm cursor-pointer">
-              <span className="material-symbols-outlined text-base">download</span>
+          <div className="flex items-center gap-2">
+            <button className={`flex items-center gap-2 px-4 py-2 border rounded-xl text-sm font-medium transition-all shadow-sm cursor-pointer ${
+              isDark ? "bg-[#1a1a1a] border-white/10 text-white/70 hover:border-white/20" : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
+            }`}>
+              <span className="material-symbols-outlined text-lg">download</span>
               <span>Unduh Laporan</span>
             </button>
             <a
               href="#new-promo-form"
-              className="bg-[#51000d] text-white px-6 py-2.5 rounded-xl font-bold text-xs hover:bg-[#7a0019] transition-all shadow-md active:scale-95 uppercase tracking-wider cursor-pointer"
+              className="bg-[#51000d] hover:bg-[#7a0019] text-white px-4 py-2 rounded-xl text-sm font-medium transition-all shadow-sm cursor-pointer"
             >
               + Buat Promo Baru
             </a>
           </div>
         </header>
 
-        {/* Bento Grid: Analytics & Active Promos */}
-        <div className="grid grid-cols-12 gap-6 mb-8">
+        {/* Analytics & Active Promos */}
+        <div className="grid grid-cols-12 gap-5 mb-6">
           {/* Quick Stats Cards */}
-          <div className="col-span-12 lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between">
+          <div className="col-span-12 lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className={`rounded-2xl p-5 border flex flex-col justify-between ${
+              isDark ? "bg-[#1a1a1a] border-white/5" : "bg-white border-gray-200/80 shadow-sm"
+            }`}>
               <div className="flex items-center justify-between">
-                <span className="p-3 bg-red-100 text-red-700 rounded-2xl">
-                  <span className="material-symbols-outlined text-xl">bolt</span>
+                <span className={`p-2.5 rounded-xl ${isDark ? "bg-amber-400/10 text-amber-400" : "bg-red-50 text-red-600"}`}>
+                  <span className="material-symbols-outlined text-lg">bolt</span>
                 </span>
-                <span className="text-green-600 font-bold text-xs">+12.5%</span>
+                <span className="text-emerald-500 font-medium text-xs">+12.5%</span>
               </div>
-              <div className="mt-4">
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Rata-rata Konversi</p>
-                <h3 className="text-2xl font-black text-gray-900 mt-1">18.4%</h3>
+              <div className="mt-3">
+                <p className={`text-xs font-medium ${isDark ? "text-white/40" : "text-gray-500"}`}>Rata-rata Konversi</p>
+                <h3 className={`text-xl font-semibold mt-1 ${isDark ? "text-white" : "text-gray-900"}`}>18.4%</h3>
               </div>
             </div>
 
-            <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between">
+            <div className={`rounded-2xl p-5 border flex flex-col justify-between ${
+              isDark ? "bg-[#1a1a1a] border-white/5" : "bg-white border-gray-200/80 shadow-sm"
+            }`}>
               <div className="flex items-center justify-between">
-                <span className="p-3 bg-red-50 text-[#51000d] rounded-2xl">
-                  <span className="material-symbols-outlined text-xl">payments</span>
+                <span className={`p-2.5 rounded-xl ${isDark ? "bg-white/5 text-white/60" : "bg-gray-100 text-gray-700"}`}>
+                  <span className="material-symbols-outlined text-lg">payments</span>
                 </span>
-                <span className="text-gray-400 font-bold text-xs">Bulan Ini</span>
+                <span className={`text-xs ${isDark ? "text-white/30" : "text-gray-400"}`}>Bulan Ini</span>
               </div>
-              <div className="mt-4">
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Diskon Diberikan</p>
-                <h3 className="text-2xl font-black text-gray-900 mt-1">Rp 4.2M</h3>
+              <div className="mt-3">
+                <p className={`text-xs font-medium ${isDark ? "text-white/40" : "text-gray-500"}`}>Total Diskon Diberikan</p>
+                <h3 className={`text-xl font-semibold mt-1 ${isDark ? "text-white" : "text-gray-900"}`}>Rp 4.200.000</h3>
               </div>
             </div>
 
-            <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between">
+            <div className={`rounded-2xl p-5 border flex flex-col justify-between ${
+              isDark ? "bg-[#1a1a1a] border-white/5" : "bg-white border-gray-200/80 shadow-sm"
+            }`}>
               <div className="flex items-center justify-between">
-                <span className="p-3 bg-gray-100 text-gray-700 rounded-2xl">
-                  <span className="material-symbols-outlined text-xl">calendar_today</span>
+                <span className={`p-2.5 rounded-xl ${isDark ? "bg-white/5 text-white/60" : "bg-gray-100 text-gray-700"}`}>
+                  <span className="material-symbols-outlined text-lg">calendar_today</span>
                 </span>
-                <span className="text-[#51000d] font-bold text-xs">Aktif</span>
+                <span className="text-amber-500 font-medium text-xs">Aktif</span>
               </div>
-              <div className="mt-4">
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Kampanye Terjadwal</p>
-                <h3 className="text-2xl font-black text-gray-900 mt-1">12</h3>
+              <div className="mt-3">
+                <p className={`text-xs font-medium ${isDark ? "text-white/40" : "text-gray-500"}`}>Kampanye Terjadwal</p>
+                <h3 className={`text-xl font-semibold mt-1 ${isDark ? "text-white" : "text-gray-900"}`}>12</h3>
               </div>
             </div>
           </div>
 
           {/* Promotion Preview Banner */}
           <div className="col-span-12 lg:col-span-4 row-span-2">
-            <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden h-full flex flex-col justify-between">
-              <div className="p-6 border-b border-gray-100">
-                <h4 className="text-sm font-bold text-[#51000d]">Pratinjau Tampilan Promo</h4>
-                <p className="text-xs text-gray-500 font-medium">Tampilan yang dilihat oleh pembeli</p>
+            <div className={`rounded-2xl border overflow-hidden h-full flex flex-col justify-between p-5 ${
+              isDark ? "bg-[#1a1a1a] border-white/5" : "bg-white border-gray-200/80 shadow-sm"
+            }`}>
+              <div>
+                <h4 className={`text-sm font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>Pratinjau Promo</h4>
+                <p className={`text-xs mt-0.5 ${isDark ? "text-white/40" : "text-gray-500"}`}>Tampilan di aplikasi pelanggan</p>
               </div>
 
-              <div className="p-6 flex flex-col gap-4">
-                <div className="relative w-full aspect-[4/5] rounded-3xl overflow-hidden group shadow-lg">
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#51000d]/90 to-transparent z-10"></div>
+              <div className="my-4">
+                <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden group border border-white/10">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10"></div>
                   <img
                     alt="Promo Preview"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover"
                     src="/images/Bakso Super Essem.png"
                   />
-                  <div className="absolute bottom-0 left-0 p-6 z-20 text-white w-full">
-                    <span className="bg-red-600 px-3 py-1 rounded-full text-[10px] font-extrabold mb-3 inline-block uppercase tracking-wider">
+                  <div className="absolute bottom-0 left-0 p-4 z-20 text-white w-full">
+                    <span className="bg-amber-400 text-gray-900 px-2.5 py-0.5 rounded-md text-[10px] font-semibold mb-1.5 inline-block uppercase tracking-wider">
                       Diskon Kilat
                     </span>
-                    <h3 className="text-xl font-extrabold mb-1 leading-tight">Bakso Super Essem Spesial</h3>
-                    <div className="flex items-end gap-2">
-                      <p className="text-lg font-black text-amber-300">DISKON 25%</p>
-                      <p className="text-xs text-white/70 line-through mb-0.5">Rp 100.000</p>
+                    <h3 className="text-sm font-semibold leading-tight">Bakso Super Essem Spesial</h3>
+                    <div className="flex items-center gap-2 mt-1">
+                      <p className="text-sm font-bold text-amber-400">DISKON 25%</p>
+                      <p className="text-xs text-white/50 line-through">Rp 100.000</p>
                     </div>
-                    <Link
-                      href="/produk"
-                      className="mt-4 w-full py-2.5 bg-white text-[#51000d] rounded-xl font-bold text-xs hover:bg-gray-100 transition-colors flex items-center justify-center cursor-pointer"
-                    >
-                      Pesan Grosir Sekarang
-                    </Link>
                   </div>
                 </div>
+              </div>
 
-                <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <span className="material-symbols-outlined text-red-600 text-sm">visibility</span>
-                    <p className="text-xs font-bold text-gray-700">
-                      Dilihat Pelanggan: <span className="text-gray-900 font-extrabold">12.4k</span>
-                    </p>
-                  </div>
-                  <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                    <div className="h-full bg-red-600 w-3/4 rounded-full"></div>
-                  </div>
+              <div className={`p-3 rounded-xl border text-xs ${
+                isDark ? "bg-white/4 border-white/6 text-white/40" : "bg-gray-50 border-gray-200 text-gray-600"
+              }`}>
+                <div className="flex items-center justify-between mb-1.5">
+                  <span>Estimasi Pelanggan:</span>
+                  <span className={`font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>12.4k pembeli</span>
+                </div>
+                <div className={`w-full h-1 rounded-full overflow-hidden ${isDark ? "bg-white/10" : "bg-gray-200"}`}>
+                  <div className="h-full bg-amber-400 w-3/4 rounded-full"></div>
                 </div>
               </div>
             </div>
@@ -202,46 +212,50 @@ export default function AdminPromotionsPage() {
 
           {/* Promotion Table */}
           <div className="col-span-12 lg:col-span-8">
-            <div className="bg-white rounded-3xl shadow-sm border border-gray-100">
-              <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-                <h4 className="text-base font-bold text-gray-900">Promosi Aktif &amp; Terjadwal</h4>
+            <div className={`rounded-2xl border overflow-hidden ${
+              isDark ? "bg-[#1a1a1a] border-white/5" : "bg-white border-gray-200/80 shadow-sm"
+            }`}>
+              <div className={`p-4 border-b ${isDark ? "border-white/5" : "border-gray-200"}`}>
+                <h4 className={`text-sm font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>Promosi Aktif &amp; Terjadwal</h4>
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
+                <table className="w-full text-left">
                   <thead>
-                    <tr className="bg-gray-50/80 border-b border-gray-200">
-                      <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Nama Promosi</th>
-                      <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Jenis Diskon</th>
-                      <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Durasi</th>
-                      <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Status</th>
-                      <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Performa</th>
+                    <tr className={`border-b ${isDark ? "border-white/5 bg-white/3 text-white/30" : "border-gray-200 bg-gray-50 text-gray-500"}`}>
+                      <th className="px-5 py-3 text-xs font-medium uppercase tracking-wide">Nama Promosi</th>
+                      <th className="px-5 py-3 text-xs font-medium uppercase tracking-wide">Jenis Diskon</th>
+                      <th className="px-5 py-3 text-xs font-medium uppercase tracking-wide">Durasi</th>
+                      <th className="px-5 py-3 text-xs font-medium uppercase tracking-wide">Status</th>
+                      <th className="px-5 py-3 text-xs font-medium uppercase tracking-wide">Performa</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className={`divide-y ${isDark ? "divide-white/3" : "divide-gray-100"}`}>
                     {promos.map((p) => (
-                      <tr key={p.id} className="hover:bg-gray-50/80 transition-colors">
-                        <td className="px-6 py-4">
-                          <div className="text-xs font-bold text-gray-900">{p.name}</div>
-                          <div className="text-[10px] font-medium text-gray-400">{p.target}</div>
+                      <tr key={p.id} className={`transition-colors ${isDark ? "hover:bg-white/3" : "hover:bg-gray-50"}`}>
+                        <td className="px-5 py-3.5">
+                          <div className={`text-xs font-medium ${isDark ? "text-white" : "text-gray-900"}`}>{p.name}</div>
+                          <div className={`text-[10px] mt-0.5 ${isDark ? "text-white/30" : "text-gray-400"}`}>{p.target}</div>
                         </td>
-                        <td className="px-6 py-4">
-                          <span className={`px-3 py-1 rounded-full text-[10px] font-extrabold ${p.typeBg}`}>
+                        <td className="px-5 py-3.5">
+                          <span className={`px-2.5 py-0.5 rounded-lg text-[10px] font-medium ${
+                            isDark ? p.typeBg : p.lightTypeBg
+                          }`}>
                             {p.type}
                           </span>
                         </td>
-                        <td className="px-6 py-4 text-xs font-medium text-gray-700">{p.duration}</td>
-                        <td className="px-6 py-4">
-                          <span className={`flex items-center gap-1.5 text-xs font-bold ${p.statusColor}`}>
-                            <span className={`w-2 h-2 rounded-full ${p.dotColor}`}></span>
+                        <td className={`px-5 py-3.5 text-xs ${isDark ? "text-white/50" : "text-gray-600"}`}>{p.duration}</td>
+                        <td className="px-5 py-3.5">
+                          <span className={`flex items-center gap-1.5 text-xs font-medium ${p.statusColor}`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${p.dotColor}`}></span>
                             {p.status}
                           </span>
                         </td>
-                        <td className="px-6 py-4">
-                          <div className="text-xs font-bold text-gray-900">{p.performance}</div>
+                        <td className="px-5 py-3.5">
+                          <div className={`text-xs ${isDark ? "text-white/70" : "text-gray-700"}`}>{p.performance}</div>
                           {p.percentage > 0 && (
-                            <div className="w-24 h-1 bg-gray-100 rounded-full overflow-hidden mt-1">
-                              <div className="bg-red-600 h-full" style={{ width: `${p.percentage}%` }}></div>
+                            <div className={`w-20 h-1 rounded-full overflow-hidden mt-1 ${isDark ? "bg-white/10" : "bg-gray-200"}`}>
+                              <div className="bg-amber-400 h-full" style={{ width: `${p.percentage}%` }}></div>
                             </div>
                           )}
                         </td>
@@ -255,26 +269,32 @@ export default function AdminPromotionsPage() {
         </div>
 
         {/* Form: Create New Promo */}
-        <section id="new-promo-form" className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 md:p-8">
-          <h3 className="text-lg font-bold text-[#51000d] mb-4">Buat Kampanye / Promo Baru</h3>
+        <section id="new-promo-form" className={`rounded-2xl border p-5 md:p-6 ${
+          isDark ? "bg-[#1a1a1a] border-white/5" : "bg-white border-gray-200/80 shadow-sm"
+        }`}>
+          <h3 className={`text-sm font-semibold mb-4 ${isDark ? "text-white" : "text-gray-900"}`}>Buat Kampanye / Promo Baru</h3>
           <form onSubmit={handleCreatePromo} className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <label className="block text-xs font-bold text-gray-700 mb-1">Nama Promo</label>
+              <label className={`block text-xs font-medium mb-1 ${isDark ? "text-white/50" : "text-gray-600"}`}>Nama Promo</label>
               <input
                 type="text"
                 required
                 value={newPromo.name}
                 onChange={(e) => setNewPromo({ ...newPromo, name: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-xs font-bold text-gray-900 focus:border-[#51000d]"
+                className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none ${
+                  isDark ? "bg-white/5 border-white/10 text-white placeholder-white/20 focus:border-white/20" : "bg-gray-50 border-gray-200 text-gray-900 focus:border-[#51000d]"
+                }`}
                 placeholder="Misal: Promo Menyambut Ramadhan"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-gray-700 mb-1">Jenis Potongan</label>
+              <label className={`block text-xs font-medium mb-1 ${isDark ? "text-white/50" : "text-gray-600"}`}>Jenis Potongan</label>
               <select
                 value={newPromo.type}
                 onChange={(e) => setNewPromo({ ...newPromo, type: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-xs font-bold text-gray-900 focus:border-[#51000d]"
+                className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none cursor-pointer ${
+                  isDark ? "bg-[#141414] border-white/10 text-white" : "bg-gray-50 border-gray-200 text-gray-900 focus:border-[#51000d]"
+                }`}
               >
                 <option>Diskon Persentase</option>
                 <option>Potongan Harga Tetap</option>
@@ -282,19 +302,21 @@ export default function AdminPromotionsPage() {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-bold text-gray-700 mb-1">Nilai Diskon (%)</label>
+              <label className={`block text-xs font-medium mb-1 ${isDark ? "text-white/50" : "text-gray-600"}`}>Nilai Diskon (%)</label>
               <input
                 type="number"
                 value={newPromo.value}
                 onChange={(e) => setNewPromo({ ...newPromo, value: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-xs font-bold text-gray-900 focus:border-[#51000d]"
+                className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none ${
+                  isDark ? "bg-white/5 border-white/10 text-white placeholder-white/20 focus:border-white/20" : "bg-gray-50 border-gray-200 text-gray-900 focus:border-[#51000d]"
+                }`}
                 placeholder="Misal: 20"
               />
             </div>
             <div className="flex items-end">
               <button
                 type="submit"
-                className="w-full py-2.5 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl font-bold text-xs shadow-md uppercase tracking-wider cursor-pointer"
+                className="w-full py-2.5 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-medium shadow-sm transition-colors cursor-pointer"
               >
                 Simpan Promo
               </button>

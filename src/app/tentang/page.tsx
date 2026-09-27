@@ -17,8 +17,7 @@ export default function AboutPage() {
           <div
             className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage:
-                "url('https://lh3.googleusercontent.com/aida-public/AB6AXuC2n7UvwKbPxin6tf5dP1vUosePWrTyzYkpG8waUemeNETCOs3A96JPvJNAqH_MMnWQe0WjI7sr0SkOVlT1GVzhGwcds5bJUNaCpbGmjQMq_ABDcw3lzTN5Of-yioLxd4GNcpPNHJKHPLBDfjNJkRQrIsFGQLRuYnmfMwmYiTcMWg8OclwrVUJ7p-g134PBmk1GwycF8yPV4RTShY-SCLyiOU85OcelE-a2we1ilTNiV1NdQJgUvAc0hyClXX2Tett1qwwfRhBeZtca')",
+              backgroundImage: "url('/images/hero-banner.webp')",
             }}
           ></div>
           <div className="absolute inset-0 bg-[#51000d]/60 backdrop-blur-[2px] z-10"></div>

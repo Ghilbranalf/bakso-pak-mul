@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { login, loginWithGoogle } from '../auth/actions'
 import Navbar from '@/components/Navbar'
+import BrandLogo from '@/components/BrandLogo'
 
 export default async function LoginPage(props: {
   searchParams: Promise<{ message?: string, redirectTo?: string }>
@@ -16,23 +17,19 @@ export default async function LoginPage(props: {
           <div 
             className="absolute inset-0 z-0 scale-105" 
             style={{
-              backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBbBv-Z2fFWVzqZLykwzH3RjoyKXMfQIlMEeUxaDF7KNz6WFlxdNgVdfLcWxZdmNCqN5ZcwddtaOEvq9c5g7-4b2vtviRpMZesPoVZA6BhB6yd6AJLLET1Gk7ENtLmkiiS4TQRksh4YxEuxPMZJxi5zKq4ejINzUGiPDnayhTqaWqrJAY299qSP9Q0ihspjNrka03DUcLJ0aMGIq8E10pyJjjntUj8DdD2g1YbNbE54qDhX72dgvHbZdJp9N6w4SpQIhnPRp-MR_xsr')",
+              backgroundImage: "url('/images/hero-banner.webp')",
               backgroundSize: 'cover', 
               backgroundPosition: 'center'
             }}
           ></div>
           {/* Branding Overlay */}
-          <div className="absolute inset-0 z-10 visual-gradient"></div>
+          <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#540b13] via-[#540b13]/85 to-[#3a050b]/90"></div>
           <div className="relative z-20 p-12 text-center max-w-lg flex flex-col items-center">
-            <div className="mb-12">
-              <img 
-                alt="Bakso Pak Mul Logo" 
-                className="w-32 h-32 object-contain rounded-2xl bg-white p-4 shadow-2xl" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1WjveNTS26Sz799h188fbaVtINKX9F305Sa__ErqVHojeE_eLl_3Y5xcwHxF30MLpOpou9MrCt46iG7_vaFRYF7gGq88RiWM4yT2j6eAYYl6-RSfw7Su2LSCbrT3b2LdSe108wZYUr53tXJTlgbNOggMaqdUKPkO-hWBUV90WKu7APoIeXxlIdr28JIF9SZgfDdLP1YNJTOAmAlmOMoZ5ahP5vSQGElqIUHvmfjsAOCqAL4ykThYhpRyiB4ltNY3DnSAHNQaXqRgY" 
-              />
+            <div className="mb-8">
+              <BrandLogo variant="light" size="lg" />
             </div>
-            <h1 className="text-4xl lg:text-5xl text-white mb-6 leading-tight font-bold">Selamat Datang Kembali</h1>
-            <p className="text-lg text-white/90 leading-relaxed mb-10 max-w-md">Masuk untuk melanjutkan pengalaman berbelanja Anda dan nikmati promo menarik hari ini.</p>
+            <h1 className="text-3xl lg:text-4xl text-white mb-4 leading-tight font-extrabold">Selamat Datang Kembali</h1>
+            <p className="text-sm text-white/80 leading-relaxed mb-6 max-w-md">Masuk untuk melanjutkan belanja bahan baku bakso &amp; mie ayam pilihan, cek transaksi, dan promo kemitraan.</p>
           </div>
         </div>
 
@@ -40,16 +37,9 @@ export default async function LoginPage(props: {
         <div className="w-full lg:w-7/12 flex items-center justify-center p-6 md:p-12 lg:p-20 bg-surface-white">
           <div className="w-full max-w-[440px]">
             {/* Mobile Header */}
-            <div className="lg:hidden mb-10 flex items-center gap-4">
-              <img 
-                alt="Logo" 
-                className="w-14 h-14 rounded-xl shadow-md bg-white p-1" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1WjveNTS26Sz799h188fbaVtINKX9F305Sa__ErqVHojeE_eLl_3Y5xcwHxF30MLpOpou9MrCt46iG7_vaFRYF7gGq88RiWM4yT2j6eAYYl6-RSfw7Su2LSCbrT3b2LdSe108wZYUr53tXJTlgbNOggMaqdUKPkO-hWBUV90WKu7APoIeXxlIdr28JIF9SZgfDdLP1YNJTOAmAlmOMoZ5ahP5vSQGElqIUHvmfjsAOCqAL4ykThYhpRyiB4ltNY3DnSAHNQaXqRgY" 
-              />
-              <div>
-                <h2 className="text-2xl text-primary font-bold">Bakso Pak Mul</h2>
-                <p className="text-sm text-on-surface-variant">Masuk ke akun anda</p>
-              </div>
+            <div className="lg:hidden mb-8">
+              <BrandLogo variant="dark" size="md" />
+              <p className="text-xs text-stone-500 mt-2">Masuk ke akun pelanggan</p>
             </div>
 
             <div className="mb-10 hidden lg:block">

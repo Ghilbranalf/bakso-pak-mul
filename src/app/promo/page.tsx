@@ -124,7 +124,7 @@ export default function PromoPage() {
                   <img
                     alt="Starter Pack Reseller"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoX-arp4bMRYjeWZDsDPpodqYPQny1Hz8uG5WOQVHdbY0hccg8MFOdrRnVef0tfc4zyzbzhTj4ycc_qayrHxqZ1cq0RU86396zEbJwN0klJ6u7-T9dw7uZYnO7o2337fRPxrekKawV5hWdqX2lAbd6kRWiykc3Yn8ELQuRaZeZj9IDPEKEPqJtwIeWpvvZFEASGW0nEgr7pS24bg2yIUMSUeDZKcdh0QcsSMcqTX3b_MTWDa1dc_lwF3CQIV7F7Efp3aTqBbYiIpUr"
+                    src="/images/hero-banner.webp"
                   />
                 </div>
               </div>
@@ -160,8 +160,7 @@ export default function PromoPage() {
                       id: "promo-bundle-starter",
                       name: "Starter Pack Reseller (10kg Bakso + Bumbu + Mie)",
                       price: 1250000,
-                      image:
-                        "https://lh3.googleusercontent.com/aida-public/AB6AXuDoX-arp4bMRYjeWZDsDPpodqYPQny1Hz8uG5WOQVHdbY0hccg8MFOdrRnVef0tfc4zyzbzhTj4ycc_qayrHxqZ1cq0RU86396zEbJwN0klJ6u7-T9dw7uZYnO7o2337fRPxrekKawV5hWdqX2lAbd6kRWiykc3Yn8ELQuRaZeZj9IDPEKEPqJtwIeWpvvZFEASGW0nEgr7pS24bg2yIUMSUeDZKcdh0QcsSMcqTX3b_MTWDa1dc_lwF3CQIV7F7Efp3aTqBbYiIpUr",
+                      image: "/images/hero-banner.webp",
                       unit: "Paket Bundle",
                     })
                   }
@@ -230,7 +229,7 @@ export default function PromoPage() {
                   <img
                     alt="Bakso Urat Premium"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUR9JA1gd8ajCL_fHNvSed-zqiSNDRsOrhoz5taMJSP1ngynzlz3ovvx9hAN0A_cSMNduuNL56UoKuAgnsaChFnbS9awO69K8-PzihGIQt9MqCJ3D3t78Qg6NP5xn58aS6nun6nYs8y0zer4Y-voWIETzrqz3M8G0RV5mDLbI8I87pLhmX-AMZydMAAFh-T-PDGm4cB5b88KAG1vn8XAyTRHFZqlMeGeYJYcLhYZzPIO7pFDaAeXcEI9BOGezXRXuLUJjwj3gRjggK"
+                    src="/images/bakso-super-essem.webp"
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
@@ -258,8 +257,7 @@ export default function PromoPage() {
                         id: "promo-urat-1kg",
                         name: "Bakso Urat Premium (1kg)",
                         price: 71250,
-                        image:
-                          "https://lh3.googleusercontent.com/aida-public/AB6AXuAUR9JA1gd8ajCL_fHNvSed-zqiSNDRsOrhoz5taMJSP1ngynzlz3ovvx9hAN0A_cSMNduuNL56UoKuAgnsaChFnbS9awO69K8-PzihGIQt9MqCJ3D3t78Qg6NP5xn58aS6nun6nYs8y0zer4Y-voWIETzrqz3M8G0RV5mDLbI8I87pLhmX-AMZydMAAFh-T-PDGm4cB5b88KAG1vn8XAyTRHFZqlMeGeYJYcLhYZzPIO7pFDaAeXcEI9BOGezXRXuLUJjwj3gRjggK",
+                        image: "/images/bakso-super-essem.webp",
                         unit: "1 Pack (1kg)",
                       })
                     }
@@ -283,7 +281,7 @@ export default function PromoPage() {
                   <img
                     alt="Pangsit Goreng"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDqRZte42PArt1MKvkT1G0lbJeTyZeJhqC0v_DdmWeYGOsNKa-vlS1apjV6fJq7MzL0Dn7NoIWYtGQa3sx6dgfqaGGMd0xs0qadzhoKuOQ6QFh80dZcaymkRPhRN9Oa9u5V-A37s5Y9F28T3cdYV9V-Rz5c3VJiHYBRL5f42I1CV-Wuk1lKcJK9HxhKHGAKIhIDugSwL1WOTk0mpzal4FE7dPDklsH4RLAU99ectwXJDz_mEWG9l9UoMy3ojayu-TD6M1a_43N8k0d"
+                    src="/images/kulit-pangsit-spesial-rebus-dan-goreng.webp"
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
@@ -311,8 +309,7 @@ export default function PromoPage() {
                         id: "promo-pangsit-1pack",
                         name: "Pangsit Goreng (1 Pack)",
                         price: 38250,
-                        image:
-                          "https://lh3.googleusercontent.com/aida-public/AB6AXuBDqRZte42PArt1MKvkT1G0lbJeTyZeJhqC0v_DdmWeYGOsNKa-vlS1apjV6fJq7MzL0Dn7NoIWYtGQa3sx6dgfqaGGMd0xs0qadzhoKuOQ6QFh80dZcaymkRPhRN9Oa9u5V-A37s5Y9F28T3cdYV9V-Rz5c3VJiHYBRL5f42I1CV-Wuk1lKcJK9HxhKHGAKIhIDugSwL1WOTk0mpzal4FE7dPDklsH4RLAU99ectwXJDz_mEWG9l9UoMy3ojayu-TD6M1a_43N8k0d",
+                        image: "/images/kulit-pangsit-spesial-rebus-dan-goreng.webp",
                         unit: "1 Pack",
                       })
                     }
@@ -336,7 +333,7 @@ export default function PromoPage() {
                   <img
                     alt="Saos Sambal Premium"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6iAd0IleYbg85qQHqe4CRhOgKEAOA0M6KR_n1mJ8Mk-3kCw-CPaOcMYxvvg-7HxIFWAQH4wxpgbQoAd0eFQBMJ0X7EqKsgc3JUtJnS2g1WZRX5P0gliN-HBPzAj6iIioZ8149MkY8kIFoFl7PqBTFxLC1hirTz_wvQVoqbUYnY3rgunXg9qHMkiHFQf4vZrOoZs8XZ3kNF4uXhajgV9yK611SfcSjlDZooKbAf63VqkA0TqU3sAEdhZnvXJerx-mFhaM-Z7fD4NN7"
+                    src="/images/saos-sambal-botol-lima-delapan.webp"
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
@@ -364,8 +361,7 @@ export default function PromoPage() {
                         id: "promo-saos-botol",
                         name: "Saos Sambal Premium Pak Mul",
                         price: 20000,
-                        image:
-                          "https://lh3.googleusercontent.com/aida-public/AB6AXuC6iAd0IleYbg85qQHqe4CRhOgKEAOA0M6KR_n1mJ8Mk-3kCw-CPaOcMYxvvg-7HxIFWAQH4wxpgbQoAd0eFQBMJ0X7EqKsgc3JUtJnS2g1WZRX5P0gliN-HBPzAj6iIioZ8149MkY8kIFoFl7PqBTFxLC1hirTz_wvQVoqbUYnY3rgunXg9qHMkiHFQf4vZrOoZs8XZ3kNF4uXhajgV9yK611SfcSjlDZooKbAf63VqkA0TqU3sAEdhZnvXJerx-mFhaM-Z7fD4NN7",
+                        image: "/images/saos-sambal-botol-lima-delapan.webp",
                         unit: "1 Botol",
                       })
                     }
@@ -432,12 +428,8 @@ export default function PromoPage() {
               <div className="relative">
                 <div className="bg-white rounded-[32px] p-8 md:p-10 text-gray-900 shadow-2xl">
                   <div className="flex flex-col items-center text-center">
-                    <div className="w-24 h-24 rounded-full border-4 border-[#51000d] p-1.5 mb-4 shadow-sm">
-                      <img
-                        alt="Brand Identity"
-                        className="w-full h-full rounded-full object-cover"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXTmhL2w6_W8ZADyXKtfLuz92Csu6aExtN1WGj-cX25J-iB2Y_lWSV5tZc2wy3cJGEqL9ESadN-QfHNWr5hHjeS7zXYVURkjDdS9gf5WXPUlLQsfT34aCeTkAQsd6wPauSRp1fJFOtDy3Vp6DDOzmbWHeJML731dY9qWOf1j3XTV8RNYA4XGzah44y_q6khcXQPvTQYUdEBUOmTdORXIZzW0ej0rmwyNi7vGpKzsYhkvk9F-0iqwU9Yom9kEF2vkRqDJlnrtuxijIY"
-                      />
+                    <div className="w-20 h-20 rounded-full border-4 border-[#51000d] p-1.5 mb-4 shadow-sm flex items-center justify-center bg-amber-400 text-[#51000d]">
+                      <span className="material-symbols-outlined text-4xl">loyalty</span>
                     </div>
                     <h3 className="text-[#51000d] font-extrabold text-2xl mb-1">Check Your Rewards</h3>
                     <p className="text-gray-500 text-xs mb-8 font-medium">Login untuk melihat status poin dan penawaran khusus Anda.</p>

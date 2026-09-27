@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 interface Message {
   sender: "user" | "bot";
@@ -9,7 +10,13 @@ interface Message {
 }
 
 export default function WhatsAppButton() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Hide customer WhatsApp CS chatbot on admin routes
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: "bot",
@@ -25,7 +32,7 @@ export default function WhatsAppButton() {
     setMessages([
       {
         sender: "bot",
-        text: "Halo! 👋 Selamat datang di Bakso Pak Mul. Ada yang bisa saya bantu seputar bahan bakso, mie ayam, ongkir, atau cara pemesanan?",
+        text: "Halo! 👋 Selamat datang di Bakso Pak Mul Kramat Jati. Ada yang bisa kami bantu seputar stok bahan bakso, mie ayam, ongkir, atau grosir?",
         time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       },
     ]);
@@ -110,10 +117,10 @@ export default function WhatsAppButton() {
                 <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 border-2 border-white rounded-full"></span>
               </div>
               <div>
-                <h3 className="text-sm font-black tracking-tight">AI CS Bakso Pak Mul</h3>
+                <h3 className="text-sm font-bold tracking-tight">Layanan Pelanggan</h3>
                 <p className="text-[10px] text-amber-200 font-medium flex items-center gap-1">
                   <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
-                  Online 24/7 • Responsif
+                  Kios Kramat Jati • Siap Melayani
                 </p>
               </div>
             </div>

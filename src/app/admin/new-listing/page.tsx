@@ -10,7 +10,7 @@ export default function NewListingPage() {
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-[#F8F9FA] text-[#1A1C1C] font-sans antialiased">
-      <AdminSidebar activeMenu="inventory" />
+      <AdminSidebar />
 
       <main className="flex-1 w-full lg:ml-[260px] flex flex-col pb-24 lg:pb-8">
 
@@ -110,7 +110,7 @@ export default function NewListingPage() {
                 
                 <div className="mt-6 grid grid-cols-3 gap-2">
                   <div className="aspect-square bg-gray-100 rounded-xl flex items-center justify-center relative overflow-hidden group">
-                    <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs9WIldqyPpMnXrDmnbHk7nwmZfSisXF3IOTt7VnLyC7b4XdZ5I1k3-484lqGA6ntPoG7Mzq_3FgGEbvh2TXCIRSCXZeBheSaIP5ex2fqFJjxqqHiVX4od-P5ee5V4I52VBa8iUw7xvpv0zge8wIhaWCdp03ub7nJrblSNCOHAONv6OUkLu8JtWs2jaqbXbLnJcHfpUEnwc4b4Q3i6sQ-4v1hJ9bP8Qn19nZ5jh3uODsItU7uYvWnlcUWfAMkgBqYOzEYJZa0QzPIB" alt="Uploaded Product" />
+                    <img className="w-full h-full object-cover" src="/images/bakso-citra-rasa-premium.webp" alt="Uploaded Product" />
                     <button className="absolute top-1 right-1 bg-white/80 p-1 rounded-full text-red-600 opacity-0 group-hover:opacity-100 transition-opacity">
                       <span className="material-symbols-outlined text-sm">close</span>
                     </button>

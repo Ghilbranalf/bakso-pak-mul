@@ -1,118 +1,312 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAdminTheme } from "@/context/AdminThemeContext";
+import BrandLogo from "@/components/BrandLogo";
 
-interface AdminSidebarProps {
-  activeMenu?: string;
-}
-
-export default function AdminSidebar({ activeMenu }: AdminSidebarProps = {}) {
+export default function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [pendingCount, setPendingCount] = useState(0);
+  const { isDark, toggleTheme } = useAdminTheme();
+
+  useEffect(() => {
+    const fetchPending = async () => {
+      try {
+        const res = await fetch("/api/orders");
+        const data = await res.json();
+        if (data.orders) {
+          const pending = data.orders.filter(
+            (o: any) =>
+              o.status !== "COMPLETED" &&
+              o.status !== "PAID" &&
+              o.status !== "CANCELED" &&
+              o.status !== "CANCELLED"
+          ).length;
+          setPendingCount(pending);
+        }
+      } catch (_) {}
+    };
+    fetchPending();
+    const interval = setInterval(fetchPending, 15000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const { createClient } = await import("@/utils/supabase/client");
+      const supabase = createClient();
+      await supabase.auth.signOut();
+    } catch (_) {}
+    localStorage.removeItem("user");
+    router.push("/admin/login");
+  };
 
   const navItems = [
-    { id: "dashboard", name: "Dashboard", href: "/admin", icon: "dashboard" },
-    { id: "inventory", name: "Stok & Produk", href: "/admin/inventory", icon: "inventory_2" },
-    { id: "orders", name: "Pesanan Masuk", href: "/admin/orders", icon: "receipt_long" },
-    { id: "promotions", name: "Promosi & Diskon", href: "/admin/promotions", icon: "campaign" },
-    { id: "settings", name: "Pengaturan Store", href: "/admin/settings", icon: "tune" },
+    { id: "dashboard", label: "Ringkasan", href: "/admin", icon: "dashboard" },
+    {
+      id: "orders",
+      label: "Pesanan Masuk",
+      href: "/admin/orders",
+      icon: "receipt_long",
+      badge: pendingCount,
+    },
+    {
+      id: "inventory",
+      label: "Stok Produk",
+      href: "/admin/inventory",
+      icon: "inventory_2",
+    },
+    {
+      id: "promotions",
+      label: "Promo & Kupon",
+      href: "/admin/promotions",
+      icon: "campaign",
+    },
+    {
+      id: "settings",
+      label: "Pengaturan",
+      href: "/admin/settings",
+      icon: "tune",
+    },
   ];
 
   return (
     <>
-      {/* ==================== DESKTOP SIDEBAR (>= lg) ==================== */}
-      <aside className="hidden lg:flex fixed left-0 top-0 h-full w-[260px] bg-gradient-to-b from-[#3d000a] via-[#51000d] to-[#2c0007] text-white flex-col py-6 z-40 shadow-[4px_0_24px_rgba(0,0,0,0.12)] border-r border-amber-500/10">
-        {/* Brand Identity */}
-        <Link href="/" className="px-6 mb-8 flex items-center gap-3 group">
-          <div className="w-11 h-11 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl flex items-center justify-center text-[#51000d] shadow-lg shadow-amber-500/20 transition-transform group-hover:scale-105">
-            <span className="material-symbols-outlined text-2xl font-bold">restaurant_menu</span>
-          </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <h1 className="text-base font-black tracking-tight text-white">Bakso Pak Mul</h1>
+      {/* ====== DESKTOP SIDEBAR (>= lg) ====== */}
+      <aside
+        className={`hidden lg:flex fixed left-0 top-0 h-full w-[240px] flex-col py-5 z-40 transition-colors select-none ${
+          isDark
+            ? "bg-[#121214] text-stone-200 border-r border-stone-800"
+            : "bg-white text-stone-800 border-r border-stone-200 shadow-2xs"
+        }`}
+      >
+        {/* Brand */}
+        <div className="px-5 mb-6">
+          <Link href="/admin" className="block group">
+            <BrandLogo
+              variant={isDark ? "light" : "dark"}
+              size="sm"
+              withSubtitle={false}
+            />
+            <div className="flex items-center gap-1.5 mt-2 pl-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span
+                className={`text-[10px] font-bold uppercase tracking-wider ${
+                  isDark ? "text-stone-400" : "text-stone-500"
+                }`}
+              >
+                Panel Operasional
+              </span>
             </div>
-            <span className="text-[10px] font-bold text-amber-300 uppercase tracking-widest block -mt-0.5">
-              Executive Portal
-            </span>
-          </div>
-        </Link>
+          </Link>
+        </div>
 
-        {/* Navigation Links */}
-        <nav className="flex-1 space-y-2 overflow-y-auto px-4">
+        {/* Navigation */}
+        <nav className="flex-1 px-3 space-y-1 overflow-y-auto">
+          <div
+            className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider ${
+              isDark ? "text-stone-500" : "text-stone-400"
+            }`}
+          >
+            Menu Utama
+          </div>
           {navItems.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive =
+              item.href === "/admin"
+                ? pathname === "/admin"
+                : pathname.startsWith(item.href);
+
             return (
               <Link
                 key={item.id}
                 href={item.href}
-                className={`flex items-center gap-3.5 w-full px-4 py-3 rounded-2xl text-xs font-bold transition-all duration-200 ${
+                className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-xs font-semibold transition-all ${
                   isActive
-                    ? "bg-gradient-to-r from-amber-400 to-amber-500 text-[#51000d] font-black shadow-lg shadow-amber-500/25 translate-x-1"
-                    : "text-amber-100/70 hover:bg-white/10 hover:text-white"
+                    ? isDark
+                      ? "bg-stone-800 text-white shadow-2xs ring-1 ring-stone-700"
+                      : "bg-[#540b13] text-white shadow-xs"
+                    : isDark
+                    ? "text-stone-400 hover:bg-stone-800/60 hover:text-stone-200"
+                    : "text-stone-600 hover:bg-stone-100 hover:text-stone-900"
                 }`}
               >
-                <span className={`material-symbols-outlined text-xl ${isActive ? "text-[#51000d]" : "text-amber-300/80"}`}>
+                <span
+                  className={`material-symbols-outlined text-[19px] ${
+                    isActive
+                      ? isDark
+                        ? "text-amber-400"
+                        : "text-amber-300"
+                      : isDark
+                      ? "text-stone-400"
+                      : "text-stone-500"
+                  }`}
+                >
                   {item.icon}
                 </span>
-                <span>{item.name}</span>
+                <span className="flex-1">{item.label}</span>
+                {item.badge != null && item.badge > 0 && (
+                  <span
+                    className={`min-w-[18px] h-[18px] px-1.5 rounded-full text-[10px] font-extrabold flex items-center justify-center ${
+                      isActive
+                        ? "bg-amber-400 text-stone-900"
+                        : "bg-amber-500/20 text-amber-500"
+                    }`}
+                  >
+                    {item.badge > 99 ? "99+" : item.badge}
+                  </span>
+                )}
               </Link>
             );
           })}
         </nav>
 
-        {/* CTA Action */}
-        <div className="px-4 mt-4">
-          <Link
-            href="/admin/inventory"
-            className="w-full py-3.5 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400 hover:brightness-110 text-[#51000d] rounded-2xl text-xs font-black shadow-lg shadow-amber-500/20 active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wider"
+        {/* Footer Actions */}
+        <div
+          className={`px-3 mt-auto pt-4 border-t space-y-1.5 ${
+            isDark ? "border-stone-800" : "border-stone-200"
+          }`}
+        >
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium border transition-colors cursor-pointer ${
+              isDark
+                ? "bg-stone-800/50 border-stone-700 text-stone-300 hover:bg-stone-800"
+                : "bg-stone-50 border-stone-200 text-stone-700 hover:bg-stone-100"
+            }`}
+            title="Ganti Mode Tampilan"
           >
-            <span className="material-symbols-outlined text-lg">add_circle</span>
-            <span>Tambah Produk</span>
-          </Link>
-        </div>
+            <div className="flex items-center gap-2">
+              <span className="material-symbols-outlined text-base text-amber-500">
+                {isDark ? "dark_mode" : "light_mode"}
+              </span>
+              <span>{isDark ? "Tema Gelap" : "Tema Terang"}</span>
+            </div>
+            <span
+              className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                isDark ? "bg-stone-700 text-stone-300" : "bg-stone-200 text-stone-700"
+              }`}
+            >
+              {isDark ? "Dark" : "Light"}
+            </span>
+          </button>
 
-        {/* Footer */}
-        <div className="px-4 mt-auto pt-4 border-t border-white/10 space-y-1">
+          {/* Quick CS */}
           <a
             href="https://wa.me/6281298980252"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 px-4 py-2.5 text-amber-200/70 hover:text-white hover:bg-white/10 rounded-xl text-xs font-semibold transition-all"
+            className={`flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-xl transition-colors ${
+              isDark
+                ? "text-stone-400 hover:text-stone-200 hover:bg-stone-800/50"
+                : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
+            }`}
           >
-            <span className="material-symbols-outlined text-lg text-amber-400">help</span>
-            <span>Bantuan CS</span>
+            <span className="material-symbols-outlined text-base">support_agent</span>
+            <span>Bantuan CS Warung</span>
           </a>
-          <Link
-            href="/"
-            className="flex items-center gap-3 px-4 py-2.5 text-rose-300 hover:text-rose-100 hover:bg-rose-500/20 rounded-xl text-xs font-semibold transition-all"
+
+          {/* Logout */}
+          <button
+            onClick={handleLogout}
+            className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-xl transition-colors text-rose-500 hover:bg-rose-500/10 cursor-pointer`}
           >
-            <span className="material-symbols-outlined text-lg">logout</span>
-            <span>Keluar Admin</span>
-          </Link>
+            <span className="material-symbols-outlined text-base">logout</span>
+            <span>Keluar Akun</span>
+          </button>
         </div>
       </aside>
 
+      {/* ====== MOBILE TOP BAR (< lg) ====== */}
+      <header
+        className={`lg:hidden fixed top-0 left-0 right-0 z-40 h-14 px-4 flex items-center justify-between backdrop-blur-md transition-colors ${
+          isDark
+            ? "bg-[#121214]/95 border-b border-stone-800"
+            : "bg-white/95 border-b border-stone-200 shadow-2xs"
+        }`}
+      >
+        <Link href="/admin" className="flex items-center gap-2">
+          <BrandLogo
+            variant={isDark ? "light" : "dark"}
+            size="sm"
+            withSubtitle={false}
+          />
+        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleTheme}
+            className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors cursor-pointer border ${
+              isDark
+                ? "bg-stone-800 border-stone-700 text-amber-400"
+                : "bg-stone-100 border-stone-200 text-stone-700"
+            }`}
+            title="Ubah Tema"
+          >
+            <span className="material-symbols-outlined text-base">
+              {isDark ? "light_mode" : "dark_mode"}
+            </span>
+          </button>
+          <button
+            onClick={handleLogout}
+            className="w-8 h-8 rounded-lg text-rose-500 flex items-center justify-center hover:bg-rose-500/10 transition-colors cursor-pointer"
+            title="Keluar"
+          >
+            <span className="material-symbols-outlined text-base">logout</span>
+          </button>
+        </div>
+      </header>
 
-
-      {/* ==================== MOBILE FLOATING GLASS BOTTOM BAR (< lg) ==================== */}
-      <nav className="lg:hidden fixed bottom-6 left-0 right-0 z-50 flex justify-around items-center h-20 mx-auto pointer-events-none">
-        <div className="pointer-events-auto fixed bottom-5 left-1/2 -translate-x-1/2 w-[92%] max-w-md rounded-full px-2 py-1.5 bg-[#51000d]/90 backdrop-blur-2xl border border-amber-400/30 shadow-[0_12px_35px_rgba(81,0,13,0.4)] flex justify-around items-center h-16">
+      {/* ====== MOBILE BOTTOM DOCK (< lg) ====== */}
+      <nav
+        className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 backdrop-blur-md border-t px-2 py-1 transition-colors safe-area-bottom ${
+          isDark
+            ? "bg-[#121214]/95 border-stone-800 text-white"
+            : "bg-white/95 border-stone-200 text-stone-900 shadow-sm"
+        }`}
+      >
+        <div className="flex items-center justify-around max-w-md mx-auto">
           {navItems.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive =
+              item.href === "/admin"
+                ? pathname === "/admin"
+                : pathname.startsWith(item.href);
 
             return (
               <Link
                 key={item.id}
                 href={item.href}
-                className={`flex flex-col items-center justify-center transition-all duration-300 active:scale-90 ${
+                className={`flex flex-col items-center justify-center py-1.5 px-2 rounded-xl transition-all relative ${
                   isActive
-                    ? "bg-gradient-to-r from-amber-400 to-amber-500 text-[#51000d] rounded-full w-11 h-11 shadow-[0_0_20px_rgba(245,158,11,0.5)] font-black"
-                    : "text-amber-100/70 hover:text-white"
+                    ? isDark
+                      ? "text-amber-400 font-bold"
+                      : "text-[#540b13] font-bold"
+                    : isDark
+                    ? "text-stone-400 font-medium"
+                    : "text-stone-500 font-medium"
                 }`}
               >
-                <span className="material-symbols-outlined text-xl">{item.icon}</span>
-                {!isActive && <span className="text-[9px] font-bold mt-0.5">{item.name.split(" ")[0]}</span>}
+                <div
+                  className={`w-7 h-7 rounded-lg flex items-center justify-center relative ${
+                    isActive
+                      ? isDark
+                        ? "bg-stone-800 text-amber-400"
+                        : "bg-[#540b13]/10 text-[#540b13]"
+                      : ""
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-[19px]">
+                    {item.icon}
+                  </span>
+                  {item.badge != null && item.badge > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-amber-500 text-stone-900 text-[8px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center">
+                      {item.badge > 9 ? "9+" : item.badge}
+                    </span>
+                  )}
+                </div>
+                <span className="text-[10px] mt-0.5">{item.label}</span>
               </Link>
             );
           })}
