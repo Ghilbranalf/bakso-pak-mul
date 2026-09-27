@@ -7,232 +7,170 @@ import Footer from "@/components/Footer";
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[#f9f9f9] text-[#1a1c1c] font-sans antialiased flex flex-col justify-between">
-      {/* Top Navbar Component */}
+    <div className="min-h-screen bg-[#faf7f2] text-stone-900 font-sans antialiased flex flex-col justify-between selection:bg-[#51000d] selection:text-white">
       <Navbar />
 
-      <main className="pt-20 flex-grow">
-        {/* Hero Section */}
-        <section className="relative h-[550px] md:h-[600px] flex items-center justify-center overflow-hidden">
-          <div
-            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: "url('/images/hero-banner.webp')",
-            }}
-          ></div>
-          <div className="absolute inset-0 bg-[#51000d]/60 backdrop-blur-[2px] z-10"></div>
-          
-          <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white border border-white/20 text-xs font-semibold uppercase tracking-widest mb-4">
-              Sejarah &amp; Dedikasi
-            </span>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4 tracking-tight leading-tight">
-              Tentang Bakso Pak Mul
+      <main className="pt-20 sm:pt-24 flex-grow">
+        {/* Editorial Story Hero */}
+        <section className="relative py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="text-center max-w-3xl mx-auto space-y-4">
+            <div className="inline-flex items-center gap-2.5 text-xs font-bold tracking-[0.25em] text-[#7a0019] uppercase">
+              <span className="w-6 h-[1px] bg-[#7a0019]" />
+              <span>Dedikasi &amp; Tradisi Sejak 2000</span>
+              <span className="w-6 h-[1px] bg-[#7a0019]" />
+            </div>
+            <h1 className="font-serif text-4xl sm:text-6xl font-bold text-stone-950 tracking-tight leading-tight">
+              Kisah di Balik Kios Kramat Jati
             </h1>
-            <p className="text-base md:text-xl text-white/90 max-w-2xl mx-auto font-medium leading-relaxed">
-              Warisan Kualitas Sejak 2000. Komitmen kami pada cita rasa otentik dan standar premium.
+            <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto font-normal">
+              Perjalanan lebih dari dua dekade meracik olahan daging sapi segar pilihan, mempertahankan rasa otentik yang jujur dan dipercaya keluarga serta ratusan mitra kuliner di Jabodetabek.
             </p>
-            <div className="mt-8 flex justify-center gap-4">
-              <div className="h-1.5 w-24 bg-white/80 rounded-full"></div>
-            </div>
           </div>
         </section>
 
-        {/* Story Section */}
-        <section className="py-20 md:py-28 px-6 max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <div className="space-y-6">
-              <span className="text-[#51000d] font-bold text-xs tracking-widest uppercase bg-red-100/60 px-3.5 py-1.5 rounded-full">
-                Perjalanan Kami
-              </span>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-[#51000d] leading-tight">
-                Dari Dapur Kecil Menuju Standar Industri Premium
-              </h2>
-              <p className="text-gray-600 text-sm md:text-base leading-relaxed">
-                Dimulai pada tahun 2000 dari sebuah dapur keluarga yang sederhana, Bakso Pak Mul lahir dari dedikasi untuk menyajikan bakso dengan kualitas tanpa kompromi. Apa yang dimulai sebagai usaha kecil, kini telah bertransformasi menjadi salah satu penyuplai bakso terpercaya untuk berbagai lini bisnis B2B dan pelanggan retail di seluruh wilayah.
+        {/* Narrative & Authentic Photography */}
+        <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-stone-200">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* Left Narrative */}
+            <div className="lg:col-span-7 space-y-6 text-left">
+              <p className="font-serif italic text-2xl sm:text-3xl text-stone-900 leading-snug">
+                &ldquo;Rasa tidak pernah bisa dibohongi. Ketika daging sapi murni diolah dengan kejujuran resep rempah, lidah pelanggan akan selalu ingat jalan pulang.&rdquo;
               </p>
-              <p className="text-gray-600 text-sm md:text-base leading-relaxed">
-                Konsistensi adalah kunci utama kami. Selama lebih dari dua dekade, kami tidak pernah mengubah resep inti, namun terus berinovasi dalam proses produksi untuk memastikan setiap butir bakso yang keluar dari fasilitas kami memenuhi standar higienis dan kualitas tertinggi.
-              </p>
-              <div className="pt-6 flex gap-10">
-                <div>
-                  <div className="text-[#51000d] font-black text-4xl md:text-5xl">24+</div>
-                  <div className="text-gray-500 font-bold text-xs uppercase tracking-wider mt-1">Tahun Pengalaman</div>
-                </div>
-                <div>
-                  <div className="text-[#51000d] font-black text-4xl md:text-5xl">500+</div>
-                  <div className="text-gray-500 font-bold text-xs uppercase tracking-wider mt-1">Partner B2B</div>
-                </div>
-              </div>
-            </div>
 
-            <div className="relative">
-              <div className="aspect-square rounded-[32px] overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 border border-gray-100 relative bg-gray-100">
-                <iframe
-                  title="Peta Lokasi Bakso Pak Mul Pasar Kramat Jati"
-                  src="https://www.openstreetmap.org/export/embed.html?bbox=106.8600%2C-6.2680%2C106.8750%2C-6.2580&amp;layer=mapnik&amp;marker=-6.2628%2C106.8672"
-                  className="w-full h-full border-0"
-                  loading="lazy"
-                ></iframe>
-                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full shadow-md text-[11px] font-bold text-[#51000d] flex items-center gap-1.5 border border-red-100">
-                  <span className="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
-                  📍 Pasar Kramat Jati, Jakarta Timur
-                </div>
-              </div>
-              <div className="absolute -bottom-8 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-gray-100 hidden md:block max-w-[300px]">
-                <p className="italic text-gray-600 text-xs md:text-sm leading-relaxed">
-                  &ldquo;Kualitas bukan hanya janji, melainkan tradisi yang kami jaga setiap hari.&rdquo;
+              <div className="space-y-4 text-stone-600 text-sm sm:text-base leading-relaxed font-normal">
+                <p>
+                  Bermula pada tahun 2000 dari sebuah kios sederhana di lantai dasar Pasar Kramat Jati, Jakarta Timur, Pak Mul memulai usahanya dengan prinsip sederhana: tidak akan pernah berkompromi dengan kualitas daging sapi. Di saat banyak produsen mencampur bahan pengisi berlebih demi mengejar volume, Pak Mul tetap setia memilih daging sapi segar langsung dari pemotongan pasar induk pada pukul 04.30 subuh setiap hari.
                 </p>
-                <p className="mt-3 font-bold text-[#51000d] text-xs">&mdash; Pak Mul, Founder</p>
+                <p>
+                  Kini, setelah lebih dari 24 tahun konsistensi rasa itu dijaga, Bakso Pak Mul telah melayani ribuan pelanggan rumah tangga dan menjadi mitra utama bagi lebih dari 500 gerobak mie ayam, warung bakso solo, depot katering, hingga restoran keluarga di seluruh penjuru Jakarta, Bogor, Depok, Tangerang, dan Bekasi.
+                </p>
+              </div>
+
+              {/* Legacy Milestones */}
+              <div className="pt-6 border-t border-stone-200 grid grid-cols-3 gap-6">
+                <div>
+                  <p className="font-serif text-3xl font-bold text-[#51000d]">2000</p>
+                  <p className="text-xs text-stone-500 font-medium mt-1">Tahun Berdiri di Kramat Jati</p>
+                </div>
+                <div>
+                  <p className="font-serif text-3xl font-bold text-[#51000d]">100%</p>
+                  <p className="text-xs text-stone-500 font-medium mt-1">Daging Sapi Segar Pilihan</p>
+                </div>
+                <div>
+                  <p className="font-serif text-3xl font-bold text-[#51000d]">500+</p>
+                  <p className="text-xs text-stone-500 font-medium mt-1">Mitra Warung &amp; Katering</p>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* Visi & Misi Bento Grid */}
-        <section className="bg-[#f3f3f3] py-20 md:py-28 px-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <span className="text-[#51000d] font-bold text-xs tracking-widest uppercase bg-white px-4 py-1.5 rounded-full border border-gray-200 shadow-sm">
-                Fokus Utama
-              </span>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-[#51000d] mt-3 mb-2">Visi &amp; Misi</h2>
-              <p className="text-gray-600 text-sm md:text-base max-w-xl mx-auto font-medium">
-                Membangun ekosistem kuliner yang berkelanjutan melalui standar mutu tinggi.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Visi Card */}
-              <div className="md:col-span-2 bg-gradient-to-br from-[#51000d] to-[#7a0019] text-white rounded-[24px] p-8 md:p-12 flex flex-col justify-between shadow-xl">
-                <div>
-                  <span className="material-symbols-outlined text-5xl mb-6 text-red-200">visibility</span>
-                  <h3 className="text-2xl font-bold mb-3">Visi Kami</h3>
-                  <p className="text-sm md:text-base text-white/90 leading-relaxed font-normal">
-                    Menjadi pemimpin industri pengolahan daging sapi premium yang dikenal karena integritas kualitasnya, serta menjadi pilihan utama bagi reseller dan konsumen akhir secara nasional.
+            {/* Right Photo */}
+            <div className="lg:col-span-5">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-stone-900 group">
+                <img
+                  src="/images/toko-pak-mul-kramat-jati.webp"
+                  alt="Pak Mul di Kios Pasar Kramat Jati"
+                  className="w-full h-[450px] object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-6 left-6 right-6 text-white">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-300">
+                    Dokumentasi Kios Asli
+                  </span>
+                  <p className="font-serif text-lg font-bold mt-1">
+                    Kios Bakso Pak Mul
+                  </p>
+                  <p className="text-xs text-stone-300 mt-0.5">
+                    Pasar Kramat Jati, Jakarta Timur • Buka Tiap Subuh
                   </p>
                 </div>
-                <div className="mt-10 flex items-center gap-4">
-                  <div className="h-px flex-grow bg-white/20"></div>
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-white/60">Future Excellence</span>
-                </div>
-              </div>
-
-              {/* Misi B2B Card */}
-              <div className="bg-white rounded-[24px] p-8 flex flex-col shadow-sm hover:-translate-y-2 transition-transform duration-300 border border-gray-100">
-                <div className="w-12 h-12 rounded-xl bg-[#7a0019] flex items-center justify-center text-white mb-6 shadow-md">
-                  <span className="material-symbols-outlined">business_center</span>
-                </div>
-                <h3 className="text-xl font-bold text-[#51000d] mb-3">Misi B2B</h3>
-                <p className="text-xs md:text-sm text-gray-600 leading-relaxed">
-                  Mendukung pertumbuhan UMKM dan pengusaha kuliner dengan menyediakan pasokan produk berkualitas konsisten, sistem logistik efisien, dan harga yang kompetitif.
-                </p>
-              </div>
-
-              {/* Misi Retail Card */}
-              <div className="bg-white rounded-[24px] p-8 flex flex-col shadow-sm hover:-translate-y-2 transition-transform duration-300 border border-gray-100">
-                <div className="w-12 h-12 rounded-xl bg-[#7a0019] flex items-center justify-center text-white mb-6 shadow-md">
-                  <span className="material-symbols-outlined">group</span>
-                </div>
-                <h3 className="text-xl font-bold text-[#51000d] mb-3">Misi Retail</h3>
-                <p className="text-xs md:text-sm text-gray-600 leading-relaxed">
-                  Menghadirkan kelezatan bakso asli Indonesia ke setiap meja makan keluarga dengan kemasan praktis yang tetap menjaga kesegaran dan nilai gizi.
-                </p>
-              </div>
-
-              {/* Quality Commitment Card */}
-              <div className="md:col-span-2 bg-white rounded-[24px] p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 shadow-sm border border-gray-100">
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-[#51000d] mb-3">Komitmen Higienitas</h3>
-                  <p className="text-xs md:text-sm text-gray-600 leading-relaxed">
-                    Setiap tahap produksi diawasi dengan ketat, mulai dari pemilihan bahan baku hingga proses pembekuan cepat (Flash Freeze) untuk mengunci rasa.
-                  </p>
-                </div>
-                <div className="w-full md:w-64 h-36 rounded-xl overflow-hidden shadow-inner border border-gray-200">
-                  <img
-                    src="/images/toko-pak-mul-kramat-jati.jpg"
-                    alt="Kios Bakso Pak Mul Pasar Kramat Jati"
-                    className="w-full h-full object-cover object-center"
-                  />
-                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Core Values */}
-        <section className="py-20 md:py-28 px-6 max-w-7xl mx-auto text-center">
-          <span className="text-[#51000d] font-bold text-xs tracking-widest uppercase bg-red-100/60 px-3.5 py-1.5 rounded-full">
-            Prinsip Utama
-          </span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-[#51000d] mt-3 mb-16">Nilai-Nilai Kami</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div className="group p-6 rounded-2xl transition-all hover:bg-white hover:shadow-xl">
-              <div className="w-20 h-20 mx-auto rounded-2xl bg-red-50 text-[#51000d] flex items-center justify-center mb-6 group-hover:bg-[#51000d] group-hover:text-white transition-all duration-300 shadow-sm">
-                <span className="material-symbols-outlined text-4xl">verified</span>
-              </div>
-              <h4 className="text-xl font-bold text-[#51000d] mb-2">100% Halal</h4>
-              <p className="text-xs md:text-sm text-gray-600 px-4 leading-relaxed">
-                Menjamin seluruh proses produksi sesuai dengan syariat dan sertifikasi resmi.
+        {/* Quality Values (Editorial Grid) */}
+        <section className="py-16 sm:py-24 bg-white border-y border-stone-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-xl mx-auto mb-14">
+              <p className="text-xs font-bold tracking-[0.2em] text-[#7a0019] uppercase mb-1">
+                Prinsip Tanpa Kompromi
               </p>
-            </div>
-
-            <div className="group p-6 rounded-2xl transition-all hover:bg-white hover:shadow-xl">
-              <div className="w-20 h-20 mx-auto rounded-2xl bg-red-50 text-[#51000d] flex items-center justify-center mb-6 group-hover:bg-[#51000d] group-hover:text-white transition-all duration-300 shadow-sm">
-                <span className="material-symbols-outlined text-4xl">eco</span>
-              </div>
-              <h4 className="text-xl font-bold text-[#51000d] mb-2">Tanpa Pengawet</h4>
-              <p className="text-xs md:text-sm text-gray-600 px-4 leading-relaxed">
-                Komitmen menggunakan bahan alami tanpa tambahan zat kimia berbahaya.
-              </p>
-            </div>
-
-            <div className="group p-6 rounded-2xl transition-all hover:bg-white hover:shadow-xl">
-              <div className="w-20 h-20 mx-auto rounded-2xl bg-red-50 text-[#51000d] flex items-center justify-center mb-6 group-hover:bg-[#51000d] group-hover:text-white transition-all duration-300 shadow-sm">
-                <span className="material-symbols-outlined text-4xl">award_star</span>
-              </div>
-              <h4 className="text-xl font-bold text-[#51000d] mb-2">Bahan Pilihan</h4>
-              <p className="text-xs md:text-sm text-gray-600 px-4 leading-relaxed">
-                Hanya menggunakan daging sapi kualitas atas dan bumbu rempah terbaik nusantara.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Partnership & Quality CTA */}
-        <section className="py-12 pb-24 px-6">
-          <div className="max-w-7xl mx-auto rounded-[36px] overflow-hidden bg-gradient-to-br from-[#51000d] to-[#7a0019] p-10 md:p-20 relative shadow-2xl">
-            <div className="relative z-10 max-w-2xl">
-              <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight">
-                Siap Menjadi Bagian dari Kesuksesan Anda?
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-950 tracking-tight">
+                Tiga Pilar Kualitas Bakso Pak Mul
               </h2>
-              <p className="text-sm md:text-lg text-white/80 mb-10 font-medium leading-relaxed">
-                Kami membuka peluang kemitraan bagi reseller, rumah makan, dan distributor yang mengutamakan kualitas produk di atas segalanya.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <a
-                  href="https://wa.me/6281298980252"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white text-[#51000d] px-8 py-4 rounded-xl font-bold text-xs md:text-sm hover:bg-gray-100 transition-all shadow-lg active:scale-95 uppercase tracking-wider flex items-center gap-2"
-                >
-                  <i className="fa-brands fa-whatsapp text-lg text-green-600"></i>
-                  <span>Hubungi Tim Sales</span>
-                </a>
-                <Link
-                  href="/produk"
-                  className="border border-white/40 text-white px-8 py-4 rounded-xl font-bold text-xs md:text-sm hover:bg-white/10 transition-all active:scale-95 uppercase tracking-wider"
-                >
-                  Lihat Katalog Produk
-                </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
+              <div className="bg-[#faf7f2] p-8 rounded-2xl border border-stone-200/80 space-y-3">
+                <span className="font-serif text-2xl font-bold text-[#51000d]">01</span>
+                <h3 className="font-serif text-lg font-bold text-stone-900">
+                  Daging Murni Tanpa Boraks
+                </h3>
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+                  Tekstur kenyal bakso kami berasal murni dari kekenyalan alami serat daging sapi segar yang digiling dingin, bukan dari bahan kimia berbahaya maupun pengenyal buatan.
+                </p>
               </div>
+
+              <div className="bg-[#faf7f2] p-8 rounded-2xl border border-stone-200/80 space-y-3">
+                <span className="font-serif text-2xl font-bold text-[#51000d]">02</span>
+                <h3 className="font-serif text-lg font-bold text-stone-900">
+                  Resep Rempah Warisan
+                </h3>
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+                  Takaran bawang putih goreng lokal, merica butir tumbuk, dan bumbu kaldu rempah yang dipertahankan turun temurun memberikan keharuman aroma yang khas dan menggugah selera.
+                </p>
+              </div>
+
+              <div className="bg-[#faf7f2] p-8 rounded-2xl border border-stone-200/80 space-y-3">
+                <span className="font-serif text-2xl font-bold text-[#51000d]">03</span>
+                <h3 className="font-serif text-lg font-bold text-stone-900">
+                  Kemasan Higienis &amp; Rantai Dingin
+                </h3>
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+                  Produk disegel rapi dalam kemasan hampa udara (vacuum pack) dan didinginkan langsung untuk memastikan keamanan pangan dan kualitas mutu terjaga hingga ke tangan Anda.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Invitation & Kiosk Location */}
+        <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="rounded-2xl bg-gradient-to-r from-[#3a0009] via-[#51000d] to-[#3a0009] text-white p-8 sm:p-14 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="max-w-xl space-y-3">
+              <p className="text-xs font-bold tracking-[0.2em] uppercase text-amber-300">
+                Kemitraan Usaha &amp; Hajatan
+              </p>
+              <h2 className="font-serif text-2xl sm:text-4xl font-bold leading-tight">
+                Tertarik Bermitra atau Butuh Pasokan Rutin?
+              </h2>
+              <p className="text-stone-300 text-xs sm:text-sm leading-relaxed">
+                Kami siap menyuplai kebutuhan bakso sapi, mie telor, kulit pangsit, dan bumbu kuah dengan harga grosir terbaik untuk usaha Anda.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <a
+                href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20tertarik%20dengan%20kemitraan%20usaha%20bakso"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3.5 rounded-xl bg-white text-[#51000d] hover:bg-stone-100 font-bold text-xs uppercase tracking-wider transition-colors shadow-md flex items-center gap-2"
+              >
+                <span className="material-symbols-outlined text-emerald-700 text-base">chat</span>
+                <span>Konsultasi WhatsApp</span>
+              </a>
+
+              <Link
+                href="/produk"
+                className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-xs uppercase tracking-wider transition-colors"
+              >
+                Katalog Menu
+              </Link>
             </div>
           </div>
         </section>
       </main>
 
-      {/* Footer Component */}
       <Footer />
     </div>
   );

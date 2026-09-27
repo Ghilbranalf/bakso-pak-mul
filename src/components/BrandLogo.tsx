@@ -22,18 +22,18 @@ export default function BrandLogo({
   }[size];
 
   const titleSizes = {
-    sm: "text-base font-extrabold tracking-tight",
-    md: "text-lg sm:text-xl font-black tracking-tight",
-    lg: "text-xl sm:text-2xl font-black tracking-tight",
+    sm: "text-lg font-bold tracking-tight",
+    md: "text-xl sm:text-2xl font-bold tracking-tight",
+    lg: "text-2xl sm:text-3xl font-extrabold tracking-tight",
   }[size];
 
   return (
     <div className={`inline-flex items-center gap-3 select-none ${className}`}>
-      {/* Authentic BPM Monogram Logo */}
+      {/* Authentic BPM Monogram Emblem */}
       <div
-        className={`${iconSizes} flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105 ${
+        className={`${iconSizes} flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105 ${
           isLight
-            ? "bg-white p-1 rounded-xl shadow-sm ring-1 ring-white/20"
+            ? "bg-white p-1 rounded-xl shadow-xs ring-1 ring-white/10"
             : "p-0.5"
         }`}
       >
@@ -46,10 +46,10 @@ export default function BrandLogo({
         />
       </div>
 
-      {/* Classic, Professional Typography */}
+      {/* Artisanal Heritage Serif Typography */}
       <div className="flex flex-col justify-center leading-none">
         <span
-          className={`${titleSizes} ${
+          className={`font-serif ${titleSizes} ${
             isLight ? "text-white" : "text-[#51000d]"
           }`}
         >
@@ -57,8 +57,8 @@ export default function BrandLogo({
         </span>
         {withSubtitle && (
           <span
-            className={`text-[9.5px] font-bold tracking-[0.16em] uppercase mt-1 ${
-              isLight ? "text-slate-300" : "text-[#7a0019]"
+            className={`font-sans text-[9px] font-bold tracking-[0.24em] uppercase mt-1 ${
+              isLight ? "text-amber-200/90" : "text-[#7a0019]"
             }`}
           >
             Kramat Jati • Est. 2000

@@ -33,14 +33,12 @@ export default function ProductDetailPage() {
       try {
         setIsLoading(true);
 
-        // Fetch Product
         const resProd = await fetch(`/api/products/${encodeURIComponent(rawId)}`);
         if (resProd.ok) {
           const dataProd = await resProd.json();
           setProduct(dataProd.product);
         }
 
-        // Fetch Reviews
         const resRev = await fetch(`/api/reviews?productId=${encodeURIComponent(rawId)}`);
         if (resRev.ok) {
           const dataRev = await resRev.json();
@@ -85,7 +83,6 @@ export default function ProductDetailPage() {
       setReviewMessage("Ulasan Anda berhasil ditambahkan!");
       setComment("");
 
-      // Refresh reviews list
       const resRev = await fetch(`/api/reviews?productId=${encodeURIComponent(rawId)}`);
       if (resRev.ok) {
         const dataRev = await resRev.json();
@@ -112,103 +109,135 @@ export default function ProductDetailPage() {
   // Fallback demo product
   const displayProduct = product || {
     id: rawId,
-    name: "Bakso Urat Sapi Pak Mul (Spesial 500g)",
+    name: "Bakso Sapi Spesial Pak Mul",
     price: 35000,
     originalPrice: 45000,
-    unit: "pack 500g",
+    unit: "Pack 500g",
     category: "Bakso Sapi",
-    description: "Bakso urat sapi asli khas Pak Mul dengan tekstur renyah, daging sapi pilihan 100%, dan bumbu rempah pilihan.",
-    image: "/images/Saos Pedas Lima Delapan.png",
-    badge: "Terlaris",
+    description:
+      "Bakso urat sapi asli khas Pak Mul dengan tekstur kenyal alami, dibuat dari 100% daging sapi segar pilihan pasar subuh dengan rempah warisan 20+ tahun tanpa boraks.",
+    image: "/images/hero-banner.webp",
+    badge: "Paling Diminati",
     stock: 50,
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8F8] text-[#1a1c1c] font-sans antialiased flex flex-col pt-20">
+    <div className="min-h-screen bg-[#faf7f2] text-stone-900 font-sans antialiased flex flex-col pt-20 sm:pt-24 selection:bg-[#51000d] selection:text-white">
       <Navbar />
 
-      <main className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 w-full space-y-8">
-        
+      <main className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full space-y-10">
         {/* Breadcrumb Navigation */}
-        <div className="flex items-center gap-2 text-xs font-semibold text-gray-500">
-          <Link href="/produk" className="hover:text-[#51000d]">Katalog Produk</Link>
+        <div className="flex items-center gap-2 text-xs font-semibold text-stone-500">
+          <Link href="/produk" className="hover:text-[#51000d] transition-colors">
+            Katalog Produk
+          </Link>
           <span>/</span>
-          <span className="text-[#51000d] font-bold">{displayProduct.name}</span>
+          <span className="text-[#51000d] font-bold truncate max-w-xs sm:max-w-md">
+            {displayProduct.name}
+          </span>
         </div>
 
         {/* Product Details Section */}
-        <div className="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-gray-100 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          
+        <div className="bg-white rounded-2xl p-6 sm:p-10 shadow-xs border border-stone-200/80 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Image Column */}
-          <div className="lg:col-span-5 relative flex items-center justify-center bg-amber-50/50 rounded-2xl p-6 border border-amber-100">
+          <div className="lg:col-span-5 relative flex items-center justify-center bg-[#f5f0e8] rounded-2xl p-8 overflow-hidden">
             {displayProduct.badge && (
-              <span className="absolute top-4 left-4 px-3 py-1 bg-[#51000d] text-white text-[10px] font-black uppercase tracking-wider rounded-full shadow-md">
+              <span className="absolute top-4 left-4 px-3 py-1 bg-[#51000d] text-white text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-2xs">
                 {displayProduct.badge}
               </span>
             )}
             <img
-              src={displayProduct.image || "/images/saos-pedas-lima-delapan.jpg"}
+              src={displayProduct.image || "/images/hero-banner.webp"}
               alt={displayProduct.name}
-              className="w-64 h-64 md:w-80 md:h-80 object-contain drop-shadow-xl hover:scale-105 transition-transform duration-300"
+              className="w-64 h-64 sm:w-80 sm:h-80 object-contain hover:scale-105 transition-transform duration-500"
             />
           </div>
 
           {/* Info Column */}
           <div className="lg:col-span-7 space-y-5">
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="px-3 py-1 bg-amber-100 text-[#51000d] text-xs font-bold rounded-full">
-                  {displayProduct.category}
+              <div className="flex items-center gap-3 mb-2.5">
+                <span className="px-3 py-1 bg-amber-50 text-[#7a0019] border border-amber-200/60 text-xs font-bold rounded-lg">
+                  {displayProduct.category || "Bakso Sapi"}
                 </span>
-                <div className="flex items-center text-amber-400 text-sm font-bold gap-1">
+                <div className="flex items-center text-amber-500 text-sm font-bold gap-1">
                   {"★".repeat(Math.round(avgRating))}
-                  <span className="text-xs text-gray-600 font-extrabold ml-1">{avgRating} ({totalReviews} Ulasan)</span>
+                  <span className="text-xs text-stone-600 font-semibold ml-1">
+                    {avgRating} ({totalReviews} Ulasan)
+                  </span>
                 </div>
               </div>
-              <h1 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">{displayProduct.name}</h1>
-              <p className="text-xs text-gray-500 font-bold mt-1 uppercase tracking-wider">Satuan: {displayProduct.unit}</p>
+              <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-stone-950 tracking-tight leading-tight">
+                {displayProduct.name}
+              </h1>
+              <p className="text-xs text-stone-500 font-medium mt-1 uppercase tracking-wider">
+                Kemasan: <span className="font-bold text-stone-800">{displayProduct.unit}</span>
+              </p>
             </div>
 
-            <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-black text-[#51000d]">Rp {formatPrice(displayProduct.price)}</span>
+            <div className="flex items-baseline gap-3 pt-1">
+              <span className="font-serif text-3xl sm:text-4xl font-bold text-[#51000d]">
+                Rp {formatPrice(displayProduct.price)}
+              </span>
               {displayProduct.originalPrice && (
-                <span className="text-sm font-bold text-gray-400 line-through">Rp {formatPrice(displayProduct.originalPrice)}</span>
+                <span className="text-sm font-medium text-stone-400 line-through">
+                  Rp {formatPrice(displayProduct.originalPrice)}
+                </span>
               )}
-              <span className="px-2.5 py-0.5 bg-green-100 text-green-700 rounded-full text-[10px] font-bold">Gratis Ongkir</span>
+              <span className="px-2.5 py-0.5 bg-emerald-50 text-emerald-800 border border-emerald-200/80 rounded-md text-[10px] font-bold">
+                Segar Harian
+              </span>
             </div>
 
-            <p className="text-xs text-gray-600 leading-relaxed font-medium">
-              {displayProduct.description || "Produk makanan berkualitas tinggi khas Bakso Pak Mul. Dibuat dengan higienis tanpa bahan pengawet berlebihan."}
+            <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+              {displayProduct.description ||
+                "Produk makanan berkualitas tinggi khas Bakso Pak Mul. Dibuat dengan higienis tanpa bahan pengawet berlebihan."}
             </p>
 
-            <div className="pt-4 flex flex-col sm:flex-row gap-3">
+            <div className="pt-3 flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => {
                   addToCart(displayProduct);
                   openCart();
                 }}
-                className="flex-1 py-4 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-2xl text-xs font-black uppercase tracking-wider shadow-lg hover:shadow-xl transition-all cursor-pointer flex items-center justify-center gap-2 group"
+                className="flex-1 py-4 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2 group"
               >
-                <span className="material-symbols-outlined text-lg group-hover:scale-110 transition-transform">add_shopping_cart</span>
+                <span className="material-symbols-outlined text-lg group-hover:scale-110 transition-transform">
+                  shopping_bag
+                </span>
                 <span>Tambah ke Keranjang</span>
               </button>
+
+              <a
+                href={`https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20tertarik%20pesan%20${encodeURIComponent(
+                  displayProduct.name
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-4 bg-white hover:bg-stone-50 border border-stone-300 text-stone-800 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
+              >
+                <span className="material-symbols-outlined text-emerald-700 text-lg">chat</span>
+                <span>Tanya via WhatsApp</span>
+              </a>
             </div>
           </div>
         </div>
 
         {/* REVIEWS & RATINGS SECTION */}
-        <section className="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-gray-100 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-6">
+        <section className="bg-white rounded-2xl p-6 sm:p-10 shadow-xs border border-stone-200/80 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-100 pb-6">
             <div>
-              <h2 className="text-xl font-black text-gray-900 tracking-tight flex items-center gap-2">
-                <span>⭐ Rating &amp; Ulasan Pembeli</span>
+              <h2 className="font-serif text-2xl font-bold text-stone-950 tracking-tight">
+                Rating &amp; Ulasan Pembeli
               </h2>
-              <p className="text-xs text-gray-500 font-medium mt-0.5">Ulasan jujur dari pembeli terverifikasi Bakso Pak Mul</p>
+              <p className="text-xs text-stone-500 font-normal mt-0.5">
+                Pengalaman jujur dari pembeli dan penikmat setia Bakso Pak Mul
+              </p>
             </div>
 
             <button
               onClick={() => setIsReviewModalOpen(true)}
-              className="px-5 py-3 bg-amber-400 hover:bg-amber-300 text-[#51000d] rounded-2xl text-xs font-black uppercase tracking-wider shadow-md transition-all cursor-pointer flex items-center gap-2 shrink-0"
+              className="px-5 py-3 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 shadow-2xs"
             >
               <span className="material-symbols-outlined text-base">rate_review</span>
               <span>Tulis Ulasan</span>
@@ -216,46 +245,66 @@ export default function ProductDetailPage() {
           </div>
 
           {/* Rating Overview */}
-          <div className="bg-amber-50/60 p-6 rounded-2xl border border-amber-200/50 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+          <div className="bg-[#faf7f2] p-6 rounded-2xl border border-stone-200/80 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
             <div className="text-center shrink-0">
-              <span className="text-5xl font-black text-[#51000d]">{avgRating}</span>
-              <div className="flex justify-center text-amber-400 text-lg my-1">
+              <span className="font-serif text-5xl font-bold text-[#51000d]">
+                {avgRating}
+              </span>
+              <div className="flex justify-center text-amber-500 text-lg my-1">
                 {"★".repeat(Math.round(avgRating))}
               </div>
-              <span className="text-xs font-bold text-gray-500">{totalReviews} Penilaian Pembeli</span>
+              <span className="text-xs font-semibold text-stone-500">
+                {totalReviews} Penilaian Pembeli
+              </span>
             </div>
-            <div className="flex-1 text-xs text-gray-600 space-y-1 w-full">
-              <p className="font-bold text-gray-800 mb-2">Mengapa Pembeli Menyukai Produk Ini?</p>
-              <p>✔ Rasa Daging Sapi Pilihan 100% Gurih &amp; Renyah</p>
-              <p>✔ Pengemasan vacuum higienis tahan perjalanan</p>
-              <p>✔ Pengiriman cepat &amp; Garansi Kualitas Bakso Pak Mul</p>
+            <div className="flex-1 text-xs text-stone-600 space-y-1.5 w-full">
+              <p className="font-bold text-stone-800 mb-2">Mengapa Pembeli Memilih Bakso Pak Mul?</p>
+              <p className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-emerald-700 text-base">check_circle</span>
+                <span>100% Daging Sapi Pilihan, tekstur kenyal alami tanpa bahan pengawet</span>
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-emerald-700 text-base">check_circle</span>
+                <span>Pengemasan higienis tahan perjalanan dan terjaga suhunya</span>
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-emerald-700 text-base">check_circle</span>
+                <span>Garansi cita rasa otentik dari Kios Pasar Kramat Jati sejak tahun 2000</span>
+              </p>
             </div>
           </div>
 
           {/* Review List */}
           <div className="space-y-4 pt-2">
             {reviews.length === 0 ? (
-              <p className="text-xs text-gray-400 italic text-center py-6">Belum ada ulasan untuk produk ini. Jadi yang pertama memberi ulasan!</p>
+              <p className="text-xs text-stone-400 italic text-center py-8">
+                Belum ada ulasan untuk produk ini. Jadilah yang pertama memberikan testimoni rasa!
+              </p>
             ) : (
               reviews.map((rev) => (
-                <div key={rev.id} className="p-4 bg-gray-50 rounded-2xl border border-gray-100 space-y-2">
+                <div
+                  key={rev.id}
+                  className="p-5 bg-[#faf7f2] rounded-xl border border-stone-200/70 space-y-2.5"
+                >
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-[#51000d] text-white flex items-center justify-center font-bold text-xs">
+                      <div className="w-9 h-9 rounded-xl bg-[#51000d] text-amber-200 font-serif font-bold text-xs flex items-center justify-center">
                         {(rev.userName || "U").charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <h4 className="text-xs font-bold text-gray-900">{rev.userName}</h4>
-                        <div className="flex text-amber-400 text-xs">
+                        <h4 className="text-xs font-bold text-stone-900">{rev.userName}</h4>
+                        <div className="flex text-amber-500 text-xs">
                           {"★".repeat(rev.rating || 5)}
                         </div>
                       </div>
                     </div>
-                    <span className="text-[10px] text-gray-400 font-medium">
+                    <span className="text-[10px] text-stone-400 font-medium">
                       {new Date(rev.createdAt || Date.now()).toLocaleDateString("id-ID")}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-700 font-medium pl-12">{rev.comment}</p>
+                  <p className="text-xs text-stone-700 font-normal pl-12 leading-relaxed">
+                    {rev.comment}
+                  </p>
                 </div>
               ))
             )}
@@ -265,48 +314,50 @@ export default function ProductDetailPage() {
 
       {/* WRITE REVIEW MODAL */}
       {isReviewModalOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl p-6 space-y-5 border border-gray-100 animate-in zoom-in-95">
-            <div className="flex justify-between items-center border-b border-gray-100 pb-3">
-              <h3 className="text-base font-bold text-gray-900 flex items-center gap-2">
+        <div className="fixed inset-0 bg-stone-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 space-y-5 border border-stone-200 animate-in zoom-in-95">
+            <div className="flex justify-between items-center border-b border-stone-100 pb-3">
+              <h3 className="font-serif text-lg font-bold text-stone-900 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#51000d]">rate_review</span>
                 <span>Tulis Ulasan Produk</span>
               </h3>
               <button
                 onClick={() => setIsReviewModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-all cursor-pointer"
+                className="w-8 h-8 rounded-xl bg-stone-100 hover:bg-stone-200 flex items-center justify-center transition-all cursor-pointer"
               >
                 <span className="material-symbols-outlined text-sm">close</span>
               </button>
             </div>
 
             {reviewMessage && (
-              <div className="p-3 bg-amber-50 text-amber-900 rounded-xl text-xs font-bold">
+              <div className="p-3 bg-amber-50 text-amber-900 rounded-xl text-xs font-semibold">
                 {reviewMessage}
               </div>
             )}
 
             <form onSubmit={handleAddReview} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">Nama Anda</label>
+                <label className="block text-xs font-bold text-stone-700 mb-1">Nama Anda</label>
                 <input
                   type="text"
                   value={reviewerName}
                   onChange={(e) => setReviewerName(e.target.value)}
                   placeholder="Misal: Budi Santoso"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50 focus:bg-white focus:border-[#51000d] outline-none"
+                  className="w-full px-4 py-3 rounded-xl border border-stone-200 text-xs font-medium text-stone-900 bg-stone-50 focus:bg-white focus:border-[#51000d] outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">Pilih Bintang (Rating)</label>
+                <label className="block text-xs font-bold text-stone-700 mb-1">
+                  Pilih Bintang (Rating)
+                </label>
                 <div className="flex gap-2 text-2xl cursor-pointer">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
                       type="button"
                       onClick={() => setRating(star)}
-                      className={star <= rating ? "text-amber-400" : "text-gray-300"}
+                      className={star <= rating ? "text-amber-500" : "text-stone-300"}
                     >
                       ★
                     </button>
@@ -315,21 +366,23 @@ export default function ProductDetailPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">Komentar &amp; Testimoni *</label>
+                <label className="block text-xs font-bold text-stone-700 mb-1">
+                  Komentar &amp; Ulasan Rasa *
+                </label>
                 <textarea
                   required
                   rows={4}
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  placeholder="Bagikan pengalaman rasa, kelezatan, dan kualitas Bakso Pak Mul..."
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 bg-gray-50 focus:bg-white focus:border-[#51000d] outline-none resize-none"
-                ></textarea>
+                  placeholder="Bagikan kesan rasa, kekenyalan, dan kesegaran produk Bakso Pak Mul..."
+                  className="w-full px-4 py-3 rounded-xl border border-stone-200 text-xs font-normal text-stone-900 bg-stone-50 focus:bg-white focus:border-[#51000d] outline-none resize-none"
+                />
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmittingReview}
-                className="w-full py-3.5 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-black uppercase tracking-wider shadow-md transition-all cursor-pointer disabled:opacity-50"
+                className="w-full py-3.5 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md transition-all cursor-pointer disabled:opacity-50"
               >
                 {isSubmittingReview ? "Mengirim Ulasan..." : "Kirim Ulasan Sekarang"}
               </button>
