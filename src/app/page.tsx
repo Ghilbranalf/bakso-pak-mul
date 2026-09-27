@@ -88,8 +88,8 @@ export default function HomePage() {
                 <span className="text-[#51000d]">Kuah Kaldu Gurih</span> Khas Kramat Jati.
               </h1>
 
-              {/* Appetite Subtitle */}
-              <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-xl font-normal">
+              {/* Appetite Subtitle - Modern Sans Tegas */}
+              <p className="font-sans text-stone-800 text-base sm:text-lg font-medium leading-relaxed max-w-xl">
                 Dibuat segar setiap hari dari 100% daging sapi pilihan dan rempah warisan sejak tahun 2000. Nikmati kehangatan semangkuk bakso otentik di meja makan keluarga, atau pesan pasokan bahan baku segar untuk usaha warung Anda.
               </p>
 
