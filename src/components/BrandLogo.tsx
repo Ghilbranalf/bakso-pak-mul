@@ -14,68 +14,66 @@ export default function BrandLogo({
   withSubtitle = true,
 }: BrandLogoProps) {
   const isLight = variant === "light";
-  
-  const iconSize = {
-    sm: "w-8 h-8",
-    md: "w-10 h-10",
-    lg: "w-12 h-12",
+
+  const iconDimensions = {
+    sm: "w-8 h-8 rounded-lg",
+    md: "w-9 h-9 rounded-xl",
+    lg: "w-11 h-11 rounded-xl",
   }[size];
 
   const titleSize = {
-    sm: "text-base font-bold",
-    md: "text-lg font-bold tracking-tight",
-    lg: "text-xl font-extrabold tracking-tight",
+    sm: "text-base font-bold tracking-tight",
+    md: "text-lg font-extrabold tracking-tight",
+    lg: "text-xl font-black tracking-tight",
   }[size];
 
   return (
-    <div className={`inline-flex items-center gap-3 select-none ${className}`}>
-      {/* Artisanal Culinary Emblem */}
+    <div className={`inline-flex items-center gap-2.5 select-none ${className}`}>
+      {/* Modern Red Bowl Mark */}
       <div
-        className={`${iconSize} rounded-xl flex items-center justify-center shrink-0 shadow-sm relative overflow-hidden ${
+        className={`${iconDimensions} flex items-center justify-center shrink-0 ${
           isLight
-            ? "bg-amber-400 text-[#540B13]"
-            : "bg-[#540B13] text-amber-300 ring-1 ring-white/10"
+            ? "bg-white text-red-600"
+            : "bg-red-600 text-white shadow-sm"
         }`}
       >
         <svg
-          viewBox="0 0 40 40"
+          viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-6 h-6"
+          className="w-5 h-5"
         >
-          {/* Steam wisps */}
+          {/* Steam */}
           <path
-            d="M15 8C14 10 16 11 15 13M20 6C19 8.5 21 10 20 12M25 8C24 10 26 11 25 13"
+            d="M8.5 4.5C8 5.8 9.5 6.5 9 7.8M12 3.5C11.5 5 13 6 12.5 7.5M15.5 4.5C15 5.8 16.5 6.5 16 7.8"
             stroke="currentColor"
-            strokeWidth="1.8"
+            strokeWidth="1.5"
             strokeLinecap="round"
-            opacity="0.75"
           />
-          {/* Traditional Bakso Bowl */}
+          {/* Modern Bowl */}
           <path
-            d="M8 18C8 18 9 29 20 29C31 29 32 18 32 18H8Z"
+            d="M4.5 10C4.5 10 5.2 18 12 18C18.8 18 19.5 10 19.5 10H4.5Z"
             fill="currentColor"
-            fillOpacity={isLight ? "0.2" : "0.35"}
+            fillOpacity="0.2"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="1.75"
             strokeLinejoin="round"
           />
-          {/* Bowl Rim */}
+          {/* Rim */}
           <path
-            d="M6 18C6 17 8 16 20 16C32 16 34 17 34 18"
+            d="M3.5 10H20.5"
             stroke="currentColor"
-            strokeWidth="2.2"
+            strokeWidth="1.75"
             strokeLinecap="round"
           />
-          {/* Meatballs inside */}
-          <circle cx="16" cy="19" r="3" fill="currentColor" />
-          <circle cx="24" cy="19" r="3" fill="currentColor" />
-          <circle cx="20" cy="16.5" r="2.5" fill="currentColor" />
-          {/* Bowl Pedestal */}
+          {/* Meatballs */}
+          <circle cx="9.5" cy="11.5" r="1.8" fill="currentColor" />
+          <circle cx="14.5" cy="11.5" r="1.8" fill="currentColor" />
+          {/* Base */}
           <path
-            d="M15 29L14 32H26L25 29"
+            d="M9 18L8.5 20H15.5L15 18"
             stroke="currentColor"
-            strokeWidth="1.8"
+            strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
@@ -86,15 +84,15 @@ export default function BrandLogo({
       <div className="flex flex-col leading-none">
         <span
           className={`${titleSize} ${
-            isLight ? "text-white" : "text-[#18181B]"
+            isLight ? "text-white" : "text-slate-900"
           }`}
         >
           Bakso Pak Mul
         </span>
         {withSubtitle && (
           <span
-            className={`text-[10px] font-semibold tracking-wider uppercase mt-1 ${
-              isLight ? "text-white/60" : "text-amber-800/80"
+            className={`text-[10px] font-medium tracking-wide mt-0.5 ${
+              isLight ? "text-slate-300" : "text-slate-500"
             }`}
           >
             Kramat Jati • Est. 2000

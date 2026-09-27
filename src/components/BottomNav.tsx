@@ -16,13 +16,13 @@ export default function BottomNav() {
   const navItems = [
     { name: "Beranda", icon: "home", href: "/" },
     { name: "Produk", icon: "storefront", href: "/produk" },
-    { name: "Transaksi", icon: "receipt_long", href: "/transaksi" },
+    { name: "Pesanan", icon: "receipt_long", href: "/transaksi" },
     { name: "Lacak", icon: "local_shipping", href: "/lacak" },
     { name: "Profil", icon: "person", href: "/profil" },
   ];
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-stone-200/80 shadow-[0_-4px_16px_rgba(0,0,0,0.03)] px-2 py-1.5 safe-area-bottom">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/80 shadow-[0_-2px_10px_rgba(0,0,0,0.04)] px-2 py-1.5 safe-area-bottom">
       <div className="flex items-center justify-around max-w-md mx-auto">
         {navItems.map((item) => {
           const isActive =
@@ -34,15 +34,15 @@ export default function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center justify-center py-1.5 px-3 rounded-xl transition-all ${
+              className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all ${
                 isActive
-                  ? "text-[#540b13] font-bold"
-                  : "text-stone-500 hover:text-stone-800 font-medium"
+                  ? "text-red-600 font-semibold"
+                  : "text-slate-400 hover:text-slate-700 font-medium"
               }`}
             >
               <div
                 className={`w-7 h-7 rounded-lg flex items-center justify-center transition-all ${
-                  isActive ? "bg-[#540b13]/10 text-[#540b13]" : "text-stone-500"
+                  isActive ? "bg-red-50 text-red-600" : "text-slate-500"
                 }`}
               >
                 <span className="material-symbols-outlined text-[20px]">

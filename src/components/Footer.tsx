@@ -6,71 +6,58 @@ import BrandLogo from "@/components/BrandLogo";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#18181b] text-stone-300 pt-16 pb-12 w-full border-t border-stone-800">
+    <footer className="bg-slate-900 text-slate-400 pt-14 pb-12 w-full border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 pb-14 border-b border-stone-800/80">
-          {/* Brand Info & Address */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 pb-10 border-b border-slate-800/80">
+          {/* Brand Info */}
           <div className="md:col-span-5 space-y-4">
             <Link href="/" className="inline-block">
               <BrandLogo variant="light" size="md" />
             </Link>
-            <p className="text-xs text-stone-400 leading-relaxed max-w-sm">
-              Pusat penyedia bahan baku bakso sapi murni, mie basah kenyal, kulit pangsit, bumbu kuah rempah, dan saus racikan khas untuk keluarga serta ratusan mitra warung kuliner di Jabodetabek.
+            <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
+              Penyedia bahan baku bakso sapi murni, mie telor basah, kulit pangsit, dan bumbu kuah kaldu segar. Melayani belanja eceran, acara keluarga, dan kemitraan warung se-Jabodetabek.
             </p>
 
-            <div className="pt-2 space-y-2 text-xs text-stone-400">
-              <div className="flex items-start gap-2.5">
-                <span className="material-symbols-outlined text-amber-400 text-base mt-0.5 shrink-0">
+            <div className="space-y-1.5 text-xs text-slate-400">
+              <p className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-slate-400 text-base shrink-0">
                   location_on
                 </span>
-                <span>
-                  <strong>Kios Pusat:</strong> Pasar Kramat Jati, Kramat Jati, Jakarta Timur 13510
-                </span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <span className="material-symbols-outlined text-amber-400 text-base shrink-0">
+                <span>Pasar Kramat Jati, Jakarta Timur 13510</span>
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-slate-400 text-base shrink-0">
                   schedule
                 </span>
-                <span>Buka Setiap Hari: 06.00 – 17.00 WIB</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <span className="material-symbols-outlined text-emerald-400 text-base shrink-0">
-                  chat
-                </span>
-                <span>CS / Pesanan Grosir: 0812-9898-0252</span>
-              </div>
+                <span>Setiap Hari: 06.00 – 17.00 WIB</span>
+              </p>
             </div>
           </div>
 
           {/* Navigasi Produk */}
           <div className="md:col-span-2 space-y-3">
-            <h4 className="text-white text-xs font-bold uppercase tracking-wider">
-              Kategori Produk
+            <h4 className="text-white text-xs font-semibold uppercase tracking-wider">
+              Produk
             </h4>
-            <ul className="space-y-2.5 text-xs text-stone-400">
+            <ul className="space-y-2 text-xs">
               <li>
-                <Link href="/produk?q=bakso" className="hover:text-amber-300 transition-colors">
-                  Bakso Sapi Murni
+                <Link href="/produk?q=bakso" className="hover:text-white transition-colors">
+                  Bakso Sapi
                 </Link>
               </li>
               <li>
-                <Link href="/produk?q=mie" className="hover:text-amber-300 transition-colors">
-                  Mie Basah &amp; Telor Bebek
+                <Link href="/produk?q=mie" className="hover:text-white transition-colors">
+                  Mie Basah
                 </Link>
               </li>
               <li>
-                <Link href="/produk?q=pangsit" className="hover:text-amber-300 transition-colors">
-                  Kulit Pangsit &amp; Dimsum
+                <Link href="/produk?q=pangsit" className="hover:text-white transition-colors">
+                  Kulit Pangsit
                 </Link>
               </li>
               <li>
-                <Link href="/produk?q=bumbu" className="hover:text-amber-300 transition-colors">
-                  Bumbu Kuah &amp; Rempah
-                </Link>
-              </li>
-              <li>
-                <Link href="/produk?q=kecap" className="hover:text-amber-300 transition-colors">
-                  Kecap &amp; Saos Pilihan
+                <Link href="/produk?q=bumbu" className="hover:text-white transition-colors">
+                  Bumbu Kuah
                 </Link>
               </li>
             </ul>
@@ -78,83 +65,57 @@ export default function Footer() {
 
           {/* Layanan & Bantuan */}
           <div className="md:col-span-2 space-y-3">
-            <h4 className="text-white text-xs font-bold uppercase tracking-wider">
-              Layanan &amp; Info
+            <h4 className="text-white text-xs font-semibold uppercase tracking-wider">
+              Bantuan
             </h4>
-            <ul className="space-y-2.5 text-xs text-stone-400">
+            <ul className="space-y-2 text-xs">
               <li>
-                <Link href="/lacak" className="hover:text-amber-300 transition-colors">
-                  Lacak Pengiriman
+                <Link href="/lacak" className="hover:text-white transition-colors">
+                  Lacak Pesanan
                 </Link>
               </li>
               <li>
-                <Link href="/transaksi" className="hover:text-amber-300 transition-colors">
-                  Cek Status Pesanan
+                <Link href="/transaksi" className="hover:text-white transition-colors">
+                  Riwayat Transaksi
                 </Link>
               </li>
               <li>
-                <Link href="/tentang" className="hover:text-amber-300 transition-colors">
-                  Kisah &amp; Profil Kami
+                <Link href="/tentang" className="hover:text-white transition-colors">
+                  Tentang Kami
                 </Link>
               </li>
               <li>
-                <a
-                  href="https://wa.me/6281298980252"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-amber-300 transition-colors flex items-center gap-1.5"
-                >
-                  <span>Kemitraan Warung</span>
-                  <span className="material-symbols-outlined text-[13px]">open_in_new</span>
-                </a>
-              </li>
-              <li>
-                <Link href="/admin/login" className="text-amber-400/80 hover:text-amber-300 transition-colors font-medium">
+                <Link href="/admin/login" className="text-slate-500 hover:text-slate-300 transition-colors">
                   Portal Admin
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Mitra & Jaminan */}
-          <div className="md:col-span-3 space-y-4">
-            <h4 className="text-white text-xs font-bold uppercase tracking-wider">
-              Kemitraan &amp; Garansi
+          {/* Kontak & WhatsApp */}
+          <div className="md:col-span-3 space-y-3">
+            <h4 className="text-white text-xs font-semibold uppercase tracking-wider">
+              Kontak &amp; Grosir
             </h4>
-            <p className="text-xs text-stone-400 leading-relaxed">
-              Melayani pengiriman rutin harian ke warung bakso, depot mie ayam, katering, dan pesanan acara hajatan.
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Konsultasi pesanan grosir, hajatan, atau kebutuhan warung langsung dengan tim kami.
             </p>
-            <div className="p-3.5 bg-stone-900 rounded-xl border border-stone-800 space-y-2">
-              <div className="flex items-center gap-2 text-xs font-semibold text-white">
-                <span className="material-symbols-outlined text-emerald-400 text-lg">
-                  verified
-                </span>
-                <span>Garansi Kesegaran 100%</span>
-              </div>
-              <p className="text-[11px] text-stone-400 leading-tight">
-                Barang rusak saat pengiriman? Kami ganti baru tanpa biaya tambahan.
-              </p>
-            </div>
+            <a
+              href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20ingin%20tanya%20produk%20dan%20pemesanan"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors"
+            >
+              <span className="material-symbols-outlined text-base">chat</span>
+              <span>Hubungi via WhatsApp</span>
+            </a>
           </div>
         </div>
 
-        {/* Bottom copyright & badges */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
-          <p>© {new Date().getFullYear()} Bakso Pak Mul. Cita Rasa Otentik Kramat Jati, Jakarta Timur.</p>
-          <div className="flex items-center gap-4 text-[11px]">
-            <span className="flex items-center gap-1">
-              <span className="material-symbols-outlined text-sm text-stone-400">check_circle</span>
-              Daging Sapi Pilihan
-            </span>
-            <span className="flex items-center gap-1">
-              <span className="material-symbols-outlined text-sm text-stone-400">shield</span>
-              Higienis &amp; Aman
-            </span>
-            <span className="flex items-center gap-1">
-              <span className="material-symbols-outlined text-sm text-stone-400">local_shipping</span>
-              Kirim Cepat Se-Jabodetabek
-            </span>
-          </div>
+        {/* Bottom copyright */}
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <p>© {new Date().getFullYear()} Bakso Pak Mul. Pasar Kramat Jati, Jakarta Timur.</p>
+          <p className="text-slate-500 text-[11px]">100% Halal • Daging Sapi Pilihan • Segar Tiap Hari</p>
         </div>
       </div>
     </footer>
