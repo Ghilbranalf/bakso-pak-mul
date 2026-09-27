@@ -69,22 +69,16 @@ export default function HomePage() {
       <Navbar />
 
       <main className="pt-18 sm:pt-22">
-        {/* ================= HERO SECTION (MODERN CLASSIC CULINARY) ================= */}
+        {/* ================= HERO SECTION (CLEAN CLASSIC LUXURY) ================= */}
         <section className="relative overflow-hidden bg-gradient-to-b from-[#faf7f2] via-[#fcfbfa] to-white border-b border-slate-100 py-12 md:py-20">
-          {/* Subtle Ambient Decorative Circles */}
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#7a0019]/5 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-10 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
-
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-              {/* Left Column: Prestigious Copy & Call-To-Action */}
+              {/* Left Column: Classic Heritage Copy */}
               <div className="lg:col-span-7 space-y-6 text-left">
-                {/* Classic Badge */}
-                <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white border border-[#7a0019]/20 shadow-xs">
-                  <span className="w-2 h-2 rounded-full bg-[#7a0019] animate-pulse" />
-                  <span className="text-xs font-bold tracking-wide text-[#7a0019] uppercase">
-                    Cita Rasa Klasik Sejak 2000 • Kios Pasar Kramat Jati
-                  </span>
+                {/* Refined Eyebrow Header - Clean, No Gimmicky Pills */}
+                <div className="flex items-center gap-2 text-xs font-bold tracking-widest text-[#7a0019] uppercase">
+                  <span className="w-1.5 h-1.5 bg-[#7a0019] inline-block shrink-0" />
+                  <span>Cita Rasa Klasik Pasar Kramat Jati • Sejak 2000</span>
                 </div>
 
                 {/* Main Headline */}
@@ -105,7 +99,7 @@ export default function HomePage() {
                 <div className="flex flex-wrap items-center gap-3.5 pt-2">
                   <Link
                     href="/produk"
-                    className="px-7 py-4 rounded-2xl bg-[#7a0019] hover:bg-[#51000d] text-white font-bold text-sm shadow-md shadow-[#7a0019]/25 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center gap-2.5 cursor-pointer group"
+                    className="px-7 py-4 rounded-xl bg-[#7a0019] hover:bg-[#51000d] text-white font-bold text-sm shadow-md shadow-[#7a0019]/25 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center gap-2.5 cursor-pointer group"
                   >
                     <span className="material-symbols-outlined text-xl group-hover:scale-110 transition-transform">
                       shopping_bag
@@ -118,14 +112,14 @@ export default function HomePage() {
                     href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20tertarik%20dengan%20produk%20bakso%20dan%20ingin%20konsultasi%20pemesanan"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-6 py-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-200/90 font-bold text-sm shadow-xs hover:border-[#7a0019]/30 hover:shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+                    className="px-6 py-4 rounded-xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-200/90 font-bold text-sm shadow-xs hover:border-[#7a0019]/30 hover:shadow-sm transition-all flex items-center gap-2 cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-emerald-600 text-xl">chat</span>
                     <span>Konsultasi Grosir (WA)</span>
                   </a>
                 </div>
 
-                {/* Trust Badges Bar */}
+                {/* Trust Highlights - Crisp & Architectural */}
                 <div className="pt-6 border-t border-slate-200/70 grid grid-cols-3 gap-4 max-w-lg">
                   <div className="space-y-0.5">
                     <p className="text-sm sm:text-base font-black text-slate-900">100% Sapi Asli</p>
@@ -142,36 +136,17 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Right Column: Mouth-Watering Visual Centerpiece */}
+              {/* Right Column: Clean Food Showcase - No Cluttered Floating Stickers */}
               <div className="lg:col-span-5 relative">
-                {/* Glow ring */}
-                <div className="absolute -inset-1.5 bg-gradient-to-tr from-[#7a0019]/20 to-amber-500/20 rounded-3xl blur-xl opacity-75" />
-
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/80 bg-slate-900 aspect-[4/5] sm:aspect-square group">
+                <div className="relative rounded-2xl overflow-hidden shadow-xl border border-slate-200/80 bg-slate-900 aspect-[4/5] sm:aspect-square group">
                   <img
                     alt="Hidangan Bakso Pak Mul Kramat Jati"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     src="/images/hero-banner.webp"
                   />
 
-                  {/* Floating Pill: Halal & Segar */}
-                  <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-lg border border-slate-100 flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                    <div>
-                      <p className="text-[11px] font-bold text-slate-900 leading-tight">100% Halal MUI</p>
-                      <p className="text-[9px] text-slate-500">Higienis &amp; Teruji</p>
-                    </div>
-                  </div>
-
-                  {/* Floating Pill: Rating */}
-                  <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-2xl shadow-lg border border-slate-100 flex items-center gap-1.5">
-                    <span className="text-amber-500 text-sm font-bold">★</span>
-                    <span className="text-xs font-black text-slate-900">4.9</span>
-                    <span className="text-[10px] text-slate-400 font-medium">(1.2k ulasan)</span>
-                  </div>
-
-                  {/* Bottom Store Highlight Tag */}
-                  <div className="absolute bottom-4 left-4 right-4 bg-slate-950/85 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-white flex items-center justify-between">
+                  {/* Integrated Bottom Store Overlay - Sleek & Structured */}
+                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/90 via-slate-950/60 to-transparent p-5 text-white flex items-end justify-between">
                     <div>
                       <p className="text-xs font-bold text-white tracking-wide">
                         Kios Pusat Bakso Pak Mul
@@ -180,7 +155,7 @@ export default function HomePage() {
                         Lantai Dasar Pasar Kramat Jati, Jakarta Timur
                       </p>
                     </div>
-                    <span className="text-[11px] font-bold text-[#ffdad9] bg-[#7a0019] px-3 py-1 rounded-xl">
+                    <span className="text-[11px] font-bold text-white bg-[#7a0019] px-3 py-1.5 rounded-lg shrink-0">
                       Buka 06.00 WIB
                     </span>
                   </div>
@@ -190,7 +165,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ================= CATEGORY QUICK CARDS ================= */}
+        {/* ================= CATEGORY CARDS (STRUCTURED & TIDY) ================= */}
         <section className="py-10 bg-white border-b border-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-6">
@@ -199,7 +174,7 @@ export default function HomePage() {
                   Pilih Kategori Kebutuhan Anda
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Klik untuk melihat varian produk segar siap kirim
+                  Bahan baku segar pilihan langsung dari produsen
                 </p>
               </div>
               <Link
@@ -218,20 +193,20 @@ export default function HomePage() {
                   <button
                     key={cat.name}
                     onClick={() => setActiveCategory(cat.name)}
-                    className={`p-4 rounded-2xl text-left transition-all duration-200 cursor-pointer flex flex-col justify-between h-28 border ${
+                    className={`p-4 rounded-xl text-left transition-all duration-200 cursor-pointer flex flex-col justify-between h-28 border ${
                       isSelected
-                        ? "bg-[#7a0019] text-white border-[#7a0019] shadow-md shadow-[#7a0019]/20 -translate-y-1"
-                        : "bg-slate-50/80 hover:bg-slate-100 border-slate-200/80 text-slate-800 hover:-translate-y-0.5"
+                        ? "bg-[#7a0019] text-white border-[#7a0019] shadow-sm -translate-y-0.5"
+                        : "bg-slate-50 hover:bg-slate-100 border-slate-200/80 text-slate-800"
                     }`}
                   >
                     <div
-                      className={`w-9 h-9 rounded-xl flex items-center justify-center ${
+                      className={`w-8 h-8 rounded-lg flex items-center justify-center ${
                         isSelected
                           ? "bg-white/20 text-white"
                           : "bg-white text-[#7a0019] shadow-2xs"
                       }`}
                     >
-                      <span className="material-symbols-outlined text-xl">{cat.icon}</span>
+                      <span className="material-symbols-outlined text-lg">{cat.icon}</span>
                     </div>
 
                     <div>
@@ -251,7 +226,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ================= CATALOG SECTION (APPETIZING & SPACIOUS) ================= */}
+        {/* ================= CATALOG SECTION ================= */}
         <section className="py-14 sm:py-20 bg-slate-50/60">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
@@ -282,11 +257,11 @@ export default function HomePage() {
                 Array.from({ length: 4 }).map((_, i) => (
                   <div
                     key={i}
-                    className="bg-white rounded-3xl border border-slate-200/70 p-4 h-80 animate-pulse shadow-xs"
+                    className="bg-white rounded-2xl border border-slate-200/70 p-4 h-80 animate-pulse shadow-xs"
                   />
                 ))
               ) : filteredDisplayProducts.length === 0 ? (
-                <div className="col-span-full py-16 text-center text-slate-500 text-sm bg-white rounded-3xl border border-slate-200/80">
+                <div className="col-span-full py-16 text-center text-slate-500 text-sm bg-white rounded-2xl border border-slate-200/80">
                   <span className="material-symbols-outlined text-4xl text-slate-300 mb-2 block">
                     soup_kitchen
                   </span>
@@ -296,19 +271,19 @@ export default function HomePage() {
                 filteredDisplayProducts.map((product: any) => (
                   <div
                     key={product.id}
-                    className="group bg-white rounded-3xl border border-slate-200/80 overflow-hidden flex flex-col justify-between hover:shadow-xl hover:-translate-y-1 transition-all duration-300 shadow-xs"
+                    className="group bg-white rounded-2xl border border-slate-200/80 overflow-hidden flex flex-col justify-between hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 shadow-xs"
                   >
-                    {/* Image Area with Zoom & Category Badge */}
+                    {/* Image Area */}
                     <Link
                       href={`/produk/${product.id}`}
                       className="block relative aspect-square bg-[#fcfaf7] p-5 overflow-hidden"
                     >
                       <img
                         alt={product.name}
-                        className="w-full h-full object-contain group-hover:scale-108 transition-transform duration-500"
+                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                         src={product.image || "/images/hero-banner.webp"}
                       />
-                      <span className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs text-[#7a0019] text-[10px] font-black px-2.5 py-1 rounded-lg border border-[#7a0019]/15 shadow-2xs tracking-wide">
+                      <span className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs text-[#7a0019] text-[10px] font-bold px-2 py-0.5 rounded-md border border-[#7a0019]/15 shadow-2xs">
                         {product.category || "Bakso Pilihan"}
                       </span>
                     </Link>
@@ -329,12 +304,12 @@ export default function HomePage() {
                         </Link>
 
                         <p className="text-[11px] text-slate-500 mt-1">
-                          Porsi: <span className="font-semibold text-slate-700">{product.unit || "Pack Segar"}</span>
+                          Kemasan: <span className="font-semibold text-slate-700">{product.unit || "Pack Segar"}</span>
                         </p>
                       </div>
 
                       {/* Pricing and Action */}
-                      <div className="pt-3.5 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                      <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between gap-2">
                         <div>
                           {product.originalPrice && (
                             <p className="text-[10px] text-slate-400 line-through">
@@ -362,8 +337,8 @@ export default function HomePage() {
                           }}
                           className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0 shadow-xs ${
                             addedId === product.id
-                              ? "bg-emerald-600 text-white scale-95"
-                              : "bg-[#7a0019] hover:bg-[#51000d] text-white hover:shadow-md"
+                              ? "bg-emerald-600 text-white"
+                              : "bg-[#7a0019] hover:bg-[#51000d] text-white"
                           }`}
                           title="Tambah ke Keranjang"
                         >
@@ -387,16 +362,16 @@ export default function HomePage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
               {/* Left Column: Authentic Kiosk Photo of Pak Mul */}
               <div className="lg:col-span-5">
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-[#faf7f2] bg-slate-900 group">
+                <div className="relative rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-slate-900 group">
                   <img
                     alt="Kios Fisik Toko Bakso Pak Mul Pasar Kramat Jati"
                     className="w-full h-[380px] sm:h-[440px] object-cover transition-transform duration-700 group-hover:scale-105"
                     src="/images/toko-pak-mul-kramat-jati.webp"
                   />
-                  {/* Photo Vignette & Vintage Tag */}
+                  {/* Photo Vignette & Structured Tag */}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
                   <div className="absolute bottom-5 left-5 right-5 text-white">
-                    <span className="px-3 py-1 rounded-lg bg-[#7a0019] text-[11px] font-black uppercase tracking-wider">
+                    <span className="px-2.5 py-1 rounded-md bg-[#7a0019] text-[10px] font-black uppercase tracking-wider">
                       Kios Asli Sejak 2000
                     </span>
                     <p className="text-sm font-bold mt-2">
@@ -411,8 +386,9 @@ export default function HomePage() {
 
               {/* Right Column: Grounded Heritage Copy & Key Pillars */}
               <div className="lg:col-span-7 space-y-6 text-left">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#7a0019]/10 text-[#7a0019] text-xs font-bold">
-                  <span className="material-symbols-outlined text-sm">history_edu</span>
+                {/* Eyebrow - Clean & Structured, No Rounded-Full */}
+                <div className="flex items-center gap-2 text-xs font-bold tracking-widest text-[#7a0019] uppercase">
+                  <span className="w-1.5 h-1.5 bg-[#7a0019] inline-block shrink-0" />
                   <span>Warisan Kuliner 20+ Tahun</span>
                 </div>
 
@@ -426,7 +402,7 @@ export default function HomePage() {
 
                 {/* 3 Value Pillars */}
                 <div className="space-y-4 pt-2">
-                  <div className="flex items-start gap-3.5 p-3 rounded-2xl hover:bg-slate-50 transition-colors">
+                  <div className="flex items-start gap-3.5 p-3 rounded-xl hover:bg-slate-50 transition-colors">
                     <div className="w-10 h-10 rounded-xl bg-[#7a0019]/10 text-[#7a0019] flex items-center justify-center shrink-0">
                       <span className="material-symbols-outlined text-xl">verified</span>
                     </div>
@@ -438,7 +414,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-3.5 p-3 rounded-2xl hover:bg-slate-50 transition-colors">
+                  <div className="flex items-start gap-3.5 p-3 rounded-xl hover:bg-slate-50 transition-colors">
                     <div className="w-10 h-10 rounded-xl bg-[#7a0019]/10 text-[#7a0019] flex items-center justify-center shrink-0">
                       <span className="material-symbols-outlined text-xl">soup_kitchen</span>
                     </div>
@@ -450,7 +426,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-3.5 p-3 rounded-2xl hover:bg-slate-50 transition-colors">
+                  <div className="flex items-start gap-3.5 p-3 rounded-xl hover:bg-slate-50 transition-colors">
                     <div className="w-10 h-10 rounded-xl bg-[#7a0019]/10 text-[#7a0019] flex items-center justify-center shrink-0">
                       <span className="material-symbols-outlined text-xl">local_shipping</span>
                     </div>
@@ -489,7 +465,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ================= TESTIMONIALS (WARM & REAL) ================= */}
+        {/* ================= TESTIMONIALS (STRUCTURED & REAL) ================= */}
         <section className="py-16 sm:py-20 bg-[#faf8f5] border-t border-slate-200/80">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-2xl mx-auto mb-12">
@@ -503,7 +479,7 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Review 1 */}
-              <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
+              <div className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div>
                   <div className="text-amber-500 text-sm mb-3">★★★★★</div>
                   <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
@@ -511,7 +487,7 @@ export default function HomePage() {
                   </p>
                 </div>
                 <div className="pt-5 mt-5 border-t border-slate-100 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#7a0019] text-white font-bold text-xs flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-[#7a0019] text-white font-bold text-xs flex items-center justify-center">
                     MB
                   </div>
                   <div>
@@ -522,7 +498,7 @@ export default function HomePage() {
               </div>
 
               {/* Review 2 */}
-              <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
+              <div className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div>
                   <div className="text-amber-500 text-sm mb-3">★★★★★</div>
                   <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
@@ -530,7 +506,7 @@ export default function HomePage() {
                   </p>
                 </div>
                 <div className="pt-5 mt-5 border-t border-slate-100 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#7a0019] text-white font-bold text-xs flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-[#7a0019] text-white font-bold text-xs flex items-center justify-center">
                     SR
                   </div>
                   <div>
@@ -541,7 +517,7 @@ export default function HomePage() {
               </div>
 
               {/* Review 3 */}
-              <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
+              <div className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div>
                   <div className="text-amber-500 text-sm mb-3">★★★★★</div>
                   <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
@@ -549,7 +525,7 @@ export default function HomePage() {
                   </p>
                 </div>
                 <div className="pt-5 mt-5 border-t border-slate-100 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#7a0019] text-white font-bold text-xs flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-[#7a0019] text-white font-bold text-xs flex items-center justify-center">
                     HW
                   </div>
                   <div>
@@ -562,16 +538,13 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ================= CALL TO ACTION BANNER ================= */}
+        {/* ================= CALL TO ACTION BANNER (CLEAN & PRESTIGIOUS) ================= */}
         <section className="py-14 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#51000d] via-[#7a0019] to-[#51000d] p-8 sm:p-14 text-white shadow-2xl">
-            {/* Ambient decorative circle */}
-            <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-
+          <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-[#51000d] via-[#7a0019] to-[#51000d] p-8 sm:p-14 text-white shadow-xl">
             <div className="relative z-10 max-w-3xl space-y-4">
-              <span className="inline-block px-3.5 py-1 rounded-full bg-white/20 text-[#ffdad9] text-xs font-bold tracking-wider uppercase backdrop-blur-xs">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#ffdad9]">
                 Siap Kirim Cepat Se-Jabodetabek
-              </span>
+              </p>
               <h2 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight">
                 Hadirkan Kelezatan Bakso Sapi Asli di Meja Makan Anda Hari Ini
               </h2>
@@ -605,7 +578,7 @@ export default function HomePage() {
 
       {/* Cart Notification Toast */}
       {toastMessage && (
-        <div className="fixed bottom-20 md:bottom-8 right-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold border border-slate-700 animate-in fade-in slide-in-from-bottom-3">
+        <div className="fixed bottom-20 md:bottom-8 right-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-2.5 text-xs font-semibold border border-slate-700 animate-in fade-in slide-in-from-bottom-3">
           <span className="material-symbols-outlined text-emerald-400 text-base">
             check_circle
           </span>

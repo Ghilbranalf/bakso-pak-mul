@@ -117,7 +117,7 @@ export default function Navbar() {
                 <input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-48 xl:w-56 bg-slate-100 focus:bg-white border border-transparent focus:border-[#7a0019]/40 rounded-full py-2 pl-9 pr-3 text-xs text-slate-800 placeholder:text-slate-400 outline-none transition-all"
+                  className="w-48 xl:w-56 bg-slate-100 focus:bg-white border border-transparent focus:border-[#7a0019]/40 rounded-xl py-2 pl-9 pr-3 text-xs text-slate-800 placeholder:text-slate-400 outline-none transition-all"
                   placeholder="Cari bakso, mie, bumbu..."
                   type="text"
                 />
@@ -131,7 +131,7 @@ export default function Navbar() {
                 <div className="relative group">
                   <Link
                     href="/profil"
-                    className="w-9 h-9 rounded-full bg-[#7a0019] text-white flex items-center justify-center font-bold text-xs shadow-xs hover:bg-[#51000d] transition-colors"
+                    className="w-9 h-9 rounded-xl bg-[#7a0019] text-white flex items-center justify-center font-bold text-xs shadow-xs hover:bg-[#51000d] transition-colors"
                     title="Profil Saya"
                   >
                     {(user.user_metadata?.full_name || user.email || "U")
