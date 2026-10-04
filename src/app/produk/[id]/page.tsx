@@ -200,9 +200,9 @@ export default function ProductDetailPage() {
                   addToCart(displayProduct);
                   openCart();
                 }}
-                className="flex-1 py-4 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2 group"
+                className="flex-1 py-4 bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306] rounded-full text-xs font-black uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2 group"
               >
-                <span className="material-symbols-outlined text-lg group-hover:scale-110 transition-transform">
+                <span className="material-symbols-outlined text-lg font-bold group-hover:scale-110 transition-transform">
                   shopping_bag
                 </span>
                 <span>Tambah ke Keranjang</span>
@@ -214,9 +214,9 @@ export default function ProductDetailPage() {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-4 bg-white hover:bg-stone-50 border border-stone-300 text-stone-800 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
+                className="px-6 py-4 bg-[#1c0306] hover:bg-[#36070e] text-white rounded-full text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
               >
-                <span className="material-symbols-outlined text-emerald-700 text-lg">chat</span>
+                <span className="material-symbols-outlined text-emerald-400 text-lg">chat</span>
                 <span>Tanya via WhatsApp</span>
               </a>
             </div>
@@ -224,20 +224,20 @@ export default function ProductDetailPage() {
         </div>
 
         {/* REVIEWS & RATINGS SECTION */}
-        <section className="bg-white rounded-2xl p-6 sm:p-10 shadow-xs border border-stone-200/80 space-y-6">
+        <section className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-stone-200 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-100 pb-6">
             <div>
-              <h2 className="font-display text-2xl font-bold text-stone-950 tracking-tight">
+              <h2 className="font-headline text-2xl sm:text-3xl uppercase text-[#1c1917] tracking-tight">
                 Rating &amp; Ulasan Pembeli
               </h2>
-              <p className="font-sans text-xs text-stone-500 font-normal mt-0.5">
+              <p className="font-sans text-xs text-[#51000d] font-bold mt-0.5">
                 Pengalaman jujur dari pembeli dan penikmat setia Bakso Pak Mul
               </p>
             </div>
 
             <button
               onClick={() => setIsReviewModalOpen(true)}
-              className="px-5 py-3 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 shadow-2xs"
+              className="px-5 py-3 bg-[#51000d] hover:bg-[#7a0019] text-[#e5a93c] rounded-full text-xs font-black uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 shrink-0 shadow-xs"
             >
               <span className="material-symbols-outlined text-base">rate_review</span>
               <span>Tulis Ulasan</span>

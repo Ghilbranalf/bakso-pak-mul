@@ -29,7 +29,13 @@ export default function PromoPage() {
 
   const timer = formatTimer(timeLeft);
 
-  const handleAddBundle = (product: { id: string; name: string; price: number; image: string; unit: string }) => {
+  const handleAddBundle = (product: {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+    unit: string;
+  }) => {
     addToCart(product);
     setAddedId(product.id);
     setToastMessage(product.name);
@@ -38,417 +44,380 @@ export default function PromoPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f9f9f9] text-[#1a1c1c] font-sans antialiased flex flex-col justify-between">
+    <div className="min-h-screen bg-[#faf7f2] text-[#1c1917] font-sans antialiased flex flex-col justify-between selection:bg-[#51000d] selection:text-white">
       {/* Top Navbar */}
       <Navbar />
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#51000d] text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-5 duration-300 border border-red-800">
-          <span className="material-symbols-outlined text-green-400">check_circle</span>
-          <span className="text-xs font-bold">{toastMessage} ditambahkan ke keranjang!</span>
+        <div className="fixed bottom-6 right-6 z-50 bg-[#1c0306] text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-5 duration-300 border border-[#e5a93c]/40 text-xs font-semibold">
+          <span className="material-symbols-outlined text-[#e5a93c]">check_circle</span>
+          <span>{toastMessage} ditambahkan ke keranjang!</span>
         </div>
       )}
 
-      <main className="pt-20 flex-grow">
-        {/* Hero Section */}
-        <section className="relative min-h-[550px] md:min-h-[600px] flex items-center overflow-hidden">
-          <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#51000d]/90 to-[#51000d]/40 z-10"></div>
-            <img
-              alt="Ingredients Hero Background"
-              className="w-full h-full object-cover"
-              src="https://lh3.googleusercontent.com/aida/AP1WRLtX9iwyXZc_5EJ7W2XTVCiP-MfAs7vFxFbCrEN9uGmU3KNkxyoCvkMQT3GwKj-lh_7LIyCtQ0WKOm3zTgkq4ko0bHuvjpm8wFaIhTTmuwWgusOzxlPiy-2BejhiBF13nBgpNkXcui5K7IZQB_568I8oPpRptxcxLn0nEcbMb-TTdEUqeuCPj4fxWbEQoomn1h0D6MVIhrzbPfWYKWg0gll3eW3EJGlHvDwG2r3USK1-OqZEUrOQdcFZUDN-"
-            />
-          </div>
+      <main className="pt-20 sm:pt-24 flex-grow">
+        {/* ========================================================================= */}
+        {/* ARTISAN PROMO HERO BANNER (MATCHING THE ARTISAN POSTER LAYOUT)            */}
+        {/* ========================================================================= */}
+        <section className="relative bg-[#1c0306] text-white py-16 sm:py-24 overflow-hidden border-b border-[#420812]">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(229,169,60,0.15)_0%,_transparent_70%)] pointer-events-none" />
 
-          <div className="relative z-20 px-6 max-w-7xl mx-auto w-full py-12">
-            <div className="max-w-2xl text-white">
-              <span className="inline-block px-4 py-1.5 rounded-full bg-red-600/90 text-white text-xs font-extrabold uppercase tracking-wider mb-4 shadow-md">
-                Penawaran Eksklusif
-              </span>
-              <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight tracking-tight">
-                Promo Spesial Bakso Pak Mul
+          <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e5a93c]/20 text-[#e5a93c] border border-[#e5a93c]/30 text-[10px] font-black uppercase tracking-widest mb-3">
+              <span className="material-symbols-outlined text-sm">local_offer</span>
+              <span>PENAWARAN KHUSUS &amp; HARGA GROSIR</span>
+            </div>
+
+            <div className="relative inline-block my-2">
+              <h1 className="font-headline text-4xl sm:text-6xl md:text-7xl uppercase text-white tracking-tight leading-tight">
+                PROMO SPESIAL &amp; PAKET MITRA
               </h1>
-              <p className="text-base md:text-xl mb-8 text-white/90 leading-relaxed font-medium">
-                Penawaran eksklusif untuk mitra reseller dan pelanggan setia kami. Tingkatkan keuntungan bisnis kuliner Anda dengan harga terbaik dari supplier terpercaya.
+              <span className="font-script text-3xl sm:text-5xl md:text-6xl text-[#fcd34d] absolute -top-4 sm:-top-7 right-0 rotate-[-5deg] pointer-events-none drop-shadow-md">
+                Harga Sahabat
+              </span>
+            </div>
+
+            <p className="max-w-2xl mx-auto text-[#fef3c7] text-xs sm:text-sm mt-3 font-semibold leading-relaxed">
+              Paket hemat bahan baku bakso sapi murni, mie basah telor bebek, dan bumbu kaldu khas Pasar Kramat Jati untuk kebutuhan hajatan, keluarga besar, serta gerobak mitra kuliner se-Jabodetabek.
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-3.5 mt-8">
+              <a
+                href="#paket-reseller"
+                className="px-7 py-3.5 rounded-full bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306] font-black text-xs uppercase tracking-wider shadow-lg transition-all hover:scale-105"
+              >
+                Lihat Paket Reseller
+              </a>
+              <a
+                href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20tertarik%20konsultasi%20paket%20reseller"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider border border-white/20 transition-all flex items-center gap-2"
+              >
+                <span className="material-symbols-outlined text-emerald-400 text-base">chat</span>
+                <span>Konsultasi Grosir via WhatsApp</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* PAKET BUNDLE RESELLER (BENTO CARD ARTISAN STYLE)                          */}
+        {/* ========================================================================= */}
+        <section id="paket-reseller" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+            <div>
+              <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#7a0019]">
+                HEMAT BERKELANJUTAN
+              </span>
+              <h2 className="font-headline text-3xl sm:text-5xl text-[#1c1917] tracking-tight uppercase mt-1">
+                PAKET BUNDLE USAHA &amp; RESELLER
+              </h2>
+              <p className="text-[#2b1b17] text-xs sm:text-sm font-medium mt-1">
+                Solusi praktis dan hemat untuk memasok warung makan atau memulai usaha kuliner Anda.
               </p>
-              <div className="flex flex-wrap gap-4">
-                <a
-                  href="#paket-reseller"
-                  className="px-8 py-4 bg-white text-[#51000d] rounded-xl font-bold text-xs md:text-sm shadow-lg hover:bg-gray-100 transition-all active:scale-95 uppercase tracking-wider"
-                >
-                  Lihat Katalog Promo
-                </a>
-                <a
-                  href="https://wa.me/6281234567890"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-8 py-4 border-2 border-white/30 text-white backdrop-blur-md rounded-xl font-bold text-xs md:text-sm hover:bg-white/10 transition-all active:scale-95 uppercase tracking-wider flex items-center gap-2"
-                >
-                  <i className="fa-brands fa-whatsapp text-lg text-green-400"></i>
-                  <span>Hubungi Account Manager</span>
-                </a>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#51000d]/10 text-[#51000d] border border-[#51000d]/20 text-xs font-extrabold">
+              <span className="material-symbols-outlined text-sm">schedule</span>
+              <span>Penawaran Khusus Terbatas</span>
+            </div>
+          </div>
+
+          {/* Bundle Bento Card */}
+          <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm hover:shadow-xl border-2 border-stone-200 hover:border-[#e5a93c] transition-all duration-300 flex flex-col lg:flex-row gap-10 items-center">
+            <div className="w-full lg:w-1/2 relative group">
+              <div className="absolute top-4 left-4 z-10 bg-[#e5a93c] text-[#1c0306] px-4 py-1 rounded-full text-xs font-black uppercase tracking-wider shadow-md flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-sm font-bold">verified</span>
+                <span>PALING HEMAT</span>
               </div>
+              <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-md bg-[#1c0306] border-2 border-stone-200">
+                <img
+                  alt="Starter Pack Reseller"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  src="/images/hero-banner.webp"
+                />
+              </div>
+            </div>
+
+            <div className="w-full lg:w-1/2 text-left">
+              <span className="text-[10px] font-black uppercase tracking-widest text-[#7a0019] bg-amber-50 px-3 py-1 rounded-full border border-amber-200/60">
+                PAKET PERDANA USAHA
+              </span>
+              <h3 className="font-headline text-3xl sm:text-4xl uppercase text-[#1c1917] mt-2 mb-4 tracking-tight">
+                Starter Pack Warung &amp; Reseller
+              </h3>
+              <div className="space-y-3 mb-6 font-medium text-xs sm:text-sm text-[#2b1b17]">
+                <div className="flex items-center gap-3">
+                  <span className="material-symbols-outlined text-[#7a0019] text-xl">inventory_2</span>
+                  <span>Bakso Sapi Halus Super (10 Kg / ±500 Butir)</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="material-symbols-outlined text-[#7a0019] text-xl">soup_kitchen</span>
+                  <span>Bumbu Ekstrak Sumsum Rempah Sapi (5 Botol @250g)</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="material-symbols-outlined text-[#7a0019] text-xl">restaurant</span>
+                  <span>Mie Basah Telor Bebek Super (5 Kg / ±55 Porsi)</span>
+                </div>
+              </div>
+
+              <div className="mb-6 p-5 bg-[#faf7f2] rounded-2xl border-2 border-stone-200">
+                <p className="text-stone-500 text-xs font-bold line-through mb-0.5">Harga Normal: Rp 1.500.000</p>
+                <div className="flex items-baseline gap-3">
+                  <span className="font-headline text-3xl sm:text-4xl text-[#7a0019]">Rp 1.250.000</span>
+                  <span className="text-emerald-800 font-extrabold text-xs bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300">
+                    HEMAT 17%
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onClick={() =>
+                  handleAddBundle({
+                    id: "promo-bundle-starter",
+                    name: "Starter Pack Reseller (10kg Bakso + Bumbu + Mie)",
+                    price: 1250000,
+                    image: "/images/hero-banner.webp",
+                    unit: "Paket Bundle",
+                  })
+                }
+                className={`w-full py-4 rounded-full font-black text-xs uppercase tracking-wider shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                  addedId === "promo-bundle-starter"
+                    ? "bg-emerald-700 text-white"
+                    : "bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306]"
+                }`}
+              >
+                <span className="material-symbols-outlined text-lg font-bold">
+                  {addedId === "promo-bundle-starter" ? "check" : "shopping_basket"}
+                </span>
+                <span>
+                  {addedId === "promo-bundle-starter" ? "Berhasil Masuk Keranjang!" : "Pesan Paket Reseller Ini"}
+                </span>
+              </button>
             </div>
           </div>
         </section>
 
-        {/* Paket Bundle Reseller */}
-        <section id="paket-reseller" className="py-20 md:py-28 px-6 bg-[#f9f9f9]">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-              <div>
-                <span className="text-[#51000d] font-bold text-xs tracking-widest uppercase bg-red-100/60 px-3.5 py-1.5 rounded-full">
-                  Diskon Pembelian Jumlah Besar
-                </span>
-                <h2 className="text-3xl md:text-4xl font-extrabold text-[#51000d] mt-3">Paket Bundle Reseller</h2>
-                <p className="text-gray-600 text-sm md:text-base font-medium mt-1">
-                  Solusi hemat untuk memulai atau mengembangkan bisnis kuliner Anda.
-                </p>
-              </div>
-              <div className="hidden md:block">
-                <span className="bg-red-50 text-[#51000d] border border-red-200 px-4 py-2 rounded-full text-xs font-extrabold">
-                  ⏳ Berakhir dalam 12 Hari
-                </span>
-              </div>
-            </div>
-
-            {/* Bundle Bento Card */}
-            <div className="bg-white rounded-[32px] p-8 md:p-12 shadow-xl border border-gray-100 flex flex-col lg:flex-row gap-12 items-center hover:-translate-y-1 transition-transform duration-300">
-              <div className="w-full lg:w-1/2 relative group">
-                <div className="absolute -top-4 -left-4 z-10 bg-red-600 text-white px-5 py-2 rounded-full text-xs font-extrabold shadow-xl animate-bounce">
-                  🔥 Paling Hemat
-                </div>
-                <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-gray-100">
-                  <img
-                    alt="Starter Pack Reseller"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="/images/hero-banner.webp"
-                  />
-                </div>
-              </div>
-
-              <div className="w-full lg:w-1/2">
-                <h3 className="text-3xl font-extrabold text-[#51000d] mb-6">Starter Pack Reseller</h3>
-                <div className="space-y-4 mb-8">
-                  <div className="flex items-center gap-3 text-gray-700">
-                    <span className="material-symbols-outlined text-[#7a0019] text-xl">inventory_2</span>
-                    <span className="text-sm md:text-base font-semibold">Bakso Super (10kg)</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-gray-700">
-                    <span className="material-symbols-outlined text-[#7a0019] text-xl">liquor</span>
-                    <span className="text-sm md:text-base font-semibold">Bumbu Rahasia (5L)</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-gray-700">
-                    <span className="material-symbols-outlined text-[#7a0019] text-xl">restaurant</span>
-                    <span className="text-sm md:text-base font-semibold">Mie Kuning (5kg)</span>
-                  </div>
-                </div>
-
-                <div className="mb-8 p-6 bg-[#f3f3f3] rounded-2xl border border-gray-200">
-                  <p className="text-gray-400 text-xs font-bold line-through mb-1">Harga Normal: Rp 1.500.000</p>
-                  <div className="flex items-baseline gap-3">
-                    <span className="text-3xl md:text-4xl font-black text-[#51000d]">Rp 1.250.000</span>
-                    <span className="text-red-600 font-extrabold text-lg bg-red-100 px-2.5 py-0.5 rounded-lg">-17%</span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() =>
-                    handleAddBundle({
-                      id: "promo-bundle-starter",
-                      name: "Starter Pack Reseller (10kg Bakso + Bumbu + Mie)",
-                      price: 1250000,
-                      image: "/images/hero-banner.webp",
-                      unit: "Paket Bundle",
-                    })
-                  }
-                  className={`w-full py-4 rounded-2xl font-bold text-xs md:text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider ${
-                    addedId === "promo-bundle-starter"
-                      ? "bg-green-600 text-white"
-                      : "bg-[#51000d] hover:bg-[#7a0019] text-white"
-                  }`}
-                >
-                  <span className="material-symbols-outlined text-xl">
-                    {addedId === "promo-bundle-starter" ? "check" : "shopping_basket"}
-                  </span>
-                  <span>
-                    {addedId === "promo-bundle-starter" ? "Berhasil Ditambahkan!" : "Ambil Promo Reseller"}
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Flash Sale Limited Time */}
-        <section className="py-20 md:py-28 px-6 bg-white">
-          <div className="max-w-7xl mx-auto">
+        {/* ========================================================================= */}
+        {/* FLASH SALE PENAWARAN HARIAN                                               */}
+        {/* ========================================================================= */}
+        <section className="py-16 sm:py-24 bg-white border-t border-stone-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
               <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="material-symbols-outlined text-red-600 text-3xl">bolt</span>
-                  <h2 className="text-3xl md:text-4xl font-extrabold text-[#51000d] uppercase tracking-tight">
-                    Flash Sale Limited Time
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="material-symbols-outlined text-[#7a0019] text-2xl font-bold">
+                    local_fire_department
+                  </span>
+                  <h2 className="font-headline text-3xl sm:text-4xl text-[#1c1917] uppercase tracking-tight">
+                    FLASH SALE HARIAN
                   </h2>
                 </div>
-                <p className="text-gray-600 text-sm md:text-base font-medium">
-                  Stok terbatas, siapa cepat dia dapat. Harga khusus hari ini!
+                <p className="text-[#2b1b17] text-xs sm:text-sm font-medium">
+                  Stok potongan harga terbatas setiap hari, diproses segar dari kios Pasar Kramat Jati.
                 </p>
               </div>
 
-              {/* Realtime Countdown Timer */}
-              <div className="flex items-center gap-4 bg-[#f3f3f3] p-3 rounded-2xl border border-gray-200">
-                <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Berakhir dalam:</span>
-                <div className="flex gap-2">
-                  <div className="w-12 h-12 bg-[#51000d] text-white rounded-xl flex flex-col items-center justify-center shadow-md">
-                    <span className="font-extrabold text-sm">{timer.h}</span>
-                    <span className="text-[9px] uppercase font-semibold">Jam</span>
+              {/* Realtime Countdown Timer Blocks */}
+              <div className="flex items-center gap-3 bg-[#faf7f2] p-2.5 px-4 rounded-2xl border-2 border-stone-200">
+                <span className="text-xs font-black text-[#51000d] uppercase tracking-wider">Berakhir:</span>
+                <div className="flex gap-1.5">
+                  <div className="w-10 h-10 bg-[#51000d] text-[#e5a93c] rounded-xl flex flex-col items-center justify-center shadow-xs">
+                    <span className="font-headline text-sm font-bold">{timer.h}</span>
+                    <span className="text-[7px] uppercase font-bold text-white">Jam</span>
                   </div>
-                  <div className="w-12 h-12 bg-[#51000d] text-white rounded-xl flex flex-col items-center justify-center shadow-md">
-                    <span className="font-extrabold text-sm">{timer.m}</span>
-                    <span className="text-[9px] uppercase font-semibold">Min</span>
+                  <div className="w-10 h-10 bg-[#51000d] text-[#e5a93c] rounded-xl flex flex-col items-center justify-center shadow-xs">
+                    <span className="font-headline text-sm font-bold">{timer.m}</span>
+                    <span className="text-[7px] uppercase font-bold text-white">Min</span>
                   </div>
-                  <div className="w-12 h-12 bg-[#51000d] text-white rounded-xl flex flex-col items-center justify-center shadow-md">
-                    <span className="font-extrabold text-sm">{timer.s}</span>
-                    <span className="text-[9px] uppercase font-semibold">Det</span>
+                  <div className="w-10 h-10 bg-[#51000d] text-[#e5a93c] rounded-xl flex flex-col items-center justify-center shadow-xs">
+                    <span className="font-headline text-sm font-bold">{timer.s}</span>
+                    <span className="text-[7px] uppercase font-bold text-white">Det</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Flash Sale Product Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Product 1 */}
-              <div className="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 flex flex-col hover:-translate-y-2 transition-transform duration-300">
-                <div className="h-64 relative group overflow-hidden">
-                  <div className="absolute top-4 right-4 z-10 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-extrabold shadow-md">
-                    -25%
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+              {/* Card 1 */}
+              <div className="bg-[#faf7f2] rounded-3xl overflow-hidden border-2 border-stone-200 hover:border-[#e5a93c] shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+                <div>
+                  <div className="h-56 relative bg-[#1c0306] overflow-hidden">
+                    <div className="absolute top-3 right-3 z-10 bg-[#51000d] text-[#e5a93c] px-3 py-0.5 rounded-full text-xs font-black uppercase shadow">
+                      DISKON 25%
+                    </div>
+                    <img
+                      alt="Bakso Halus Super Essem"
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                      src="/images/bakso-super-essem.webp"
+                    />
                   </div>
-                  <img
-                    alt="Bakso Urat Premium"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    src="/images/bakso-super-essem.webp"
-                  />
+                  <div className="p-5">
+                    <h3 className="font-headline text-lg uppercase text-[#1c1917] mb-1">
+                      Bakso Halus Super (50 Butir)
+                    </h3>
+                    <p className="text-xs text-[#2b1b17] font-medium mb-3">
+                      Bakso daging sapi halus bertekstur empuk kenyal pas untuk anak-anak dan hajatan.
+                    </p>
+
+                    <div className="mb-3">
+                      <span className="text-stone-500 text-xs line-through block font-semibold">Rp 58.000</span>
+                      <span className="font-headline text-2xl text-[#7a0019]">Rp 43.500</span>
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-[11px] font-bold text-[#51000d]">
+                        <span>Terjual 82%</span>
+                        <span>Sisa 12 Pack</span>
+                      </div>
+                      <div className="w-full h-2 bg-stone-200 rounded-full overflow-hidden">
+                        <div className="w-[82%] h-full bg-[#7a0019] rounded-full" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-xl font-bold text-[#51000d] mb-1">Bakso Urat Premium (1kg)</h3>
-                  <p className="text-gray-500 text-xs mb-4 flex-grow">Bakso dengan tekstur urat sapi asli yang gurih dan kenyal.</p>
-                  
-                  <div className="mb-4">
-                    <span className="text-gray-400 text-xs line-through block font-medium">Rp 95.000</span>
-                    <span className="text-2xl font-black text-[#51000d]">Rp 71.250</span>
-                  </div>
 
-                  <div className="mb-4">
-                    <div className="flex justify-between text-xs mb-1 font-bold">
-                      <span className="text-red-600">Terjual 82%</span>
-                      <span className="text-gray-400">Sisa 12 Pack</span>
-                    </div>
-                    <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                      <div className="w-[82%] h-full bg-red-600 rounded-full"></div>
-                    </div>
-                  </div>
-
+                <div className="p-5 pt-0">
                   <button
                     onClick={() =>
                       handleAddBundle({
-                        id: "promo-urat-1kg",
-                        name: "Bakso Urat Premium (1kg)",
-                        price: 71250,
+                        id: "promo-halus-50",
+                        name: "Bakso Halus Super (50 Butir)",
+                        price: 43500,
                         image: "/images/bakso-super-essem.webp",
-                        unit: "1 Pack (1kg)",
+                        unit: "50 Butir / Pack",
                       })
                     }
-                    className={`w-full py-3 rounded-xl font-bold text-xs border-2 transition-all cursor-pointer uppercase tracking-wider ${
-                      addedId === "promo-urat-1kg"
-                        ? "bg-green-600 border-green-600 text-white"
-                        : "border-[#51000d] text-[#51000d] hover:bg-[#51000d] hover:text-white"
+                    className={`w-full py-3 rounded-full font-black text-xs uppercase tracking-wider shadow transition-all cursor-pointer ${
+                      addedId === "promo-halus-50"
+                        ? "bg-emerald-700 text-white"
+                        : "bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306]"
                     }`}
                   >
-                    {addedId === "promo-urat-1kg" ? "✓ Berhasil!" : "Ambil Promo"}
+                    {addedId === "promo-halus-50" ? "✓ Berhasil!" : "Pesan Promo Flash"}
                   </button>
                 </div>
               </div>
 
-              {/* Product 2 */}
-              <div className="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 flex flex-col hover:-translate-y-2 transition-transform duration-300">
-                <div className="h-64 relative group overflow-hidden">
-                  <div className="absolute top-4 right-4 z-10 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-extrabold shadow-md">
-                    -15%
+              {/* Card 2 */}
+              <div className="bg-[#faf7f2] rounded-3xl overflow-hidden border-2 border-stone-200 hover:border-[#e5a93c] shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+                <div>
+                  <div className="h-56 relative bg-[#1c0306] overflow-hidden">
+                    <div className="absolute top-3 right-3 z-10 bg-[#51000d] text-[#e5a93c] px-3 py-0.5 rounded-full text-xs font-black uppercase shadow">
+                      DISKON 20%
+                    </div>
+                    <img
+                      alt="Kulit Pangsit Spesial"
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                      src="/images/kulit-pangsit-spesial-rebus-dan-goreng.webp"
+                    />
                   </div>
-                  <img
-                    alt="Pangsit Goreng"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    src="/images/kulit-pangsit-spesial-rebus-dan-goreng.webp"
-                  />
+                  <div className="p-5">
+                    <h3 className="font-headline text-lg uppercase text-[#1c1917] mb-1">
+                      Kulit Pangsit Renyah (500g)
+                    </h3>
+                    <p className="text-xs text-[#2b1b17] font-medium mb-3">
+                      Kulit pangsit tipis lentur, sangat renyah saat digoreng dan gurih saat direbus.
+                    </p>
+
+                    <div className="mb-3">
+                      <span className="text-stone-500 text-xs line-through block font-semibold">Rp 18.000</span>
+                      <span className="font-headline text-2xl text-[#7a0019]">Rp 14.400</span>
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-[11px] font-bold text-[#51000d]">
+                        <span>Terjual 60%</span>
+                        <span>Sisa 20 Pack</span>
+                      </div>
+                      <div className="w-full h-2 bg-stone-200 rounded-full overflow-hidden">
+                        <div className="w-[60%] h-full bg-[#7a0019] rounded-full" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-xl font-bold text-[#51000d] mb-1">Pangsit Goreng (1 Pack)</h3>
-                  <p className="text-gray-500 text-xs mb-4 flex-grow">Pangsit renyah isi ayam dan bumbu rahasia Pak Mul.</p>
-                  
-                  <div className="mb-4">
-                    <span className="text-gray-400 text-xs line-through block font-medium">Rp 45.000</span>
-                    <span className="text-2xl font-black text-[#51000d]">Rp 38.250</span>
-                  </div>
 
-                  <div className="mb-4">
-                    <div className="flex justify-between text-xs mb-1 font-bold">
-                      <span className="text-red-600">Terjual 45%</span>
-                      <span className="text-gray-400">Sisa 40 Pack</span>
-                    </div>
-                    <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                      <div className="w-[45%] h-full bg-red-600 rounded-full"></div>
-                    </div>
-                  </div>
-
+                <div className="p-5 pt-0">
                   <button
                     onClick={() =>
                       handleAddBundle({
-                        id: "promo-pangsit-1pack",
-                        name: "Pangsit Goreng (1 Pack)",
-                        price: 38250,
+                        id: "promo-pangsit-500g",
+                        name: "Kulit Pangsit Renyah (500g)",
+                        price: 14400,
                         image: "/images/kulit-pangsit-spesial-rebus-dan-goreng.webp",
-                        unit: "1 Pack",
+                        unit: "500 Gram",
                       })
                     }
-                    className={`w-full py-3 rounded-xl font-bold text-xs border-2 transition-all cursor-pointer uppercase tracking-wider ${
-                      addedId === "promo-pangsit-1pack"
-                        ? "bg-green-600 border-green-600 text-white"
-                        : "border-[#51000d] text-[#51000d] hover:bg-[#51000d] hover:text-white"
+                    className={`w-full py-3 rounded-full font-black text-xs uppercase tracking-wider shadow transition-all cursor-pointer ${
+                      addedId === "promo-pangsit-500g"
+                        ? "bg-emerald-700 text-white"
+                        : "bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306]"
                     }`}
                   >
-                    {addedId === "promo-pangsit-1pack" ? "✓ Berhasil!" : "Ambil Promo"}
+                    {addedId === "promo-pangsit-500g" ? "✓ Berhasil!" : "Pesan Promo Flash"}
                   </button>
                 </div>
               </div>
 
-              {/* Product 3 */}
-              <div className="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 flex flex-col hover:-translate-y-2 transition-transform duration-300">
-                <div className="h-64 relative group overflow-hidden">
-                  <div className="absolute top-4 right-4 z-10 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-extrabold shadow-md">
-                    -20%
+              {/* Card 3 */}
+              <div className="bg-[#faf7f2] rounded-3xl overflow-hidden border-2 border-stone-200 hover:border-[#e5a93c] shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+                <div>
+                  <div className="h-56 relative bg-[#1c0306] overflow-hidden">
+                    <div className="absolute top-3 right-3 z-10 bg-[#51000d] text-[#e5a93c] px-3 py-0.5 rounded-full text-xs font-black uppercase shadow">
+                      DISKON 15%
+                    </div>
+                    <img
+                      alt="Bumbu Kuah Kaldu Rempah"
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                      src="/images/bumbu-kuah-bakso.webp"
+                    />
                   </div>
-                  <img
-                    alt="Saos Sambal Premium"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    src="/images/saos-sambal-botol-lima-delapan.webp"
-                  />
+                  <div className="p-5">
+                    <h3 className="font-headline text-lg uppercase text-[#1c1917] mb-1">
+                      Bumbu Kuah Kaldu Sapi (250g)
+                    </h3>
+                    <p className="text-xs text-[#2b1b17] font-medium mb-3">
+                      Sari ekstrak sumsum sapi dengan tumisan bawang putih harum, menghasilkan kuah sedap.
+                    </p>
+
+                    <div className="mb-3">
+                      <span className="text-stone-500 text-xs line-through block font-semibold">Rp 22.000</span>
+                      <span className="font-headline text-2xl text-[#7a0019]">Rp 18.700</span>
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-[11px] font-bold text-[#51000d]">
+                        <span>Terjual 90%</span>
+                        <span>Sisa 5 Botol</span>
+                      </div>
+                      <div className="w-full h-2 bg-stone-200 rounded-full overflow-hidden">
+                        <div className="w-[90%] h-full bg-[#7a0019] rounded-full" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-xl font-bold text-[#51000d] mb-1">Saos Sambal Premium</h3>
-                  <p className="text-gray-500 text-xs mb-4 flex-grow">Saus sambal pedas nikmat, pelengkap wajib hidangan bakso.</p>
-                  
-                  <div className="mb-4">
-                    <span className="text-gray-400 text-xs line-through block font-medium">Rp 25.000</span>
-                    <span className="text-2xl font-black text-[#51000d]">Rp 20.000</span>
-                  </div>
 
-                  <div className="mb-4">
-                    <div className="flex justify-between text-xs mb-1 font-bold">
-                      <span className="text-red-600">Terjual 95%</span>
-                      <span className="text-gray-400">Sisa 5 Botol</span>
-                    </div>
-                    <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                      <div className="w-[95%] h-full bg-red-600 rounded-full"></div>
-                    </div>
-                  </div>
-
+                <div className="p-5 pt-0">
                   <button
                     onClick={() =>
                       handleAddBundle({
-                        id: "promo-saos-botol",
-                        name: "Saos Sambal Premium Pak Mul",
-                        price: 20000,
-                        image: "/images/saos-sambal-botol-lima-delapan.webp",
-                        unit: "1 Botol",
+                        id: "promo-bumbu-250g",
+                        name: "Bumbu Kuah Kaldu Sapi (250g)",
+                        price: 18700,
+                        image: "/images/bumbu-kuah-bakso.webp",
+                        unit: "250 Gram / Botol",
                       })
                     }
-                    className={`w-full py-3 rounded-xl font-bold text-xs border-2 transition-all cursor-pointer uppercase tracking-wider ${
-                      addedId === "promo-saos-botol"
-                        ? "bg-green-600 border-green-600 text-white"
-                        : "border-[#51000d] text-[#51000d] hover:bg-[#51000d] hover:text-white"
+                    className={`w-full py-3 rounded-full font-black text-xs uppercase tracking-wider shadow transition-all cursor-pointer ${
+                      addedId === "promo-bumbu-250g"
+                        ? "bg-emerald-700 text-white"
+                        : "bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306]"
                     }`}
                   >
-                    {addedId === "promo-saos-botol" ? "✓ Berhasil!" : "Ambil Promo"}
+                    {addedId === "promo-bumbu-250g" ? "✓ Berhasil!" : "Pesan Promo Flash"}
                   </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Program Loyalitas */}
-        <section className="py-20 md:py-28 px-6 bg-[#51000d] text-white relative overflow-hidden">
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <div>
-                <h2 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
-                  Program Loyalitas <br />Mitra Bakso Pak Mul
-                </h2>
-                <p className="text-white/80 text-sm md:text-base mb-8 leading-relaxed font-medium">
-                  Kami menghargai setiap langkah perjalanan bisnis Anda. Bergabunglah dengan program loyalitas kami dan nikmati berbagai keuntungan eksklusif untuk setiap transaksi.
-                </p>
-
-                <div className="space-y-4">
-                  <div className="flex gap-4 items-start p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
-                    <div className="p-3 rounded-full bg-red-600 text-white shrink-0">
-                      <span className="material-symbols-outlined text-xl">stars</span>
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-base mb-0.5">Kumpulkan Poin</h4>
-                      <p className="text-white/60 text-xs">Dapatkan 1 poin untuk setiap transaksi Rp 10.000. Poin tidak pernah hangus.</p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-4 items-start p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
-                    <div className="p-3 rounded-full bg-red-600 text-white shrink-0">
-                      <span className="material-symbols-outlined text-xl">local_shipping</span>
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-base mb-0.5">Diskon Pengiriman</h4>
-                      <p className="text-white/60 text-xs">Tukarkan poin untuk potongan biaya kirim hingga 100% untuk area Jabodetabek.</p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-4 items-start p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
-                    <div className="p-3 rounded-full bg-red-600 text-white shrink-0">
-                      <span className="material-symbols-outlined text-xl">apparel</span>
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-base mb-0.5">Merchandise Gratis</h4>
-                      <p className="text-white/60 text-xs">Dapatkan Apron, Seragam, atau Banner promosi eksklusif Bakso Pak Mul.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Loyalty Card */}
-              <div className="relative">
-                <div className="bg-white rounded-[32px] p-8 md:p-10 text-gray-900 shadow-2xl">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="w-20 h-20 rounded-full border-4 border-[#51000d] p-1.5 mb-4 shadow-sm flex items-center justify-center bg-amber-400 text-[#51000d]">
-                      <span className="material-symbols-outlined text-4xl">loyalty</span>
-                    </div>
-                    <h3 className="text-[#51000d] font-extrabold text-2xl mb-1">Check Your Rewards</h3>
-                    <p className="text-gray-500 text-xs mb-8 font-medium">Login untuk melihat status poin dan penawaran khusus Anda.</p>
-                    
-                    <div className="w-full space-y-3">
-                      <Link
-                        href="/login"
-                        className="w-full py-4 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl font-bold text-xs uppercase tracking-wider block transition-all shadow-md"
-                      >
-                        Login Member
-                      </Link>
-                      <Link
-                        href="/register"
-                        className="w-full py-4 border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl font-bold text-xs uppercase tracking-wider block transition-all"
-                      >
-                        Daftar Kemitraan
-                      </Link>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -456,7 +425,6 @@ export default function PromoPage() {
         </section>
       </main>
 
-      {/* Footer Component */}
       <Footer />
     </div>
   );

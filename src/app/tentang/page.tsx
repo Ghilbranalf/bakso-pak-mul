@@ -12,17 +12,25 @@ export default function AboutPage() {
 
       <main className="pt-20 sm:pt-24 flex-grow">
         {/* Editorial Story Hero */}
-        <section className="relative py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="text-center max-w-3xl mx-auto space-y-4">
-            <div className="inline-flex items-center gap-2.5 text-xs font-bold tracking-[0.25em] text-[#7a0019] uppercase">
-              <span className="w-6 h-[1px] bg-[#7a0019]" />
-              <span>Dedikasi &amp; Tradisi Sejak 2000</span>
-              <span className="w-6 h-[1px] bg-[#7a0019]" />
+        <section className="relative bg-[#1c0306] text-white py-16 sm:py-24 overflow-hidden border-b border-[#420812]">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(229,169,60,0.12)_0%,_transparent_70%)] pointer-events-none" />
+
+          <div className="relative z-10 text-center max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e5a93c]/20 text-[#e5a93c] border border-[#e5a93c]/30 text-[10px] font-black uppercase tracking-widest mb-1">
+              <span className="material-symbols-outlined text-sm">history_edu</span>
+              <span>DEDIKASI &amp; TRADISI SEJAK 2000</span>
             </div>
-            <h1 className="font-headline text-4xl sm:text-6xl text-[#1c1917] uppercase tracking-tight leading-tight">
-              Kisah di Balik Kios Kramat Jati
-            </h1>
-            <p className="text-[#2b1b17] text-sm sm:text-base leading-relaxed max-w-2xl mx-auto font-medium">
+
+            <div className="relative inline-block my-2">
+              <h1 className="font-headline text-4xl sm:text-6xl md:text-7xl uppercase text-white tracking-tight leading-tight">
+                KISAH DI BALIK KIOS KRAMAT JATI
+              </h1>
+              <span className="font-script text-3xl sm:text-5xl md:text-6xl text-[#fcd34d] absolute -top-4 sm:-top-7 right-0 rotate-[-5deg] pointer-events-none drop-shadow-md">
+                Warisan Rasa
+              </span>
+            </div>
+
+            <p className="text-[#fef3c7] text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto font-semibold">
               Perjalanan lebih dari dua dekade meracik olahan daging sapi segar pilihan, mempertahankan rasa otentik yang jujur dan dipercaya keluarga serta ratusan mitra kuliner di Jabodetabek.
             </p>
           </div>
