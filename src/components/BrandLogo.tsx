@@ -49,15 +49,15 @@ export default function BrandLogo({
       {/* Modern Culinary Display Typography */}
       <div className="flex flex-col justify-center leading-none">
         <span
-          className={`font-display font-extrabold ${titleSizes} ${
+          className={`font-headline uppercase tracking-wider ${titleSizes} ${
             isLight ? "text-white" : "text-[#51000d]"
           }`}
         >
-          Bakso Pak Mul
+          Bakso Pak Mul<span className="text-[#e5a93c]">.</span>
         </span>
         {withSubtitle && (
           <span
-            className={`font-sans text-[9px] font-bold tracking-[0.24em] uppercase mt-1 ${
+            className={`font-sans text-[9px] font-extrabold tracking-[0.22em] uppercase mt-1 ${
               isLight ? "text-amber-200/90" : "text-[#7a0019]"
             }`}
           >
