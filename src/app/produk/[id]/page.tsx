@@ -127,22 +127,22 @@ export default function ProductDetailPage() {
 
       <main className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full space-y-10">
         {/* Breadcrumb Navigation */}
-        <div className="flex items-center gap-2 text-xs font-semibold text-stone-500">
+        <div className="flex items-center gap-2 text-xs font-bold text-[#1c1917]">
           <Link href="/produk" className="hover:text-[#51000d] transition-colors">
             Katalog Produk
           </Link>
           <span>/</span>
-          <span className="text-[#51000d] font-bold truncate max-w-xs sm:max-w-md">
+          <span className="text-[#51000d] font-extrabold truncate max-w-xs sm:max-w-md">
             {displayProduct.name}
           </span>
         </div>
 
         {/* Product Details Section */}
-        <div className="bg-white rounded-2xl p-6 sm:p-10 shadow-xs border border-stone-200/80 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-stone-200 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Image Column */}
-          <div className="lg:col-span-5 relative flex items-center justify-center bg-[#f5f0e8] rounded-2xl p-8 overflow-hidden">
+          <div className="lg:col-span-5 relative flex items-center justify-center bg-[#f5f0e8] rounded-2xl p-8 overflow-hidden border border-stone-200">
             {displayProduct.badge && (
-              <span className="absolute top-4 left-4 px-3 py-1 bg-[#51000d] text-white text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-2xs">
+              <span className="absolute top-4 left-4 px-3 py-1 bg-[#51000d] text-[#e5a93c] text-[10px] font-black uppercase tracking-wider rounded-lg shadow-2xs">
                 {displayProduct.badge}
               </span>
             )}
@@ -157,30 +157,30 @@ export default function ProductDetailPage() {
           <div className="lg:col-span-7 space-y-5">
             <div>
               <div className="flex items-center gap-3 mb-2.5">
-                <span className="px-3 py-1 bg-amber-50 text-[#7a0019] border border-amber-200/60 text-xs font-bold rounded-lg">
+                <span className="px-3 py-1 bg-amber-50 text-[#7a0019] border border-amber-200/60 text-xs font-bold rounded-lg uppercase">
                   {displayProduct.category || "Bakso Sapi"}
                 </span>
-                <div className="flex items-center text-amber-500 text-sm font-bold gap-1">
+                <div className="flex items-center text-[#e5a93c] text-sm font-bold gap-1">
                   {"★".repeat(Math.round(avgRating))}
-                  <span className="text-xs text-stone-600 font-semibold ml-1">
+                  <span className="text-xs text-[#1c1917] font-bold ml-1">
                     {avgRating} ({totalReviews} Ulasan)
                   </span>
                 </div>
               </div>
-              <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-stone-950 tracking-tight leading-tight">
+              <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl text-[#1c1917] tracking-tight leading-tight uppercase">
                 {displayProduct.name}
               </h1>
-              <p className="text-xs text-stone-500 font-medium mt-1 uppercase tracking-wider">
-                Kemasan: <span className="font-bold text-stone-800">{displayProduct.unit}</span>
+              <p className="text-xs text-[#51000d] font-bold mt-1 uppercase tracking-wider">
+                Kemasan: <span className="font-extrabold text-[#1c1917]">{displayProduct.unit}</span>
               </p>
             </div>
 
             <div className="flex items-baseline gap-3 pt-1">
-              <span className="font-display text-3xl sm:text-4xl font-extrabold text-[#7a0019]">
+              <span className="font-headline text-3xl sm:text-4xl font-extrabold text-[#7a0019]">
                 Rp {formatPrice(displayProduct.price)}
               </span>
               {displayProduct.originalPrice && (
-                <span className="text-sm font-medium text-stone-400 line-through">
+                <span className="text-sm font-semibold text-stone-500 line-through">
                   Rp {formatPrice(displayProduct.originalPrice)}
                 </span>
               )}
@@ -189,7 +189,7 @@ export default function ProductDetailPage() {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+            <p className="text-xs sm:text-sm text-[#2b1b17] leading-relaxed font-medium">
               {displayProduct.description ||
                 "Produk makanan berkualitas tinggi khas Bakso Pak Mul. Dibuat dengan higienis tanpa bahan pengawet berlebihan."}
             </p>

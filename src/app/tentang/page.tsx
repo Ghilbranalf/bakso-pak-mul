@@ -19,10 +19,10 @@ export default function AboutPage() {
               <span>Dedikasi &amp; Tradisi Sejak 2000</span>
               <span className="w-6 h-[1px] bg-[#7a0019]" />
             </div>
-            <h1 className="font-display text-4xl sm:text-6xl font-bold text-stone-950 tracking-tight leading-tight">
+            <h1 className="font-headline text-4xl sm:text-6xl text-[#1c1917] uppercase tracking-tight leading-tight">
               Kisah di Balik Kios Kramat Jati
             </h1>
-            <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto font-normal">
+            <p className="text-[#2b1b17] text-sm sm:text-base leading-relaxed max-w-2xl mx-auto font-medium">
               Perjalanan lebih dari dua dekade meracik olahan daging sapi segar pilihan, mempertahankan rasa otentik yang jujur dan dipercaya keluarga serta ratusan mitra kuliner di Jabodetabek.
             </p>
           </div>
@@ -33,11 +33,11 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left Narrative */}
             <div className="lg:col-span-7 space-y-6 text-left">
-              <p className="font-display italic text-2xl sm:text-3xl text-stone-900 leading-snug">
+              <p className="font-headline uppercase text-2xl sm:text-3xl text-[#1c1917] leading-snug tracking-wide">
                 &ldquo;Rasa tidak pernah bisa dibohongi. Ketika daging sapi murni diolah dengan kejujuran resep rempah, lidah pelanggan akan selalu ingat jalan pulang.&rdquo;
               </p>
 
-              <div className="space-y-4 text-stone-600 text-sm sm:text-base leading-relaxed font-normal">
+              <div className="space-y-4 text-[#2b1b17] text-sm sm:text-base leading-relaxed font-medium">
                 <p>
                   Bermula pada tahun 2000 dari sebuah kios sederhana di lantai dasar Pasar Kramat Jati, Jakarta Timur, Pak Mul memulai usahanya dengan prinsip sederhana: tidak akan pernah berkompromi dengan kualitas daging sapi. Di saat banyak produsen mencampur bahan pengisi berlebih demi mengejar volume, Pak Mul tetap setia memilih daging sapi segar langsung dari pemotongan pasar induk pada pukul 04.30 subuh setiap hari.
                 </p>
@@ -49,23 +49,23 @@ export default function AboutPage() {
               {/* Legacy Milestones */}
               <div className="pt-6 border-t border-stone-200 grid grid-cols-3 gap-6">
                 <div>
-                  <p className="font-display text-3xl font-bold text-[#51000d]">2000</p>
-                  <p className="text-xs text-stone-500 font-medium mt-1">Tahun Berdiri di Kramat Jati</p>
+                  <p className="font-headline text-3xl font-bold text-[#51000d]">2000</p>
+                  <p className="text-xs text-[#51000d] font-bold mt-1">Tahun Berdiri di Kramat Jati</p>
                 </div>
                 <div>
-                  <p className="font-display text-3xl font-bold text-[#51000d]">100%</p>
-                  <p className="text-xs text-stone-500 font-medium mt-1">Daging Sapi Segar Pilihan</p>
+                  <p className="font-headline text-3xl font-bold text-[#51000d]">100%</p>
+                  <p className="text-xs text-[#51000d] font-bold mt-1">Daging Sapi Segar Pilihan</p>
                 </div>
                 <div>
-                  <p className="font-display text-3xl font-bold text-[#51000d]">500+</p>
-                  <p className="text-xs text-stone-500 font-medium mt-1">Mitra Warung &amp; Katering</p>
+                  <p className="font-headline text-3xl font-bold text-[#51000d]">500+</p>
+                  <p className="text-xs text-[#51000d] font-bold mt-1">Mitra Warung &amp; Katering</p>
                 </div>
               </div>
             </div>
 
             {/* Right Photo */}
             <div className="lg:col-span-5">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-stone-900 group">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-stone-900 group border-4 border-[#e5a93c]/30">
                 <img
                   src="/images/toko-pak-mul-kramat-jati.webp"
                   alt="Pak Mul di Kios Pasar Kramat Jati"
@@ -73,13 +73,13 @@ export default function AboutPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-transparent to-transparent pointer-events-none" />
                 <div className="absolute bottom-6 left-6 right-6 text-white">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-300">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e5a93c]">
                     Dokumentasi Kios Asli
                   </span>
-                  <p className="font-display text-lg font-bold mt-1">
+                  <p className="font-headline text-xl uppercase tracking-wide mt-1 text-white">
                     Kios Bakso Pak Mul
                   </p>
-                  <p className="text-xs text-stone-300 mt-0.5">
+                  <p className="text-xs text-[#fef3c7] mt-0.5 font-medium">
                     Pasar Kramat Jati, Jakarta Timur • Buka Tiap Subuh
                   </p>
                 </div>
@@ -95,38 +95,38 @@ export default function AboutPage() {
               <p className="text-xs font-bold tracking-[0.2em] text-[#7a0019] uppercase mb-1">
                 Prinsip Tanpa Kompromi
               </p>
-              <h2 className="font-display text-3xl sm:text-4xl font-bold text-stone-950 tracking-tight">
+              <h2 className="font-headline text-3xl sm:text-4xl text-[#1c1917] uppercase tracking-tight">
                 Tiga Pilar Kualitas Bakso Pak Mul
               </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
-              <div className="bg-[#faf7f2] p-8 rounded-2xl border border-stone-200/80 space-y-3">
-                <span className="font-display text-2xl font-bold text-[#51000d]">01</span>
-                <h3 className="font-display text-lg font-bold text-stone-900">
+              <div className="bg-[#faf7f2] p-8 rounded-2xl border border-stone-200 space-y-3">
+                <span className="font-headline text-2xl font-bold text-[#51000d]">01</span>
+                <h3 className="font-headline text-lg uppercase text-[#1c1917]">
                   Daging Murni Tanpa Boraks
                 </h3>
-                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-[#2b1b17] leading-relaxed font-medium">
                   Tekstur kenyal bakso kami berasal murni dari kekenyalan alami serat daging sapi segar yang digiling dingin, bukan dari bahan kimia berbahaya maupun pengenyal buatan.
                 </p>
               </div>
 
-              <div className="bg-[#faf7f2] p-8 rounded-2xl border border-stone-200/80 space-y-3">
-                <span className="font-display text-2xl font-bold text-[#51000d]">02</span>
-                <h3 className="font-display text-lg font-bold text-stone-900">
+              <div className="bg-[#faf7f2] p-8 rounded-2xl border border-stone-200 space-y-3">
+                <span className="font-headline text-2xl font-bold text-[#51000d]">02</span>
+                <h3 className="font-headline text-lg uppercase text-[#1c1917]">
                   Resep Rempah Warisan
                 </h3>
-                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-[#2b1b17] leading-relaxed font-medium">
                   Takaran bawang putih goreng lokal, merica butir tumbuk, dan bumbu kaldu rempah yang dipertahankan turun temurun memberikan keharuman aroma yang khas dan menggugah selera.
                 </p>
               </div>
 
-              <div className="bg-[#faf7f2] p-8 rounded-2xl border border-stone-200/80 space-y-3">
-                <span className="font-display text-2xl font-bold text-[#51000d]">03</span>
-                <h3 className="font-display text-lg font-bold text-stone-900">
+              <div className="bg-[#faf7f2] p-8 rounded-2xl border border-stone-200 space-y-3">
+                <span className="font-headline text-2xl font-bold text-[#51000d]">03</span>
+                <h3 className="font-headline text-lg uppercase text-[#1c1917]">
                   Kemasan Higienis &amp; Rantai Dingin
                 </h3>
-                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-[#2b1b17] leading-relaxed font-medium">
                   Produk disegel rapi dalam kemasan hampa udara (vacuum pack) dan didinginkan langsung untuk memastikan keamanan pangan dan kualitas mutu terjaga hingga ke tangan Anda.
                 </p>
               </div>
@@ -136,15 +136,15 @@ export default function AboutPage() {
 
         {/* Invitation & Kiosk Location */}
         <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl bg-gradient-to-r from-[#3a0009] via-[#51000d] to-[#3a0009] text-white p-8 sm:p-14 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="rounded-2xl bg-gradient-to-r from-[#200408] via-[#51000d] to-[#200408] text-white p-8 sm:p-14 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 border border-[#59101f]">
             <div className="max-w-xl space-y-3">
-              <p className="text-xs font-bold tracking-[0.2em] uppercase text-amber-300">
+              <p className="text-xs font-bold tracking-[0.2em] uppercase text-[#e5a93c]">
                 Kemitraan Usaha &amp; Hajatan
               </p>
-              <h2 className="font-display text-2xl sm:text-4xl font-bold leading-tight">
+              <h2 className="font-headline text-2xl sm:text-4xl uppercase leading-tight tracking-wide">
                 Tertarik Bermitra atau Butuh Pasokan Rutin?
               </h2>
-              <p className="text-stone-300 text-xs sm:text-sm leading-relaxed">
+              <p className="text-[#fef3c7] text-xs sm:text-sm leading-relaxed font-medium">
                 Kami siap menyuplai kebutuhan bakso sapi, mie telor, kulit pangsit, dan bumbu kuah dengan harga grosir terbaik untuk usaha Anda.
               </p>
             </div>

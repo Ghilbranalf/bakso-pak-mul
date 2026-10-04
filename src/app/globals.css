@@ -17,7 +17,7 @@
   --color-surface-warm: #f5f0e8;
 
   --color-text-primary: #1c1917;
-  --color-text-muted: #78716c;
+  --color-text-muted: #3a221d;
   --color-outline: #e7e2d9;
 
   --font-headline: "Anton", sans-serif;
@@ -38,6 +38,28 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+/* Ensure rich contrast for descriptions and body texts */
+p {
+  color: inherit;
+}
+
+.text-stone-400,
+.text-stone-500,
+.text-stone-600,
+.text-gray-400,
+.text-gray-500,
+.text-gray-600 {
+  color: #2e1d17 !important;
+}
+
+/* For dark hero backgrounds, override light stone to crisp ivory */
+.bg-\[\#1c0306\] .text-stone-400,
+.bg-\[\#1c0306\] .text-stone-300,
+.bg-\[\#200408\] .text-stone-400,
+.bg-\[\#200408\] .text-stone-300 {
+  color: #faf7f2 !important;
 }
 
 .font-headline {

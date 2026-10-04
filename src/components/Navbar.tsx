@@ -67,29 +67,22 @@ export default function Navbar() {
     { name: "Kisah Kami", href: "/tentang" },
   ];
 
-  const isHome = pathname === "/";
-  const isDarkNav = isHome && !isScrolled;
-
   return (
-    <header className="fixed top-0 left-0 w-full z-40 transition-all duration-300">
+    <header className="fixed top-0 left-0 w-full z-50 transition-all duration-300">
       <nav
-        className={`w-full transition-all duration-300 ${
-          isDarkNav
-            ? "bg-[#200408]/90 backdrop-blur-md border-b border-[#51000d]/40"
-            : isScrolled
-            ? "bg-[#faf7f2]/95 backdrop-blur-md shadow-xs border-b border-[#e7e2d9]"
-            : "bg-[#faf7f2]/80 backdrop-blur-xs border-b border-[#e7e2d9]/50"
+        className={`w-full transition-all duration-300 bg-[#200408]/95 backdrop-blur-md border-b border-[#420812] ${
+          isScrolled ? "shadow-xl" : "shadow-sm"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center gap-4">
-            {/* Brand Logo */}
+            {/* Brand Logo (Consistent Light Variant on Dark Wine Bar) */}
             <Link
               href="/"
               className="flex-shrink-0 flex items-center cursor-pointer group"
               title="Bakso Pak Mul - Halaman Utama"
             >
-              <BrandLogo size="md" variant={isDarkNav ? "light" : "dark"} />
+              <BrandLogo size="md" variant="light" />
             </Link>
 
             {/* Central Navigation Links */}
@@ -103,23 +96,15 @@ export default function Navbar() {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`text-[11px] font-extrabold uppercase tracking-[0.2em] transition-colors relative py-1 ${
+                    className={`text-[11px] font-extrabold uppercase tracking-[0.2em] transition-colors relative py-1.5 ${
                       isActive
-                        ? isDarkNav
-                          ? "text-[#e5a93c] font-black"
-                          : "text-[#51000d] font-black"
-                        : isDarkNav
-                        ? "text-[#faf7f2]/80 hover:text-[#e5a93c]"
-                        : "text-stone-600 hover:text-[#51000d]"
+                        ? "text-[#e5a93c] font-black"
+                        : "text-[#faf7f2]/85 hover:text-[#e5a93c]"
                     }`}
                   >
                     {link.name}
                     {isActive && (
-                      <span
-                        className={`absolute bottom-0 left-0 right-0 h-0.5 rounded-full ${
-                          isDarkNav ? "bg-[#e5a93c]" : "bg-[#7a0019]"
-                        }`}
-                      />
+                      <span className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-[#e5a93c]" />
                     )}
                   </Link>
                 );
@@ -133,17 +118,11 @@ export default function Navbar() {
                 <input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className={`w-48 xl:w-56 rounded-xl py-2 pl-9 pr-3 text-xs outline-none transition-all ${
-                    isDarkNav
-                      ? "bg-[#36070e] text-white placeholder:text-stone-400 border border-[#59101f] focus:border-[#e5a93c]"
-                      : "bg-stone-200/50 focus:bg-white border border-transparent focus:border-[#7a0019]/40 text-stone-800 placeholder:text-stone-400"
-                  }`}
+                  className="w-48 xl:w-56 rounded-xl py-2 pl-9 pr-3 text-xs outline-none transition-all bg-[#36070e] text-white placeholder:text-stone-300 border border-[#59101f] focus:border-[#e5a93c]"
                   placeholder="Cari bakso, mie, bumbu..."
                   type="text"
                 />
-                <span className={`material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-base pointer-events-none ${
-                  isDarkNav ? "text-stone-400" : "text-stone-400"
-                }`}>
+                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-base pointer-events-none text-stone-300">
                   search
                 </span>
               </form>
@@ -153,7 +132,7 @@ export default function Navbar() {
                 <div className="relative group">
                   <Link
                     href="/profil"
-                    className="w-9 h-9 rounded-xl bg-[#51000d] text-amber-200 flex items-center justify-center font-bold text-xs shadow-xs hover:bg-[#7a0019] transition-colors"
+                    className="w-9 h-9 rounded-xl bg-[#51000d] text-[#e5a93c] border border-[#59101f] flex items-center justify-center font-bold text-xs shadow-xs hover:bg-[#7a0019] transition-colors"
                     title="Profil Saya"
                   >
                     {(user.user_metadata?.full_name || user.email || "U")
@@ -164,34 +143,34 @@ export default function Navbar() {
                   {/* Dropdown Menu */}
                   <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-stone-200/80 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 flex flex-col p-1.5 z-50">
                     <div className="px-3 py-2 border-b border-stone-100">
-                      <p className="text-[10px] text-stone-400 uppercase tracking-wider font-bold">
+                      <p className="text-[10px] text-[#51000d] uppercase tracking-wider font-bold">
                         Akun Terhubung
                       </p>
-                      <p className="text-xs font-semibold text-stone-800 truncate">
+                      <p className="text-xs font-semibold text-[#1c1917] truncate">
                         {user.user_metadata?.full_name || user.email}
                       </p>
                     </div>
                     <Link
                       href="/profil"
-                      className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-stone-700 hover:bg-stone-50 rounded-lg transition-colors"
+                      className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-[#1c1917] hover:bg-[#faf7f2] hover:text-[#51000d] rounded-lg transition-colors"
                     >
-                      <span className="material-symbols-outlined text-base text-stone-400">
+                      <span className="material-symbols-outlined text-base text-[#51000d]">
                         person
                       </span>
                       Profil Saya
                     </Link>
                     <Link
                       href="/transaksi"
-                      className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-stone-700 hover:bg-stone-50 rounded-lg transition-colors"
+                      className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-[#1c1917] hover:bg-[#faf7f2] hover:text-[#51000d] rounded-lg transition-colors"
                     >
-                      <span className="material-symbols-outlined text-base text-stone-400">
+                      <span className="material-symbols-outlined text-base text-[#51000d]">
                         receipt_long
                       </span>
                       Riwayat Pesanan
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-rose-600 hover:bg-rose-50 rounded-lg transition-colors text-left cursor-pointer w-full mt-1 border-t border-stone-100"
+                      className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-rose-700 hover:bg-rose-50 rounded-lg transition-colors text-left cursor-pointer w-full mt-1 border-t border-stone-100"
                     >
                       <span className="material-symbols-outlined text-base">
                         logout
@@ -203,13 +182,9 @@ export default function Navbar() {
               ) : (
                 <Link
                   href="/login"
-                  className={`flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-xl transition-colors ${
-                    isDarkNav
-                      ? "text-white hover:text-[#e5a93c] hover:bg-[#36070e]"
-                      : "text-stone-700 hover:text-[#51000d] hover:bg-stone-200/50"
-                  }`}
+                  className="flex items-center gap-1.5 text-xs font-extrabold px-3 py-2 rounded-xl transition-colors text-white hover:text-[#e5a93c] hover:bg-[#36070e]"
                 >
-                  <span className="material-symbols-outlined text-lg">
+                  <span className="material-symbols-outlined text-lg text-[#e5a93c]">
                     account_circle
                   </span>
                   <span className="hidden sm:inline">Masuk</span>
@@ -219,11 +194,7 @@ export default function Navbar() {
               {/* Cart Button */}
               <button
                 onClick={openCart}
-                className={`relative flex items-center justify-center w-10 h-10 rounded-xl transition-colors cursor-pointer shadow-2xs ${
-                  isDarkNav
-                    ? "bg-[#36070e] border border-[#59101f] hover:border-[#e5a93c] text-white hover:text-[#e5a93c]"
-                    : "bg-white border border-[#e7e2d9] hover:border-[#7a0019] text-stone-800 hover:text-[#51000d]"
-                }`}
+                className="relative flex items-center justify-center w-10 h-10 rounded-xl transition-colors cursor-pointer shadow-2xs bg-[#36070e] border border-[#59101f] hover:border-[#e5a93c] text-white hover:text-[#e5a93c]"
                 title="Buka Keranjang Belanja"
                 aria-label="Keranjang Belanja"
               >

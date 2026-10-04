@@ -205,19 +205,19 @@ export default function CheckoutPage() {
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 w-full">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-extrabold text-[#51000d] tracking-tight">
+          <h1 className="font-headline text-3xl md:text-4xl text-[#1c1917] uppercase tracking-tight">
             Checkout &amp; Pembayaran
           </h1>
-          <p className="text-xs md:text-sm text-gray-500 font-medium mt-1">
+          <p className="text-xs md:text-sm text-[#2b1b17] font-semibold mt-1">
             Lengkapi data pengiriman untuk menyelesaikan pesanan Anda.
           </p>
         </div>
 
         {cartItems.length === 0 && !isPaymentModalOpen ? (
-          <div className="bg-white rounded-3xl p-12 text-center border border-gray-100 shadow-sm space-y-4 max-w-lg mx-auto">
-            <span className="material-symbols-outlined text-6xl text-gray-300">shopping_bag</span>
-            <h2 className="text-lg font-bold text-gray-800">Keranjang Belanja Kosong</h2>
-            <p className="text-xs text-gray-500">Anda belum memilih produk Bakso Pak Mul apapun.</p>
+          <div className="bg-white rounded-3xl p-12 text-center border border-stone-200 shadow-sm space-y-4 max-w-lg mx-auto">
+            <span className="material-symbols-outlined text-6xl text-[#51000d]">shopping_bag</span>
+            <h2 className="text-lg font-bold text-[#1c1917]">Keranjang Belanja Kosong</h2>
+            <p className="text-xs text-[#51000d] font-medium">Anda belum memilih produk Bakso Pak Mul apapun.</p>
             <button
               onClick={() => router.push("/produk")}
               className="px-6 py-3 bg-[#51000d] text-white rounded-xl text-xs font-bold shadow-md hover:bg-[#7a0019] transition-all uppercase tracking-wider cursor-pointer"
@@ -244,14 +244,14 @@ export default function CheckoutPage() {
               )}
 
               {/* Customer Info Card */}
-              <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-5">
-                <div className="flex items-center gap-3 border-b border-gray-100 pb-4">
-                  <div className="w-10 h-10 rounded-xl bg-red-50 text-[#51000d] flex items-center justify-center font-bold">
+              <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-stone-200 space-y-5">
+                <div className="flex items-center gap-3 border-b border-stone-100 pb-4">
+                  <div className="w-10 h-10 rounded-xl bg-[#51000d] text-[#e5a93c] flex items-center justify-center font-bold">
                     <span className="material-symbols-outlined text-xl">person</span>
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-gray-900">1. Informasi Penerima</h3>
-                    <p className="text-xs text-gray-500">Data untuk konfirmasi pengiriman &amp; WhatsApp</p>
+                    <h3 className="text-base font-bold text-[#1c1917]">1. Informasi Penerima</h3>
+                    <p className="text-xs text-[#51000d] font-semibold">Data untuk konfirmasi pengiriman &amp; WhatsApp</p>
                   </div>
                 </div>
 

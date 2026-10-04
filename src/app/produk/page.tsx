@@ -122,21 +122,21 @@ function ProductsContent() {
                 <span className="w-6 h-[1px] bg-[#7a0019]" />
                 <span>Kios Pasar Kramat Jati</span>
               </div>
-              <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-950 tracking-tight">
+              <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl uppercase text-[#1c1917] tracking-tight">
                 Koleksi Menu &amp; Bahan Baku
               </h1>
-              <p className="text-stone-600 text-xs sm:text-sm mt-2 max-w-xl">
+              <p className="text-[#2b1b17] text-xs sm:text-sm mt-2 max-w-xl font-medium leading-relaxed">
                 Racikan daging sapi segar dan bahan berkualitas pilihan harian untuk santapan meja keluarga maupun mitra usaha warung makan.
               </p>
             </div>
 
             {/* Sort Dropdown */}
             <div className="flex items-center gap-2.5">
-              <span className="text-xs text-stone-500 font-medium">Urutkan:</span>
+              <span className="text-xs text-[#1c1917] font-bold">Urutkan:</span>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="bg-white border border-stone-200 rounded-xl px-3.5 py-2 text-xs font-semibold text-stone-800 outline-none focus:border-[#7a0019] cursor-pointer shadow-2xs"
+                className="bg-white border border-stone-300 rounded-xl px-3.5 py-2 text-xs font-bold text-[#1c1917] outline-none focus:border-[#7a0019] cursor-pointer shadow-2xs"
               >
                 <option value="rekomendasi">Pilihan Rekomendasi</option>
                 <option value="murah">Harga Terendah</option>
@@ -147,11 +147,11 @@ function ProductsContent() {
 
           {/* Search Query Pill (if active) */}
           {queryParam && (
-            <div className="mt-4 flex items-center gap-2 text-xs text-stone-700 bg-white p-3 rounded-xl border border-stone-200 shadow-2xs">
+            <div className="mt-4 flex items-center gap-2 text-xs text-[#1c1917] bg-white p-3 rounded-xl border border-stone-200 shadow-2xs font-medium">
               <span>Hasil penelusuran untuk: &ldquo;<strong>{queryParam}</strong>&rdquo;</span>
               <button
                 onClick={() => router.push("/produk")}
-                className="ml-auto text-xs text-[#7a0019] hover:underline font-semibold cursor-pointer"
+                className="ml-auto text-xs text-[#7a0019] hover:underline font-bold cursor-pointer"
               >
                 Hapus Pencarian ✕
               </button>
@@ -167,16 +167,16 @@ function ProductsContent() {
                   setSelectedCategory(cat);
                   setCurrentPage(1);
                 }}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   selectedCategory === cat
-                    ? "bg-[#51000d] text-white shadow-xs"
-                    : "bg-white text-stone-700 hover:bg-stone-100 border border-stone-200"
+                    ? "bg-[#51000d] text-[#e5a93c] shadow-xs"
+                    : "bg-white text-[#1c1917] hover:bg-stone-50 border border-stone-300"
                 }`}
               >
                 {cat === "Semua" ? "Semua Menu" : cat}
               </button>
             ))}
-            <span className="text-xs text-stone-400 ml-auto hidden sm:inline">
+            <span className="text-xs text-[#51000d] font-bold ml-auto hidden sm:inline">
               Menampilkan {paginatedProducts.length} dari {sortedProducts.length} produk
             </span>
           </div>
@@ -192,8 +192,8 @@ function ProductsContent() {
               />
             ))
           ) : paginatedProducts.length === 0 ? (
-            <div className="col-span-full py-16 text-center text-stone-500 text-sm bg-white rounded-2xl border border-stone-200">
-              <span className="material-symbols-outlined text-4xl text-stone-300 mb-2 block">
+            <div className="col-span-full py-16 text-center text-[#1c1917] font-semibold text-sm bg-white rounded-2xl border border-stone-200">
+              <span className="material-symbols-outlined text-4xl text-[#51000d] mb-2 block">
                 soup_kitchen
               </span>
               Tidak ada produk yang cocok dengan pencarian ini.
@@ -213,37 +213,37 @@ function ProductsContent() {
                     className="w-full h-full object-contain group-hover:scale-106 transition-transform duration-500"
                     src={product.image || "/images/hero-banner.webp"}
                   />
-                  <span className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs text-[#51000d] text-[10px] font-bold px-2.5 py-1 rounded-md shadow-2xs tracking-wide">
+                  <span className="absolute top-3 left-3 bg-[#51000d] text-[#e5a93c] text-[10px] font-black px-2.5 py-1 rounded-md shadow-2xs tracking-wide uppercase">
                     {product.category || "Produk"}
                   </span>
                 </Link>
 
                 <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
                   <div>
-                    <div className="flex items-center gap-1 text-amber-600 text-xs mb-1.5">
+                    <div className="flex items-center gap-1 text-[#e5a93c] text-xs mb-1.5">
                       <span>★★★★★</span>
-                      <span className="text-[10px] text-stone-400 font-medium">(4.9)</span>
+                      <span className="text-[10px] text-[#1c1917] font-bold">(4.9)</span>
                     </div>
 
                     <Link href={`/produk/${product.id}`} className="block">
-                      <h3 className="font-display text-sm sm:text-base font-bold text-stone-900 leading-snug line-clamp-2 group-hover:text-[#7a0019] transition-colors">
+                      <h3 className="font-headline text-base sm:text-lg font-bold text-[#1c1917] leading-snug line-clamp-2 group-hover:text-[#7a0019] transition-colors">
                         {product.name}
                       </h3>
                     </Link>
 
-                    <p className="text-[11px] text-stone-500 mt-1">
-                      Kemasan: <span className="font-semibold text-stone-700">{product.unit || "Pack"}</span>
+                    <p className="text-[11px] text-[#51000d] font-bold mt-1">
+                      Kemasan: <span className="font-semibold text-[#1c1917]">{product.unit || "Pack"}</span>
                     </p>
                   </div>
 
                   <div className="pt-3.5 mt-3 border-t border-stone-100 flex items-center justify-between gap-2">
                     <div>
                       {product.originalPrice && (
-                        <p className="text-[10px] text-stone-400 line-through">
+                        <p className="text-[10px] text-stone-500 line-through font-semibold">
                           Rp {product.originalPrice.toLocaleString("id-ID")}
                         </p>
                       )}
-                      <p className="font-display text-base sm:text-lg font-extrabold text-[#7a0019]">
+                      <p className="font-headline text-lg sm:text-xl font-extrabold text-[#7a0019]">
                         Rp {(product.price || 0).toLocaleString("id-ID")}
                       </p>
                     </div>

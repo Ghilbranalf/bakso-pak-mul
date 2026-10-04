@@ -169,24 +169,24 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf7f2] text-stone-900 font-sans antialiased selection:bg-[#51000d] selection:text-white">
+    <div className="min-h-screen bg-[#faf7f2] text-[#1c1917] font-sans antialiased selection:bg-[#51000d] selection:text-white">
       <Navbar />
 
       <main>
         {/* ========================================================================= */}
-        {/* 1. ARTISAN POSTER HERO SECTION (DEEP MAROON & WARM GOLD PALETTE)          */}
+        {/* 1. ARTISAN POSTER HERO SECTION (PROPORTIONAL, BALANCED, RICH CENTERPIECE)  */}
         {/* ========================================================================= */}
-        <section className="relative bg-[#200408] text-white pt-28 sm:pt-36 pb-16 overflow-hidden">
-          {/* Subtle background ambient grain / glow */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(229,169,60,0.1)_0%,_transparent_70%)] pointer-events-none" />
+        <section className="relative bg-[#1c0306] text-white pt-24 sm:pt-28 pb-16 overflow-hidden">
+          {/* Subtle background ambient grain / warm radial glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(229,169,60,0.14)_0%,_transparent_65%)] pointer-events-none" />
 
-          {/* Floating Quick Rail Icons (Matching KopiKita right rail) */}
-          <div className="hidden lg:flex flex-col items-center gap-3 absolute right-6 top-1/2 -translate-y-1/2 z-20 bg-[#36070e]/80 backdrop-blur-md p-2 rounded-full border border-[#59101f] shadow-2xl">
+          {/* Floating Quick Rail Icons */}
+          <div className="hidden lg:flex flex-col items-center gap-3 absolute right-6 top-1/2 -translate-y-1/2 z-20 bg-[#36070e]/85 backdrop-blur-md p-2 rounded-full border border-[#59101f] shadow-2xl">
             <a
               href="https://maps.google.com/?q=Pasar+Kramat+Jati+Jakarta+Timur"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-[#4a0a16] hover:bg-[#e5a93c] hover:text-[#200408] flex items-center justify-center text-xs text-stone-200 transition-colors"
+              className="w-9 h-9 rounded-full bg-[#4a0a16] hover:bg-[#e5a93c] hover:text-[#1c0306] flex items-center justify-center text-xs text-white transition-colors"
               title="Lokasi Kios Kramat Jati"
             >
               <span className="material-symbols-outlined text-sm">location_on</span>
@@ -195,14 +195,14 @@ export default function HomePage() {
               href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20ingin%20pesan%20bakso%20sapi"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-[#4a0a16] hover:bg-[#e5a93c] hover:text-[#200408] flex items-center justify-center text-xs text-stone-200 transition-colors"
+              className="w-9 h-9 rounded-full bg-[#4a0a16] hover:bg-[#e5a93c] hover:text-[#1c0306] flex items-center justify-center text-xs text-white transition-colors"
               title="Konsultasi WhatsApp"
             >
               <span className="material-symbols-outlined text-sm">chat</span>
             </a>
             <a
               href="#menu-catalog"
-              className="w-9 h-9 rounded-full bg-[#4a0a16] hover:bg-[#e5a93c] hover:text-[#200408] flex items-center justify-center text-xs text-stone-200 transition-colors"
+              className="w-9 h-9 rounded-full bg-[#4a0a16] hover:bg-[#e5a93c] hover:text-[#1c0306] flex items-center justify-center text-xs text-white transition-colors"
               title="Pilihan Menu"
             >
               <span className="material-symbols-outlined text-sm">restaurant</span>
@@ -211,37 +211,37 @@ export default function HomePage() {
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             {/* Top Hero Sub-header info badges */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-2">
               {/* Left Badge: Amber circle with soup/bowl icon + text */}
-              <div className="flex items-center gap-3 max-w-xs">
-                <div className="w-12 h-12 rounded-full bg-[#e5a93c] flex items-center justify-center text-[#200408] shrink-0 shadow-lg shadow-[#e5a93c]/20">
+              <div className="flex items-center gap-3 max-w-sm">
+                <div className="w-11 h-11 rounded-full bg-[#e5a93c] flex items-center justify-center text-[#1c0306] shrink-0 shadow-lg shadow-[#e5a93c]/20">
                   <span className="material-symbols-outlined text-2xl font-bold">
                     soup_kitchen
                   </span>
                 </div>
                 <div>
-                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-[#e5a93c]">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-[#e5a93c]">
                     DISCOVER BAKSO BLISS.
                   </p>
-                  <p className="text-[9px] uppercase tracking-wider text-stone-300 mt-0.5 font-bold">
+                  <p className="text-[10px] uppercase tracking-wider text-[#faf7f2] font-semibold">
                     100% DAGING SAPI MURNI SEGAR SETIAP SUBUH.
                   </p>
                 </div>
               </div>
 
               {/* Right Badge: Embark on culinary journey */}
-              <div className="text-left sm:text-right max-w-xs">
-                <div className="flex items-center sm:justify-end gap-1.5 text-[#e5a93c] mb-1">
+              <div className="text-left sm:text-right max-w-sm">
+                <div className="flex items-center sm:justify-end gap-1.5 text-[#e5a93c] mb-0.5">
                   <span className="material-symbols-outlined text-base">star</span>
                   <span className="material-symbols-outlined text-base">star</span>
                   <span className="material-symbols-outlined text-base">star</span>
                 </div>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-stone-300 leading-snug">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-[#faf7f2] leading-snug">
                   LEGENDA KULINER NUSANTARA DENGAN KUAH KALDU GURIH
                 </p>
                 <Link
                   href="/produk"
-                  className="text-[10px] font-black uppercase tracking-widest text-[#e5a93c] hover:text-amber-300 inline-flex items-center gap-1 mt-1 group"
+                  className="text-[10px] font-black uppercase tracking-widest text-[#e5a93c] hover:text-amber-200 inline-flex items-center gap-1 mt-0.5 group"
                 >
                   <span>LIHAT KOLEKSI LENGKAP</span>
                   <span className="material-symbols-outlined text-xs group-hover:translate-x-1 transition-transform">
@@ -251,24 +251,24 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Massive Main Headline (Matching KopiKita's monumental Anton typography) */}
-            <div className="text-center my-6 relative select-none">
-              <h1 className="font-headline text-6xl sm:text-8xl md:text-9xl lg:text-[11.5rem] tracking-tight uppercase leading-[0.88] text-white">
+            {/* Monumental Headline (Balanced & Proportional, Framing the Centerpiece) */}
+            <div className="text-center my-3 sm:my-5 relative select-none">
+              <h1 className="font-headline text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] tracking-tight uppercase leading-[0.9] text-white">
                 RASA ASLI
               </h1>
-              <div className="relative inline-block mt-1 sm:mt-2">
-                <h2 className="font-headline text-6xl sm:text-8xl md:text-9xl lg:text-[11.5rem] tracking-tight uppercase leading-[0.88] text-white flex items-center justify-center gap-2">
-                  BAKSO SAPI <span className="text-[#e5a93c] ml-2">PAK MUL</span>
+              <div className="relative inline-block mt-0.5 sm:mt-1">
+                <h2 className="font-headline text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] tracking-tight uppercase leading-[0.9] text-white">
+                  BAKSO <span className="text-[#e5a93c]">PAK MUL.</span>
                 </h2>
                 {/* Overlay warm gold cursive script font */}
-                <span className="font-script text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-[#fcd34d] absolute -top-4 sm:-top-8 left-1/2 -translate-x-1/2 rotate-[-6deg] drop-shadow-md whitespace-nowrap pointer-events-none">
+                <span className="font-script text-3xl sm:text-5xl md:text-6xl text-[#fcd34d] absolute -top-4 sm:-top-7 left-1/2 -translate-x-1/2 rotate-[-5deg] drop-shadow-md whitespace-nowrap pointer-events-none">
                   Kuah Kaldu Asli
                 </span>
               </div>
             </div>
 
-            {/* Trio of Hero Culinary Specialties Visual */}
-            <div className="relative max-w-3xl mx-auto -mt-6 sm:-mt-12 z-10 flex items-end justify-center">
+            {/* Trio Showcase Visual (Elevated high into the center, completely filling the canvas!) */}
+            <div className="relative max-w-3xl mx-auto -mt-6 sm:-mt-12 md:-mt-16 z-10 flex items-end justify-center">
               {/* Cup 1 - Left (Mie Ayam Telor Bebek) */}
               <div
                 onClick={() => handleQuickAdd(displayList[2] || FALLBACK_PRODUCTS[2])}
@@ -280,22 +280,22 @@ export default function HomePage() {
                     alt="Mie Telor Bebek Kenyal"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#200408] via-transparent to-transparent opacity-85" />
-                  <div className="absolute bottom-3 inset-x-3 text-center bg-[#200408]/85 backdrop-blur-md py-1.5 px-2 rounded-xl border border-white/10">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1c0306] via-transparent to-transparent opacity-85" />
+                  <div className="absolute bottom-3 inset-x-3 text-center bg-[#1c0306]/85 backdrop-blur-md py-1.5 px-2 rounded-xl border border-white/10">
                     <p className="text-[10px] font-black uppercase tracking-widest text-[#e5a93c]">
                       MIE TELOR BEBEK
                     </p>
-                    <p className="text-[8px] uppercase tracking-wider text-stone-200">
+                    <p className="text-[8px] uppercase tracking-wider text-white font-bold">
                       KENYAL ALAMI
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Cup 2 - Center (Bakso Komplit - Dominant Center) */}
+              {/* Cup 2 - Center (Bakso Komplit - Dominant Hero Centerpiece) */}
               <div
                 onClick={() => handleQuickAdd(displayList[0] || FALLBACK_PRODUCTS[0])}
-                className="w-48 sm:w-64 transform z-20 hover:scale-105 transition-all duration-300 cursor-pointer group -mb-3"
+                className="w-52 sm:w-68 md:w-76 transform z-20 hover:scale-105 transition-all duration-300 cursor-pointer group -mb-2 shadow-2xl"
               >
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-[#e5a93c] bg-[#36070e] aspect-[3/4]">
                   <img
@@ -303,15 +303,15 @@ export default function HomePage() {
                     alt="Semangkuk Bakso Sapi Komplit Pak Mul"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#200408] via-transparent to-transparent opacity-75" />
-                  <div className="absolute top-3 right-3 bg-[#e5a93c] text-[#200408] text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full shadow">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1c0306] via-transparent to-transparent opacity-75" />
+                  <div className="absolute top-3 right-3 bg-[#e5a93c] text-[#1c0306] text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full shadow">
                     SIGNATURE
                   </div>
                   <div className="absolute bottom-3 inset-x-3 text-center bg-[#e5a93c] py-2 px-2 rounded-xl shadow-lg">
-                    <p className="text-xs font-black uppercase tracking-widest text-[#200408]">
+                    <p className="text-xs font-black uppercase tracking-widest text-[#1c0306]">
                       BAKSO KOMPLIT
                     </p>
-                    <p className="text-[9px] uppercase tracking-wider text-[#36070e] font-bold">
+                    <p className="text-[9px] uppercase tracking-wider text-[#36070e] font-black">
                       100% DAGING SAPI MURNI
                     </p>
                   </div>
@@ -329,12 +329,12 @@ export default function HomePage() {
                     alt="Bakso Urat Sapi Spesial"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#200408] via-transparent to-transparent opacity-85" />
-                  <div className="absolute bottom-3 inset-x-3 text-center bg-[#200408]/85 backdrop-blur-md py-1.5 px-2 rounded-xl border border-white/10">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1c0306] via-transparent to-transparent opacity-85" />
+                  <div className="absolute bottom-3 inset-x-3 text-center bg-[#1c0306]/85 backdrop-blur-md py-1.5 px-2 rounded-xl border border-white/10">
                     <p className="text-[10px] font-black uppercase tracking-widest text-[#e5a93c]">
                       BAKSO URAT
                     </p>
-                    <p className="text-[8px] uppercase tracking-wider text-stone-200">
+                    <p className="text-[8px] uppercase tracking-wider text-white font-bold">
                       CACAHAN URAT GURIH
                     </p>
                   </div>
@@ -342,38 +342,38 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Amber Feature Dock Card (docked under the centerpiece, matching KopiKita poster) */}
-            <div className="max-w-4xl mx-auto mt-6 bg-[#e5a93c] rounded-3xl p-5 sm:p-7 shadow-2xl text-[#200408] flex flex-col md:flex-row items-center justify-between gap-6 border-2 border-amber-300">
+            {/* Amber Feature Dock Card (docked under the centerpiece) */}
+            <div className="max-w-4xl mx-auto mt-6 bg-[#e5a93c] rounded-3xl p-5 sm:p-7 shadow-2xl text-[#1c0306] flex flex-col md:flex-row items-center justify-between gap-6 border-2 border-amber-300">
               {/* Left Part: Top rated culinary */}
               <div className="flex items-center gap-4 text-left">
-                <div className="w-12 h-12 rounded-2xl bg-[#200408] text-[#e5a93c] flex items-center justify-center shrink-0 shadow-md">
-                  <span className="material-symbols-outlined text-2xl">
+                <div className="w-12 h-12 rounded-2xl bg-[#1c0306] text-[#e5a93c] flex items-center justify-center shrink-0 shadow-md">
+                  <span className="material-symbols-outlined text-2xl font-bold">
                     verified
                   </span>
                 </div>
                 <div>
-                  <h4 className="font-black text-sm uppercase tracking-wider text-[#200408]">
+                  <h4 className="font-black text-sm uppercase tracking-wider text-[#1c0306]">
                     TOP RATED KULINER
                   </h4>
-                  <p className="text-[11px] font-bold text-[#36070e] mt-0.5">
+                  <p className="text-[11px] font-extrabold text-[#36070e] mt-0.5">
                     RESEP TRADISIONAL 24+ TAHUN DENGAN 100% DAGING SAPI MURNI.
                   </p>
                 </div>
               </div>
 
               {/* Middle Part: Rating score */}
-              <div className="flex items-center gap-2 bg-[#200408]/10 px-5 py-2 rounded-2xl border border-[#200408]/10">
-                <span className="font-headline text-4xl sm:text-5xl tracking-tight text-[#200408]">
+              <div className="flex items-center gap-2 bg-[#1c0306]/10 px-5 py-2 rounded-2xl border border-[#1c0306]/15">
+                <span className="font-headline text-4xl sm:text-5xl tracking-tight text-[#1c0306]">
                   4.98
                 </span>
-                <span className="material-symbols-outlined text-2xl text-[#200408]">
+                <span className="material-symbols-outlined text-2xl text-[#1c0306] font-bold">
                   star
                 </span>
               </div>
 
               {/* Right Part: Preview Item with mini-thumbnail & Order Button */}
-              <div className="flex items-center gap-3 bg-white/95 p-2.5 pr-4 rounded-2xl border border-[#200408]/10 shadow-sm w-full md:w-auto">
-                <div className="w-12 h-12 rounded-xl overflow-hidden bg-[#200408] shrink-0">
+              <div className="flex items-center gap-3 bg-white p-2.5 pr-4 rounded-2xl border border-[#1c0306]/10 shadow-sm w-full md:w-auto">
+                <div className="w-12 h-12 rounded-xl overflow-hidden bg-[#1c0306] shrink-0">
                   <img
                     src="/images/bakso-citra-rasa-premium.webp"
                     alt="Bakso Urat Preview"
@@ -381,16 +381,16 @@ export default function HomePage() {
                   />
                 </div>
                 <div className="text-left flex-1 min-w-0">
-                  <p className="text-xs font-black uppercase text-[#200408] truncate">
+                  <p className="text-xs font-black uppercase text-[#1c0306] truncate">
                     BAKSO SAPI URAT
                   </p>
-                  <p className="text-[10px] text-stone-600 truncate font-semibold">
+                  <p className="text-[10px] text-[#51000d] truncate font-extrabold">
                     Rp 65.000 (50 Butir)
                   </p>
                 </div>
                 <button
                   onClick={() => handleQuickAdd(displayList[0] || FALLBACK_PRODUCTS[0])}
-                  className="w-8 h-8 rounded-full bg-[#e5a93c] text-[#200408] hover:bg-amber-400 flex items-center justify-center font-bold shadow transition-transform active:scale-95 shrink-0"
+                  className="w-8 h-8 rounded-full bg-[#e5a93c] text-[#1c0306] hover:bg-amber-400 flex items-center justify-center font-bold shadow transition-transform active:scale-95 shrink-0"
                   title="Pesan Langsung"
                 >
                   <span className="material-symbols-outlined text-base font-bold">add</span>
@@ -456,7 +456,7 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* 3. TYPOGRAPHIC STATEMENT SECTION (MASSIVE ARTISANAL EDITORIAL)            */}
+        {/* 3. TYPOGRAPHIC STATEMENT SECTION (HIGH CONTRAST WARM ESPRESSO TEXT)       */}
         {/* ========================================================================= */}
         <section className="py-20 sm:py-28 bg-[#faf7f2] relative">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -466,11 +466,11 @@ export default function HomePage() {
                 Resep Warisan
               </span>
 
-              {/* Giant statement text with inline pill badges matching KopiKita */}
-              <h2 className="font-headline text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] tracking-tight text-[#200408] uppercase leading-[1.12]">
+              {/* Giant statement text with inline pill badges */}
+              <h2 className="font-headline text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] tracking-tight text-[#1c1917] uppercase leading-[1.12]">
                 DIBUAT DARI{" "}
-                <span className="inline-flex items-center gap-2 bg-[#e5a93c] text-[#200408] px-4 py-1 rounded-full text-base sm:text-xl font-sans font-black align-middle shadow-sm">
-                  <span className="material-symbols-outlined text-lg">local_dining</span>
+                <span className="inline-flex items-center gap-2 bg-[#e5a93c] text-[#1c0306] px-4 py-1 rounded-full text-base sm:text-xl font-sans font-black align-middle shadow-sm">
+                  <span className="material-symbols-outlined text-lg font-bold">local_dining</span>
                   <span>Nusantara</span>
                 </span>{" "}
                 100% DAGING SAPI MURNI PILIHAN{" "}
@@ -499,7 +499,7 @@ export default function HomePage() {
               </h2>
             </div>
 
-            <p className="max-w-2xl mx-auto text-stone-700 text-sm sm:text-base mt-8 leading-relaxed font-medium">
+            <p className="max-w-2xl mx-auto text-[#2b1b17] text-sm sm:text-base mt-8 leading-relaxed font-semibold">
               Kelezatan bakso sapi asli khas Pasar Kramat Jati. Diracik segar setiap subuh dari potongan daging sapi murni tanpa boraks dan tanpa pengawet buatan, menjaga cita rasa otentik yang dicintai keluarga dan ratusan warung mitra selama lebih dari 24 tahun.
             </p>
           </div>
@@ -512,7 +512,7 @@ export default function HomePage() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             {/* Section Header with Script Overlay */}
             <div className="relative inline-block mb-12">
-              <h3 className="font-headline text-5xl sm:text-7xl md:text-8xl tracking-tight text-[#200408] uppercase leading-none">
+              <h3 className="font-headline text-5xl sm:text-7xl md:text-8xl tracking-tight text-[#1c1917] uppercase leading-none">
                 PILIHAN MENU KAMI
               </h3>
               <span className="font-script text-4xl sm:text-6xl text-[#d97706] absolute -top-4 sm:-top-6 right-0 rotate-[-6deg] pointer-events-none drop-shadow-sm">
@@ -520,7 +520,7 @@ export default function HomePage() {
               </span>
             </div>
 
-            {/* Floating Organic Bean-Shaped Category Tags (Interactive) */}
+            {/* Floating Organic Bean-Shaped Category Tags */}
             <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 max-w-4xl mx-auto">
               {categories.map((cat, idx) => {
                 const isSelected = activeCategory === cat.name;
@@ -532,10 +532,10 @@ export default function HomePage() {
                       const el = document.getElementById("menu-catalog");
                       if (el) el.scrollIntoView({ behavior: "smooth" });
                     }}
-                    className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-full border-2 text-xs sm:text-sm font-extrabold tracking-wider transition-all duration-300 flex items-center gap-2 shadow-sm cursor-pointer ${
+                    className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-full border-2 text-xs sm:text-sm font-black tracking-wider transition-all duration-300 flex items-center gap-2 shadow-sm cursor-pointer ${
                       isSelected
                         ? "bg-[#51000d] border-[#51000d] text-[#e5a93c] scale-105 shadow-lg"
-                        : "bg-white/90 hover:bg-white border-stone-300 text-[#200408] hover:border-[#e5a93c] hover:scale-105"
+                        : "bg-white hover:bg-stone-50 border-stone-300 text-[#1c1917] hover:border-[#e5a93c] hover:scale-105"
                     }`}
                   >
                     <span className="material-symbols-outlined text-sm text-[#e5a93c]">
@@ -551,7 +551,7 @@ export default function HomePage() {
               <div className="mt-6">
                 <button
                   onClick={() => setActiveCategory("Semua")}
-                  className="text-xs font-bold text-[#7a0019] underline hover:text-[#51000d] cursor-pointer"
+                  className="text-xs font-black text-[#7a0019] underline hover:text-[#51000d] cursor-pointer"
                 >
                   Reset Filter (Tampilkan Semua Pilihan)
                 </button>
@@ -561,7 +561,7 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* 5. MENU SELECTION CATALOG (ARTISAN PRODUCT GRID THEME)                    */}
+        {/* 5. MENU SELECTION CATALOG (CRISP, CONTRAST-RICH ARTISAN PRODUCT GRID)     */}
         {/* ========================================================================= */}
         <section id="menu-catalog" className="py-24 bg-[#faf7f2]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -570,13 +570,13 @@ export default function HomePage() {
                 <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#7a0019]">
                   PILIHAN KEDAI
                 </span>
-                <h3 className="font-headline text-4xl sm:text-6xl text-[#200408] tracking-tight uppercase mt-1">
+                <h3 className="font-headline text-4xl sm:text-6xl text-[#1c1917] tracking-tight uppercase mt-1">
                   KOLEKSI RACIKAN TERBAIK
                 </h3>
               </div>
               <Link
                 href="/produk"
-                className="mt-4 md:mt-0 px-6 py-3 rounded-full bg-[#200408] text-white hover:bg-[#36070e] text-xs font-bold uppercase tracking-wider flex items-center gap-2 group transition-all"
+                className="mt-4 md:mt-0 px-6 py-3 rounded-full bg-[#1c0306] text-white hover:bg-[#36070e] text-xs font-bold uppercase tracking-wider flex items-center gap-2 group transition-all"
               >
                 <span>BUKA HALAMAN PRODUK LENGKAP</span>
                 <span className="material-symbols-outlined text-sm text-[#e5a93c] group-hover:translate-x-1 transition-transform">
@@ -589,11 +589,11 @@ export default function HomePage() {
               {filteredDisplayProducts.map((item) => (
                 <div
                   key={item.id}
-                  className="group bg-white rounded-3xl overflow-hidden border-2 border-stone-200/80 hover:border-[#e5a93c] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                  className="group bg-white rounded-3xl overflow-hidden border-2 border-stone-200 hover:border-[#e5a93c] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
                 >
                   <div>
                     {/* Image Presentation */}
-                    <div className="relative h-56 overflow-hidden bg-[#200408]">
+                    <div className="relative h-56 overflow-hidden bg-[#1c0306]">
                       <img
                         src={item.image || "/images/hero-banner.webp"}
                         alt={item.name}
@@ -605,7 +605,7 @@ export default function HomePage() {
                       <div className="absolute top-3 left-3 bg-[#51000d] text-[#e5a93c] font-black text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wider shadow">
                         {item.category || "Bakso"}
                       </div>
-                      <div className="absolute bottom-3 right-3 bg-[#e5a93c] text-[#200408] font-black text-xs px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow">
+                      <div className="absolute bottom-3 right-3 bg-[#e5a93c] text-[#1c0306] font-black text-xs px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow">
                         <span className="material-symbols-outlined text-xs">star</span>
                         <span>{item.rating || "4.9"}</span>
                       </div>
@@ -613,16 +613,16 @@ export default function HomePage() {
 
                     <div className="p-5">
                       <Link href={`/produk/${item.id}`} className="block">
-                        <h4 className="font-bold text-[#200408] text-lg group-hover:text-[#7a0019] transition-colors line-clamp-1">
+                        <h4 className="font-extrabold text-[#1c1917] text-lg group-hover:text-[#7a0019] transition-colors line-clamp-1">
                           {item.name}
                         </h4>
                       </Link>
-                      <p className="text-stone-600 text-xs mt-1.5 line-clamp-2 leading-relaxed">
+                      <p className="text-[#2b1b17] text-xs mt-1.5 line-clamp-2 leading-relaxed font-medium">
                         {item.description || "Olahan segar berkualitas dari bahan baku murni terpilih khas Bakso Pak Mul."}
                       </p>
                       {item.unit && (
-                        <p className="text-[11px] font-bold text-stone-500 mt-2">
-                          Kemasan: <span className="text-[#51000d]">{item.unit}</span>
+                        <p className="text-[11px] font-extrabold text-[#51000d] mt-2">
+                          Kemasan: <span className="text-[#1c1917] font-semibold">{item.unit}</span>
                         </p>
                       )}
                     </div>
@@ -630,10 +630,10 @@ export default function HomePage() {
 
                   <div className="p-5 pt-0 mt-2 border-t border-stone-100 flex items-center justify-between">
                     <div className="pt-3">
-                      <span className="text-[10px] uppercase font-bold text-stone-400 block">
+                      <span className="text-[10px] uppercase font-black text-[#51000d] block">
                         HARGA
                       </span>
-                      <span className="font-headline text-2xl text-[#200408]">
+                      <span className="font-headline text-2xl text-[#1c1917]">
                         Rp {(item.price || 0).toLocaleString("id-ID")}
                       </span>
                     </div>
@@ -643,7 +643,7 @@ export default function HomePage() {
                       className={`mt-3 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-wider shadow-md active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer ${
                         addedId === item.id
                           ? "bg-emerald-700 text-white"
-                          : "bg-[#e5a93c] hover:bg-amber-400 text-[#200408]"
+                          : "bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306]"
                       }`}
                     >
                       <span className="material-symbols-outlined text-sm font-bold">
@@ -659,7 +659,7 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* 6. QUALITY PILLARS (WARM ARTISAN CARDS)                                   */}
+        {/* 6. QUALITY PILLARS (DEEP HIGH-CONTRAST TEXT & CLEAR NUMBERS)              */}
         {/* ========================================================================= */}
         <section className="py-20 bg-white border-y border-stone-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -667,7 +667,7 @@ export default function HomePage() {
               <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#7a0019]">
                 STANDAR MUTU
               </span>
-              <h3 className="font-headline text-3xl sm:text-5xl text-[#200408] tracking-tight uppercase mt-1">
+              <h3 className="font-headline text-3xl sm:text-5xl text-[#1c1917] tracking-tight uppercase mt-1">
                 4 PILAR KUALITAS PAK MUL
               </h3>
             </div>
@@ -675,32 +675,32 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="bg-[#faf7f2] p-6 rounded-3xl border border-stone-200 space-y-3">
                 <span className="font-headline text-3xl text-[#7a0019]">01</span>
-                <h4 className="font-bold text-base text-[#200408]">100% Daging Sapi Murni</h4>
-                <p className="text-xs text-stone-600 leading-relaxed">
+                <h4 className="font-extrabold text-base text-[#1c1917]">100% Daging Sapi Murni</h4>
+                <p className="text-xs text-[#2b1b17] font-medium leading-relaxed">
                   Dipilih langsung dari pemotongan halal pasar induk setiap subuh tanpa campuran boraks maupun pengawet sintetis.
                 </p>
               </div>
 
               <div className="bg-[#faf7f2] p-6 rounded-3xl border border-stone-200 space-y-3">
                 <span className="font-headline text-3xl text-[#7a0019]">02</span>
-                <h4 className="font-bold text-base text-[#200408]">Kuah Kaldu Sumsum Asli</h4>
-                <p className="text-xs text-stone-600 leading-relaxed">
+                <h4 className="font-extrabold text-base text-[#1c1917]">Kuah Kaldu Sumsum Asli</h4>
+                <p className="text-xs text-[#2b1b17] font-medium leading-relaxed">
                   Sari rebusan tulang sumsum sapi berpadu tumisan bawang putih harum, menghasilkan aroma kaldu yang gurih alami.
                 </p>
               </div>
 
               <div className="bg-[#faf7f2] p-6 rounded-3xl border border-stone-200 space-y-3">
                 <span className="font-headline text-3xl text-[#7a0019]">03</span>
-                <h4 className="font-bold text-base text-[#200408]">Tradisi Sejak Tahun 2000</h4>
-                <p className="text-xs text-stone-600 leading-relaxed">
+                <h4 className="font-extrabold text-base text-[#1c1917]">Tradisi Sejak Tahun 2000</h4>
+                <p className="text-xs text-[#2b1b17] font-medium leading-relaxed">
                   Dipercaya lebih dari 24 tahun melayani kebutuhan santapan keluarga dan ratusan warung mitra se-Jabodetabek.
                 </p>
               </div>
 
               <div className="bg-[#faf7f2] p-6 rounded-3xl border border-stone-200 space-y-3">
                 <span className="font-headline text-3xl text-[#7a0019]">04</span>
-                <h4 className="font-bold text-base text-[#200408]">Segel Higienis &amp; Kirim Segar</h4>
-                <p className="text-xs text-stone-600 leading-relaxed">
+                <h4 className="font-extrabold text-base text-[#1c1917]">Segel Higienis &amp; Kirim Segar</h4>
+                <p className="text-xs text-[#2b1b17] font-medium leading-relaxed">
                   Dikemas rapi dalam standar mutu makanan untuk menjaga kebersihan dan kesegaran terbaik tiba di dapur Anda.
                 </p>
               </div>
@@ -716,13 +716,13 @@ export default function HomePage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
               {/* Left Column: Portrait of Pak Mul at the Kiosk */}
               <div className="lg:col-span-5">
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-[#200408] border-4 border-[#e5a93c]/30 group">
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-[#1c0306] border-4 border-[#e5a93c]/30 group">
                   <img
                     alt="Pak Mul di Kios Tradisional Pasar Kramat Jati"
                     className="w-full h-[420px] sm:h-[500px] object-cover transition-transform duration-700 group-hover:scale-105"
                     src="/images/toko-pak-mul-kramat-jati.webp"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#200408]/90 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1c0306]/90 via-transparent to-transparent pointer-events-none" />
                   <div className="absolute bottom-6 left-6 right-6 text-white">
                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e5a93c]">
                       Dokumentasi Kios Asli
@@ -730,7 +730,7 @@ export default function HomePage() {
                     <p className="font-headline text-2xl tracking-wide uppercase mt-1 text-white">
                       Pak Mul di Kios Kramat Jati
                     </p>
-                    <p className="font-sans text-xs text-stone-300 mt-0.5">
+                    <p className="font-sans text-xs text-[#fef3c7] mt-0.5 font-medium">
                       Melayani pelanggan sejak subuh hari tanpa henti
                     </p>
                   </div>
@@ -746,11 +746,11 @@ export default function HomePage() {
                   </p>
                 </div>
 
-                <blockquote className="font-headline text-3xl sm:text-4xl text-[#200408] uppercase leading-tight tracking-wide">
+                <blockquote className="font-headline text-3xl sm:text-4xl text-[#1c1917] uppercase leading-tight tracking-wide">
                   &ldquo;Bagi kami, membuat bakso bukan sekadar menggiling daging, melainkan menjaga amanah rasa yang sudah dipercaya keluarga sejak generasi pertama.&rdquo;
                 </blockquote>
 
-                <p className="font-sans text-stone-700 text-sm sm:text-base leading-relaxed">
+                <p className="font-sans text-[#241410] text-sm sm:text-base leading-relaxed font-medium">
                   Bermula dari kios kayu sederhana di lantai dasar Pasar Kramat Jati Jakarta Timur, Pak Mul mengawali hari setiap pukul 04.30 subuh untuk memilih potongan daging sapi terbaik dari pemotongan lokal. Tanpa pengenyal kimiawi, tanpa rekayasa buatan. Hanya daging sapi murni, takaran bumbu rempah yang pas, dan dedikasi menjaga konsistensi rasa selama lebih dari 24 tahun.
                 </p>
 
@@ -759,7 +759,7 @@ export default function HomePage() {
                     href="https://maps.google.com/?q=Pasar+Kramat+Jati+Jakarta+Timur"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-7 py-3.5 rounded-full bg-[#200408] hover:bg-[#36070e] text-white font-bold text-xs flex items-center gap-2 shadow-xs transition-colors"
+                    className="px-7 py-3.5 rounded-full bg-[#1c0306] hover:bg-[#36070e] text-white font-bold text-xs flex items-center gap-2 shadow-xs transition-colors"
                   >
                     <span className="material-symbols-outlined text-base text-[#e5a93c]">near_me</span>
                     <span>Petunjuk Arah Kios Pasar Kramat Jati</span>
@@ -768,7 +768,7 @@ export default function HomePage() {
                     href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20ingin%20berkunjung%20ke%20kios%20langsung"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-6 py-3.5 rounded-full bg-white hover:bg-stone-50 border border-stone-300 text-stone-800 font-bold text-xs flex items-center gap-2 transition-colors"
+                    className="px-6 py-3.5 rounded-full bg-white hover:bg-stone-50 border border-stone-300 text-[#1c1917] font-bold text-xs flex items-center gap-2 transition-colors"
                   >
                     <span className="material-symbols-outlined text-emerald-700 text-base">chat</span>
                     <span>Hubungi Kios via WhatsApp</span>
@@ -780,7 +780,7 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* 8. TESTIMONIALS (EDITORIAL WARMTH)                                        */}
+        {/* 8. TESTIMONIALS (WARM EDITORIAL, CRISP DARK TEXT)                         */}
         {/* ========================================================================= */}
         <section className="py-20 bg-white border-t border-stone-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -788,7 +788,7 @@ export default function HomePage() {
               <p className="text-xs font-bold tracking-[0.2em] text-[#7a0019] uppercase mb-1">
                 Ulasan Pelanggan Setia
               </p>
-              <h2 className="font-headline text-3xl sm:text-5xl text-[#200408] tracking-tight uppercase">
+              <h2 className="font-headline text-3xl sm:text-5xl text-[#1c1917] tracking-tight uppercase">
                 DIPERCAYA TURUN TEMURUN
               </h2>
             </div>
@@ -798,7 +798,7 @@ export default function HomePage() {
               <div className="bg-[#faf7f2] p-7 rounded-3xl border border-stone-200 flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="text-[#e5a93c] text-sm mb-3">★★★★★</div>
-                  <p className="font-sans text-sm text-stone-700 leading-relaxed font-normal">
+                  <p className="font-sans text-sm text-[#1f130e] leading-relaxed font-semibold">
                     &ldquo;Sudah 6 tahun langganan mie telor bebek dan bakso urat Pak Mul untuk gerobak mie ayam saya. Mie-nya kenyal tidak mudah hancur saat direbus, pelanggan selalu puji kuahnya mantap.&rdquo;
                   </p>
                 </div>
@@ -807,8 +807,8 @@ export default function HomePage() {
                     MB
                   </div>
                   <div>
-                    <p className="font-bold text-xs text-stone-900">Mas Bambang</p>
-                    <p className="text-[11px] text-stone-500 font-medium">Mie Ayam Podomoro, Ciracas</p>
+                    <p className="font-black text-xs text-[#1c1917]">Mas Bambang</p>
+                    <p className="text-[11px] text-[#51000d] font-bold">Mie Ayam Podomoro, Ciracas</p>
                   </div>
                 </div>
               </div>
@@ -817,7 +817,7 @@ export default function HomePage() {
               <div className="bg-[#faf7f2] p-7 rounded-3xl border border-stone-200 flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="text-[#e5a93c] text-sm mb-3">★★★★★</div>
-                  <p className="font-sans text-sm text-stone-700 leading-relaxed font-normal">
+                  <p className="font-sans text-sm text-[#1f130e] leading-relaxed font-semibold">
                     &ldquo;Beli bakso halus buat acara arisan dan hajatan keluarga di rumah. Daging sapinya berasa sekali, bukan cuma tepung. Pengiriman tepat waktu dan baksonya masih dingin beku segar.&rdquo;
                   </p>
                 </div>
@@ -826,8 +826,8 @@ export default function HomePage() {
                     SR
                   </div>
                   <div>
-                    <p className="font-bold text-xs text-stone-900">Ibu Siti Rahma</p>
-                    <p className="text-[11px] text-stone-500 font-medium">Ibu Rumah Tangga, Kramat Jati</p>
+                    <p className="font-black text-xs text-[#1c1917]">Ibu Siti Rahma</p>
+                    <p className="text-[11px] text-[#51000d] font-bold">Ibu Rumah Tangga, Kramat Jati</p>
                   </div>
                 </div>
               </div>
@@ -836,7 +836,7 @@ export default function HomePage() {
               <div className="bg-[#faf7f2] p-7 rounded-3xl border border-stone-200 flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="text-[#e5a93c] text-sm mb-3">★★★★★</div>
-                  <p className="font-sans text-sm text-stone-700 leading-relaxed font-normal">
+                  <p className="font-sans text-sm text-[#1f130e] leading-relaxed font-semibold">
                     &ldquo;Pesanan grosir untuk katering pabrik selalu aman. Kulit pangsitnya renyah kalau digoreng, tidak banyak menyerap minyak. Pelayanan cepat dan responsif saat ada pesanan dadakan.&rdquo;
                   </p>
                 </div>
@@ -845,8 +845,8 @@ export default function HomePage() {
                     HW
                   </div>
                   <div>
-                    <p className="font-bold text-xs text-stone-900">Pak Hendra Wijaya</p>
-                    <p className="text-[11px] text-stone-500 font-medium">Katering Berkah Mandiri, Pulogadung</p>
+                    <p className="font-black text-xs text-[#1c1917]">Pak Hendra Wijaya</p>
+                    <p className="text-[11px] text-[#51000d] font-bold">Katering Berkah Mandiri, Pulogadung</p>
                   </div>
                 </div>
               </div>
@@ -855,11 +855,11 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* 9. "ORDER NOW" SECTION (MATCHING KOPIKITA BIG BANNER)                     */}
+        {/* 9. "ORDER NOW" SECTION (CRISP WARM CREAM TEXT ON DARK WINE)               */}
         {/* ========================================================================= */}
-        <section className="relative bg-[#200408] text-white py-24 sm:py-32 overflow-hidden text-center">
+        <section className="relative bg-[#1c0306] text-white py-24 sm:py-32 overflow-hidden text-center">
           {/* Subtle warm backdrop */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(229,169,60,0.12)_0%,_transparent_75%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(229,169,60,0.15)_0%,_transparent_70%)] pointer-events-none" />
 
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <span className="inline-block px-4 py-1.5 rounded-full bg-[#e5a93c]/20 text-[#e5a93c] font-black text-xs uppercase tracking-widest border border-[#e5a93c]/40 mb-4">
@@ -869,13 +869,13 @@ export default function HomePage() {
               NIKMATI KEHANGATAN{" "}
               <span className="text-[#e5a93c]">BAKSO SAPI ASLI</span> HARI INI
             </h2>
-            <p className="max-w-xl mx-auto text-stone-300 text-xs sm:text-sm mt-6 font-medium leading-relaxed">
+            <p className="max-w-xl mx-auto text-[#fef3c7] text-xs sm:text-sm mt-6 font-semibold leading-relaxed">
               Dibuat segar setiap hari, dikemas vakum higienis, dan dikirim aman ke seluruh Jabodetabek. Nikmati semangkuk bakso otentik bersama keluarga.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link
                 href="/produk"
-                className="px-8 py-4 rounded-full bg-[#e5a93c] hover:bg-amber-400 text-[#200408] font-black text-xs uppercase tracking-wider shadow-xl hover:scale-105 transition-all flex items-center gap-2"
+                className="px-8 py-4 rounded-full bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306] font-black text-xs uppercase tracking-wider shadow-xl hover:scale-105 transition-all flex items-center gap-2"
               >
                 <span>JELAJAHI MENU LENGKAP</span>
                 <span className="material-symbols-outlined text-sm font-bold">arrow_forward</span>
@@ -898,7 +898,7 @@ export default function HomePage() {
 
       {/* Cart Notification Toast */}
       {toastMessage && (
-        <div className="fixed bottom-20 md:bottom-8 right-6 z-50 bg-[#200408] text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold border border-[#e5a93c]/40 animate-in fade-in slide-in-from-bottom-3">
+        <div className="fixed bottom-20 md:bottom-8 right-6 z-50 bg-[#1c0306] text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold border border-[#e5a93c]/40 animate-in fade-in slide-in-from-bottom-3">
           <span className="material-symbols-outlined text-[#e5a93c] text-base">
             check_circle
           </span>

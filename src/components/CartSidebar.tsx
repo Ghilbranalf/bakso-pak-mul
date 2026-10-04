@@ -57,14 +57,14 @@ export default function CartSidebar() {
         {/* Product List (Scrollable) */}
         <div className="flex-1 overflow-y-auto px-6 py-6 space-y-4 bg-[#faf7f2]">
           {items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-stone-400 py-16 text-center">
-              <span className="material-symbols-outlined text-5xl mb-3 text-stone-300">
+            <div className="flex flex-col items-center justify-center h-full py-16 text-center">
+              <span className="material-symbols-outlined text-5xl mb-3 text-[#51000d]">
                 shopping_bag
               </span>
-              <p className="text-sm font-semibold text-stone-600">
+              <p className="text-sm font-bold text-[#1c1917]">
                 Keranjang Anda masih kosong
               </p>
-              <p className="text-xs text-stone-400 mt-1 max-w-xs">
+              <p className="text-xs text-[#51000d] font-medium mt-1 max-w-xs">
                 Pilih menu bakso atau bahan baku favorit dari kios Pasar Kramat Jati.
               </p>
             </div>
@@ -72,9 +72,9 @@ export default function CartSidebar() {
             items.map((item, index) => (
               <div
                 key={`${item.id}-${index}`}
-                className="p-4 bg-white rounded-xl border border-stone-200/70 shadow-2xs flex gap-3.5 items-center"
+                className="p-4 bg-white rounded-xl border border-stone-200/90 shadow-2xs flex gap-3.5 items-center"
               >
-                <div className="w-16 h-16 rounded-lg bg-[#f5f0e8] p-1.5 shrink-0 flex items-center justify-center overflow-hidden">
+                <div className="w-16 h-16 rounded-lg bg-[#f5f0e8] p-1.5 shrink-0 flex items-center justify-center overflow-hidden border border-stone-200">
                   <img
                     className="w-full h-full object-contain"
                     src={item.image || "/images/hero-banner.webp"}
@@ -82,20 +82,20 @@ export default function CartSidebar() {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-display text-xs font-bold text-stone-900 truncate">
+                  <h3 className="font-headline text-sm font-bold text-[#1c1917] truncate uppercase tracking-tight">
                     {item.name}
                   </h3>
-                  <p className="text-[11px] text-stone-400 mb-2 truncate">
+                  <p className="text-[11px] text-[#51000d] font-semibold mb-2 truncate">
                     {item.unit || "Pack Pilihan"}
                   </p>
                   <div className="flex items-center justify-between">
-                    <span className="font-display text-sm font-bold text-[#51000d]">
+                    <span className="font-headline text-base font-extrabold text-[#51000d]">
                       Rp {formatPrice(item.price)}
                     </span>
-                    <div className="flex items-center border border-stone-200 rounded-lg bg-stone-50">
+                    <div className="flex items-center border border-stone-300 rounded-lg bg-stone-50">
                       <button
                         type="button"
-                        className="p-1 text-stone-500 hover:text-[#51000d] transition-colors cursor-pointer"
+                        className="p-1 text-stone-700 hover:text-[#51000d] transition-colors cursor-pointer"
                         onClick={() =>
                           item.quantity > 1
                             ? updateQuantity(item.id, -1)
@@ -106,12 +106,12 @@ export default function CartSidebar() {
                           {item.quantity === 1 ? "delete" : "remove"}
                         </span>
                       </button>
-                      <span className="text-xs font-bold w-7 text-center text-stone-900">
+                      <span className="text-xs font-bold w-7 text-center text-[#1c1917]">
                         {item.quantity}
                       </span>
                       <button
                         type="button"
-                        className="p-1 text-stone-500 hover:text-[#51000d] transition-colors cursor-pointer"
+                        className="p-1 text-stone-700 hover:text-[#51000d] transition-colors cursor-pointer"
                         onClick={() => updateQuantity(item.id, 1)}
                       >
                         <span className="material-symbols-outlined text-[16px]">
@@ -129,24 +129,24 @@ export default function CartSidebar() {
         {/* Footer / Price Summary */}
         <div className="bg-white border-t border-stone-200 p-6 space-y-4">
           <div className="space-y-2">
-            <div className="flex justify-between text-xs text-stone-500">
+            <div className="flex justify-between text-xs text-[#1c1917] font-medium">
               <span>Subtotal Pesanan</span>
-              <span className="text-stone-900 font-semibold">
+              <span className="text-[#1c1917] font-bold">
                 Rp {formatPrice(totalPrice)}
               </span>
             </div>
             {items.length > 0 && (
               <>
-                <div className="flex justify-between text-xs text-stone-500">
+                <div className="flex justify-between text-xs text-[#1c1917] font-medium">
                   <span>Estimasi Pengiriman</span>
-                  <span className="text-stone-900 font-semibold">
+                  <span className="text-[#1c1917] font-bold">
                     Rp {formatPrice(shippingCost)}
                   </span>
                 </div>
                 {discount > 0 && (
                   <div className="flex justify-between text-xs text-[#7a0019]">
                     <span>Potongan Pembelian</span>
-                    <span className="font-semibold">- Rp {formatPrice(discount)}</span>
+                    <span className="font-bold">- Rp {formatPrice(discount)}</span>
                   </div>
                 )}
               </>
@@ -154,10 +154,10 @@ export default function CartSidebar() {
           </div>
           <hr className="border-stone-200 border-dashed" />
           <div className="flex justify-between items-end pb-1">
-            <span className="text-xs font-bold text-stone-700 uppercase tracking-wider">
+            <span className="text-xs font-bold text-[#1c1917] uppercase tracking-wider">
               Total Pembayaran
             </span>
-            <span className="font-display text-2xl font-bold text-[#51000d]">
+            <span className="font-headline text-2xl font-bold text-[#51000d]">
               Rp {formatPrice(finalTotal)}
             </span>
           </div>
@@ -171,7 +171,7 @@ export default function CartSidebar() {
             <span>Lanjut Pembayaran</span>
             <span className="material-symbols-outlined text-base">arrow_forward</span>
           </Link>
-          <p className="text-center text-[10px] text-stone-400 mt-2">
+          <p className="text-center text-[10px] text-[#51000d] font-bold mt-2">
             100% Aman &amp; Terjamin • Diantar Segar Langsung
           </p>
         </div>
