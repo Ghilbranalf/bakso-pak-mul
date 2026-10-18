@@ -214,13 +214,13 @@ export default function CheckoutPage() {
         </div>
 
         {cartItems.length === 0 && !isPaymentModalOpen ? (
-          <div className="bg-white rounded-3xl p-12 text-center border border-stone-200 shadow-sm space-y-4 max-w-lg mx-auto">
-            <span className="material-symbols-outlined text-6xl text-[#51000d]">shopping_bag</span>
+          <div className="bg-white rounded-2xl p-10 text-center border border-stone-200 shadow-xs space-y-4 max-w-lg mx-auto">
+            <span className="material-symbols-outlined text-6xl text-[#7a0019]">shopping_bag</span>
             <h2 className="text-lg font-bold text-[#1c1917]">Keranjang Belanja Kosong</h2>
-            <p className="text-xs text-[#51000d] font-medium">Anda belum memilih produk Bakso Pak Mul apapun.</p>
+            <p className="text-xs text-stone-500 font-medium">Anda belum memilih produk Bakso Pak Mul apapun.</p>
             <button
               onClick={() => router.push("/produk")}
-              className="px-6 py-3 bg-[#51000d] text-white rounded-xl text-xs font-bold shadow-md hover:bg-[#7a0019] transition-all uppercase tracking-wider cursor-pointer"
+              className="px-6 py-2.5 bg-[#7a0019] text-white rounded-xl text-xs font-bold shadow-xs hover:bg-[#51000d] transition-colors uppercase tracking-wider cursor-pointer"
             >
               Lihat Katalog Produk
             </button>
@@ -295,7 +295,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Shipping Address Card */}
-              <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-5">
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xs border border-stone-200 space-y-5">
                 <div className="flex items-center gap-3 border-b border-gray-100 pb-4">
                   <div className="w-10 h-10 rounded-xl bg-red-50 text-[#51000d] flex items-center justify-center font-bold">
                     <span className="material-symbols-outlined text-xl">location_on</span>
@@ -406,7 +406,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Shipping Courier Card */}
-              <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-5">
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xs border border-stone-200 space-y-5">
                 <div className="flex items-center justify-between border-b border-gray-100 pb-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-800 flex items-center justify-center font-bold">
@@ -532,7 +532,7 @@ export default function CheckoutPage() {
 
             {/* Right Column: Order Summary Sidebar */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border-2 border-stone-200 space-y-6 sticky top-28">
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xs border border-stone-200 space-y-6 sticky top-28">
                 <h3 className="font-headline text-lg uppercase text-[#1c1917] border-b border-stone-100 pb-4">
                   Ringkasan Pesanan ({cartItems.length} Barang)
                 </h3>
@@ -619,23 +619,23 @@ export default function CheckoutPage() {
       {/* Animated Loading Modal Overlay after clicking Lanjut Pembayaran */}
       {isSubmitting && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl border border-gray-100 animate-in zoom-in-95 duration-200 space-y-5">
+          <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-xl border border-stone-200 animate-in zoom-in-95 duration-200 space-y-5">
             <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
-              <div className="absolute inset-0 rounded-full border-4 border-red-100 border-t-[#51000d] animate-spin"></div>
-              <div className="w-14 h-14 bg-[#51000d] text-white rounded-full flex items-center justify-center shadow-md animate-pulse">
+              <div className="absolute inset-0 rounded-full border-4 border-stone-100 border-t-[#7a0019] animate-spin"></div>
+              <div className="w-14 h-14 bg-[#7a0019] text-white rounded-full flex items-center justify-center shadow-xs">
                 <span className="material-symbols-outlined text-2xl">shopping_bag</span>
               </div>
             </div>
 
             <div>
-              <h3 className="text-lg font-black text-gray-900">Memproses Pesanan Anda</h3>
-              <p className="text-xs text-gray-500 font-medium mt-1 leading-relaxed">
+              <h3 className="font-headline text-lg font-bold text-stone-900">Memproses Pesanan Anda</h3>
+              <p className="text-xs text-stone-500 font-medium mt-1 leading-relaxed">
                 Sedang mengunci stok produk, menyiapkan invoice, dan mengonfirmasi kurir pengiriman...
               </p>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-[#51000d] text-xs font-bold border border-red-100">
-              <span className="w-2 h-2 rounded-full bg-[#51000d] animate-ping"></span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-stone-100 text-stone-700 text-xs font-semibold">
+              <span className="w-2 h-2 rounded-full bg-[#7a0019]"></span>
               <span>Mohon tunggu sebentar</span>
             </div>
           </div>

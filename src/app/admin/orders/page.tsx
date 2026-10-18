@@ -435,7 +435,7 @@ export default function AdminOrdersPage() {
                           {order.orderNumber}
                         </p>
                         {isNew && (
-                          <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+                          <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" title="Pesanan Baru" />
                         )}
                       </div>
                       <p className={`text-xs ${isDark ? "text-white/30" : "text-gray-400"}`}>{order.date}</p>
@@ -458,7 +458,7 @@ export default function AdminOrdersPage() {
                         {order.customerName || "Pelanggan"}
                       </p>
                       <p className={`text-xs ${isDark ? "text-white/30" : "text-gray-400"}`}>
-                        {[order.city, order.province].filter(Boolean).join(", ") || "—"}
+                        {[order.city, order.province].filter(Boolean).join(", ") || "-"}
                       </p>
                     </div>
                     <div className="text-right">
@@ -592,7 +592,7 @@ export default function AdminOrdersPage() {
                           <div className="flex items-center gap-2">
                             {isNew && (
                               <span
-                                className="w-2 h-2 rounded-full bg-red-500 animate-ping shrink-0"
+                                className="w-2 h-2 rounded-full bg-rose-500 shrink-0"
                                 title="Pesanan Baru"
                               />
                             )}
@@ -615,7 +615,7 @@ export default function AdminOrdersPage() {
                           <p className={`text-xs ${isDark ? "text-white/30" : "text-gray-400"}`}>
                             {[order.city, order.province]
                               .filter(Boolean)
-                              .join(", ") || "—"}
+                              .join(", ") || "-"}
                           </p>
                         </td>
                         <td className="px-5 py-4">
@@ -779,13 +779,13 @@ export default function AdminOrdersPage() {
                 <div>
                   <p className={isDark ? "text-white/30" : "text-gray-400"}>Nama</p>
                   <p className="font-medium">
-                    {selectedOrderDetail.customerName || "—"}
+                    {selectedOrderDetail.customerName || "-"}
                   </p>
                 </div>
                 <div>
                   <p className={isDark ? "text-white/30" : "text-gray-400"}>No. HP</p>
                   <p className="font-medium">
-                    {selectedOrderDetail.phone || "—"}
+                    {selectedOrderDetail.phone || "-"}
                   </p>
                 </div>
                 <div className="col-span-2">
@@ -797,7 +797,7 @@ export default function AdminOrdersPage() {
                       selectedOrderDetail.province,
                     ]
                       .filter(Boolean)
-                      .join(", ") || "—"}
+                      .join(", ") || "-"}
                   </p>
                 </div>
               </div>

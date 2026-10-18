@@ -225,17 +225,14 @@ function ProductsContent() {
         {/* ========================================================================= */}
         {/* ARTISAN POSTER HEADER BANNER (HARMONIOUS WITH HERO)                       */}
         {/* ========================================================================= */}
-        <section className="relative bg-[#200508] text-white py-14 sm:py-20 overflow-hidden border-b border-[#3d0a11]">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(229,169,60,0.12)_0%,_transparent_70%)] pointer-events-none" />
-
+        <section className="relative bg-[#200407] text-white py-14 sm:py-20 overflow-hidden border-b border-stone-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e5a93c]/15 text-[#e5a93c] border border-[#e5a93c]/30 text-xs font-semibold uppercase tracking-wider mb-4">
-              <span className="material-symbols-outlined text-sm">storefront</span>
-              <span>Katalog Kios Pasar Kramat Jati</span>
-            </div>
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-stone-400 block mb-3">
+              Katalog Kios Pasar Kramat Jati
+            </span>
 
             <h1 className="font-headline text-4xl sm:text-6xl md:text-7xl uppercase text-white font-black tracking-tight leading-tight">
-              KOLEKSI MENU &amp; <span className="text-[#e5a93c]">BAHAN BAKU</span>
+              Koleksi Menu &amp; Bahan Baku
             </h1>
 
             <p className="max-w-2xl mx-auto text-stone-300 text-xs sm:text-sm mt-3 font-normal leading-relaxed">
@@ -313,7 +310,7 @@ function ProductsContent() {
               Array.from({ length: 8 }).map((_, idx) => (
                 <div
                   key={idx}
-                  className="bg-white rounded-3xl h-88 animate-pulse border-2 border-stone-100 shadow-xs"
+                  className="bg-white rounded-2xl h-88 animate-pulse border border-stone-200 shadow-xs"
                 />
               ))
             ) : paginatedProducts.length === 0 ? (

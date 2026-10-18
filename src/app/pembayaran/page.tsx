@@ -445,36 +445,36 @@ export default function CheckoutPage() {
       {/* ==================== QRIS DYNAMIC PAYMENT MODAL ==================== */}
       {qrisModalData.show && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fadeIn">
-          <div className="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl border border-amber-500/30 text-center relative overflow-hidden">
+          <div className="bg-white w-full max-w-sm rounded-2xl p-6 shadow-xl border border-stone-200 text-center relative overflow-hidden">
             {/* Modal Header */}
             <button
               onClick={() => setQrisModalData(prev => ({ ...prev, show: false }))}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition-all cursor-pointer"
+              className="absolute top-4 right-4 text-stone-400 hover:text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-lg w-8 h-8 flex items-center justify-center transition-colors cursor-pointer"
             >
               <span className="material-symbols-outlined text-lg">close</span>
             </button>
 
             <div className="flex items-center justify-center gap-2 mb-1 mt-2">
-              <span className="text-base font-black text-[#51000d]">QRIS PEMBAYARAN</span>
-              <span className="bg-amber-100 text-[#51000d] text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-amber-300">GPN</span>
+              <span className="font-headline text-base font-bold text-[#7a0019]">QRIS Pembayaran</span>
+              <span className="bg-stone-100 text-stone-700 text-[10px] font-semibold px-2 py-0.5 rounded">GPN</span>
             </div>
-            <p className="text-[11px] text-gray-500 font-semibold mb-4">Bakso Pak Mul • NMID: ID1026563066301</p>
+            <p className="text-[11px] text-stone-500 font-medium mb-4">Bakso Pak Mul • NMID: ID1026563066301</p>
 
             {/* Total Nominal Badge */}
-            <div className="bg-red-50 p-3 rounded-2xl border border-red-100 mb-4">
-              <span className="text-[11px] text-gray-500 block font-medium">Total Nominal Pas (Otomatis)</span>
-              <span className="text-2xl font-black text-[#51000d]">
+            <div className="bg-stone-50 p-3.5 rounded-xl border border-stone-200 mb-4">
+              <span className="text-[11px] text-stone-500 block font-medium">Total Nominal Pas (Otomatis)</span>
+              <span className="font-headline text-2xl font-bold text-[#7a0019]">
                 Rp {qrisModalData.amount.toLocaleString("id-ID")}
               </span>
-              <span className="text-[10px] text-gray-400 block mt-0.5">Order ID: {qrisModalData.orderNumber}</span>
+              <span className="text-[10px] text-stone-400 block mt-0.5">Order ID: {qrisModalData.orderNumber}</span>
             </div>
 
             {/* QR Code Container */}
-            <div className="bg-white p-3 rounded-2xl border-2 border-[#51000d]/20 shadow-md inline-block relative mb-4">
+            <div className="bg-white p-3 rounded-xl border border-stone-200 shadow-xs inline-block relative mb-4">
               {qrisModalData.isPaid ? (
-                <div className="w-64 h-64 flex flex-col items-center justify-center bg-emerald-50 rounded-xl text-emerald-700 space-y-2 animate-bounce">
+                <div className="w-64 h-64 flex flex-col items-center justify-center bg-emerald-50 rounded-lg text-emerald-700 space-y-2">
                   <span className="material-symbols-outlined text-6xl text-emerald-600">check_circle</span>
-                  <span className="font-black text-lg">Pembayaran Berhasil!</span>
+                  <span className="font-headline font-bold text-lg">Pembayaran Berhasil!</span>
                   <span className="text-xs text-emerald-600 font-medium">Mengalihkan halaman...</span>
                 </div>
               ) : (
@@ -487,16 +487,13 @@ export default function CheckoutPage() {
             </div>
 
             {/* Status Indicator */}
-            <div className="flex items-center justify-center gap-2 text-xs font-bold mb-3">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
-              </span>
-              <span className="text-amber-800">Menunggu Pembayaran (Otomatis Terverifikasi)</span>
+            <div className="flex items-center justify-center gap-2 text-xs font-semibold mb-3">
+              <span className="w-2 h-2 rounded-full bg-[#7a0019]"></span>
+              <span className="text-stone-700">Menunggu Pembayaran (Otomatis Terverifikasi)</span>
             </div>
 
-            <p className="text-[11px] text-gray-500 leading-relaxed font-medium">
-              Buka aplikasi e-Wallet / m-Banking Anda, pilih menu <strong className="text-[#51000d]">Scan QRIS</strong>, lalu bayar sesuai nominal di atas.
+            <p className="text-[11px] text-stone-500 leading-relaxed font-medium">
+              Buka aplikasi e-Wallet / m-Banking Anda, pilih menu <strong className="text-[#7a0019]">Scan QRIS</strong>, lalu bayar sesuai nominal di atas.
             </p>
           </div>
         </div>

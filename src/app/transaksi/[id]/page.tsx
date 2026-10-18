@@ -56,7 +56,7 @@ export default function TrackOrderPage() {
         setPaymentResultModal("failed");
       }
 
-      // Mark auto_pay as pending — actual payment modal will open
+      // Mark auto_pay as pending: actual payment modal will open
       // once order data is loaded from DB (see useEffect below)
       if (isAutoPay) {
         setPendingAutoPay(true);
@@ -188,7 +188,7 @@ export default function TrackOrderPage() {
     // CRITICAL: Only use real order data from DB, never fallback demo data
     const realOrder = order;
     if (!realOrder || !realOrder.orderNumber || !realOrder.finalTotal) {
-      console.warn("fetchCoreApiCharge called before order loaded from DB — skipping");
+      console.warn("fetchCoreApiCharge called before order loaded from DB, skipping");
       return;
     }
     setIsChargingCoreApi(true);
@@ -528,25 +528,22 @@ export default function TrackOrderPage() {
       {/* RE-PAY PAYMENT MODAL ON TRACK ORDER PAGE */}
       {isPaymentModalOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[70] flex items-center justify-center p-3 md:p-4 overflow-y-auto">
-          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col border border-gray-100 my-auto">
+          <div className="bg-white w-full max-w-md rounded-2xl shadow-xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col border border-stone-200 my-auto">
             {/* Modal Header */}
-            <div className="bg-gradient-to-r from-[#51000d] to-[#7a0019] text-white p-4 sm:p-5 relative">
+            <div className="bg-[#200407] text-white p-4 sm:p-5 relative border-b border-stone-800">
               <div className="flex justify-between items-start">
                 <div>
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <span className="material-symbols-outlined text-amber-300 text-base">verified</span>
-                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-amber-300">
-                      Bayar Ulang Pesanan
-                    </span>
-                  </div>
-                  <h2 className="text-xl font-black tracking-tight">Rp {formatPrice(displayOrder.finalTotal)}</h2>
-                  <p className="text-[11px] text-white/80 font-medium mt-0.5">
-                    No. Pesanan: <span className="font-mono font-bold text-amber-300">{displayOrder.orderNumber}</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-300 block mb-1">
+                    Bayar Ulang Pesanan
+                  </span>
+                  <h2 className="font-headline text-xl font-bold tracking-tight text-white">Rp {formatPrice(displayOrder.finalTotal)}</h2>
+                  <p className="text-[11px] text-stone-400 font-medium mt-0.5">
+                    No. Pesanan: <span className="font-mono font-semibold text-white">{displayOrder.orderNumber}</span>
                   </p>
                 </div>
                 <button
                   onClick={() => setIsPaymentModalOpen(false)}
-                  className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer"
+                  className="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-base">close</span>
                 </button>
@@ -556,17 +553,17 @@ export default function TrackOrderPage() {
             {/* Modal Body: QRIS Only */}
             <div className="p-4 sm:p-5 space-y-4">
               <div className="flex flex-col items-center text-center space-y-3">
-                <div className="flex items-center justify-center gap-2 bg-gradient-to-r from-red-50 to-amber-50 px-3 py-1.5 rounded-full border border-red-200/60 w-full">
-                  <span className="text-[11px] font-black uppercase text-[#51000d]">QRIS GPN RESMI</span>
-                  <span className="text-[10px] font-extrabold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-300">
+                <div className="flex items-center justify-between gap-2 bg-stone-50 px-3.5 py-2 rounded-xl border border-stone-200 w-full text-xs">
+                  <span className="font-bold uppercase text-[#7a0019]">QRIS GPN Resmi</span>
+                  <span className="text-[10px] font-semibold text-stone-600 bg-stone-200/60 px-2 py-0.5 rounded">
                     NMID: ID1026563066301
                   </span>
                 </div>
 
-                <div className="p-3.5 bg-white rounded-2xl border-2 border-[#51000d]/20 shadow-md min-h-[220px] flex items-center justify-center relative w-full">
+                <div className="p-3.5 bg-white rounded-xl border border-stone-200 shadow-xs min-h-[220px] flex items-center justify-center relative w-full">
                   {isChargingCoreApi && !liveQrisUrl ? (
-                    <div className="flex flex-col items-center gap-2 text-xs text-gray-500 font-medium py-10">
-                      <div className="w-8 h-8 border-3 border-[#51000d] border-t-transparent rounded-full animate-spin"></div>
+                    <div className="flex flex-col items-center gap-2 text-xs text-stone-500 font-medium py-10">
+                      <div className="w-8 h-8 border-3 border-[#7a0019] border-t-transparent rounded-full animate-spin"></div>
                       <span>Memuat QRIS Dinamis Bakso Pak Mul...</span>
                     </div>
                   ) : (
@@ -581,32 +578,29 @@ export default function TrackOrderPage() {
                   )}
                 </div>
 
-                <div className="flex flex-col items-center justify-center gap-1 text-xs font-bold text-amber-800 bg-amber-50 px-3 py-2 rounded-xl border border-amber-200/80 w-full">
+                <div className="flex flex-col items-center justify-center gap-1 text-xs font-semibold text-stone-800 bg-stone-50 px-3.5 py-2.5 rounded-xl border border-stone-200 w-full">
                   <div className="flex items-center gap-2">
-                    <span className="relative flex h-2.5 w-2.5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
-                    </span>
-                    <span>Transfer TEPAT: Rp {formatPrice(displayOrder.finalTotal)}</span>
+                    <span className="w-2 h-2 rounded-full bg-[#7a0019]"></span>
+                    <span>Transfer Tepat: Rp {formatPrice(displayOrder.finalTotal)}</span>
                   </div>
                   {Boolean(displayOrder.uniqueCode && displayOrder.uniqueCode > 0) && (
-                    <p className="text-[10px] font-normal text-amber-700">
-                      Termasuk kode unik 3-digit (<span className="font-bold">+{displayOrder.uniqueCode}</span>) agar pesanan tidak tertukar &amp; otomatis terverifikasi.
+                    <p className="text-[10px] font-normal text-stone-600">
+                      Termasuk kode unik (<span className="font-semibold">+{displayOrder.uniqueCode}</span>) untuk verifikasi otomatis.
                     </p>
                   )}
                 </div>
 
-                <p className="text-[11px] text-gray-500 font-medium">
-                  Scan via GoPay, OVO, DANA, ShopeePay, LinkAja, BCA, Mandiri, atau m-Banking Anda.
+                <p className="text-[11px] text-stone-500 font-medium">
+                  Scan via GoPay, OVO, DANA, ShopeePay, BCA, Mandiri, atau m-Banking Anda.
                 </p>
               </div>
             </div>
 
             {/* Modal Actions Footer */}
-            <div className="p-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-2">
+            <div className="p-4 bg-stone-50 border-t border-stone-100 flex justify-end gap-2">
               <button
                 onClick={() => setIsPaymentModalOpen(false)}
-                className="px-6 py-2.5 bg-[#51000d] text-white rounded-xl text-xs font-bold shadow-sm uppercase tracking-wider cursor-pointer"
+                className="px-5 py-2.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold shadow-xs uppercase tracking-wider transition-colors cursor-pointer"
               >
                 Tutup Panduan
               </button>

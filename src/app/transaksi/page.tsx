@@ -135,22 +135,22 @@ export default function TransaksiPage() {
           {/* Transaction Cards List */}
           <div className="space-y-6">
             {isLoading ? (
-              <div className="text-center py-16 bg-white rounded-3xl border-2 border-stone-200">
-                <span className="w-8 h-8 border-4 border-[#51000d] border-t-transparent rounded-full animate-spin inline-block mb-3" />
+              <div className="text-center py-16 bg-white rounded-2xl border border-stone-200">
+                <span className="w-8 h-8 border-4 border-[#7a0019] border-t-transparent rounded-full animate-spin inline-block mb-3" />
                 <p className="font-headline text-lg uppercase text-[#1c1917]">Memuat Data Transaksi...</p>
               </div>
             ) : filteredTransactions.length === 0 ? (
-              <div className="text-center py-16 bg-white rounded-3xl border-2 border-stone-200 p-8">
-                <span className="material-symbols-outlined text-5xl text-[#51000d] mb-2 block">
+              <div className="text-center py-16 bg-white rounded-2xl border border-stone-200 p-8">
+                <span className="material-symbols-outlined text-5xl text-[#7a0019] mb-2 block">
                   receipt_long
                 </span>
                 <p className="font-headline text-xl uppercase text-[#1c1917]">Belum Ada Transaksi</p>
-                <p className="text-xs text-[#51000d] font-semibold mt-1">
+                <p className="text-xs text-stone-600 font-medium mt-1">
                   Belum ada catatan pesanan di kategori ini. Yuk coba racikan bakso sapi asli Pak Mul!
                 </p>
                 <Link
                   href="/produk"
-                  className="mt-4 inline-block px-6 py-2.5 bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306] rounded-full text-xs font-black uppercase tracking-wider shadow"
+                  className="mt-4 inline-block px-5 py-2.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-xs transition-colors"
                 >
                   Pilih Menu Sekarang
                 </Link>
@@ -159,17 +159,17 @@ export default function TransaksiPage() {
               filteredTransactions.map((trx) => (
                 <div
                   key={trx.id}
-                  className="bg-white rounded-3xl border-2 border-stone-200 p-6 shadow-xs hover:shadow-xl hover:border-[#e5a93c] transition-all"
+                  className="bg-white rounded-2xl border border-stone-200 p-6 shadow-xs hover:border-[#7a0019]/40 transition-colors"
                 >
                   <div className="flex flex-wrap items-center justify-between pb-4 border-b border-stone-100 gap-4">
                     <div>
-                      <span className="text-xs font-black uppercase tracking-wider text-[#51000d]">
+                      <span className="text-xs font-black uppercase tracking-wider text-[#7a0019]">
                         {trx.id}
                       </span>
-                      <p className="text-xs text-[#2b1b17] font-semibold mt-0.5">{trx.date}</p>
+                      <p className="text-xs text-stone-500 font-medium mt-0.5">{trx.date}</p>
                     </div>
                     <span
-                      className={`px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider border ${trx.statusColor}`}
+                      className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider border ${trx.statusColor}`}
                     >
                       {trx.status}
                     </span>
@@ -180,14 +180,14 @@ export default function TransaksiPage() {
                     {trx.items.map((item: any, idx: number) => (
                       <div key={idx} className="flex justify-between items-center text-sm">
                         <div>
-                          <span className="font-headline uppercase text-sm text-[#1c1917]">
+                          <span className="font-headline font-bold uppercase text-sm text-[#1c1917]">
                             {item.name}
                           </span>
-                          <span className="text-xs font-bold text-[#51000d] ml-2">
+                          <span className="text-xs font-semibold text-stone-500 ml-2">
                             x{item.qty}
                           </span>
                         </div>
-                        <span className="font-headline text-base text-[#1c1917]">
+                        <span className="font-headline font-bold text-base text-[#1c1917]">
                           Rp {formatPrice((item.price || 0) * item.qty)}
                         </span>
                       </div>
@@ -196,18 +196,18 @@ export default function TransaksiPage() {
 
                   <div className="pt-4 border-t border-stone-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                      <span className="text-xs text-[#51000d] font-bold block">
+                      <span className="text-[10px] text-stone-400 font-semibold uppercase tracking-wider block">
                         TOTAL PEMBAYARAN
                       </span>
-                      <span className="font-headline text-2xl text-[#1c1917]">
+                      <span className="font-headline font-bold text-2xl text-[#1c1917]">
                         Rp {formatPrice(trx.total)}
                       </span>
                     </div>
                     <Link
                       href={`/lacak?id=${encodeURIComponent(trx.id)}`}
-                      className="px-6 py-2.5 rounded-full bg-[#1c0306] hover:bg-[#36070e] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-xs flex items-center gap-1.5"
+                      className="px-5 py-2.5 rounded-xl bg-[#200407] hover:bg-[#3d0a11] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-xs flex items-center gap-1.5"
                     >
-                      <span className="material-symbols-outlined text-sm text-[#e5a93c]">
+                      <span className="material-symbols-outlined text-sm">
                         local_shipping
                       </span>
                       <span>Lacak Pesanan</span>

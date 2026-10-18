@@ -100,8 +100,8 @@ export async function POST(req: Request) {
       );
 
       const baksoText = baksoProducts.length > 0
-        ? baksoProducts.map((p) => `• ${p.name} — Rp ${p.price.toLocaleString("id-ID")}/${p.unit || "bks"}`).join("\n")
-        : "• Bakso Cita Rasa Premium — Rp 80.000/bks\n• Bakso Super Essem Spesial — Rp 75.000/bks\n• Bakso Jeruk SB (50pcs) — Rp 60.000/bks\n• Bakso Mekar Wangi (50pcs) — Rp 50.000/bks";
+        ? baksoProducts.map((p) => `• ${p.name}: Rp ${p.price.toLocaleString("id-ID")}/${p.unit || "bks"}`).join("\n")
+        : "• Bakso Cita Rasa Premium: Rp 80.000/bks\n• Bakso Super Essem Spesial: Rp 75.000/bks\n• Bakso Jeruk SB (50pcs): Rp 60.000/bks\n• Bakso Mekar Wangi (50pcs): Rp 50.000/bks";
 
       return NextResponse.json({
         reply: `Berikut pilihan varian Bakso Sapi Asli di toko kami ya kak 🥩:\n\n${baksoText}\n\nSemuanya 100% daging sapi asli fresh dari Kios Pasar Kramat Jati. Ada varian yang ingin kakak pesan?`
@@ -115,8 +115,8 @@ export async function POST(req: Request) {
       );
 
       const mieText = mieProducts.length > 0
-        ? mieProducts.map((p) => `• ${p.name} — Rp ${p.price.toLocaleString("id-ID")}/${p.unit || "bks"}`).join("\n")
-        : "• Mie Ayam Resto Telur Bebek — Rp 20.000/bks\n• Mie Keriting ACI — Rp 15.000/bks\n• Kulit Pangsit Dimsum / Goreng — Rp 20.000/bks";
+        ? mieProducts.map((p) => `• ${p.name}: Rp ${p.price.toLocaleString("id-ID")}/${p.unit || "bks"}`).join("\n")
+        : "• Mie Ayam Resto Telur Bebek: Rp 20.000/bks\n• Mie Keriting ACI: Rp 15.000/bks\n• Kulit Pangsit Dimsum / Goreng: Rp 20.000/bks";
 
       return NextResponse.json({
         reply: `Berikut varian Mie Ayam & Kulit Pangsit kenyal di toko kami kak 🍜:\n\n${mieText}\n\nTanpa pengawet & teksturnya kenyal sempurna!`
@@ -130,8 +130,8 @@ export async function POST(req: Request) {
       );
 
       const bumbuText = bumbuProducts.length > 0
-        ? bumbuProducts.map((p) => `• ${p.name} — Rp ${p.price.toLocaleString("id-ID")}/${p.unit || "bks"}`).join("\n")
-        : "• Bumbu Multi Guna Kuah Bakso/Sop — Rp 30.000/bks\n• Saos Pedas Lima Delapan — Rp 8.000/bks\n• Kecap Manis Nasional — Rp 10.000/bks";
+        ? bumbuProducts.map((p) => `• ${p.name}: Rp ${p.price.toLocaleString("id-ID")}/${p.unit || "bks"}`).join("\n")
+        : "• Bumbu Multi Guna Kuah Bakso/Sop: Rp 30.000/bks\n• Saos Pedas Lima Delapan: Rp 8.000/bks\n• Kecap Manis Nasional: Rp 10.000/bks";
 
       return NextResponse.json({
         reply: `Berikut koleksi Bumbu & Saus khas Bakso Pak Mul kak 🧂:\n\n${bumbuText}\n\nSiap bikin kuah & masakan kakak seenak langganan!`

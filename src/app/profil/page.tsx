@@ -109,12 +109,12 @@ export default function ProfilePage() {
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full">
         {/* Profile Card Banner */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border-2 border-stone-200 mb-8 transition-all">
+        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xs border border-stone-200 mb-8 transition-all">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
             {/* User Avatar & Info */}
             <div className="flex flex-col sm:flex-row items-center gap-5 w-full sm:w-auto">
               <div className="relative">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#7a0019] text-white flex items-center justify-center font-headline text-3xl shadow-xs border border-[#51000d]">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-[#7a0019] text-white flex items-center justify-center font-headline font-bold text-3xl shadow-xs">
                   {(formData.name || "U").charAt(0).toUpperCase()}
                 </div>
                 <div className="absolute -bottom-1 -right-1 bg-emerald-600 w-5 h-5 rounded-full border-2 border-white flex items-center justify-center">
@@ -123,15 +123,15 @@ export default function ProfilePage() {
               </div>
 
               <div className="space-y-1">
-                <h1 className="font-headline text-2xl sm:text-3xl uppercase text-[#1c1917] tracking-tight leading-snug">
+                <h1 className="font-headline font-bold text-2xl sm:text-3xl text-[#1c1917] tracking-tight leading-snug">
                   {formData.name || "Pelanggan Setia"}
                 </h1>
-                <p className="text-xs text-[#51000d] font-bold">{formData.email || "email@pelanggan.com"}</p>
+                <p className="text-xs text-stone-500 font-medium">{formData.email || "email@pelanggan.com"}</p>
                 <div className="flex items-center justify-center sm:justify-start gap-2 pt-1">
-                  <span className="px-3 py-0.5 bg-amber-50 text-[#7a0019] border border-amber-200/80 rounded-full text-[10px] font-black uppercase tracking-wider">
+                  <span className="px-2.5 py-0.5 bg-stone-100 text-[#7a0019] rounded text-[10px] font-semibold uppercase tracking-wider">
                     Pelanggan Setia BPM
                   </span>
-                  <span className="text-[10px] text-[#2b1b17] font-semibold">• Terverifikasi</span>
+                  <span className="text-[10px] text-stone-500 font-medium">• Terverifikasi</span>
                 </div>
               </div>
             </div>
@@ -140,7 +140,7 @@ export default function ProfilePage() {
             <div className="w-full sm:w-auto pt-2 sm:pt-0">
               <button
                 onClick={handleSignOut}
-                className="w-full sm:w-auto px-6 py-2.5 bg-rose-50 hover:bg-rose-700 hover:text-white text-rose-700 rounded-full text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer border border-rose-200 hover:border-transparent active:scale-95 shadow-xs"
+                className="w-full sm:w-auto px-5 py-2.5 bg-rose-50 hover:bg-rose-700 hover:text-white text-rose-700 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer border border-rose-200 hover:border-transparent shadow-xs"
               >
                 <span className="material-symbols-outlined text-base">logout</span>
                 <span>Keluar Akun</span>

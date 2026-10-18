@@ -92,10 +92,9 @@ export default function PromoPage() {
                 Solusi praktis dan hemat untuk memasok warung makan atau memulai usaha kuliner Anda.
               </p>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#51000d]/10 text-[#51000d] border border-[#51000d]/20 text-xs font-extrabold">
-              <span className="material-symbols-outlined text-sm">schedule</span>
-              <span>Penawaran Khusus Terbatas</span>
-            </div>
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500 self-start md:self-auto">
+              Penawaran Khusus Terbatas
+            </span>
           </div>
 
           {/* Bundle Bento Card */}
@@ -193,7 +192,7 @@ export default function PromoPage() {
 
               {/* Status Badge */}
               <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-stone-100 text-stone-700 text-xs font-semibold self-start md:self-auto">
-                <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-emerald-600" />
                 <span>Stok Diperbarui Subuh Tadi</span>
               </div>
             </div>

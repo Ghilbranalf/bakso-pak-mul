@@ -140,14 +140,14 @@ function TrackingContent() {
 
           {/* Error State */}
           {errorMsg && (
-            <div className="bg-rose-50 border-2 border-rose-200 rounded-3xl p-8 text-center mb-10">
-              <div className="w-12 h-12 bg-rose-100 text-[#51000d] rounded-2xl flex items-center justify-center mx-auto mb-3 font-bold">
+            <div className="bg-rose-50 border border-rose-200 rounded-2xl p-8 text-center mb-10">
+              <div className="w-12 h-12 bg-rose-100 text-[#7a0019] rounded-xl flex items-center justify-center mx-auto mb-3 font-bold">
                 <span className="material-symbols-outlined text-2xl">error</span>
               </div>
-              <h3 className="font-headline text-lg uppercase text-[#51000d] mb-1">
+              <h3 className="font-headline text-lg uppercase text-[#7a0019] mb-1">
                 Pesanan Tidak Ditemukan
               </h3>
-              <p className="text-xs text-[#2b1b17] max-w-md mx-auto font-medium">{errorMsg}</p>
+              <p className="text-xs text-stone-700 max-w-md mx-auto font-medium">{errorMsg}</p>
             </div>
           )}
 
@@ -199,9 +199,9 @@ function TrackingContent() {
                     }`}
                   >
                     <div
-                      className={`w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-base shadow-xs ${
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-base shadow-xs ${
                         activeStep >= 1
-                          ? "bg-[#51000d] text-[#e5a93c] ring-4 ring-amber-100"
+                          ? "bg-[#7a0019] text-white ring-4 ring-[#7a0019]/15"
                           : "bg-stone-100 text-stone-400"
                       }`}
                     >
