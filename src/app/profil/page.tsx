@@ -357,18 +357,18 @@ export default function ProfilePage() {
                         })}
                       </p>
                     </div>
-                    <span className="px-3 py-1 rounded-full text-xs font-black uppercase bg-amber-50 text-[#7a0019] border border-amber-200">
+                    <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold uppercase bg-stone-100 text-stone-800 border border-stone-200">
                       {order.status || "DIPROSES"}
                     </span>
                   </div>
                   <div className="pt-3 flex justify-between items-center">
                     <div>
-                      <span className="text-[10px] font-bold text-[#51000d] block">TOTAL</span>
-                      <span className="font-headline text-xl text-[#1c1917]">Rp {formatPrice(order.finalTotal)}</span>
+                      <span className="text-[10px] font-bold text-stone-500 block uppercase tracking-wider">TOTAL</span>
+                      <span className="font-headline text-xl text-[#1c1917] font-bold">Rp {formatPrice(order.finalTotal)}</span>
                     </div>
                     <Link
                       href={`/lacak?id=${encodeURIComponent(order.orderNumber)}`}
-                      className="px-5 py-2 rounded-full bg-[#1c0306] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#36070e] transition-all"
+                      className="px-4 py-2 rounded-xl bg-[#7a0019] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#51000d] transition-colors shadow-xs"
                     >
                       Lacak Status
                     </Link>

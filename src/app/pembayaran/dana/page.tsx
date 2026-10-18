@@ -31,21 +31,20 @@ export default function DanaPaymentPage() {
   const finalTotal = items.length > 0 ? Math.max(0, totalPrice + shippingCost - discount) : 4500000;
 
   return (
-    <div className="bg-[#f3f3f3] text-[#1a1c1c] min-h-screen flex items-center justify-center p-4 md:p-8 font-sans antialiased">
-      <main className="w-full max-w-5xl mx-auto bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row relative border border-white/50">
+    <div className="bg-[#faf8f5] text-[#1c1917] min-h-screen flex items-center justify-center p-4 md:p-8 font-sans antialiased">
+      <main className="w-full max-w-5xl mx-auto bg-white rounded-2xl shadow-xs overflow-hidden flex flex-col md:flex-row relative border border-stone-200">
         
         {/* Back Button Context */}
         <Link
           href="/pembayaran"
-          className="absolute top-6 left-6 z-20 flex items-center gap-2 text-gray-600 hover:text-primary transition-colors bg-white/50 px-3.5 py-1.5 rounded-full backdrop-blur-md shadow-sm border border-gray-200 text-xs font-semibold cursor-pointer"
+          className="absolute top-6 left-6 z-20 flex items-center gap-2 text-stone-600 hover:text-[#7a0019] transition-colors bg-stone-100 hover:bg-stone-200 px-3.5 py-1.5 rounded-xl border border-stone-200 text-xs font-semibold cursor-pointer"
         >
           <span className="material-symbols-outlined text-sm">arrow_back</span>
           <span>Kembali ke Pilihan Pembayaran</span>
         </Link>
 
         {/* Left Side: Order Summary */}
-        <section className="w-full md:w-5/12 bg-white p-8 md:p-12 border-b md:border-b-0 md:border-r border-gray-200 flex flex-col justify-between relative overflow-hidden">
-          <div className="absolute -top-24 -left-24 w-64 h-64 bg-red-100 rounded-full blur-3xl opacity-30 pointer-events-none"></div>
+        <section className="w-full md:w-5/12 bg-white p-8 md:p-12 border-b md:border-b-0 md:border-r border-stone-200 flex flex-col justify-between relative">
 
           <div className="relative z-10 mt-12 md:mt-8">
             <div className="mb-6">
@@ -90,7 +89,7 @@ export default function DanaPaymentPage() {
         </section>
 
         {/* Right Side: DANA Payment */}
-        <section className="w-full md:w-7/12 bg-[#f9f9f9] p-8 md:p-12 flex flex-col justify-center relative">
+        <section className="w-full md:w-7/12 bg-stone-50 p-8 md:p-12 flex flex-col justify-center relative">
           <div className="max-w-md mx-auto w-full">
             
             {/* DANA Header */}

@@ -168,13 +168,6 @@ export default async function LoginPage(props: {
           </div>
         </div>
       </main>
-
-      {/* Floating Support Button */}
-      <div className="fixed bottom-6 right-6 z-50 hidden md:block">
-        <button className="w-14 h-14 bg-primary-container text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all">
-          <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>support_agent</span>
-        </button>
-      </div>
     </div>
   )
 }

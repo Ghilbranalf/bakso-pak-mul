@@ -618,34 +618,31 @@ export default function TrackOrderPage() {
               <div className="absolute top-0 left-0 w-full h-1 bg-emerald-600"></div>
 
               {/* Success Icon Container */}
-              <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mb-4 shrink-0 ring-8 ring-emerald-50 shadow-sm">
-                <span
-                  className="material-symbols-outlined text-[40px] text-emerald-600"
-                  style={{ fontVariationSettings: "'FILL' 1" }}
-                >
-                  check_circle
+              <div className="w-16 h-16 bg-emerald-700 text-white rounded-2xl flex items-center justify-center mb-4 shrink-0 shadow-xs">
+                <span className="material-symbols-outlined text-3xl">
+                  task_alt
                 </span>
               </div>
 
               {/* Headlines */}
-              <h1 className="text-2xl font-bold text-gray-900 mb-2 tracking-tight">
-                {isCod ? "Pesanan COD Terkonfirmasi!" : "Transaksi Berhasil!"}
+              <h1 className="font-headline text-2xl font-bold text-[#1c1917] mb-2 tracking-tight uppercase">
+                {isCod ? "Pesanan COD Terkonfirmasi" : "Transaksi Berhasil"}
               </h1>
-              <p className="text-sm text-gray-600 mb-6 max-w-[280px]">
+              <p className="font-editorial text-sm text-stone-600 mb-6 max-w-[280px]">
                 {isCod
                   ? "Pesanan Anda berhasil dikirim ke dapur toko. Siapkan uang tunai pas saat kurir tiba."
                   : "Terima kasih! Pembayaran Anda telah terverifikasi lunas & otomatis diproses di dapur."}
               </p>
 
               {/* Details Box */}
-              <div className="w-full bg-gray-50 rounded-lg p-4 mb-6 border border-gray-200 text-left">
-                <div className="flex justify-between items-center mb-2 border-b border-gray-200 pb-2">
-                  <span className="text-xs text-gray-500 font-medium">ID Transaksi</span>
-                  <span className="text-xs font-bold text-gray-900 font-mono">{displayOrder.orderNumber}</span>
+              <div className="w-full bg-stone-50 rounded-xl p-4 mb-6 border border-stone-200 text-left">
+                <div className="flex justify-between items-center mb-2 border-b border-stone-200 pb-2">
+                  <span className="text-xs text-stone-500 font-medium">ID Transaksi</span>
+                  <span className="text-xs font-bold text-stone-900 font-mono">{displayOrder.orderNumber}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-500 font-medium">Jumlah Total</span>
-                  <span className="text-lg font-bold text-[#51000d]">Rp {formatPrice(displayOrder.finalTotal)}</span>
+                  <span className="text-xs text-stone-500 font-medium">Jumlah Total</span>
+                  <span className="font-headline text-lg font-bold text-[#7a0019]">Rp {formatPrice(displayOrder.finalTotal)}</span>
                 </div>
               </div>
 
@@ -653,21 +650,21 @@ export default function TrackOrderPage() {
               <div className="w-full flex flex-col gap-3">
                 <a
                   href={`https://wa.me/6281298980252?text=${encodeURIComponent(
-                    `Halo CS Bakso Pak Mul 👋, pesanan ${displayOrder.orderNumber} sebesar Rp ${formatPrice(displayOrder.finalTotal)} sudah dikonfirmasi. Mohon diproses ya!`
+                    `Halo CS Bakso Pak Mul, pesanan ${displayOrder.orderNumber} sebesar Rp ${formatPrice(displayOrder.finalTotal)} sudah dikonfirmasi. Mohon diproses ya!`
                   )}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full bg-emerald-600 text-white py-3.5 px-6 rounded-lg text-sm font-semibold hover:bg-emerald-700 transition-colors duration-200 shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full bg-emerald-700 text-white py-3 px-6 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-emerald-800 transition-colors shadow-xs flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-[20px]">chat</span>
+                  <span className="material-symbols-outlined text-base">chat</span>
                   Kirim Ke WhatsApp CS
                 </a>
 
                 <button
                   onClick={() => setPaymentResultModal(null)}
-                  className="w-full bg-white border border-gray-300 text-gray-800 py-3.5 px-6 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full bg-white border border-stone-200 text-stone-800 py-3 px-6 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-stone-50 transition-colors shadow-xs flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-[20px]">receipt_long</span>
+                  <span className="material-symbols-outlined text-base">receipt_long</span>
                   Lihat Detail Nota Pesanan
                 </button>
               </div>
@@ -692,32 +689,29 @@ export default function TrackOrderPage() {
               <div className="absolute top-0 left-0 w-full h-1 bg-[#ba1a1a]"></div>
 
               {/* Error Icon Container */}
-              <div className="w-20 h-20 bg-[#ffdad6] rounded-full flex items-center justify-center mb-4 shrink-0 ring-8 ring-gray-50 shadow-sm">
-                <span
-                  className="material-symbols-outlined text-[40px] text-[#ba1a1a]"
-                  style={{ fontVariationSettings: "'FILL' 1" }}
-                >
-                  error
+              <div className="w-16 h-16 bg-red-100 text-[#7a0019] rounded-2xl flex items-center justify-center mb-4 shrink-0 shadow-xs">
+                <span className="material-symbols-outlined text-3xl">
+                  error_outline
                 </span>
               </div>
 
               {/* Headlines */}
-              <h1 className="text-2xl font-bold text-gray-900 mb-2 tracking-tight">
-                Transaksi Gagal
+              <h1 className="font-headline text-2xl font-bold text-[#1c1917] mb-2 tracking-tight uppercase">
+                Transaksi Belum Berhasil
               </h1>
-              <p className="text-sm text-gray-600 mb-6 max-w-[280px]">
+              <p className="font-editorial text-sm text-stone-600 mb-6 max-w-[280px]">
                 Pembayaran tidak dapat diproses karena waktu transaksi telah habis. Silakan coba lagi.
               </p>
 
               {/* Details Box */}
-              <div className="w-full bg-gray-50 rounded-lg p-4 mb-6 border border-gray-200 text-left">
-                <div className="flex justify-between items-center mb-2 border-b border-gray-200 pb-2">
-                  <span className="text-xs text-gray-500 font-medium">ID Transaksi</span>
-                  <span className="text-xs font-bold text-gray-900 font-mono">{displayOrder.orderNumber}</span>
+              <div className="w-full bg-stone-50 rounded-xl p-4 mb-6 border border-stone-200 text-left">
+                <div className="flex justify-between items-center mb-2 border-b border-stone-200 pb-2">
+                  <span className="text-xs text-stone-500 font-medium">ID Transaksi</span>
+                  <span className="text-xs font-bold text-stone-900 font-mono">{displayOrder.orderNumber}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-500 font-medium">Jumlah</span>
-                  <span className="text-lg font-bold text-gray-900">Rp {formatPrice(displayOrder.finalTotal)}</span>
+                  <span className="text-xs text-stone-500 font-medium">Jumlah</span>
+                  <span className="font-headline text-lg font-bold text-stone-900">Rp {formatPrice(displayOrder.finalTotal)}</span>
                 </div>
               </div>
 
@@ -728,9 +722,9 @@ export default function TrackOrderPage() {
                     setPaymentResultModal(null);
                     handleMidtransPay();
                   }}
-                  className="w-full bg-[#7a0019] text-white py-3.5 px-6 rounded-lg text-sm font-semibold hover:bg-[#51000d] transition-colors duration-200 shadow-sm flex items-center justify-center gap-2 group cursor-pointer"
+                  className="w-full bg-[#7a0019] text-white py-3 px-6 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-[#51000d] transition-colors shadow-xs flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-[20px] transition-transform group-hover:-rotate-180 duration-500">
+                  <span className="material-symbols-outlined text-base">
                     refresh
                   </span>
                   Coba Lagi
