@@ -189,7 +189,7 @@ export default function ProductDetailPage() {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-[#2b1b17] leading-relaxed font-medium">
+            <p className="font-editorial text-sm sm:text-base text-stone-600 leading-relaxed font-normal">
               {displayProduct.description ||
                 "Produk makanan berkualitas tinggi khas Bakso Pak Mul. Dibuat dengan higienis tanpa bahan pengawet berlebihan."}
             </p>
@@ -200,7 +200,7 @@ export default function ProductDetailPage() {
                   addToCart(displayProduct);
                   openCart();
                 }}
-                className="flex-1 py-4 bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306] rounded-full text-xs font-black uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2 group"
+                className="flex-1 py-3.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2 group"
               >
                 <span className="material-symbols-outlined text-lg font-bold group-hover:scale-110 transition-transform">
                   shopping_bag

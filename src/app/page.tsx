@@ -447,7 +447,7 @@ export default function HomePage() {
                           {item.name}
                         </h4>
                       </Link>
-                      <p className="text-stone-500 text-xs mt-1.5 line-clamp-2 leading-relaxed font-normal">
+                      <p className="font-editorial text-[13px] text-stone-600 mt-2 line-clamp-2 leading-relaxed font-normal">
                         {item.description || "Olahan segar berkualitas dari bahan baku murni terpilih khas Bakso Pak Mul."}
                       </p>
                       {item.unit && (

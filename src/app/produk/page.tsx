@@ -339,24 +339,24 @@ function ProductsContent() {
               paginatedProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="group bg-white rounded-3xl overflow-hidden border-2 border-stone-200 hover:border-[#e5a93c] shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                  className="group bg-white rounded-2xl overflow-hidden border border-stone-200 hover:border-[#7a0019]/40 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
                 >
                   <div>
                     {/* Image Box */}
-                    <div className="relative h-60 overflow-hidden bg-[#1c0306]">
+                    <div className="relative h-56 sm:h-60 overflow-hidden bg-stone-100">
                       <img
                         alt={product.name}
-                        className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         src={product.image || "/images/hero-banner.webp"}
                         onError={(e: any) => {
                           e.target.src = "/images/hero-banner.webp";
                         }}
                       />
-                      <div className="absolute top-3 left-3 bg-[#51000d] text-[#e5a93c] font-black text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wider shadow">
+                      <div className="absolute top-3 left-3 bg-[#200407]/90 text-stone-200 font-semibold text-[10px] px-2.5 py-0.5 rounded uppercase tracking-wider backdrop-blur-xs">
                         {product.category || "Bakso"}
                       </div>
-                      <div className="absolute bottom-3 right-3 bg-[#e5a93c] text-[#1c0306] font-black text-xs px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow">
-                        <span className="material-symbols-outlined text-xs">star</span>
+                      <div className="absolute bottom-3 right-3 bg-white/95 text-stone-900 font-bold text-xs px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-xs">
+                        <span className="text-amber-500 text-xs">★</span>
                         <span>{product.rating || "4.9"}</span>
                       </div>
                     </div>
@@ -364,44 +364,44 @@ function ProductsContent() {
                     {/* Card Content */}
                     <div className="p-5">
                       <Link href={`/produk/${product.id}`} className="block">
-                        <h3 className="font-headline text-lg uppercase text-[#1c1917] group-hover:text-[#7a0019] transition-colors line-clamp-1">
+                        <h3 className="font-headline font-bold text-base text-[#1c1917] group-hover:text-[#7a0019] transition-colors line-clamp-1">
                           {product.name}
                         </h3>
                       </Link>
-                      <p className="text-[#2b1b17] text-xs mt-1.5 line-clamp-2 leading-relaxed font-medium">
+                      <p className="font-editorial text-[13px] text-stone-600 mt-2 line-clamp-2 leading-relaxed font-normal">
                         {product.description || "Olahan segar berkualitas dari bahan baku murni terpilih khas Bakso Pak Mul."}
                       </p>
                       {product.unit && (
-                        <p className="text-[11px] font-extrabold text-[#51000d] mt-2">
-                          Kemasan: <span className="text-[#1c1917] font-semibold">{product.unit}</span>
+                        <p className="text-[11px] font-medium text-stone-600 mt-2.5 bg-stone-100 inline-block px-2 py-0.5 rounded">
+                          Kemasan: <span className="text-stone-900 font-bold">{product.unit}</span>
                         </p>
                       )}
                     </div>
                   </div>
 
                   {/* Card Bottom Bar */}
-                  <div className="p-5 pt-0 mt-2 border-t border-stone-100 flex items-center justify-between">
-                    <div className="pt-3">
-                      <span className="text-[10px] uppercase font-black text-[#51000d] block">
-                        HARGA
+                  <div className="p-5 pt-0 mt-1 border-t border-stone-100 flex items-center justify-between">
+                    <div className="pt-2">
+                      <span className="text-[10px] uppercase font-semibold text-stone-400 block tracking-wider">
+                        Harga
                       </span>
-                      <span className="font-headline text-2xl text-[#1c1917]">
+                      <span className="font-headline font-bold text-xl text-[#1c1917]">
                         Rp {(product.price || 0).toLocaleString("id-ID")}
                       </span>
                     </div>
 
                     <button
                       onClick={() => handleQuickAdd(product)}
-                      className={`mt-3 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-wider shadow-md active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer ${
+                      className={`mt-2 px-4 py-2 rounded-xl font-bold text-xs shadow-xs active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer ${
                         addedId === product.id
                           ? "bg-emerald-700 text-white"
-                          : "bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306]"
+                          : "bg-[#7a0019] hover:bg-[#51000d] text-white"
                       }`}
                     >
                       <span className="material-symbols-outlined text-sm font-bold">
                         {addedId === product.id ? "check" : "add"}
                       </span>
-                      <span>{addedId === product.id ? "MASUK" : "PESAN"}</span>
+                      <span>{addedId === product.id ? "Masuk" : "Pesan"}</span>
                     </button>
                   </div>
                 </div>
