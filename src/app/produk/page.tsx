@@ -195,12 +195,12 @@ function ProductsContent() {
   );
 
   const categories = [
-    { name: "Semua", label: "Semua Racikan" },
-    { name: "Bakso", label: "Bakso Sapi" },
-    { name: "Mie", label: "Mie Telor Bebek" },
-    { name: "Pangsit", label: "Kulit Pangsit" },
-    { name: "Bumbu", label: "Bumbu Kaldu" },
-    { name: "Saos", label: "Kecap & Saus" },
+    { name: "Semua", label: "SEMUA RACIKAN" },
+    { name: "Bakso", label: "BAKSO SAPI ASLI" },
+    { name: "Mie", label: "MIE TELOR BEBEK" },
+    { name: "Pangsit", label: "KULIT PANGSIT" },
+    { name: "Bumbu", label: "BUMBU KALDU" },
+    { name: "Saos", label: "KECAP & SAUS" },
   ];
 
   const handleQuickAdd = (product: any) => {
@@ -218,39 +218,44 @@ function ProductsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] text-[#1c1917] font-sans antialiased flex flex-col justify-between selection:bg-[#7a0019] selection:text-white">
+    <div className="min-h-screen bg-[#faf7f2] text-[#1c1917] font-sans antialiased flex flex-col justify-between selection:bg-[#51000d] selection:text-white">
       <Navbar />
 
       <main className="flex-grow pt-20 sm:pt-24">
         {/* ========================================================================= */}
-        {/* HEADER BANNER                                                             */}
+        {/* ARTISAN POSTER HEADER BANNER (HARMONIOUS WITH HERO)                       */}
         {/* ========================================================================= */}
-        <section className="relative bg-[#200508] text-white py-12 sm:py-16 overflow-hidden border-b border-[#3d0a11]">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_rgba(229,169,60,0.1)_0%,_transparent_65%)] pointer-events-none" />
+        <section className="relative bg-[#1c0306] text-white py-14 sm:py-20 overflow-hidden border-b border-[#420812]">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(229,169,60,0.12)_0%,_transparent_70%)] pointer-events-none" />
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e5a93c]/15 text-[#e5a93c] border border-[#e5a93c]/30 text-xs font-semibold tracking-wide mb-3">
-              <span className="material-symbols-outlined text-base">storefront</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e5a93c]/20 text-[#e5a93c] border border-[#e5a93c]/30 text-[10px] font-black uppercase tracking-widest mb-3">
+              <span className="material-symbols-outlined text-sm">storefront</span>
               <span>Katalog Kios Pasar Kramat Jati</span>
             </div>
 
-            <h1 className="font-headline text-3xl sm:text-5xl font-bold uppercase text-white tracking-tight leading-tight">
-              Koleksi Menu &amp; Bahan Baku
-            </h1>
+            <div className="relative inline-block">
+              <h1 className="font-headline text-4xl sm:text-6xl md:text-7xl uppercase text-white tracking-tight leading-tight">
+                KOLEKSI MENU &amp; BAHAN BAKU
+              </h1>
+              <span className="font-script text-3xl sm:text-5xl md:text-6xl text-[#fcd34d] absolute -top-4 sm:-top-7 right-0 rotate-[-5deg] pointer-events-none drop-shadow-md">
+                Racikan Asli
+              </span>
+            </div>
 
-            <p className="max-w-2xl mx-auto text-stone-300 text-xs sm:text-sm mt-3 font-normal leading-relaxed">
+            <p className="max-w-2xl mx-auto text-[#fef3c7] text-xs sm:text-sm mt-3 font-semibold leading-relaxed">
               Daging sapi murni segar tanpa campuran boraks, mie basah telor bebek kenyal, kulit pangsit lembut, dan bumbu kaldu warisan siap kirim ke meja Anda.
             </p>
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* FILTER BAR & CATEGORY PILLS                                               */}
+        {/* FILTER BAR & ORGANIC CATEGORY PILLS                                       */}
         {/* ========================================================================= */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-stone-200">
-            {/* Category Chips */}
-            <div className="flex flex-wrap items-center gap-2">
+            {/* Category Chips matching Beranda */}
+            <div className="flex flex-wrap items-center gap-2.5">
               {categories.map((cat) => (
                 <button
                   key={cat.name}
@@ -258,12 +263,15 @@ function ProductsContent() {
                     setSelectedCategory(cat.name);
                     setCurrentPage(1);
                   }}
-                  className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
+                  className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs font-black tracking-wider transition-all duration-300 flex items-center gap-1.5 shadow-xs cursor-pointer ${
                     selectedCategory === cat.name
-                      ? "bg-[#7a0019] text-white shadow-xs font-bold"
-                      : "bg-white text-stone-700 hover:bg-stone-100 border border-stone-200"
+                      ? "bg-[#51000d] text-[#e5a93c] border-2 border-[#51000d] shadow-md scale-105"
+                      : "bg-white text-[#1c1917] hover:bg-stone-50 border-2 border-stone-200 hover:border-[#e5a93c] hover:scale-105"
                   }`}
                 >
+                  <span className="material-symbols-outlined text-sm text-[#e5a93c]">
+                    restaurant
+                  </span>
                   <span>{cat.label}</span>
                 </button>
               ))}
@@ -271,15 +279,15 @@ function ProductsContent() {
 
             {/* Sort & Count */}
             <div className="flex items-center justify-between md:justify-end gap-3 pt-2 md:pt-0">
-              <span className="text-xs text-stone-500 font-medium hidden sm:inline">
+              <span className="text-xs text-[#51000d] font-bold hidden sm:inline">
                 Menampilkan {paginatedProducts.length} dari {sortedProducts.length} produk
               </span>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-[#1c1917] font-semibold">Urutkan:</span>
+                <span className="text-xs text-[#1c1917] font-bold">Urutkan:</span>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="bg-white border border-stone-300 rounded-xl px-3 py-1.5 text-xs font-semibold text-[#1c1917] outline-none focus:border-[#7a0019] cursor-pointer shadow-2xs"
+                  className="bg-white border-2 border-stone-300 rounded-xl px-3 py-2 text-xs font-bold text-[#1c1917] outline-none focus:border-[#7a0019] cursor-pointer shadow-xs"
                 >
                   <option value="rekomendasi">Pilihan Rekomendasi</option>
                   <option value="murah">Harga Terendah</option>
@@ -336,69 +344,69 @@ function ProductsContent() {
               paginatedProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="group bg-white rounded-2xl overflow-hidden border border-stone-200 hover:border-[#e5a93c] shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                  className="group bg-white rounded-3xl overflow-hidden border-2 border-stone-200 hover:border-[#e5a93c] shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
                 >
                   <div>
                     {/* Image Box */}
-                    <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
+                    <div className="relative h-60 overflow-hidden bg-[#1c0306]">
                       <img
                         alt={product.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-500"
                         src={product.image || "/images/hero-banner.webp"}
                         onError={(e: any) => {
                           e.target.src = "/images/hero-banner.webp";
                         }}
                       />
-                      <span className="absolute top-3 left-3 bg-[#200508]/85 backdrop-blur-xs text-[#e5a93c] font-bold text-[10px] px-2.5 py-0.5 rounded-md uppercase tracking-wider">
+                      <div className="absolute top-3 left-3 bg-[#51000d] text-[#e5a93c] font-black text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wider shadow">
                         {product.category || "Bakso"}
-                      </span>
-                      <div className="absolute top-3 right-3 bg-white/95 text-[#1c1917] font-bold text-[11px] px-2 py-0.5 rounded-md flex items-center gap-0.5 shadow-xs">
-                        <span className="text-amber-500 text-xs">★</span>
+                      </div>
+                      <div className="absolute bottom-3 right-3 bg-[#e5a93c] text-[#1c0306] font-black text-xs px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow">
+                        <span className="material-symbols-outlined text-xs">star</span>
                         <span>{product.rating || "4.9"}</span>
                       </div>
                     </div>
 
                     {/* Card Content */}
-                    <div className="p-4 sm:p-5">
+                    <div className="p-5">
                       <Link href={`/produk/${product.id}`} className="block">
-                        <h3 className="font-headline font-bold text-[#1c1917] text-base group-hover:text-[#7a0019] transition-colors line-clamp-1">
+                        <h3 className="font-headline text-lg uppercase text-[#1c1917] group-hover:text-[#7a0019] transition-colors line-clamp-1">
                           {product.name}
                         </h3>
                       </Link>
-                      <p className="text-stone-500 text-xs mt-1.5 line-clamp-2 leading-relaxed">
+                      <p className="text-[#2b1b17] text-xs mt-1.5 line-clamp-2 leading-relaxed font-medium">
                         {product.description || "Olahan segar berkualitas dari bahan baku murni terpilih khas Bakso Pak Mul."}
                       </p>
                       {product.unit && (
-                        <p className="text-[11px] font-semibold text-stone-600 mt-2 bg-stone-100 inline-block px-2 py-0.5 rounded">
-                          Kemasan: <span className="text-stone-900 font-bold">{product.unit}</span>
+                        <p className="text-[11px] font-extrabold text-[#51000d] mt-2">
+                          Kemasan: <span className="text-[#1c1917] font-semibold">{product.unit}</span>
                         </p>
                       )}
                     </div>
                   </div>
 
                   {/* Card Bottom Bar */}
-                  <div className="p-4 sm:p-5 pt-0 border-t border-stone-100 flex items-center justify-between mt-2">
-                    <div className="pt-2">
-                      <span className="text-[10px] uppercase font-bold text-stone-500 block">
-                        Harga
+                  <div className="p-5 pt-0 mt-2 border-t border-stone-100 flex items-center justify-between">
+                    <div className="pt-3">
+                      <span className="text-[10px] uppercase font-black text-[#51000d] block">
+                        HARGA
                       </span>
-                      <span className="font-headline font-bold text-lg text-[#1c1917]">
+                      <span className="font-headline text-2xl text-[#1c1917]">
                         Rp {(product.price || 0).toLocaleString("id-ID")}
                       </span>
                     </div>
 
                     <button
                       onClick={() => handleQuickAdd(product)}
-                      className={`px-4 py-2 rounded-xl font-bold text-xs shadow-xs active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer ${
+                      className={`mt-3 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-wider shadow-md active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer ${
                         addedId === product.id
                           ? "bg-emerald-700 text-white"
-                          : "bg-[#7a0019] hover:bg-[#51000d] text-white"
+                          : "bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306]"
                       }`}
                     >
-                      <span className="material-symbols-outlined text-sm">
+                      <span className="material-symbols-outlined text-sm font-bold">
                         {addedId === product.id ? "check" : "add"}
                       </span>
-                      <span>{addedId === product.id ? "Masuk" : "Tambah"}</span>
+                      <span>{addedId === product.id ? "MASUK" : "PESAN"}</span>
                     </button>
                   </div>
                 </div>

@@ -167,10 +167,10 @@ export default function ProductDetailPage() {
                   </span>
                 </div>
               </div>
-              <h1 className="font-headline text-2xl sm:text-4xl font-bold text-[#1c1917] tracking-tight leading-tight">
+              <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl text-[#1c1917] tracking-tight leading-tight uppercase">
                 {displayProduct.name}
               </h1>
-              <p className="text-xs text-[#7a0019] font-bold mt-1 uppercase tracking-wider">
+              <p className="text-xs text-[#51000d] font-bold mt-1 uppercase tracking-wider">
                 Kemasan: <span className="font-extrabold text-[#1c1917]">{displayProduct.unit}</span>
               </p>
             </div>
@@ -189,7 +189,7 @@ export default function ProductDetailPage() {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+            <p className="text-xs sm:text-sm text-[#2b1b17] leading-relaxed font-medium">
               {displayProduct.description ||
                 "Produk makanan berkualitas tinggi khas Bakso Pak Mul. Dibuat dengan higienis tanpa bahan pengawet berlebihan."}
             </p>
@@ -200,7 +200,7 @@ export default function ProductDetailPage() {
                   addToCart(displayProduct);
                   openCart();
                 }}
-                className="flex-1 py-3.5 bg-[#e5a93c] hover:bg-amber-400 text-[#200508] rounded-xl text-xs font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2 group active:scale-95"
+                className="flex-1 py-4 bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306] rounded-full text-xs font-black uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2 group"
               >
                 <span className="material-symbols-outlined text-lg font-bold group-hover:scale-110 transition-transform">
                   shopping_bag
@@ -214,7 +214,7 @@ export default function ProductDetailPage() {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3.5 bg-[#200508] hover:bg-[#38070d] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 active:scale-95"
+                className="px-6 py-4 bg-[#1c0306] hover:bg-[#36070e] text-white rounded-full text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
               >
                 <span className="material-symbols-outlined text-emerald-400 text-lg">chat</span>
                 <span>Tanya via WhatsApp</span>

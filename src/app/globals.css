@@ -20,9 +20,9 @@
   --color-text-muted: #3a221d;
   --color-outline: #e7e2d9;
 
-  --font-headline: "Outfit", "Plus Jakarta Sans", sans-serif;
-  --font-display: "Outfit", "Plus Jakarta Sans", sans-serif;
-  --font-script: "Playfair Display", Georgia, serif;
+  --font-headline: "Anton", sans-serif;
+  --font-display: "Bebas Neue", Impact, sans-serif;
+  --font-script: "Yellowtail", "Caveat", cursive;
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
 }
 
@@ -32,7 +32,7 @@ html {
 }
 
 body {
-  background-color: #faf8f5;
+  background-color: #faf7f2;
   color: #1c1917;
   font-family: var(--font-sans, "Plus Jakarta Sans", sans-serif);
   -webkit-font-smoothing: antialiased;
@@ -40,21 +40,38 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Ensure rich contrast for descriptions and body texts */
 p {
   color: inherit;
 }
 
+.text-stone-400,
+.text-stone-500,
+.text-stone-600,
+.text-gray-400,
+.text-gray-500,
+.text-gray-600 {
+  color: #2e1d17 !important;
+}
+
+/* For dark hero backgrounds, override light stone to crisp ivory */
+.bg-\[\#1c0306\] .text-stone-400,
+.bg-\[\#1c0306\] .text-stone-300,
+.bg-\[\#200408\] .text-stone-400,
+.bg-\[\#200408\] .text-stone-300 {
+  color: #faf7f2 !important;
+}
+
 .font-headline {
-  font-family: var(--font-headline, "Outfit", sans-serif);
+  font-family: "Anton", Impact, sans-serif;
 }
 
 .font-display {
-  font-family: var(--font-display, "Outfit", sans-serif);
+  font-family: "Bebas Neue", Impact, sans-serif;
 }
 
 .font-script {
-  font-family: var(--font-script, "Playfair Display", serif);
-  font-style: italic;
+  font-family: "Yellowtail", "Caveat", cursive;
 }
 
 .font-sans {

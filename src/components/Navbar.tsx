@@ -96,10 +96,10 @@ export default function Navbar() {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`text-xs font-semibold tracking-wide transition-colors relative py-1.5 ${
+                    className={`text-[11px] font-extrabold uppercase tracking-[0.2em] transition-colors relative py-1.5 ${
                       isActive
-                        ? "text-[#e5a93c] font-bold"
-                        : "text-stone-200 hover:text-[#e5a93c]"
+                        ? "text-[#e5a93c] font-black"
+                        : "text-[#faf7f2]/85 hover:text-[#e5a93c]"
                     }`}
                   >
                     {link.name}
@@ -118,11 +118,11 @@ export default function Navbar() {
                 <input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-48 xl:w-56 rounded-xl py-2 pl-9 pr-3 text-xs outline-none transition-all bg-[#2e070c] text-white placeholder:text-stone-400 border border-[#4d0c15] focus:border-[#e5a93c]"
+                  className="w-48 xl:w-56 rounded-xl py-2 pl-9 pr-3 text-xs outline-none transition-all bg-[#36070e] text-white placeholder:text-stone-300 border border-[#59101f] focus:border-[#e5a93c]"
                   placeholder="Cari bakso, mie, bumbu..."
                   type="text"
                 />
-                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-base pointer-events-none text-stone-400">
+                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-base pointer-events-none text-stone-300">
                   search
                 </span>
               </form>
@@ -132,7 +132,7 @@ export default function Navbar() {
                 <div className="relative group">
                   <Link
                     href="/profil"
-                    className="w-9 h-9 rounded-xl bg-[#7a0019] text-[#e5a93c] border border-[#520c15] flex items-center justify-center font-bold text-xs shadow-xs hover:bg-[#8f001f] transition-colors"
+                    className="w-9 h-9 rounded-xl bg-[#51000d] text-[#e5a93c] border border-[#59101f] flex items-center justify-center font-bold text-xs shadow-xs hover:bg-[#7a0019] transition-colors"
                     title="Profil Saya"
                   >
                     {(user.user_metadata?.full_name || user.email || "U")
@@ -194,7 +194,7 @@ export default function Navbar() {
               {/* Cart Button */}
               <button
                 onClick={openCart}
-                className="relative flex items-center justify-center w-10 h-10 rounded-xl transition-colors cursor-pointer shadow-2xs bg-[#2e070c] border border-[#4d0c15] hover:border-[#e5a93c] text-white hover:text-[#e5a93c]"
+                className="relative flex items-center justify-center w-10 h-10 rounded-xl transition-colors cursor-pointer shadow-2xs bg-[#36070e] border border-[#59101f] hover:border-[#e5a93c] text-white hover:text-[#e5a93c]"
                 title="Buka Keranjang Belanja"
                 aria-label="Keranjang Belanja"
               >
