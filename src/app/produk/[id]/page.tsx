@@ -138,41 +138,38 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Product Details Section */}
-        <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-stone-200 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="bg-white rounded-2xl p-6 sm:p-10 shadow-xs border border-stone-200 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Image Column */}
-          <div className="lg:col-span-5 relative flex items-center justify-center bg-[#f5f0e8] rounded-2xl p-8 overflow-hidden border border-stone-200">
+          <div className="lg:col-span-5 relative flex items-center justify-center bg-stone-50 rounded-xl p-8 overflow-hidden border border-stone-200">
             {displayProduct.badge && (
-              <span className="absolute top-4 left-4 px-3 py-1 bg-[#51000d] text-[#e5a93c] text-[10px] font-black uppercase tracking-wider rounded-lg shadow-2xs">
+              <span className="absolute top-4 left-4 px-2.5 py-1 bg-[#200407] text-white text-[10px] font-bold uppercase tracking-wider rounded shadow-xs">
                 {displayProduct.badge}
               </span>
             )}
             <img
               src={displayProduct.image || "/images/hero-banner.webp"}
               alt={displayProduct.name}
-              className="w-64 h-64 sm:w-80 sm:h-80 object-contain hover:scale-105 transition-transform duration-500"
+              className="w-64 h-64 sm:w-80 sm:h-80 object-contain"
             />
           </div>
 
           {/* Info Column */}
           <div className="lg:col-span-7 space-y-5">
             <div>
-              <div className="flex items-center gap-3 mb-2.5">
-                <span className="px-3 py-1 bg-amber-50 text-[#7a0019] border border-amber-200/60 text-xs font-bold rounded-lg uppercase">
-                  {displayProduct.category || "Bakso Sapi"}
-                </span>
-                <div className="flex items-center text-[#e5a93c] text-sm font-bold gap-1">
-                  {"★".repeat(Math.round(avgRating))}
-                  <span className="text-xs text-[#1c1917] font-bold ml-1">
-                    {avgRating} ({totalReviews} Ulasan)
-                  </span>
-                </div>
+              <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-stone-500 mb-2">
+                <span className="text-[#7a0019]">{displayProduct.category || "Olahan Daging Sapi"}</span>
+                {totalReviews > 0 && (
+                  <span className="text-stone-500">{avgRating} / 5.0 ({totalReviews} Ulasan)</span>
+                )}
               </div>
-              <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl text-[#1c1917] tracking-tight leading-tight uppercase">
+              <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1c1917] tracking-tight leading-tight">
                 {displayProduct.name}
               </h1>
-              <p className="text-xs text-[#51000d] font-bold mt-1 uppercase tracking-wider">
-                Kemasan: <span className="font-extrabold text-[#1c1917]">{displayProduct.unit}</span>
-              </p>
+              {displayProduct.unit && (
+                <p className="text-sm text-stone-600 font-medium mt-1.5">
+                  {displayProduct.unit}
+                </p>
+              )}
             </div>
 
             <div className="flex items-baseline gap-3 pt-1">
@@ -184,9 +181,6 @@ export default function ProductDetailPage() {
                   Rp {formatPrice(displayProduct.originalPrice)}
                 </span>
               )}
-              <span className="px-2.5 py-0.5 bg-emerald-50 text-emerald-800 border border-emerald-200/80 rounded-md text-[10px] font-bold">
-                Segar Harian
-              </span>
             </div>
 
             <p className="font-editorial text-sm sm:text-base text-stone-600 leading-relaxed font-normal">
@@ -200,9 +194,9 @@ export default function ProductDetailPage() {
                   addToCart(displayProduct);
                   openCart();
                 }}
-                className="flex-1 py-3.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2 group"
+                className="flex-1 py-3.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-sm hover:shadow-md transition-colors cursor-pointer flex items-center justify-center gap-2 group"
               >
-                <span className="material-symbols-outlined text-lg font-bold group-hover:scale-110 transition-transform">
+                <span className="material-symbols-outlined text-lg">
                   shopping_bag
                 </span>
                 <span>Tambah ke Keranjang</span>
@@ -214,9 +208,9 @@ export default function ProductDetailPage() {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-4 bg-[#1c0306] hover:bg-[#36070e] text-white rounded-full text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
+                className="px-6 py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-sm"
               >
-                <span className="material-symbols-outlined text-emerald-400 text-lg">chat</span>
+                <span className="material-symbols-outlined text-base">chat</span>
                 <span>Tanya via WhatsApp</span>
               </a>
             </div>
@@ -224,20 +218,20 @@ export default function ProductDetailPage() {
         </div>
 
         {/* REVIEWS & RATINGS SECTION */}
-        <section className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-stone-200 space-y-6">
+        <section className="bg-white rounded-2xl p-6 sm:p-10 shadow-xs border border-stone-200 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-100 pb-6">
             <div>
-              <h2 className="font-headline text-2xl sm:text-3xl uppercase text-[#1c1917] tracking-tight">
+              <h2 className="font-headline text-2xl sm:text-3xl font-bold text-[#1c1917] tracking-tight">
                 Rating &amp; Ulasan Pembeli
               </h2>
-              <p className="font-sans text-xs text-[#51000d] font-bold mt-0.5">
+              <p className="font-editorial text-xs text-stone-600 font-normal mt-0.5">
                 Pengalaman jujur dari pembeli dan penikmat setia Bakso Pak Mul
               </p>
             </div>
 
             <button
               onClick={() => setIsReviewModalOpen(true)}
-              className="px-5 py-3 bg-[#51000d] hover:bg-[#7a0019] text-[#e5a93c] rounded-full text-xs font-black uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 shrink-0 shadow-xs"
+              className="px-5 py-2.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-2 shrink-0 shadow-xs"
             >
               <span className="material-symbols-outlined text-base">rate_review</span>
               <span>Tulis Ulasan</span>
@@ -245,15 +239,15 @@ export default function ProductDetailPage() {
           </div>
 
           {/* Rating Overview */}
-          <div className="bg-[#faf7f2] p-6 rounded-2xl border border-stone-200/80 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+          <div className="bg-[#faf8f5] p-6 rounded-2xl border border-stone-200 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
             <div className="text-center shrink-0">
-              <span className="font-display text-5xl font-black text-[#51000d]">
+              <span className="font-headline text-5xl font-bold text-[#7a0019]">
                 {avgRating}
               </span>
-              <div className="flex justify-center text-amber-500 text-lg my-1">
+              <div className="flex justify-center text-amber-500 text-base my-1">
                 {"★".repeat(Math.round(avgRating))}
               </div>
-              <span className="text-xs font-semibold text-stone-500">
+              <span className="text-xs font-medium text-stone-500">
                 {totalReviews} Penilaian Pembeli
               </span>
             </div>
@@ -284,15 +278,15 @@ export default function ProductDetailPage() {
               reviews.map((rev) => (
                 <div
                   key={rev.id}
-                  className="p-5 bg-[#faf7f2] rounded-xl border border-stone-200/70 space-y-2.5"
+                  className="p-5 bg-[#faf8f5] rounded-xl border border-stone-200 space-y-2.5"
                 >
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-[#51000d] text-amber-200 font-display font-bold text-xs flex items-center justify-center">
+                      <div className="w-9 h-9 rounded-xl bg-[#7a0019] text-white font-headline font-bold text-xs flex items-center justify-center">
                         {(rev.userName || "U").charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <h4 className="font-display text-xs font-bold text-stone-900">{rev.userName}</h4>
+                        <h4 className="font-headline text-xs font-bold text-stone-900">{rev.userName}</h4>
                         <div className="flex text-amber-500 text-xs">
                           {"★".repeat(rev.rating || 5)}
                         </div>
@@ -302,7 +296,7 @@ export default function ProductDetailPage() {
                       {new Date(rev.createdAt || Date.now()).toLocaleDateString("id-ID")}
                     </span>
                   </div>
-                  <p className="font-sans text-xs text-stone-700 font-normal pl-12 leading-relaxed">
+                  <p className="font-editorial text-xs text-stone-700 font-normal pl-12 leading-relaxed">
                     {rev.comment}
                   </p>
                 </div>

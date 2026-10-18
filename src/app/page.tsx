@@ -198,11 +198,11 @@ export default function HomePage() {
                   <img
                     src="/images/bakmie-telor-bebek.webp"
                     alt="Mie Basah Telor Bebek"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
-                  <span className="absolute top-2 left-2 bg-[#200407]/90 text-stone-200 text-[10px] font-semibold px-2 py-0.5 rounded border border-white/10 uppercase">
-                    Kenyal Alami
-                  </span>
+                </div>
+                <div className="text-[11px] font-semibold uppercase tracking-wider text-stone-400 mb-0.5">
+                  Mie Basah
                 </div>
                 <h4 className="font-headline font-bold text-sm text-white truncate">
                   Mie Basah Telor Bebek
@@ -225,25 +225,14 @@ export default function HomePage() {
                   <img
                     src="/images/hero-banner.webp"
                     alt="Semangkuk Bakso Sapi Komplit Pak Mul"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#200407]/90 via-transparent to-transparent opacity-80" />
-
-                  {/* Top Badges */}
-                  <div className="absolute top-3 left-3 bg-white text-[#200407] text-[11px] font-bold px-3 py-1 rounded-full shadow-sm uppercase tracking-wider">
-                    Menu Andalan
-                  </div>
-
-                  <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-md text-white text-xs font-semibold px-2.5 py-1 rounded-full border border-white/10 flex items-center gap-1">
-                    <span className="text-amber-400">★</span>
-                    <span>4.98</span>
-                    <span className="text-stone-300 font-normal text-[10px]">• 500+ Ulasan</span>
-                  </div>
 
                   {/* Bottom Image Info */}
                   <div className="absolute bottom-3 left-4 right-4 text-white">
                     <p className="text-[11px] font-medium uppercase tracking-wider text-stone-300">
-                      Racikan Resep 24+ Tahun
+                      Racikan Resep 24+ Tahun • Pasar Kramat Jati
                     </p>
                     <h3 className="font-headline text-xl sm:text-2xl font-bold text-white mt-0.5">
                       Bakso Sapi Komplit Kuah Kaldu
@@ -253,14 +242,12 @@ export default function HomePage() {
 
                 <div className="flex items-center justify-between pt-1">
                   <div>
-                    <span className="text-[10px] uppercase font-semibold text-stone-400 block">
-                      Harga Spesial
+                    <span className="font-headline font-bold text-2xl text-white block">
+                      Rp 65.000
                     </span>
-                    <span className="font-headline font-bold text-2xl text-white">
-                      Rp 65.000 <span className="text-xs text-stone-300 font-normal">/ Pack (50 Butir)</span>
-                    </span>
+                    <span className="text-xs text-stone-300 font-normal">50 Butir / Pack Termasuk Bumbu</span>
                   </div>
-                  <button className="px-5 py-2.5 rounded-xl bg-white hover:bg-stone-200 text-[#200407] font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-sm transition-transform active:scale-95">
+                  <button className="px-5 py-2.5 rounded-xl bg-white hover:bg-stone-200 text-[#200407] font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer">
                     <span className="material-symbols-outlined text-sm font-bold">add</span>
                     <span>Pesan Langsung</span>
                   </button>
@@ -276,11 +263,11 @@ export default function HomePage() {
                   <img
                     src="/images/bakso-citra-rasa-premium.webp"
                     alt="Bakso Urat Sapi Spesial"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
-                  <span className="absolute top-2 left-2 bg-[#200407]/90 text-stone-200 text-[10px] font-semibold px-2 py-0.5 rounded border border-white/10 uppercase">
-                    100% Sapi Murni
-                  </span>
+                </div>
+                <div className="text-[11px] font-semibold uppercase tracking-wider text-stone-400 mb-0.5">
+                  Daging Murni
                 </div>
                 <h4 className="font-headline font-bold text-sm text-white truncate">
                   Bakso Sapi Urat Spesial
@@ -418,7 +405,7 @@ export default function HomePage() {
               {filteredDisplayProducts.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white rounded-2xl overflow-hidden border border-stone-200 hover:border-[#7a0019]/40 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group"
+                  className="bg-white rounded-2xl overflow-hidden border border-stone-200 hover:border-[#7a0019]/40 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group"
                 >
                   <div>
                     {/* Image */}
@@ -426,52 +413,46 @@ export default function HomePage() {
                       <img
                         src={item.image || "/images/hero-banner.webp"}
                         alt={item.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover"
                         onError={(e: any) => {
                           e.target.src = "/images/hero-banner.webp";
                         }}
                       />
-                      <span className="absolute top-3 left-3 bg-[#200407]/90 backdrop-blur-xs text-stone-200 font-bold text-[10px] px-2.5 py-0.5 rounded-md uppercase tracking-wider">
-                        {item.category || "Bakso"}
-                      </span>
-                      <div className="absolute top-3 right-3 bg-white/95 text-[#1c1917] font-bold text-[11px] px-2 py-0.5 rounded-md flex items-center gap-0.5 shadow-xs">
-                        <span className="text-amber-500 text-xs">★</span>
-                        <span>{item.rating || "4.9"}</span>
-                      </div>
                     </div>
 
                     {/* Details */}
                     <div className="p-4 sm:p-5">
+                      <div className="flex items-center justify-between gap-2 mb-1.5">
+                        <span className="text-[11px] font-semibold uppercase tracking-wider text-[#7a0019]">
+                          {item.category || "Olahan Sapi"}
+                        </span>
+                        {item.unit && (
+                          <span className="text-[11px] text-stone-600 font-medium">
+                            {item.unit}
+                          </span>
+                        )}
+                      </div>
+
                       <Link href={`/produk/${item.id}`} className="block">
                         <h4 className="font-headline font-bold text-[#1c1917] text-base group-hover:text-[#7a0019] transition-colors line-clamp-1">
                           {item.name}
                         </h4>
                       </Link>
-                      <p className="font-editorial text-[13px] text-stone-600 mt-2 line-clamp-2 leading-relaxed font-normal">
+                      <p className="font-editorial text-[13px] text-stone-600 mt-1.5 line-clamp-2 leading-relaxed font-normal">
                         {item.description || "Olahan segar berkualitas dari bahan baku murni terpilih khas Bakso Pak Mul."}
                       </p>
-                      {item.unit && (
-                        <p className="text-[11px] font-semibold text-stone-600 mt-2 bg-stone-100 inline-block px-2 py-0.5 rounded">
-                          Kemasan: <span className="text-stone-900 font-bold">{item.unit}</span>
-                        </p>
-                      )}
                     </div>
                   </div>
 
                   {/* Price & Action */}
                   <div className="p-4 sm:p-5 pt-0 border-t border-stone-100 flex items-center justify-between mt-2">
-                    <div className="pt-2">
-                      <span className="text-[10px] uppercase font-bold text-stone-500 block">
-                        Harga
-                      </span>
-                      <span className="font-headline font-bold text-lg text-[#1c1917]">
-                        Rp {(item.price || 0).toLocaleString("id-ID")}
-                      </span>
-                    </div>
+                    <span className="font-headline font-bold text-lg text-[#1c1917]">
+                      Rp {(item.price || 0).toLocaleString("id-ID")}
+                    </span>
 
                     <button
                       onClick={() => handleQuickAdd(item)}
-                      className={`px-4 py-2 rounded-xl font-bold text-xs shadow-xs active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer ${
+                      className={`px-3.5 py-2 rounded-xl font-bold text-xs shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer ${
                         addedId === item.id
                           ? "bg-emerald-700 text-white"
                           : "bg-[#7a0019] hover:bg-[#51000d] text-white"
@@ -480,7 +461,7 @@ export default function HomePage() {
                       <span className="material-symbols-outlined text-sm">
                         {addedId === item.id ? "check" : "add"}
                       </span>
-                      <span>{addedId === item.id ? "Masuk" : "Tambah"}</span>
+                      <span>{addedId === item.id ? "Masuk" : "Pesan"}</span>
                     </button>
                   </div>
                 </div>
@@ -558,7 +539,7 @@ export default function HomePage() {
                 <div className="relative rounded-2xl overflow-hidden shadow-xl bg-stone-900 border border-stone-200 group">
                   <img
                     alt="Pak Mul di Kios Tradisional Pasar Kramat Jati"
-                    className="w-full h-[400px] sm:h-[480px] object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-[400px] sm:h-[480px] object-cover"
                     src="/images/toko-pak-mul-kramat-jati.webp"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-transparent to-transparent pointer-events-none" />
@@ -636,18 +617,21 @@ export default function HomePage() {
               {/* Testimonial 1 */}
               <div className="bg-white p-6 sm:p-7 rounded-2xl border border-stone-200 flex flex-col justify-between shadow-xs">
                 <div>
-                  <div className="text-amber-500 text-sm mb-3">★★★★★</div>
-                  <p className="text-sm text-stone-700 leading-relaxed font-normal">
+                  <div className="flex items-center justify-between text-xs text-stone-500 mb-3">
+                    <span className="text-stone-300 font-editorial text-3xl leading-none">“</span>
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-stone-500 bg-stone-100 px-2 py-0.5 rounded">Mitra Kuliner</span>
+                  </div>
+                  <p className="font-editorial text-sm text-stone-700 leading-relaxed font-normal">
                     &ldquo;Sudah 6 tahun langganan mie telor bebek dan bakso urat Pak Mul untuk gerobak mie ayam saya. Mie-nya kenyal tidak mudah hancur saat direbus, pelanggan selalu puji kuahnya mantap.&rdquo;
                   </p>
                 </div>
                 <div className="pt-5 mt-5 border-t border-stone-100 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#7a0019] text-amber-200 font-headline font-bold text-xs flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-xl bg-[#7a0019] text-white font-headline font-bold text-xs flex items-center justify-center">
                     MB
                   </div>
                   <div>
                     <p className="font-bold text-xs text-[#1c1917]">Mas Bambang</p>
-                    <p className="text-[11px] text-[#7a0019] font-medium">Mie Ayam Podomoro, Ciracas</p>
+                    <p className="text-[11px] text-stone-500 font-medium">Mie Ayam Podomoro, Ciracas</p>
                   </div>
                 </div>
               </div>
@@ -655,18 +639,21 @@ export default function HomePage() {
               {/* Testimonial 2 */}
               <div className="bg-white p-6 sm:p-7 rounded-2xl border border-stone-200 flex flex-col justify-between shadow-xs">
                 <div>
-                  <div className="text-amber-500 text-sm mb-3">★★★★★</div>
-                  <p className="text-sm text-stone-700 leading-relaxed font-normal">
+                  <div className="flex items-center justify-between text-xs text-stone-500 mb-3">
+                    <span className="text-stone-300 font-editorial text-3xl leading-none">“</span>
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-stone-500 bg-stone-100 px-2 py-0.5 rounded">Konsumsi Keluarga</span>
+                  </div>
+                  <p className="font-editorial text-sm text-stone-700 leading-relaxed font-normal">
                     &ldquo;Beli bakso halus buat acara arisan dan hajatan keluarga di rumah. Daging sapinya berasa sekali, bukan cuma tepung. Pengiriman tepat waktu dan baksonya masih dingin beku segar.&rdquo;
                   </p>
                 </div>
                 <div className="pt-5 mt-5 border-t border-stone-100 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#7a0019] text-amber-200 font-headline font-bold text-xs flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-xl bg-[#7a0019] text-white font-headline font-bold text-xs flex items-center justify-center">
                     SR
                   </div>
                   <div>
                     <p className="font-bold text-xs text-[#1c1917]">Ibu Siti Rahma</p>
-                    <p className="text-[11px] text-[#7a0019] font-medium">Ibu Rumah Tangga, Kramat Jati</p>
+                    <p className="text-[11px] text-stone-500 font-medium">Pelanggan Rumah Tangga, Kramat Jati</p>
                   </div>
                 </div>
               </div>
@@ -674,18 +661,21 @@ export default function HomePage() {
               {/* Testimonial 3 */}
               <div className="bg-white p-6 sm:p-7 rounded-2xl border border-stone-200 flex flex-col justify-between shadow-xs">
                 <div>
-                  <div className="text-amber-500 text-sm mb-3">★★★★★</div>
-                  <p className="text-sm text-stone-700 leading-relaxed font-normal">
+                  <div className="flex items-center justify-between text-xs text-stone-500 mb-3">
+                    <span className="text-stone-300 font-editorial text-3xl leading-none">“</span>
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-stone-500 bg-stone-100 px-2 py-0.5 rounded">Mitra Katering</span>
+                  </div>
+                  <p className="font-editorial text-sm text-stone-700 leading-relaxed font-normal">
                     &ldquo;Pesanan grosir untuk katering pabrik selalu aman. Kulit pangsitnya renyah kalau digoreng, tidak banyak menyerap minyak. Pelayanan cepat dan responsif saat ada pesanan dadakan.&rdquo;
                   </p>
                 </div>
                 <div className="pt-5 mt-5 border-t border-stone-100 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#7a0019] text-amber-200 font-headline font-bold text-xs flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-xl bg-[#7a0019] text-white font-headline font-bold text-xs flex items-center justify-center">
                     HW
                   </div>
                   <div>
                     <p className="font-bold text-xs text-[#1c1917]">Pak Hendra Wijaya</p>
-                    <p className="text-[11px] text-[#7a0019] font-medium">Katering Berkah Mandiri, Pulogadung</p>
+                    <p className="text-[11px] text-stone-500 font-medium">Katering Berkah Mandiri, Pulogadung</p>
                   </div>
                 </div>
               </div>

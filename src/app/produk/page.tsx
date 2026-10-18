@@ -249,40 +249,40 @@ function ProductsContent() {
         {/* ========================================================================= */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-stone-200">
-            {/* Category Chips matching Beranda */}
-            <div className="flex flex-wrap items-center gap-2.5">
-              {categories.map((cat) => (
-                <button
-                  key={cat.name}
-                  onClick={() => {
-                    setSelectedCategory(cat.name);
-                    setCurrentPage(1);
-                  }}
-                  className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs font-black tracking-wider transition-all duration-300 flex items-center gap-1.5 shadow-xs cursor-pointer ${
-                    selectedCategory === cat.name
-                      ? "bg-[#51000d] text-[#e5a93c] border-2 border-[#51000d] shadow-md scale-105"
-                      : "bg-white text-[#1c1917] hover:bg-stone-50 border-2 border-stone-200 hover:border-[#e5a93c] hover:scale-105"
-                  }`}
-                >
-                  <span className="material-symbols-outlined text-sm text-[#e5a93c]">
-                    restaurant
-                  </span>
-                  <span>{cat.label}</span>
-                </button>
-              ))}
+            {/* Category Chips */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar max-w-full">
+              {categories.map((cat) => {
+                const isSelected = selectedCategory === cat.name;
+                return (
+                  <button
+                    key={cat.name}
+                    onClick={() => {
+                      setSelectedCategory(cat.name);
+                      setCurrentPage(1);
+                    }}
+                    className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
+                      isSelected
+                        ? "bg-[#7a0019] text-white shadow-xs font-bold"
+                        : "bg-stone-100 hover:bg-stone-200 text-stone-700"
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                );
+              })}
             </div>
 
             {/* Sort & Count */}
-            <div className="flex items-center justify-between md:justify-end gap-3 pt-2 md:pt-0">
-              <span className="text-xs text-[#51000d] font-bold hidden sm:inline">
+            <div className="flex items-center justify-between md:justify-end gap-3 pt-2 md:pt-0 shrink-0">
+              <span className="text-xs text-stone-500 font-medium hidden sm:inline">
                 Menampilkan {paginatedProducts.length} dari {sortedProducts.length} produk
               </span>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-[#1c1917] font-bold">Urutkan:</span>
+                <span className="text-xs text-stone-700 font-semibold">Urutkan:</span>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="bg-white border-2 border-stone-300 rounded-xl px-3 py-2 text-xs font-bold text-[#1c1917] outline-none focus:border-[#7a0019] cursor-pointer shadow-xs"
+                  className="bg-white border border-stone-300 rounded-xl px-3 py-2 text-xs font-semibold text-stone-800 outline-none focus:border-[#7a0019] cursor-pointer shadow-xs"
                 >
                   <option value="rekomendasi">Pilihan Rekomendasi</option>
                   <option value="murah">Harga Terendah</option>
@@ -317,12 +317,12 @@ function ProductsContent() {
                 />
               ))
             ) : paginatedProducts.length === 0 ? (
-              <div className="col-span-full py-16 text-center text-[#1c1917] font-semibold text-sm bg-white rounded-3xl border-2 border-stone-200 p-8">
-                <span className="material-symbols-outlined text-5xl text-[#51000d] mb-2 block">
+              <div className="col-span-full py-16 text-center text-[#1c1917] font-semibold text-sm bg-white rounded-2xl border border-stone-200 p-8">
+                <span className="material-symbols-outlined text-4xl text-stone-400 mb-2 block">
                   soup_kitchen
                 </span>
-                <p className="font-headline text-xl uppercase mt-1">Tidak Ada Menu yang Cocok</p>
-                <p className="text-xs text-[#51000d] font-medium mt-1">
+                <p className="font-headline text-lg font-bold mt-1">Tidak Ada Menu yang Cocok</p>
+                <p className="text-xs text-stone-500 font-medium mt-1">
                   Coba ubah kata kunci pencarian atau reset filter kategori.
                 </p>
                 <button
@@ -330,7 +330,7 @@ function ProductsContent() {
                     setSelectedCategory("Semua");
                     router.push("/produk");
                   }}
-                  className="mt-4 px-6 py-2.5 bg-[#51000d] text-[#e5a93c] rounded-full text-xs font-bold uppercase tracking-wider shadow"
+                  className="mt-4 px-5 py-2.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-xs transition-colors"
                 >
                   Tampilkan Semua Racikan
                 </button>
@@ -339,60 +339,54 @@ function ProductsContent() {
               paginatedProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="group bg-white rounded-2xl overflow-hidden border border-stone-200 hover:border-[#7a0019]/40 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                  className="group bg-white rounded-2xl overflow-hidden border border-stone-200 hover:border-[#7a0019]/40 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between"
                 >
                   <div>
                     {/* Image Box */}
-                    <div className="relative h-56 sm:h-60 overflow-hidden bg-stone-100">
+                    <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
                       <img
                         alt={product.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover"
                         src={product.image || "/images/hero-banner.webp"}
                         onError={(e: any) => {
                           e.target.src = "/images/hero-banner.webp";
                         }}
                       />
-                      <div className="absolute top-3 left-3 bg-[#200407]/90 text-stone-200 font-semibold text-[10px] px-2.5 py-0.5 rounded uppercase tracking-wider backdrop-blur-xs">
-                        {product.category || "Bakso"}
-                      </div>
-                      <div className="absolute bottom-3 right-3 bg-white/95 text-stone-900 font-bold text-xs px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-xs">
-                        <span className="text-amber-500 text-xs">★</span>
-                        <span>{product.rating || "4.9"}</span>
-                      </div>
                     </div>
 
                     {/* Card Content */}
-                    <div className="p-5">
+                    <div className="p-4 sm:p-5">
+                      <div className="flex items-center justify-between gap-2 mb-1.5">
+                        <span className="text-[11px] font-semibold uppercase tracking-wider text-[#7a0019]">
+                          {product.category || "Olahan Sapi"}
+                        </span>
+                        {product.unit && (
+                          <span className="text-[11px] text-stone-600 font-medium">
+                            {product.unit}
+                          </span>
+                        )}
+                      </div>
+
                       <Link href={`/produk/${product.id}`} className="block">
                         <h3 className="font-headline font-bold text-base text-[#1c1917] group-hover:text-[#7a0019] transition-colors line-clamp-1">
                           {product.name}
                         </h3>
                       </Link>
-                      <p className="font-editorial text-[13px] text-stone-600 mt-2 line-clamp-2 leading-relaxed font-normal">
+                      <p className="font-editorial text-[13px] text-stone-600 mt-1.5 line-clamp-2 leading-relaxed font-normal">
                         {product.description || "Olahan segar berkualitas dari bahan baku murni terpilih khas Bakso Pak Mul."}
                       </p>
-                      {product.unit && (
-                        <p className="text-[11px] font-medium text-stone-600 mt-2.5 bg-stone-100 inline-block px-2 py-0.5 rounded">
-                          Kemasan: <span className="text-stone-900 font-bold">{product.unit}</span>
-                        </p>
-                      )}
                     </div>
                   </div>
 
                   {/* Card Bottom Bar */}
-                  <div className="p-5 pt-0 mt-1 border-t border-stone-100 flex items-center justify-between">
-                    <div className="pt-2">
-                      <span className="text-[10px] uppercase font-semibold text-stone-400 block tracking-wider">
-                        Harga
-                      </span>
-                      <span className="font-headline font-bold text-xl text-[#1c1917]">
-                        Rp {(product.price || 0).toLocaleString("id-ID")}
-                      </span>
-                    </div>
+                  <div className="p-4 sm:p-5 pt-0 mt-2 border-t border-stone-100 flex items-center justify-between">
+                    <span className="font-headline font-bold text-lg text-[#1c1917]">
+                      Rp {(product.price || 0).toLocaleString("id-ID")}
+                    </span>
 
                     <button
                       onClick={() => handleQuickAdd(product)}
-                      className={`mt-2 px-4 py-2 rounded-xl font-bold text-xs shadow-xs active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer ${
+                      className={`px-3.5 py-2 rounded-xl font-bold text-xs shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer ${
                         addedId === product.id
                           ? "bg-emerald-700 text-white"
                           : "bg-[#7a0019] hover:bg-[#51000d] text-white"
@@ -415,7 +409,7 @@ function ProductsContent() {
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                className="px-4 py-2 rounded-full border-2 border-stone-200 bg-white text-xs font-bold text-[#1c1917] hover:border-[#51000d] disabled:opacity-40 cursor-pointer"
+                className="px-4 py-2 rounded-xl border border-stone-200 bg-white text-xs font-semibold text-stone-700 hover:bg-stone-50 disabled:opacity-40 cursor-pointer transition-colors"
               >
                 Sebelumnya
               </button>
@@ -423,10 +417,10 @@ function ProductsContent() {
                 <button
                   key={idx}
                   onClick={() => setCurrentPage(idx + 1)}
-                  className={`w-9 h-9 rounded-full text-xs font-black transition-all cursor-pointer ${
+                  className={`w-9 h-9 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
                     currentPage === idx + 1
-                      ? "bg-[#51000d] text-[#e5a93c] shadow-md"
-                      : "bg-white border-2 border-stone-200 text-[#1c1917] hover:border-[#e5a93c]"
+                      ? "bg-[#7a0019] text-white shadow-xs"
+                      : "bg-white border border-stone-200 text-stone-700 hover:bg-stone-50"
                   }`}
                 >
                   {idx + 1}
@@ -435,7 +429,7 @@ function ProductsContent() {
               <button
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                className="px-4 py-2 rounded-full border-2 border-stone-200 bg-white text-xs font-bold text-[#1c1917] hover:border-[#51000d] disabled:opacity-40 cursor-pointer"
+                className="px-4 py-2 rounded-xl border border-stone-200 bg-white text-xs font-semibold text-stone-700 hover:bg-stone-50 disabled:opacity-40 cursor-pointer transition-colors"
               >
                 Berikutnya
               </button>
@@ -448,8 +442,8 @@ function ProductsContent() {
 
       {/* Cart Notification Toast */}
       {toastMessage && (
-        <div className="fixed bottom-20 md:bottom-8 right-6 z-50 bg-[#1c0306] text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold border border-[#e5a93c]/40 animate-in fade-in slide-in-from-bottom-3">
-          <span className="material-symbols-outlined text-[#e5a93c] text-base">
+        <div className="fixed bottom-20 md:bottom-8 right-6 z-50 bg-[#200407] text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-2.5 text-xs font-semibold border border-stone-800 animate-in fade-in slide-in-from-bottom-3">
+          <span className="material-symbols-outlined text-emerald-400 text-base">
             check_circle
           </span>
           <span>{toastMessage} berhasil masuk keranjang</span>
