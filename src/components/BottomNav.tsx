@@ -22,7 +22,7 @@ export default function BottomNav() {
   ];
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/80 shadow-[0_-2px_10px_rgba(0,0,0,0.04)] px-2 py-1.5 safe-area-bottom">
+    <nav data-ui className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-stone-200/80 shadow-[0_-2px_10px_rgba(0,0,0,0.04)] px-2 py-1.5 safe-area-bottom">
       <div className="flex items-center justify-around max-w-md mx-auto">
         {navItems.map((item) => {
           const isActive =
@@ -34,15 +34,15 @@ export default function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all ${
+              className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-colors ${
                 isActive
                   ? "text-[#7a0019] font-semibold"
-                  : "text-slate-400 hover:text-slate-700 font-medium"
+                  : "text-stone-400 hover:text-stone-700 font-medium"
               }`}
             >
               <div
-                className={`w-7 h-7 rounded-lg flex items-center justify-center transition-all ${
-                  isActive ? "bg-[#7a0019]/10 text-[#7a0019]" : "text-slate-500"
+                className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${
+                  isActive ? "bg-[#7a0019]/10 text-[#7a0019]" : "text-stone-500"
                 }`}
               >
                 <span className="material-symbols-outlined text-[20px]">

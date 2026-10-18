@@ -202,33 +202,31 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="bg-[#f3f3f3] text-[#1a1c1c] min-h-screen flex items-center justify-center p-4 md:p-8 font-sans antialiased pb-24 md:pb-8">
+    <div className="bg-[#f3f3f3] text-[#1a1c1c] min-h-[100dvh] flex items-center justify-center p-4 md:p-8 font-sans antialiased pb-24 md:pb-8">
       {/* Modal Container */}
-      <main className="w-full max-w-5xl mx-auto bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row relative border border-white/50">
+      <main className="w-full max-w-5xl mx-auto bg-white rounded-2xl overflow-hidden flex flex-col md:flex-row relative border border-stone-200">
         
         {/* Back Button */}
         <Link
           href="/"
-          className="absolute top-6 left-6 z-20 flex items-center gap-2 text-gray-600 hover:text-[#51000d] transition-colors bg-white/80 px-3.5 py-1.5 rounded-full backdrop-blur-md shadow-sm border border-gray-200 text-xs font-semibold cursor-pointer"
+          className="absolute top-6 left-6 z-20 flex items-center gap-2 text-stone-600 hover:text-[#51000d] transition-colors bg-white px-3.5 py-1.5 rounded-full border border-stone-200 text-xs font-semibold cursor-pointer"
         >
           <span className="material-symbols-outlined text-sm">arrow_back</span>
           <span>Kembali Belanja</span>
         </Link>
 
         {/* Left Side: Order Summary */}
-        <section className="w-full md:w-5/12 bg-white p-8 md:p-12 border-b md:border-b-0 md:border-r border-gray-200 flex flex-col justify-between relative overflow-hidden">
-          <div className="absolute -top-24 -left-24 w-64 h-64 bg-red-100 rounded-full blur-3xl opacity-30 pointer-events-none"></div>
-
+        <section className="w-full md:w-5/12 bg-white p-8 md:p-12 border-b md:border-b-0 md:border-r border-stone-200 flex flex-col justify-between relative overflow-hidden">
           <div className="relative z-10 mt-12 md:mt-8">
             <div className="mb-6">
               <h1 className="text-2xl font-bold text-[#51000d] mb-1">Checkout Pesanan</h1>
-              <p className="text-xs text-gray-500 font-medium">B2B Wholesale Portal</p>
+              <p className="text-xs text-stone-500 font-medium">B2B Wholesale Portal</p>
             </div>
 
-            <div className="bg-gray-50 rounded-xl p-6 shadow-sm mb-6 border border-gray-100">
-              <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200">
-                <span className="text-xs text-gray-500 font-medium">Order ID</span>
-                <span className="text-xs font-bold text-gray-900">#BPM-8821</span>
+            <div className="bg-stone-50 rounded-xl p-6 mb-6 border border-stone-200">
+              <div className="flex justify-between items-center mb-4 pb-3">
+                <span className="text-xs text-stone-500 font-medium">Order ID</span>
+                <span className="text-xs font-bold text-stone-900">#BPM-8821</span>
               </div>
 
               <div className="space-y-4 mb-6 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
@@ -236,35 +234,35 @@ export default function CheckoutPage() {
                   <>
                     <div className="flex justify-between items-start text-xs">
                       <div>
-                        <p className="font-bold text-gray-900">Premium Beef Meatballs</p>
-                        <p className="text-gray-500 text-[11px]">Bulk Pack (50kg)</p>
+                        <p className="font-bold text-stone-900">Premium Beef Meatballs</p>
+                        <p className="text-stone-500 text-[11px]">Bulk Pack (50kg)</p>
                       </div>
-                      <span className="font-medium text-gray-800">Rp 3.500.000</span>
+                      <span className="font-medium text-stone-800">Rp 3.500.000</span>
                     </div>
                   </>
                 ) : (
                   items.map((item) => (
                     <div key={item.id} className="flex justify-between items-start text-xs">
                       <div>
-                        <p className="font-bold text-gray-900 truncate max-w-[150px]">{item.name}</p>
-                        <p className="text-gray-500 text-[11px]">Qty: {item.quantity}</p>
+                        <p className="font-bold text-stone-900 truncate max-w-[150px]">{item.name}</p>
+                        <p className="text-stone-500 text-[11px]">Qty: {item.quantity}</p>
                       </div>
-                      <span className="font-medium text-gray-800">Rp {formatPrice(item.price * item.quantity)}</span>
+                      <span className="font-medium text-stone-800">Rp {formatPrice(item.price * item.quantity)}</span>
                     </div>
                   ))
                 )}
               </div>
 
-              <div className="pt-4 border-t border-gray-200 space-y-2">
-                <div className="flex justify-between items-center text-xs text-gray-500">
+              <div className="pt-3 space-y-2">
+                <div className="flex justify-between items-center text-xs text-stone-500">
                   <span>Subtotal Produk</span>
-                  <span className="text-gray-900 font-medium">Rp {formatPrice(totalPrice)}</span>
+                  <span className="text-stone-900 font-medium">Rp {formatPrice(totalPrice)}</span>
                 </div>
                 
                 {checkoutShipping > 0 && (
-                  <div className="flex justify-between items-center text-xs text-gray-500">
+                  <div className="flex justify-between items-center text-xs text-stone-500">
                     <span>Ongkos Kirim (Reguler)</span>
-                    <span className="text-gray-900 font-medium">Rp {formatPrice(checkoutShipping)}</span>
+                    <span className="text-stone-900 font-medium">Rp {formatPrice(checkoutShipping)}</span>
                   </div>
                 )}
                 
@@ -276,14 +274,14 @@ export default function CheckoutPage() {
                 )}
               </div>
 
-              <div className="flex justify-between items-center pt-4 mt-4 border-t border-gray-300 border-dashed">
-                <span className="text-sm font-bold text-gray-900">Total Akhir</span>
+              <div className="flex justify-between items-center pt-3 mt-3 bg-stone-100 p-3 rounded-lg">
+                <span className="text-sm font-bold text-stone-900">Total Akhir</span>
                 <span className="text-xl font-black text-[#51000d]">Rp {formatPrice(checkoutFinalTotal)}</span>
               </div>
             </div>
           </div>
 
-          <div className="relative z-10 flex items-center gap-2 text-gray-400 text-xs mt-4">
+          <div className="relative z-10 flex items-center gap-2 text-stone-400 text-xs mt-4">
             <span className="material-symbols-outlined text-base">lock</span>
             <span>Pembayaran Aman Terenkripsi SSL 256-bit</span>
           </div>
@@ -292,40 +290,40 @@ export default function CheckoutPage() {
         {/* Right Side: Checkout Form */}
         <section className="w-full md:w-7/12 bg-[#f9f9f9] p-8 md:p-12 flex flex-col justify-center relative">
           <div className="max-w-md mx-auto w-full">
-            <h2 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">Informasi Pengiriman</h2>
+            <h2 className="text-lg font-bold text-stone-900 mb-4 pb-2">Informasi Pengiriman</h2>
             
             <div className="space-y-4 mb-8">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] font-bold text-gray-700 mb-1">Nama Penerima</label>
+                  <label className="block text-[11px] font-bold text-stone-700 mb-1">Nama Penerima</label>
                   <input
                     type="text"
                     name="name"
                     value={shippingInfo.name}
                     onChange={handleInputChange}
-                    className="w-full px-3.5 py-2 bg-white border border-gray-300 rounded-xl text-xs font-semibold text-gray-900 focus:ring-1 focus:ring-[#51000d] transition-shadow outline-none"
+                    className="w-full px-3.5 py-2 bg-white border border-stone-300 rounded-xl text-xs font-semibold text-stone-900 outline-none transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-gray-700 mb-1">Nomor Telepon</label>
+                  <label className="block text-[11px] font-bold text-stone-700 mb-1">Nomor Telepon</label>
                   <input
                     type="text"
                     name="phone"
                     value={shippingInfo.phone}
                     onChange={handleInputChange}
-                    className="w-full px-3.5 py-2 bg-white border border-gray-300 rounded-xl text-xs font-semibold text-gray-900 focus:ring-1 focus:ring-[#51000d] transition-shadow outline-none"
+                    className="w-full px-3.5 py-2 bg-white border border-stone-300 rounded-xl text-xs font-semibold text-stone-900 outline-none transition-colors"
                   />
                 </div>
               </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] font-bold text-gray-700 mb-1">Provinsi</label>
+                  <label className="block text-[11px] font-bold text-stone-700 mb-1">Provinsi</label>
                   <select
                     name="province"
                     value={shippingInfo.province}
                     onChange={handleInputChange}
-                    className="w-full px-3.5 py-2 bg-white border border-gray-300 rounded-xl text-xs font-semibold text-gray-900 focus:ring-1 focus:ring-[#51000d] transition-shadow outline-none appearance-none"
+                    className="w-full px-3.5 py-2 bg-white border border-stone-300 rounded-xl text-xs font-semibold text-stone-900 outline-none appearance-none transition-colors"
                   >
                     <option value="">Pilih Provinsi</option>
                     {PROVINCES.map(prov => (
@@ -334,13 +332,13 @@ export default function CheckoutPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-gray-700 mb-1">Kota / Kabupaten</label>
+                  <label className="block text-[11px] font-bold text-stone-700 mb-1">Kota / Kabupaten</label>
                   <select
                     name="city"
                     value={shippingInfo.city}
                     onChange={handleInputChange}
                     disabled={!shippingInfo.province}
-                    className="w-full px-3.5 py-2 bg-white border border-gray-300 rounded-xl text-xs font-semibold text-gray-900 focus:ring-1 focus:ring-[#51000d] transition-shadow outline-none appearance-none disabled:bg-gray-100 disabled:text-gray-400"
+                    className="w-full px-3.5 py-2 bg-white border border-stone-300 rounded-xl text-xs font-semibold text-stone-900 outline-none appearance-none disabled:bg-stone-100 disabled:text-stone-400 transition-colors"
                   >
                     <option value="">Pilih Kota</option>
                     {shippingInfo.province && CITIES[shippingInfo.province]?.map(city => (
@@ -351,36 +349,36 @@ export default function CheckoutPage() {
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-gray-700 mb-1">Alamat Lengkap</label>
+                <label className="block text-[11px] font-bold text-stone-700 mb-1">Alamat Lengkap</label>
                 <textarea
                   rows={2}
                   name="address"
                   value={shippingInfo.address}
                   onChange={handleInputChange}
-                  className="w-full px-3.5 py-2 bg-white border border-gray-300 rounded-xl text-xs font-semibold text-gray-900 focus:ring-1 focus:ring-[#51000d] transition-shadow outline-none resize-none"
+                  className="w-full px-3.5 py-2 bg-white border border-stone-300 rounded-xl text-xs font-semibold text-stone-900 outline-none resize-none transition-colors"
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-bold text-gray-700 mb-1">Catatan Kurir (Opsional)</label>
+                <label className="block text-[11px] font-bold text-stone-700 mb-1">Catatan Kurir (Opsional)</label>
                 <input
                   type="text"
                   name="notes"
                   value={shippingInfo.notes}
                   onChange={handleInputChange}
-                  className="w-full px-3.5 py-2 bg-white border border-gray-300 rounded-xl text-xs font-semibold text-gray-900 focus:ring-1 focus:ring-[#51000d] transition-shadow outline-none"
+                  className="w-full px-3.5 py-2 bg-white border border-stone-300 rounded-xl text-xs font-semibold text-stone-900 outline-none transition-colors"
                 />
               </div>
             </div>
 
-            <h2 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">Metode Pembayaran</h2>
+            <h2 className="text-lg font-bold text-stone-900 mb-4 pb-2">Metode Pembayaran</h2>
             <div className="grid grid-cols-3 gap-3 mb-8">
               <button
                 type="button"
                 onClick={() => setPaymentType("qris" as any)}
-                className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-colors cursor-pointer ${
                   (paymentType as string) === "qris"
-                  ? "border-[#51000d] bg-[#51000d]/10 text-[#51000d] ring-2 ring-[#51000d] shadow-md font-bold" 
-                  : "border-gray-200 bg-white text-gray-500 hover:border-gray-300"
+                  ? "border-[#51000d] bg-[#51000d]/10 text-[#51000d] font-bold" 
+                  : "border-stone-200 bg-white text-stone-500 hover:border-stone-300"
                 }`}
               >
                 <span className="material-symbols-outlined text-2xl text-red-600">qr_code_2</span>
@@ -390,10 +388,10 @@ export default function CheckoutPage() {
               <button
                 type="button"
                 onClick={() => setPaymentType("online")}
-                className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-colors cursor-pointer ${
                   paymentType === "online" 
-                  ? "border-[#51000d] bg-[#51000d]/5 text-[#51000d] ring-1 ring-[#51000d]" 
-                  : "border-gray-200 bg-white text-gray-500 hover:border-gray-300"
+                  ? "border-[#51000d] bg-[#51000d]/5 text-[#51000d]" 
+                  : "border-stone-200 bg-white text-stone-500 hover:border-stone-300"
                 }`}
               >
                 <span className="material-symbols-outlined text-2xl">account_balance_wallet</span>
@@ -403,10 +401,10 @@ export default function CheckoutPage() {
               <button
                 type="button"
                 onClick={() => setPaymentType("cod")}
-                className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-colors cursor-pointer ${
                   paymentType === "cod" 
-                  ? "border-emerald-600 bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600" 
-                  : "border-gray-200 bg-white text-gray-500 hover:border-gray-300"
+                  ? "border-emerald-600 bg-emerald-50 text-emerald-700" 
+                  : "border-stone-200 bg-white text-stone-500 hover:border-stone-300"
                 }`}
               >
                 <span className="material-symbols-outlined text-2xl">local_shipping</span>
@@ -415,12 +413,12 @@ export default function CheckoutPage() {
             </div>
 
             {(paymentType as string) === "qris" && (
-              <div className="bg-gradient-to-br from-red-50 to-amber-50/50 p-4 rounded-2xl border border-red-200/60 mb-6 text-center shadow-inner">
+              <div className="bg-red-50 p-4 rounded-2xl border border-red-200/60 mb-6 text-center">
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <span className="text-xs font-black uppercase text-[#51000d] tracking-wider">QRIS Resmi GPN</span>
+                  <span className="text-xs font-bold text-[#51000d]">QRIS Resmi GPN</span>
                   <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-300">NMID: ID1026563066301</span>
                 </div>
-                <p className="text-xs text-gray-600 font-medium">
+                <p className="text-xs text-stone-600 font-medium">
                   Scan QRIS dengan GoPay, OVO, DANA, ShopeePay, LinkAja, atau m-Banking Anda.
                 </p>
               </div>
@@ -430,12 +428,12 @@ export default function CheckoutPage() {
               type="button"
               onClick={handleCheckout}
               disabled={isProcessing}
-              className={`w-full h-14 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-xl shadow-red-900/20 uppercase tracking-wider cursor-pointer mt-4 ${isProcessing ? "opacity-75 cursor-wait" : ""}`}
+              className={`w-full h-14 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer mt-4 ${isProcessing ? "opacity-75 cursor-wait" : ""}`}
             >
               <span>{isProcessing ? "Memproses..." : (paymentType as string) === "qris" ? "Tampilkan QRIS Pembayaran" : "Selesaikan Pesanan"}</span>
               {!isProcessing && <span className="material-symbols-outlined text-lg">check_circle</span>}
             </button>
-            <p className="text-center text-[10px] text-gray-400 mt-4">
+            <p className="text-center text-[10px] text-stone-400 mt-4">
               Dengan menyelesaikan pesanan, Anda menyetujui <a className="text-[#51000d] hover:underline font-semibold" href="#">Syarat &amp; Ketentuan</a> kami.
             </p>
           </div>
@@ -444,8 +442,8 @@ export default function CheckoutPage() {
 
       {/* ==================== QRIS DYNAMIC PAYMENT MODAL ==================== */}
       {qrisModalData.show && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fadeIn">
-          <div className="bg-white w-full max-w-sm rounded-2xl p-6 shadow-xl border border-stone-200 text-center relative overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/70 animate-fadeIn">
+          <div data-ui className="bg-white w-full max-w-sm rounded-2xl p-6 shadow-xl border border-stone-200 text-center relative overflow-hidden">
             {/* Modal Header */}
             <button
               onClick={() => setQrisModalData(prev => ({ ...prev, show: false }))}
@@ -470,7 +468,7 @@ export default function CheckoutPage() {
             </div>
 
             {/* QR Code Container */}
-            <div className="bg-white p-3 rounded-xl border border-stone-200 shadow-xs inline-block relative mb-4">
+            <div className="bg-white p-3 rounded-xl border border-stone-200 inline-block relative mb-4">
               {qrisModalData.isPaid ? (
                 <div className="w-64 h-64 flex flex-col items-center justify-center bg-emerald-50 rounded-lg text-emerald-700 space-y-2">
                   <span className="material-symbols-outlined text-6xl text-emerald-600">check_circle</span>

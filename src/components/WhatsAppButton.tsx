@@ -106,28 +106,28 @@ export default function WhatsAppButton() {
     <div className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-[60] flex flex-col items-end">
       {/* Interactive Chatbot Modal Bubble */}
       {isOpen && (
-        <div className="w-[330px] sm:w-[360px] bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden mb-3 animate-in fade-in slide-in-from-bottom-5 duration-200 flex flex-col h-[440px]">
+        <div data-ui className="w-[330px] sm:w-[360px] bg-white rounded-2xl shadow-xl border border-stone-200 overflow-hidden mb-3 animate-in fade-in slide-in-from-bottom-5 duration-200 flex flex-col h-[440px]">
           {/* Header */}
-          <div className="bg-slate-900 text-white p-3.5 flex items-center justify-between">
+          <div data-ui className="bg-stone-900 text-white p-3.5 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-full bg-[#7a0019] text-white flex items-center justify-center font-bold text-xs">
                 CS
               </div>
               <div>
                 <h3 className="text-xs font-bold">Layanan Pelanggan</h3>
-                <p className="text-[10px] text-slate-400">Bakso Pak Mul Kramat Jati</p>
+                <p className="text-[10px] text-stone-400">Bakso Pak Mul Kramat Jati</p>
               </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="w-7 h-7 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+              className="w-7 h-7 rounded-lg hover:bg-stone-800 text-stone-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
             >
               <span className="material-symbols-outlined text-base">close</span>
             </button>
           </div>
 
           {/* Messages Area */}
-          <div className="flex-1 p-3.5 overflow-y-auto space-y-2.5 bg-slate-50 text-xs">
+          <div className="flex-1 p-3.5 overflow-y-auto space-y-2.5 bg-stone-50 text-xs">
             {messages.map((msg, idx) => (
               <div
                 key={idx}
@@ -137,21 +137,21 @@ export default function WhatsAppButton() {
                   className={`max-w-[85%] px-3.5 py-2 rounded-xl text-xs leading-relaxed ${
                     msg.sender === "user"
                       ? "bg-[#7a0019] text-white rounded-br-xs"
-                      : "bg-white text-slate-800 border border-slate-200 rounded-bl-xs shadow-2xs"
+                      : "bg-white text-stone-800 rounded-bl-xs"
                   }`}
                 >
                   {msg.text}
                 </div>
-                <span className="text-[9px] text-slate-400 mt-0.5 px-1">{msg.time}</span>
+                <span className="text-[9px] text-stone-400 mt-0.5 px-1">{msg.time}</span>
               </div>
             ))}
 
             {isLoading && (
               <div className="flex items-start">
-                <div className="bg-white border border-slate-200 px-3 py-2 rounded-xl text-slate-500 text-xs shadow-2xs flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
-                  <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]"></span>
-                  <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.4s]"></span>
+                <div className="bg-white px-3 py-2 rounded-xl text-stone-500 text-xs flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 bg-stone-400 rounded-full"></span>
+                  <span className="w-1.5 h-1.5 bg-stone-400 rounded-full"></span>
+                  <span className="w-1.5 h-1.5 bg-stone-400 rounded-full"></span>
                 </div>
               </div>
             )}
@@ -159,7 +159,7 @@ export default function WhatsAppButton() {
           </div>
 
           {/* Direct WhatsApp Callout Banner */}
-          <div className="bg-emerald-50 border-t border-b border-emerald-100 px-3 py-2 flex items-center justify-between text-[11px] text-emerald-900 font-medium">
+          <div data-ui className="bg-emerald-50 border-t border-b border-emerald-100 px-3 py-2 flex items-center justify-between text-[11px] text-emerald-900 font-medium">
             <span>Bicara dengan admin via WhatsApp?</span>
             <button
               onClick={handleOpenWA}
@@ -171,13 +171,13 @@ export default function WhatsAppButton() {
           </div>
 
           {/* Input Footer */}
-          <form onSubmit={handleSendMessage} className="p-2.5 bg-white flex items-center gap-2 border-t border-slate-100">
+          <form data-ui onSubmit={handleSendMessage} className="p-2.5 bg-white flex items-center gap-2 border-t border-stone-100">
             <input
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder="Tulis pesan Anda..."
-              className="flex-1 px-3 py-2 rounded-lg bg-slate-100 border border-transparent focus:border-[#7a0019]/40 focus:bg-white text-xs outline-none transition-all"
+              className="flex-1 px-3 py-2 rounded-lg bg-stone-100 text-xs outline-none transition-colors"
             />
             <button
               type="submit"
@@ -194,8 +194,9 @@ export default function WhatsAppButton() {
       <div className="flex items-center gap-2">
         {!isOpen && (
           <button
+            data-ui
             onClick={() => setIsOpen(true)}
-            className="hidden md:flex items-center gap-2 bg-white text-slate-800 px-3.5 py-2 rounded-full shadow-md border border-slate-200 text-xs font-semibold hover:bg-slate-50 transition-colors cursor-pointer"
+            className="hidden md:flex items-center gap-2 bg-white text-stone-800 px-3.5 py-2 rounded-full shadow-md border border-stone-200 text-xs font-semibold hover:bg-stone-50 transition-colors cursor-pointer"
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
             <span>Bantuan CS</span>
@@ -203,6 +204,7 @@ export default function WhatsAppButton() {
         )}
 
         <button
+          data-ui
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Tutup atau Buka Chatbot CS Bakso Pak Mul"
           className="w-12 h-12 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-full flex items-center justify-center shadow-lg transition-transform active:scale-95 cursor-pointer relative"

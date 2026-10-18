@@ -9,7 +9,7 @@ export default async function VerifyOtpPage(props: {
   
   if (!searchParams.email) {
     return (
-      <div className="min-h-screen bg-[#f3f3f3] flex flex-col font-sans">
+      <div className="min-h-[100dvh] bg-[#f3f3f3] flex flex-col font-sans">
         <Navbar />
         <div className="flex-1 flex flex-col justify-center py-12 sm:px-6 lg:px-8 mt-10">
           <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
@@ -22,7 +22,7 @@ export default async function VerifyOtpPage(props: {
   }
 
   return (
-    <div className="min-h-screen bg-[#f3f3f3] flex flex-col font-sans">
+    <div className="min-h-[100dvh] bg-[#f3f3f3] flex flex-col font-sans">
       <Navbar />
       
       <div className="flex-1 flex flex-col justify-center py-12 sm:px-6 lg:px-8 mt-10">
@@ -39,7 +39,7 @@ export default async function VerifyOtpPage(props: {
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-8 px-4 shadow-xl sm:rounded-2xl sm:px-10 border border-stone-200 relative overflow-hidden">
+          <div className="bg-white py-8 px-4 sm:rounded-2xl sm:px-10 border border-stone-200 relative overflow-hidden">
             <form className="space-y-6" action={verifyOtpAction}>
               <input type="hidden" name="email" value={searchParams.email} />
               
@@ -57,7 +57,7 @@ export default async function VerifyOtpPage(props: {
               )}
 
               <div>
-                <label htmlFor="token" className="block text-xs font-bold text-stone-700 uppercase tracking-widest mb-2 text-center">
+                <label htmlFor="token" className="block text-xs font-semibold text-stone-700 mb-2 text-center">
                   Masukkan Kode OTP (6 Angka)
                 </label>
                 <div className="mt-1 relative">
@@ -67,7 +67,7 @@ export default async function VerifyOtpPage(props: {
                     type="text"
                     required
                     maxLength={6}
-                    className="appearance-none block w-full px-3 py-3.5 text-center text-2xl tracking-[0.5em] font-bold border border-stone-300 rounded-xl shadow-xs placeholder-stone-300 focus:outline-none focus:border-[#7a0019] transition-colors"
+                    className="appearance-none block w-full px-3 py-3.5 text-center text-2xl tracking-[0.5em] font-bold border border-stone-300 rounded-xl placeholder-stone-300 focus:outline-none focus:border-[#7a0019] transition-colors"
                     placeholder="------"
                   />
                 </div>
@@ -76,7 +76,7 @@ export default async function VerifyOtpPage(props: {
               <div>
                 <button
                   type="submit"
-                  className="w-full flex justify-center py-3.5 px-4 rounded-xl shadow-xs text-xs font-bold uppercase tracking-wider text-white bg-[#7a0019] hover:bg-[#51000d] transition-colors cursor-pointer"
+                  className="w-full flex justify-center py-3.5 px-4 rounded-xl text-sm font-semibold text-white bg-[#7a0019] hover:bg-[#51000d] transition-colors cursor-pointer"
                 >
                   Verifikasi OTP
                 </button>

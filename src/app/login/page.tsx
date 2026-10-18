@@ -8,9 +8,9 @@ export default async function LoginPage(props: {
 }) {
   const searchParams = await props.searchParams
   return (
-    <div className="min-h-screen text-on-surface bg-surface-white font-sans">
+    <div className="min-h-[100dvh] text-on-surface bg-surface-white font-sans">
       <Navbar />
-      <main className="flex min-h-[calc(100vh-80px)]">
+      <main className="flex min-h-[calc(100dvh-80px)]">
         {/* Left Side: Visual/Branding Split */}
         <div className="hidden lg:flex lg:w-5/12 relative overflow-hidden items-center justify-center">
           {/* Background Image */}
@@ -22,8 +22,8 @@ export default async function LoginPage(props: {
               backgroundPosition: 'center'
             }}
           ></div>
-          {/* Branding Overlay */}
-          <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#540b13] via-[#540b13]/85 to-[#3a050b]/90"></div>
+          {/* Branding Scrim */}
+          <div className="absolute inset-0 z-10 bg-[#3a050b]/90"></div>
           <div className="relative z-20 p-12 text-center max-w-lg flex flex-col items-center">
             <div className="mb-8">
               <BrandLogo variant="light" size="lg" />
@@ -58,7 +58,7 @@ export default async function LoginPage(props: {
                 <div className="relative group">
                   <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors text-[20px]">alternate_email</span>
                   <input 
-                    className="w-full h-14 pl-12 pr-4 bg-white border border-outline-variant rounded-xl text-base text-on-surface placeholder:text-on-surface-variant/50 form-input-focus outline-none transition-all" 
+                    className="w-full h-14 pl-12 pr-4 bg-white border border-outline-variant rounded-xl text-base text-on-surface placeholder:text-on-surface-variant/50 form-input-focus outline-none transition-colors" 
                     id="email" 
                     name="email"
                     placeholder="budi@email.com" 
@@ -75,7 +75,7 @@ export default async function LoginPage(props: {
                 <div className="relative group">
                   <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors text-[20px]">lock</span>
                   <input 
-                    className="w-full h-14 pl-12 pr-11 bg-white border border-outline-variant rounded-xl text-base text-on-surface placeholder:text-on-surface-variant/50 form-input-focus outline-none transition-all" 
+                    className="w-full h-14 pl-12 pr-11 bg-white border border-outline-variant rounded-xl text-base text-on-surface placeholder:text-on-surface-variant/50 form-input-focus outline-none transition-colors" 
                     id="password" 
                     name="password"
                     placeholder="••••••••" 
@@ -124,7 +124,7 @@ export default async function LoginPage(props: {
               {/* Submit Button */}
               <button 
                 type="submit"
-                className="w-full h-14 bg-primary-container text-white rounded-xl text-sm uppercase tracking-widest font-bold hover:bg-primary hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 group mt-6"
+                className="w-full h-14 bg-primary-container text-white rounded-xl text-sm font-semibold hover:bg-primary transition-colors flex items-center justify-center gap-2 group mt-6"
               >
                 Masuk Sekarang
                 <span className="material-symbols-outlined transition-transform group-hover:translate-x-1 text-[20px]">login</span>
@@ -132,10 +132,8 @@ export default async function LoginPage(props: {
             </form>
 
             {/* Social Divider */}
-            <div className="relative my-10 flex items-center">
-              <div className="flex-grow border-t border-outline-variant/60"></div>
-              <span className="flex-shrink mx-4 text-[11px] uppercase tracking-widest text-on-surface-variant/60 font-bold">Atau Masuk Lewat</span>
-              <div className="flex-grow border-t border-outline-variant/60"></div>
+            <div className="relative my-8 flex items-center justify-center">
+              <span className="text-xs text-on-surface-variant/70 font-medium">Atau masuk lewat</span>
             </div>
 
             {/* Social Options */}
@@ -143,7 +141,7 @@ export default async function LoginPage(props: {
               <form action={loginWithGoogle}>
                 <button 
                   type="submit"
-                  className="w-full flex items-center justify-center gap-3 h-14 border border-outline-variant rounded-xl bg-white hover:bg-surface-variant/30 hover:border-outline transition-all group cursor-pointer"
+                  className="w-full flex items-center justify-center gap-3 h-14 border border-outline-variant rounded-xl bg-white hover:bg-surface-variant/30 hover:border-outline transition-colors group cursor-pointer"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path d="M12 5c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84C6.71 7.05 9.14 5 12 5z" fill="#EA4335"></path>

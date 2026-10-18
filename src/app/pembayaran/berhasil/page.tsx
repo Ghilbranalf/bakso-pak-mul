@@ -64,7 +64,7 @@ function SuccessContent() {
     : (items.length > 0 ? items.map((it) => `• ${it.name} (${it.quantity} ${it.unit || "bks"})`).join("\n") : "• Paket Bakso Super Premium (1 bks)");
 
   const waMessage = encodeURIComponent(
-    `Halo CS Bakso Pak Mul 👋, saya baru saja menyelesaikan pembayaran LUNAS:\n\n👤 Atas Nama: ${displayName}\n📦 ID Pesanan: ${displayOrderNumber}\n\n📋 Rincian Produk Pesanan:\n${itemsFormatted}\n\n💰 Total Pembayaran: Rp ${formatPrice(displayTotal)}\n\nMohon segera diproses dan dikirim ya Pak Mul, terima kasih!`
+    `Halo CS Bakso Pak Mul, saya baru saja menyelesaikan pembayaran LUNAS:\n\nAtas Nama: ${displayName}\nID Pesanan: ${displayOrderNumber}\n\nRincian Produk Pesanan:\n${itemsFormatted}\n\nTotal Pembayaran: Rp ${formatPrice(displayTotal)}\n\nMohon segera diproses dan dikirim ya Pak Mul, terima kasih!`
   );
   const waUrl = `https://wa.me/6281298980252?text=${waMessage}`;
 
@@ -78,17 +78,17 @@ function SuccessContent() {
   }, [waUrl]);
 
   return (
-    <div className="bg-[#faf8f5] text-[#1c1917] min-h-screen flex flex-col antialiased selection:bg-[#7a0019] selection:text-white font-sans">
+    <div className="bg-[#faf8f5] text-[#1c1917] min-h-[100dvh] flex flex-col antialiased selection:bg-[#7a0019] selection:text-white font-sans">
       <main className="flex-grow flex items-center justify-center p-6 md:p-12 relative">
         {/* Success Canvas */}
         <div className="relative z-10 w-full max-w-lg mx-auto text-center">
           
           {/* Icon & Header */}
           <div className="mb-8">
-            <div className="w-16 h-16 rounded-2xl bg-emerald-700 text-white flex items-center justify-center mx-auto mb-4 shadow-xs">
+            <div className="w-16 h-16 rounded-2xl bg-emerald-700 text-white flex items-center justify-center mx-auto mb-4">
               <span className="material-symbols-outlined text-3xl">task_alt</span>
             </div>
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-800 block mb-2">
+            <span className="text-xs font-semibold text-emerald-800 block mb-2">
               Transaksi Terverifikasi Lunas
             </span>
             <h1 className="font-headline text-3xl md:text-5xl font-bold uppercase text-[#1c1917] tracking-tight">
@@ -100,10 +100,10 @@ function SuccessContent() {
           </div>
 
           {/* Order Summary Card */}
-          <div className="bg-white border border-stone-200 shadow-xs rounded-2xl p-6 text-left mb-8">
-            <div className="flex justify-between items-center pb-4 border-b border-stone-100 mb-4">
+          <div className="bg-white border border-stone-200 rounded-2xl p-6 text-left mb-8">
+            <div className="flex justify-between items-center pb-3 mb-4">
               <div>
-                <p className="text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-0.5">ID Pesanan</p>
+                <p className="text-xs font-semibold text-stone-500 mb-0.5">ID Pesanan</p>
                 <p className="text-base font-bold text-stone-900 font-headline">{displayOrderNumber}</p>
               </div>
               <span className="material-symbols-outlined text-[#7a0019] bg-stone-100 p-2.5 rounded-xl text-xl">
@@ -124,7 +124,7 @@ function SuccessContent() {
                 <span className="text-stone-500 font-medium">Metode Pembayaran</span>
                 <span className="text-emerald-700 font-semibold">Midtrans Online / COD</span>
               </div>
-              <div className="flex justify-between pt-3 mt-3 border-t border-stone-100">
+              <div className="flex justify-between pt-3 mt-3 bg-stone-50 p-3 rounded-lg">
                 <span className="text-stone-500 font-medium">Total Pembayaran</span>
                 <span className="font-headline text-lg font-bold text-[#7a0019]">Rp {formatPrice(displayTotal)}</span>
               </div>
@@ -137,7 +137,7 @@ function SuccessContent() {
               href={waUrl}
               target="_blank"
               rel="noreferrer"
-              className="bg-emerald-700 text-white font-bold text-xs py-3.5 px-6 rounded-xl hover:bg-emerald-800 transition-colors shadow-xs flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
+              className="bg-emerald-700 text-white font-semibold text-sm py-3.5 px-6 rounded-xl hover:bg-emerald-800 transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>Kirim Rincian ke WhatsApp Pak Mul</span>
               <span className="material-symbols-outlined text-base">chat</span>
@@ -145,14 +145,14 @@ function SuccessContent() {
             
             <Link
               href={`/transaksi/${displayOrderNumber}`}
-              className="bg-[#7a0019] text-white font-bold text-xs py-3.5 px-6 rounded-xl hover:bg-[#51000d] transition-colors shadow-xs flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
+              className="bg-[#7a0019] text-white font-semibold text-sm py-3.5 px-6 rounded-xl hover:bg-[#51000d] transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>Lihat Detail Nota Pesanan</span>
             </Link>
 
             <Link
               href="/"
-              className="bg-white text-stone-700 border border-stone-200 font-bold text-xs py-3.5 px-6 rounded-xl hover:bg-stone-50 transition-colors shadow-xs flex items-center justify-center cursor-pointer uppercase tracking-wider"
+              className="bg-white text-stone-700 border border-stone-200 font-semibold text-sm py-3.5 px-6 rounded-xl hover:bg-stone-50 transition-colors flex items-center justify-center cursor-pointer"
             >
               Kembali ke Beranda
             </Link>
@@ -166,7 +166,7 @@ function SuccessContent() {
 
 export default function PaymentSuccessPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-500">Memuat rincian transaksi...</div>}>
+    <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-gray-500">Memuat rincian transaksi...</div>}>
       <SuccessContent />
     </Suspense>
   );

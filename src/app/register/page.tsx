@@ -109,10 +109,10 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen text-on-surface bg-surface-white font-sans">
+    <div className="min-h-[100dvh] text-on-surface bg-surface-white font-sans">
       <Navbar />
 
-      <main className="flex min-h-[calc(100vh-80px)]">
+      <main className="flex min-h-[calc(100dvh-80px)]">
         {/* Left Side: Visual/Branding Split */}
         <div className="hidden lg:flex lg:w-5/12 relative overflow-hidden items-center justify-center">
           {/* Background Image */}
@@ -124,8 +124,8 @@ export default function RegisterPage() {
               backgroundPosition: 'center'
             }}
           ></div>
-          {/* Branding Overlay */}
-          <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#540b13] via-[#540b13]/85 to-[#3a050b]/90"></div>
+          {/* Branding Scrim */}
+          <div className="absolute inset-0 z-10 bg-[#3a050b]/90"></div>
           <div className="relative z-20 p-12 text-center max-w-lg flex flex-col items-center">
             <div className="mb-8">
               <BrandLogo variant="light" size="lg" />
@@ -179,7 +179,7 @@ export default function RegisterPage() {
                   <div className="relative group">
                     <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors text-[20px]">person</span>
                     <input 
-                      className="w-full h-14 pl-12 pr-4 bg-white border border-outline-variant rounded-xl text-base text-on-surface placeholder:text-on-surface-variant/50 form-input-focus outline-none transition-all" 
+                      className="w-full h-14 pl-12 pr-4 bg-white border border-outline-variant rounded-xl text-base text-on-surface placeholder:text-on-surface-variant/50 form-input-focus outline-none transition-colors" 
                       placeholder="Contoh: Budi Santoso" 
                       required 
                       type="text" 
@@ -195,7 +195,7 @@ export default function RegisterPage() {
                   <div className="relative group">
                     <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors text-[20px]">alternate_email</span>
                     <input 
-                      className="w-full h-14 pl-12 pr-4 bg-white border border-outline-variant rounded-xl text-base text-on-surface placeholder:text-on-surface-variant/50 form-input-focus outline-none transition-all" 
+                      className="w-full h-14 pl-12 pr-4 bg-white border border-outline-variant rounded-xl text-base text-on-surface placeholder:text-on-surface-variant/50 form-input-focus outline-none transition-colors" 
                       placeholder="budi@email.com" 
                       required 
                       type="email" 
@@ -211,7 +211,7 @@ export default function RegisterPage() {
                   <div className="relative group">
                     <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors text-[20px]">call</span>
                     <input 
-                      className="w-full h-14 pl-12 pr-4 bg-white border border-outline-variant rounded-xl text-base text-on-surface placeholder:text-on-surface-variant/50 form-input-focus outline-none transition-all" 
+                      className="w-full h-14 pl-12 pr-4 bg-white border border-outline-variant rounded-xl text-base text-on-surface placeholder:text-on-surface-variant/50 form-input-focus outline-none transition-colors" 
                       placeholder="081234567890" 
                       required 
                       type="tel" 
@@ -227,7 +227,7 @@ export default function RegisterPage() {
                   <div className="relative group">
                     <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors text-[20px]">lock</span>
                     <input 
-                      className="w-full h-14 pl-12 pr-11 bg-white border border-outline-variant rounded-xl text-base text-on-surface placeholder:text-on-surface-variant/50 form-input-focus outline-none transition-all" 
+                      className="w-full h-14 pl-12 pr-11 bg-white border border-outline-variant rounded-xl text-base text-on-surface placeholder:text-on-surface-variant/50 form-input-focus outline-none transition-colors" 
                       placeholder="Min. 6 char" 
                       required 
                       minLength={6}
@@ -242,7 +242,7 @@ export default function RegisterPage() {
                 <button 
                   type="submit"
                   disabled={isLoading}
-                  className="w-full h-14 bg-primary-container text-white rounded-xl text-sm uppercase tracking-widest font-bold hover:bg-primary hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 group mt-6 disabled:opacity-50 cursor-pointer"
+                  className="w-full h-14 bg-primary-container text-white rounded-xl text-sm font-semibold hover:bg-primary transition-colors flex items-center justify-center gap-2 group mt-6 disabled:opacity-50 cursor-pointer"
                 >
                   {isLoading ? "Mengirim Kode OTP..." : "Daftar Akun (OTP Email)"}
                   <span className="material-symbols-outlined transition-transform group-hover:translate-x-1 text-[20px]">arrow_forward</span>
@@ -271,7 +271,7 @@ export default function RegisterPage() {
                     value={otpCode}
                     onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ""))}
                     placeholder="• • • • • •"
-                    className="w-full h-16 text-center font-mono text-2xl font-bold tracking-[12px] bg-white border border-outline-variant rounded-xl text-on-surface outline-none transition-all focus:border-primary"
+                    className="w-full h-16 text-center text-2xl font-bold tracking-[12px] bg-white border border-outline-variant rounded-xl text-on-surface outline-none transition-colors focus:border-primary"
                   />
                   <p className="text-xs text-on-surface-variant mt-1 text-center">
                     Periksa inbox atau folder spam email Anda untuk menyalin kode OTP.
@@ -281,7 +281,7 @@ export default function RegisterPage() {
                 <button
                   type="submit"
                   disabled={isLoading || otpCode.length < 6}
-                  className="w-full h-14 bg-primary-container text-white rounded-xl text-sm uppercase tracking-widest font-bold hover:bg-primary hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 group cursor-pointer disabled:opacity-50"
+                  className="w-full h-14 bg-primary-container text-white rounded-xl text-sm font-semibold hover:bg-primary transition-colors flex items-center justify-center gap-2 group cursor-pointer disabled:opacity-50"
                 >
                   <span>{isLoading ? "Memverifikasi..." : "Verifikasi & Selesaikan Pendaftaran"}</span>
                   <span className="material-symbols-outlined text-[20px]">check_circle</span>
@@ -301,10 +301,8 @@ export default function RegisterPage() {
             )}
 
             {/* Social Divider */}
-            <div className="relative my-10 flex items-center">
-              <div className="flex-grow border-t border-outline-variant/60"></div>
-              <span className="flex-shrink mx-4 text-[11px] uppercase tracking-widest text-on-surface-variant/60 font-bold">Atau Daftar Lewat</span>
-              <div className="flex-grow border-t border-outline-variant/60"></div>
+            <div className="relative my-8 flex items-center justify-center">
+              <span className="text-xs text-on-surface-variant/70 font-medium">Atau daftar lewat</span>
             </div>
 
             {/* Social Options */}
@@ -312,7 +310,7 @@ export default function RegisterPage() {
               <button 
                 type="button"
                 onClick={handleGoogleLogin}
-                className="w-full flex items-center justify-center gap-3 h-14 border border-outline-variant rounded-xl bg-white hover:bg-surface-variant/30 hover:border-outline transition-all group cursor-pointer"
+                className="w-full flex items-center justify-center gap-3 h-14 border border-outline-variant rounded-xl bg-white hover:bg-surface-variant/30 hover:border-outline transition-colors group cursor-pointer"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path d="M12 5c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84C6.71 7.05 9.14 5 12 5z" fill="#EA4335"></path>
@@ -333,13 +331,6 @@ export default function RegisterPage() {
           </div>
         </div>
       </main>
-
-      {/* Floating Support Button */}
-      <div className="fixed bottom-6 right-6 z-50 hidden md:block">
-        <button className="w-14 h-14 bg-primary-container text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all">
-          <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>support_agent</span>
-        </button>
-      </div>
     </div>
   );
 }

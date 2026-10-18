@@ -104,17 +104,17 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf7f2] text-[#1c1917] font-sans antialiased flex flex-col pt-20 selection:bg-[#51000d] selection:text-white">
+    <div className="min-h-[100dvh] bg-[#faf7f2] text-[#1c1917] font-sans antialiased flex flex-col pt-20 selection:bg-[#51000d] selection:text-white">
       <Navbar />
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full">
         {/* Profile Card Banner */}
-        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xs border border-stone-200 mb-8 transition-all">
+        <div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200 mb-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
             {/* User Avatar & Info */}
             <div className="flex flex-col sm:flex-row items-center gap-5 w-full sm:w-auto">
               <div className="relative">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-[#7a0019] text-white flex items-center justify-center font-headline font-bold text-3xl shadow-xs">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-[#7a0019] text-white flex items-center justify-center font-headline font-bold text-3xl">
                   {(formData.name || "U").charAt(0).toUpperCase()}
                 </div>
                 <div className="absolute -bottom-1 -right-1 bg-emerald-600 w-5 h-5 rounded-full border-2 border-white flex items-center justify-center">
@@ -128,10 +128,10 @@ export default function ProfilePage() {
                 </h1>
                 <p className="text-xs text-stone-500 font-medium">{formData.email || "email@pelanggan.com"}</p>
                 <div className="flex items-center justify-center sm:justify-start gap-2 pt-1">
-                  <span className="px-2.5 py-0.5 bg-stone-100 text-[#7a0019] rounded text-[10px] font-semibold uppercase tracking-wider">
+                  <span className="px-2.5 py-0.5 bg-stone-100 text-[#7a0019] rounded text-xs font-semibold">
                     Pelanggan Setia BPM
                   </span>
-                  <span className="text-[10px] text-stone-500 font-medium">• Terverifikasi</span>
+                  <span className="text-xs text-stone-500 font-medium">• Terverifikasi</span>
                 </div>
               </div>
             </div>
@@ -140,7 +140,7 @@ export default function ProfilePage() {
             <div className="w-full sm:w-auto pt-2 sm:pt-0">
               <button
                 onClick={handleSignOut}
-                className="w-full sm:w-auto px-5 py-2.5 bg-rose-50 hover:bg-rose-700 hover:text-white text-rose-700 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer border border-rose-200 hover:border-transparent shadow-xs"
+                className="w-full sm:w-auto px-5 py-2.5 bg-rose-50 hover:bg-rose-700 hover:text-white text-rose-700 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer border border-rose-200 hover:border-transparent"
               >
                 <span className="material-symbols-outlined text-base">logout</span>
                 <span>Keluar Akun</span>
@@ -149,12 +149,12 @@ export default function ProfilePage() {
           </div>
 
           {/* Segmented Switcher */}
-          <div className="mt-6 pt-5 border-t border-stone-100 flex p-1.5 bg-[#faf8f5] rounded-xl gap-2">
+          <div className="mt-6 pt-5 flex p-1.5 bg-[#faf8f5] rounded-xl gap-2">
             <button
               onClick={() => setActiveTab("profile")}
-              className={`flex-1 py-2.5 px-4 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 cursor-pointer ${
+              className={`flex-1 py-2.5 px-4 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer ${
                 activeTab === "profile"
-                  ? "bg-[#7a0019] text-white shadow-xs"
+                  ? "bg-[#7a0019] text-white"
                   : "text-stone-700 hover:text-[#7a0019]"
               }`}
             >
@@ -163,9 +163,9 @@ export default function ProfilePage() {
             </button>
             <button
               onClick={() => setActiveTab("orders")}
-              className={`flex-1 py-2.5 px-4 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 cursor-pointer ${
+              className={`flex-1 py-2.5 px-4 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer ${
                 activeTab === "orders"
-                  ? "bg-[#7a0019] text-white shadow-xs"
+                  ? "bg-[#7a0019] text-white"
                   : "text-stone-700 hover:text-[#7a0019]"
               }`}
             >
@@ -178,13 +178,13 @@ export default function ProfilePage() {
         {/* Tab 1: Profile & Address Form */}
         {activeTab === "profile" && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-8 bg-white p-6 sm:p-8 rounded-2xl shadow-xs border border-stone-200 space-y-6">
-              <div className="flex items-center justify-between border-b border-stone-100 pb-4">
+            <div className="lg:col-span-8 bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 space-y-6">
+              <div className="flex items-center justify-between pb-4">
                 <div className="flex items-center gap-2.5">
                   <span className="material-symbols-outlined text-[#7a0019] text-xl">manage_accounts</span>
                   <h2 className="font-headline font-bold text-lg text-[#1c1917]">Pengaturan Profil &amp; Alamat</h2>
                 </div>
-                <span className="text-[10px] bg-stone-100 text-stone-700 px-2.5 py-1 rounded font-semibold uppercase tracking-wider">
+                <span className="text-xs bg-stone-100 text-stone-700 px-2.5 py-1 rounded font-semibold">
                   Otomatis Terisi saat Checkout
                 </span>
               </div>
@@ -196,7 +196,7 @@ export default function ProfilePage() {
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 rounded-2xl border-2 border-stone-200 text-xs font-bold text-[#1c1917] bg-stone-50/50 focus:bg-white focus:border-[#51000d] transition-all outline-none"
+                    className="w-full px-4 py-3 rounded-2xl border-2 border-stone-200 text-xs font-bold text-[#1c1917] bg-stone-50/50 focus:bg-white focus:border-[#51000d] transition-colors outline-none"
                     placeholder="Masukkan nama lengkap Anda"
                   />
                 </div>
@@ -217,7 +217,7 @@ export default function ProfilePage() {
                     type="text"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 rounded-2xl border-2 border-stone-200 text-xs font-bold text-[#1c1917] bg-stone-50/50 focus:bg-white focus:border-[#51000d] transition-all outline-none"
+                    className="w-full px-4 py-3 rounded-2xl border-2 border-stone-200 text-xs font-bold text-[#1c1917] bg-stone-50/50 focus:bg-white focus:border-[#51000d] transition-colors outline-none"
                     placeholder="Contoh: 085600436463"
                   />
                 </div>
@@ -228,7 +228,7 @@ export default function ProfilePage() {
                     rows={3}
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                    className="w-full px-4 py-3 rounded-2xl border-2 border-stone-200 text-xs font-bold text-[#1c1917] bg-stone-50/50 focus:bg-white focus:border-[#51000d] transition-all outline-none resize-none leading-relaxed"
+                    className="w-full px-4 py-3 rounded-2xl border-2 border-stone-200 text-xs font-bold text-[#1c1917] bg-stone-50/50 focus:bg-white focus:border-[#51000d] transition-colors outline-none resize-none leading-relaxed"
                     placeholder="Nama Jalan, RT/RW, Patokan Rumah, Desa/Kelurahan"
                   />
                 </div>
@@ -301,7 +301,7 @@ export default function ProfilePage() {
                 <button
                   type="button"
                   onClick={handleSaveProfile}
-                  className="w-full py-3 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-xs transition-colors cursor-pointer flex items-center justify-center gap-2"
+                  className="w-full py-3 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-sm font-semibold transition-colors cursor-pointer flex items-center justify-center gap-2"
                 >
                   <span className="material-symbols-outlined text-base">save</span>
                   <span>Simpan Perubahan Profil</span>
@@ -311,15 +311,15 @@ export default function ProfilePage() {
 
             {/* Side Card: Kios Info */}
             <div className="lg:col-span-4 space-y-6">
-              <div className="bg-[#200407] text-white p-6 sm:p-7 rounded-2xl shadow-xs border border-stone-800 space-y-4">
+              <div className="bg-[#200407] text-white p-6 sm:p-7 rounded-2xl border border-stone-800 space-y-4">
                 <div className="flex items-center gap-3">
                   <span className="material-symbols-outlined text-emerald-400 text-2xl">verified</span>
-                  <h3 className="font-headline font-bold text-base uppercase tracking-wider text-white">Kios Pasar Kramat Jati</h3>
+                  <h3 className="font-headline font-bold text-base text-white">Kios Pasar Kramat Jati</h3>
                 </div>
                 <p className="font-editorial text-xs text-stone-300 leading-relaxed font-normal">
                   Alamat Anda otomatis tersimpan di browser ini dan siap dipanggil saat Anda melakukan pemesanan checkout cepat.
                 </p>
-                <div className="pt-2 border-t border-stone-800 text-xs space-y-1 text-stone-300">
+                <div className="pt-2 text-xs space-y-1 text-stone-300">
                   <p><strong className="text-white">Alamat Kios:</strong> Pasar Kramat Jati, Lantai Dasar Los D, Jakarta Timur</p>
                   <p><strong className="text-white">Jam Buka:</strong> 06.00 – 17.00 WIB (Buka Setiap Hari)</p>
                 </div>
@@ -338,17 +338,17 @@ export default function ProfilePage() {
                 <p className="text-xs text-stone-500 font-medium mt-1">Anda belum melakukan pembelian melalui akun ini.</p>
                 <Link
                   href="/produk"
-                  className="mt-4 inline-block px-5 py-2.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-xs transition-colors"
+                  className="mt-4 inline-block px-5 py-2.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-sm font-semibold transition-colors"
                 >
                   Mulai Belanja
                 </Link>
               </div>
             ) : (
               orders.map((order: any) => (
-                <div key={order.id} className="bg-white rounded-2xl border border-stone-200 p-6 shadow-xs hover:border-[#7a0019]/40 transition-all">
-                  <div className="flex flex-wrap items-center justify-between pb-3 border-b border-stone-100 gap-3">
+                <div key={order.id} className="bg-white rounded-2xl border border-stone-200 p-6 hover:border-[#7a0019]/40 transition-colors">
+                  <div className="flex flex-wrap items-center justify-between pb-3 gap-3">
                     <div>
-                      <span className="text-xs font-black uppercase text-[#51000d]">{order.orderNumber}</span>
+                      <span className="text-xs font-bold text-[#51000d]">{order.orderNumber}</span>
                       <p className="text-[11px] text-[#2b1b17] font-semibold mt-0.5">
                         {new Date(order.createdAt).toLocaleDateString("id-ID", {
                           day: "numeric",
@@ -357,18 +357,18 @@ export default function ProfilePage() {
                         })}
                       </p>
                     </div>
-                    <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold uppercase bg-stone-100 text-stone-800 border border-stone-200">
+                    <span className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-stone-100 text-stone-800 border border-stone-200">
                       {order.status || "DIPROSES"}
                     </span>
                   </div>
                   <div className="pt-3 flex justify-between items-center">
                     <div>
-                      <span className="text-[10px] font-bold text-stone-500 block uppercase tracking-wider">TOTAL</span>
+                      <span className="text-xs text-stone-500 block font-medium">Total</span>
                       <span className="font-headline text-xl text-[#1c1917] font-bold">Rp {formatPrice(order.finalTotal)}</span>
                     </div>
                     <Link
                       href={`/lacak?id=${encodeURIComponent(order.orderNumber)}`}
-                      className="px-4 py-2 rounded-xl bg-[#7a0019] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#51000d] transition-colors shadow-xs"
+                      className="px-4 py-2 rounded-xl bg-[#7a0019] text-white text-xs font-semibold hover:bg-[#51000d] transition-colors"
                     >
                       Lacak Status
                     </Link>

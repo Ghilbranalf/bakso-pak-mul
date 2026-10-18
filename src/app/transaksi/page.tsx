@@ -91,16 +91,16 @@ export default function TransaksiPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#faf7f2] text-[#1c1917] font-sans antialiased selection:bg-[#51000d] selection:text-white">
+    <div className="min-h-[100dvh] flex flex-col bg-[#faf7f2] text-[#1c1917] font-sans antialiased selection:bg-[#51000d] selection:text-white">
       <Navbar />
 
       <main className="flex-grow">
         {/* ========================================================================= */}
         {/* ARTISAN HEADER BANNER                                                     */}
         {/* ========================================================================= */}
-        <section className="bg-[#200407] text-white pt-28 sm:pt-36 pb-14 sm:pb-20 border-b border-stone-800">
+        <section className="bg-[#200407] text-white pt-28 sm:pt-36 pb-14 sm:pb-20">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
-            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-stone-400 block">
+            <span className="text-xs font-semibold text-stone-300 block">
               Catatan Transaksi Pelanggan
             </span>
 
@@ -121,9 +121,9 @@ export default function TransaksiPage() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                className={`px-5 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
                   activeTab === tab
-                    ? "bg-[#7a0019] text-white shadow-xs"
+                    ? "bg-[#7a0019] text-white font-bold"
                     : "bg-stone-100 text-stone-700 hover:bg-stone-200 border border-stone-200"
                 }`}
               >
@@ -135,12 +135,12 @@ export default function TransaksiPage() {
           {/* Transaction Cards List */}
           <div className="space-y-6">
             {isLoading ? (
-              <div className="text-center py-16 bg-white rounded-2xl border border-stone-200">
-                <span className="w-8 h-8 border-4 border-[#7a0019] border-t-transparent rounded-full animate-spin inline-block mb-3" />
+              <div data-ui className="text-center py-16 bg-white rounded-2xl border border-stone-200">
+                <span className="w-8 h-8 rounded-full border-4 border-[#7a0019] border-t-transparent animate-spin inline-block mb-3" />
                 <p className="font-headline text-lg uppercase text-[#1c1917]">Memuat Data Transaksi...</p>
               </div>
             ) : filteredTransactions.length === 0 ? (
-              <div className="text-center py-16 bg-white rounded-2xl border border-stone-200 p-8">
+              <div data-ui className="text-center py-16 bg-white rounded-2xl border border-stone-200 p-8">
                 <span className="material-symbols-outlined text-5xl text-[#7a0019] mb-2 block">
                   receipt_long
                 </span>
@@ -150,7 +150,7 @@ export default function TransaksiPage() {
                 </p>
                 <Link
                   href="/produk"
-                  className="mt-4 inline-block px-5 py-2.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-xs transition-colors"
+                  className="mt-4 inline-block px-5 py-2.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-sm font-semibold transition-colors"
                 >
                   Pilih Menu Sekarang
                 </Link>
@@ -159,17 +159,17 @@ export default function TransaksiPage() {
               filteredTransactions.map((trx) => (
                 <div
                   key={trx.id}
-                  className="bg-white rounded-2xl border border-stone-200 p-6 shadow-xs hover:border-[#7a0019]/40 transition-colors"
+                  className="bg-white rounded-2xl border border-stone-200 p-6 hover:border-[#7a0019]/40 transition-colors"
                 >
-                  <div className="flex flex-wrap items-center justify-between pb-4 border-b border-stone-100 gap-4">
+                  <div className="flex flex-wrap items-center justify-between pb-2 gap-4">
                     <div>
-                      <span className="text-xs font-black uppercase tracking-wider text-[#7a0019]">
+                      <span className="text-xs font-bold text-[#7a0019]">
                         {trx.id}
                       </span>
                       <p className="text-xs text-stone-500 font-medium mt-0.5">{trx.date}</p>
                     </div>
                     <span
-                      className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider border ${trx.statusColor}`}
+                      className={`px-3 py-1 rounded-lg text-xs font-semibold border ${trx.statusColor}`}
                     >
                       {trx.status}
                     </span>
@@ -194,10 +194,10 @@ export default function TransaksiPage() {
                     ))}
                   </div>
 
-                  <div className="pt-4 border-t border-stone-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                  <div className="mt-2 pt-3 bg-stone-50 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                      <span className="text-[10px] text-stone-400 font-semibold uppercase tracking-wider block">
-                        TOTAL PEMBAYARAN
+                      <span className="text-xs text-stone-500 font-medium block">
+                        Total Pembayaran
                       </span>
                       <span className="font-headline font-bold text-2xl text-[#1c1917]">
                         Rp {formatPrice(trx.total)}
@@ -205,12 +205,10 @@ export default function TransaksiPage() {
                     </div>
                     <Link
                       href={`/lacak?id=${encodeURIComponent(trx.id)}`}
-                      className="px-5 py-2.5 rounded-xl bg-[#200407] hover:bg-[#3d0a11] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-xs flex items-center gap-1.5"
+                      className="px-5 py-2.5 rounded-xl bg-[#200407] hover:bg-[#3d0a11] text-white text-sm font-semibold transition-colors flex items-center gap-1.5"
                     >
-                      <span className="material-symbols-outlined text-sm">
-                        local_shipping
-                      </span>
                       <span>Lacak Pesanan</span>
+                      <span className="material-symbols-outlined text-sm">arrow_forward</span>
                     </Link>
                   </div>
                 </div>

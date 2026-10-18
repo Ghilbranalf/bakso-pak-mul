@@ -28,19 +28,19 @@ export default function CartSidebar() {
       {/* Backdrop */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-stone-950/40 backdrop-blur-xs transition-opacity"
+        className="absolute inset-0 bg-stone-950/60 transition-opacity"
         onClick={closeCart}
       />
 
       {/* Sliding Cart Panel */}
-      <div className="relative w-full max-w-md bg-[#faf7f2] h-full shadow-2xl flex flex-col z-10 font-sans border-l border-stone-200">
+      <div data-ui className="relative w-full max-w-md bg-[#faf7f2] h-full shadow-2xl flex flex-col z-10 font-sans border-l border-stone-200">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-stone-200 bg-white">
+        <div data-ui className="flex items-center justify-between px-6 py-5 border-b border-stone-200 bg-white">
           <div className="flex items-center gap-3">
             <h2 className="font-display text-xl font-bold text-stone-950">
               Keranjang Pesanan
             </h2>
-            <span className="bg-amber-50 text-[#7a0019] border border-amber-200/60 text-xs font-bold px-2.5 py-0.5 rounded-md">
+            <span className="bg-amber-100 text-[#7a0019] text-xs font-semibold px-2.5 py-0.5 rounded-md">
               {totalItems} Item
             </span>
           </div>
@@ -72,7 +72,7 @@ export default function CartSidebar() {
             items.map((item, index) => (
               <div
                 key={`${item.id}-${index}`}
-                className="p-4 bg-white rounded-xl border border-stone-200/90 shadow-2xs flex gap-3.5 items-center"
+                className="p-4 bg-white rounded-xl border border-stone-200 flex gap-3.5 items-center"
               >
                 <div className="w-16 h-16 rounded-lg bg-[#f5f0e8] p-1.5 shrink-0 flex items-center justify-center overflow-hidden border border-stone-200">
                   <img
@@ -92,7 +92,7 @@ export default function CartSidebar() {
                     <span className="font-headline text-base font-extrabold text-[#51000d]">
                       Rp {formatPrice(item.price)}
                     </span>
-                    <div className="flex items-center border border-stone-300 rounded-lg bg-stone-50">
+                    <div className="flex items-center rounded-lg bg-stone-100">
                       <button
                         type="button"
                         className="p-1 text-stone-700 hover:text-[#51000d] transition-colors cursor-pointer"
@@ -127,7 +127,7 @@ export default function CartSidebar() {
         </div>
 
         {/* Footer / Price Summary */}
-        <div className="bg-white border-t border-stone-200 p-6 space-y-4">
+        <div data-ui className="bg-white border-t border-stone-200 p-6 space-y-4">
           <div className="space-y-2">
             <div className="flex justify-between text-xs text-[#1c1917] font-medium">
               <span>Subtotal Pesanan</span>
@@ -152,9 +152,9 @@ export default function CartSidebar() {
               </>
             )}
           </div>
-          <hr className="border-stone-200 border-dashed" />
+          <div className="h-px bg-stone-100 my-2" data-ui />
           <div className="flex justify-between items-end pb-1">
-            <span className="text-xs font-bold text-[#1c1917] uppercase tracking-wider">
+            <span className="text-sm font-semibold text-[#1c1917]">
               Total Pembayaran
             </span>
             <span className="font-headline text-2xl font-bold text-[#51000d]">
@@ -166,12 +166,12 @@ export default function CartSidebar() {
           <Link
             href="/checkout"
             onClick={closeCart}
-            className="w-full bg-[#51000d] hover:bg-[#7a0019] text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full bg-[#51000d] hover:bg-[#7a0019] text-white py-3.5 px-6 rounded-xl font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
           >
             <span>Lanjut Pembayaran</span>
             <span className="material-symbols-outlined text-base">arrow_forward</span>
           </Link>
-          <p className="text-center text-[10px] text-[#51000d] font-bold mt-2">
+          <p className="text-center text-xs text-[#51000d] font-medium mt-2">
             100% Aman &amp; Terjamin • Diantar Segar Langsung
           </p>
         </div>

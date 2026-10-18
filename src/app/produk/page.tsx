@@ -166,7 +166,6 @@ function ProductsContent() {
     if (sortBy === "mahal") {
       return copy.sort((a, b) => (b.price || 0) - (a.price || 0));
     }
-    // Default recommendation priority: Bakso -> Mie -> Pangsit -> Bumbu
     const getPriority = (p: any) => {
       const cat = (p.category || "").toLowerCase();
       const name = (p.name || "").toLowerCase();
@@ -195,12 +194,12 @@ function ProductsContent() {
   );
 
   const categories = [
-    { name: "Semua", label: "SEMUA RACIKAN" },
-    { name: "Bakso", label: "BAKSO SAPI ASLI" },
-    { name: "Mie", label: "MIE TELOR BEBEK" },
-    { name: "Pangsit", label: "KULIT PANGSIT" },
-    { name: "Bumbu", label: "BUMBU KALDU" },
-    { name: "Saos", label: "KECAP & SAUS" },
+    { name: "Semua", label: "Semua Racikan" },
+    { name: "Bakso", label: "Bakso Sapi Asli" },
+    { name: "Mie", label: "Mie Telor Bebek" },
+    { name: "Pangsit", label: "Kulit Pangsit" },
+    { name: "Bumbu", label: "Bumbu Kaldu" },
+    { name: "Saos", label: "Kecap & Saus" },
   ];
 
   const handleQuickAdd = (product: any) => {
@@ -218,24 +217,26 @@ function ProductsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf7f2] text-[#1c1917] font-sans antialiased flex flex-col justify-between selection:bg-[#51000d] selection:text-white">
+    <div className="min-h-[100dvh] bg-[#faf8f5] text-[#1c1917] font-sans antialiased flex flex-col justify-between selection:bg-[#7a0019] selection:text-white">
       <Navbar />
 
       <main className="flex-grow">
         {/* ========================================================================= */}
-        {/* ARTISAN POSTER HEADER BANNER (HARMONIOUS WITH HERO)                       */}
+        {/* ARTISAN HEADER BANNER                                                     */}
         {/* ========================================================================= */}
-        <section className="relative bg-[#200407] text-white pt-28 sm:pt-36 pb-14 sm:pb-20 overflow-hidden border-b border-stone-800">
+        <section className="relative bg-[#1c0306] text-white pt-32 sm:pt-40 pb-16 sm:pb-24 overflow-hidden">
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#7a0019]/20 blur-[100px] rounded-full pointer-events-none" />
+
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-stone-400 block mb-3">
-              Katalog Kios Pasar Kramat Jati
-            </span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-stone-200 text-xs font-semibold mb-4">
+              <span>Katalog Kios Pasar Kramat Jati</span>
+            </div>
 
             <h1 className="font-headline text-4xl sm:text-6xl md:text-7xl uppercase text-white font-black tracking-tight leading-tight">
               Koleksi Menu &amp; Bahan Baku
             </h1>
 
-            <p className="max-w-2xl mx-auto text-stone-300 text-xs sm:text-sm mt-3 font-normal leading-relaxed">
+            <p className="max-w-2xl mx-auto text-stone-300 text-sm sm:text-base mt-4 font-normal leading-relaxed">
               Daging sapi murni segar tanpa campuran boraks, mie basah telor bebek kenyal, kulit pangsit lembut, dan bumbu kaldu warisan siap kirim ke dapur Anda.
             </p>
           </div>
@@ -244,8 +245,8 @@ function ProductsContent() {
         {/* ========================================================================= */}
         {/* FILTER BAR & ORGANIC CATEGORY PILLS                                       */}
         {/* ========================================================================= */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-stone-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6">
             {/* Category Chips */}
             <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar max-w-full">
               {categories.map((cat) => {
@@ -257,9 +258,9 @@ function ProductsContent() {
                       setSelectedCategory(cat.name);
                       setCurrentPage(1);
                     }}
-                    className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
+                    className={`px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors duration-200 cursor-pointer ${
                       isSelected
-                        ? "bg-[#7a0019] text-white shadow-xs font-bold"
+                        ? "bg-[#7a0019] text-white"
                         : "bg-stone-100 hover:bg-stone-200 text-stone-700"
                     }`}
                   >
@@ -279,7 +280,7 @@ function ProductsContent() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="bg-white border border-stone-300 rounded-xl px-3 py-2 text-xs font-semibold text-stone-800 outline-none focus:border-[#7a0019] cursor-pointer shadow-xs"
+                  className="bg-white ring-1 ring-stone-300 rounded-xl px-3 py-2 text-xs font-semibold text-stone-800 outline-none focus:ring-2 focus:ring-[#7a0019] cursor-pointer"
                 >
                   <option value="rekomendasi">Pilihan Rekomendasi</option>
                   <option value="murah">Harga Terendah</option>
@@ -291,34 +292,35 @@ function ProductsContent() {
 
           {/* Search Query Pill (if active) */}
           {queryParam && (
-            <div className="mt-4 flex items-center gap-2 text-xs text-[#1c1917] bg-white p-3 rounded-2xl border-2 border-stone-200 shadow-xs font-medium">
+            <div className="mt-4 flex items-center gap-2 text-xs text-[#1c1917] bg-white p-3.5 rounded-2xl ring-1 ring-stone-200 font-medium">
               <span>Hasil penelusuran untuk: &ldquo;<strong>{queryParam}</strong>&rdquo;</span>
               <button
                 onClick={() => router.push("/produk")}
-                className="ml-auto text-xs text-[#7a0019] hover:underline font-black cursor-pointer"
+                className="ml-auto text-xs text-[#7a0019] hover:underline font-bold cursor-pointer flex items-center gap-1"
               >
-                Hapus Pencarian ✕
+                <span>Hapus Pencarian</span>
+                <span className="material-symbols-outlined text-sm">close</span>
               </button>
             </div>
           )}
 
           {/* ========================================================================= */}
-          {/* PRODUCT GRID (MATCHING ARTISAN POSTER CARDS ON HOME VIEW)                 */}
+          {/* PRODUCT GRID: DOUBLE-BEZEL NESTED CARD ARCHITECTURE                       */}
           {/* ========================================================================= */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
             {isLoading ? (
               Array.from({ length: 8 }).map((_, idx) => (
                 <div
                   key={idx}
-                  className="bg-white rounded-2xl h-88 animate-pulse border border-stone-200 shadow-xs"
+                  className="p-1.5 rounded-[1.75rem] bg-stone-200/60 h-88"
                 />
               ))
             ) : paginatedProducts.length === 0 ? (
-              <div className="col-span-full py-16 text-center text-[#1c1917] font-semibold text-sm bg-white rounded-2xl border border-stone-200 p-8">
-                <span className="material-symbols-outlined text-4xl text-stone-400 mb-2 block">
+              <div className="col-span-full py-16 text-center text-[#1c1917] font-semibold text-sm bg-white rounded-3xl p-8">
+                <span className="material-symbols-outlined text-5xl text-stone-400 mb-2 block">
                   soup_kitchen
                 </span>
-                <p className="font-headline text-lg font-bold mt-1">Tidak Ada Menu yang Cocok</p>
+                <p className="font-headline text-xl font-bold mt-2">Tidak Ada Menu yang Cocok</p>
                 <p className="text-xs text-stone-500 font-medium mt-1">
                   Coba ubah kata kunci pencarian atau reset filter kategori.
                 </p>
@@ -327,7 +329,7 @@ function ProductsContent() {
                     setSelectedCategory("Semua");
                     router.push("/produk");
                   }}
-                  className="mt-4 px-5 py-2.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-xs transition-colors"
+                  className="mt-5 px-6 py-3 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-full text-xs font-bold transition-colors cursor-pointer"
                 >
                   Tampilkan Semua Racikan
                 </button>
@@ -336,64 +338,80 @@ function ProductsContent() {
               paginatedProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="group bg-white rounded-2xl overflow-hidden border border-stone-200 hover:border-[#7a0019]/40 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between"
+                  className="p-1.5 rounded-[1.75rem] bg-stone-100/80 transition-colors duration-200 flex flex-col justify-between group"
                 >
-                  <div>
-                    {/* Image Box */}
-                    <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
-                      <img
-                        alt={product.name}
-                        className="w-full h-full object-cover"
-                        src={product.image || "/images/hero-banner.webp"}
-                        onError={(e: any) => {
-                          e.target.src = "/images/hero-banner.webp";
-                        }}
-                      />
-                    </div>
-
-                    {/* Card Content */}
-                    <div className="p-4 sm:p-5">
-                      <div className="flex items-center justify-between gap-2 mb-1.5">
-                        <span className="text-[11px] font-semibold uppercase tracking-wider text-[#7a0019]">
-                          {product.category || "Olahan Sapi"}
-                        </span>
+                  <div className="rounded-[calc(1.75rem-0.375rem)] bg-white p-4 flex flex-col justify-between h-full">
+                    <div>
+                      {/* Image Box */}
+                      <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-stone-100 mb-4">
+                        <img
+                          alt={product.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          src={product.image || "/images/hero-banner.webp"}
+                          onError={(e: any) => {
+                            e.target.src = "/images/hero-banner.webp";
+                          }}
+                        />
                         {product.unit && (
-                          <span className="text-[11px] text-stone-600 font-medium">
+                          <span className="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full bg-white/95 text-[10px] font-bold text-stone-800">
                             {product.unit}
                           </span>
                         )}
                       </div>
 
-                      <Link href={`/produk/${product.id}`} className="block">
-                        <h3 className="font-headline font-bold text-base text-[#1c1917] group-hover:text-[#7a0019] transition-colors line-clamp-1">
-                          {product.name}
-                        </h3>
-                      </Link>
-                      <p className="font-editorial text-[13px] text-stone-600 mt-1.5 line-clamp-2 leading-relaxed font-normal">
-                        {product.description || "Olahan segar berkualitas dari bahan baku murni terpilih khas Bakso Pak Mul."}
-                      </p>
+                      {/* Card Content */}
+                      <div className="space-y-1.5">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[11px] font-bold text-[#7a0019]">
+                            {product.category || "Olahan Sapi"}
+                          </span>
+                          <span className="text-xs font-semibold text-stone-500 flex items-center gap-1">
+                            <span
+                              className="material-symbols-outlined text-amber-500 text-sm"
+                              style={{ fontVariationSettings: "'FILL' 1" }}
+                            >
+                              star
+                            </span>
+                            <span>{product.rating || "5.0"}</span>
+                          </span>
+                        </div>
+
+                        <Link href={`/produk/${product.id}`} className="block">
+                          <h3 className="font-headline font-bold text-base text-[#1c1917] group-hover:text-[#7a0019] transition-colors duration-200 line-clamp-1">
+                            {product.name}
+                          </h3>
+                        </Link>
+                        <p className="font-editorial text-[13px] text-stone-600 line-clamp-2 leading-relaxed font-normal">
+                          {product.description || "Olahan segar berkualitas dari bahan baku murni terpilih khas Bakso Pak Mul."}
+                        </p>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Card Bottom Bar */}
-                  <div className="p-4 sm:p-5 pt-0 mt-2 border-t border-stone-100 flex items-center justify-between">
-                    <span className="font-headline font-bold text-lg text-[#1c1917]">
-                      Rp {(product.price || 0).toLocaleString("id-ID")}
-                    </span>
+                    {/* Card Bottom Bar */}
+                    <div className="pt-4 mt-3 flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] text-stone-400 font-semibold block">
+                          Harga Pas
+                        </span>
+                        <span className="font-headline font-bold text-lg text-[#1c1917]">
+                          Rp {(product.price || 0).toLocaleString("id-ID")}
+                        </span>
+                      </div>
 
-                    <button
-                      onClick={() => handleQuickAdd(product)}
-                      className={`px-3.5 py-2 rounded-xl font-bold text-xs shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer ${
-                        addedId === product.id
-                          ? "bg-emerald-700 text-white"
-                          : "bg-[#7a0019] hover:bg-[#51000d] text-white"
-                      }`}
-                    >
-                      <span className="material-symbols-outlined text-sm font-bold">
-                        {addedId === product.id ? "check" : "add"}
-                      </span>
-                      <span>{addedId === product.id ? "Masuk" : "Pesan"}</span>
-                    </button>
+                      <button
+                        onClick={() => handleQuickAdd(product)}
+                        className={`rounded-full px-4 py-2 font-bold text-xs transition-colors duration-200 flex items-center gap-1.5 active:scale-[0.96] cursor-pointer ${
+                          addedId === product.id
+                            ? "bg-emerald-700 text-white"
+                            : "bg-[#7a0019] hover:bg-[#51000d] text-white"
+                        }`}
+                      >
+                        <span className="material-symbols-outlined text-sm font-bold">
+                          {addedId === product.id ? "check" : "add"}
+                        </span>
+                        <span>{addedId === product.id ? "Masuk" : "Pesan"}</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))
@@ -406,7 +424,7 @@ function ProductsContent() {
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                className="px-4 py-2 rounded-xl border border-stone-200 bg-white text-xs font-semibold text-stone-700 hover:bg-stone-50 disabled:opacity-40 cursor-pointer transition-colors"
+                className="px-4 py-2 rounded-full bg-white text-xs font-semibold text-stone-700 hover:bg-stone-50 disabled:opacity-40 cursor-pointer transition-colors"
               >
                 Sebelumnya
               </button>
@@ -414,10 +432,10 @@ function ProductsContent() {
                 <button
                   key={idx}
                   onClick={() => setCurrentPage(idx + 1)}
-                  className={`w-9 h-9 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
+                  className={`w-9 h-9 rounded-full text-xs font-bold transition-colors cursor-pointer ${
                     currentPage === idx + 1
-                      ? "bg-[#7a0019] text-white shadow-xs"
-                      : "bg-white border border-stone-200 text-stone-700 hover:bg-stone-50"
+                      ? "bg-[#7a0019] text-white"
+                      : "bg-white text-stone-700 hover:bg-stone-100"
                   }`}
                 >
                   {idx + 1}
@@ -426,9 +444,9 @@ function ProductsContent() {
               <button
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                className="px-4 py-2 rounded-xl border border-stone-200 bg-white text-xs font-semibold text-stone-700 hover:bg-stone-50 disabled:opacity-40 cursor-pointer transition-colors"
+                className="px-4 py-2 rounded-full bg-white text-xs font-semibold text-stone-700 hover:bg-stone-50 disabled:opacity-40 cursor-pointer transition-colors"
               >
-                Berikutnya
+                Selanjutnya
               </button>
             </div>
           )}
@@ -437,17 +455,21 @@ function ProductsContent() {
 
       <Footer />
 
-      {/* Cart Notification Toast */}
+      {/* Cart Toast */}
       {toastMessage && (
-        <div className="fixed bottom-20 md:bottom-8 right-6 z-50 bg-[#200407] text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-2.5 text-xs font-semibold border border-stone-800 animate-in fade-in slide-in-from-bottom-3">
-          <span className="material-symbols-outlined text-emerald-400 text-base">
-            check_circle
+        <div
+          data-ui
+          className="fixed bottom-20 md:bottom-8 right-6 z-50 bg-[#1c0306] text-white px-5 py-3.5 rounded-2xl flex items-center gap-3 text-xs font-semibold animate-in fade-in slide-in-from-bottom-3"
+        >
+          <span className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+            <span className="material-symbols-outlined text-sm font-bold">
+              check
+            </span>
           </span>
           <span>{toastMessage} berhasil masuk keranjang</span>
         </div>
       )}
 
-      {/* Cart Sidebar Drawer */}
       <CartSidebar />
     </div>
   );
@@ -457,8 +479,8 @@ export default function ProductsPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#faf7f2] flex items-center justify-center">
-          <div className="w-8 h-8 border-4 border-[#51000d] border-t-transparent rounded-full animate-spin" />
+        <div className="min-h-[100dvh] bg-[#faf8f5] flex items-center justify-center">
+          <p className="text-xs font-semibold text-stone-500">Memuat katalog...</p>
         </div>
       }
     >

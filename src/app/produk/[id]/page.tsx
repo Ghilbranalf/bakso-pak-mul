@@ -122,7 +122,7 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf7f2] text-stone-900 font-sans antialiased flex flex-col pt-20 selection:bg-[#51000d] selection:text-white">
+    <div className="min-h-[100dvh] bg-[#faf7f2] text-stone-900 font-sans antialiased flex flex-col pt-20 selection:bg-[#51000d] selection:text-white">
       <Navbar />
 
       <main className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full space-y-10">
@@ -138,11 +138,11 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Product Details Section */}
-        <div className="bg-white rounded-2xl p-6 sm:p-10 shadow-xs border border-stone-200 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="bg-white rounded-2xl p-6 sm:p-10 border border-stone-200 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Image Column */}
           <div className="lg:col-span-5 relative flex items-center justify-center bg-stone-50 rounded-xl p-8 overflow-hidden border border-stone-200">
             {displayProduct.badge && (
-              <span className="absolute top-4 left-4 px-2.5 py-1 bg-[#200407] text-white text-[10px] font-bold uppercase tracking-wider rounded shadow-xs">
+              <span className="absolute top-4 left-4 px-2.5 py-1 bg-[#200407] text-white text-xs font-semibold rounded">
                 {displayProduct.badge}
               </span>
             )}
@@ -156,7 +156,7 @@ export default function ProductDetailPage() {
           {/* Info Column */}
           <div className="lg:col-span-7 space-y-5">
             <div>
-              <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-stone-500 mb-2">
+              <div className="flex items-center justify-between text-xs font-semibold text-stone-500 mb-2">
                 <span className="text-[#7a0019]">{displayProduct.category || "Olahan Daging Sapi"}</span>
                 {totalReviews > 0 && (
                   <span className="text-stone-500">{avgRating} / 5.0 ({totalReviews} Ulasan)</span>
@@ -194,7 +194,7 @@ export default function ProductDetailPage() {
                   addToCart(displayProduct);
                   openCart();
                 }}
-                className="flex-1 py-3.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-sm hover:shadow-md transition-colors cursor-pointer flex items-center justify-center gap-2 group"
+                className="flex-1 py-3.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-sm font-semibold transition-colors cursor-pointer flex items-center justify-center gap-2 group"
               >
                 <span className="material-symbols-outlined text-lg">
                   shopping_bag
@@ -208,7 +208,7 @@ export default function ProductDetailPage() {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-sm"
+                className="px-6 py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-sm font-semibold transition-colors flex items-center justify-center gap-2"
               >
                 <span className="material-symbols-outlined text-base">chat</span>
                 <span>Tanya via WhatsApp</span>
@@ -218,8 +218,8 @@ export default function ProductDetailPage() {
         </div>
 
         {/* REVIEWS & RATINGS SECTION */}
-        <section className="bg-white rounded-2xl p-6 sm:p-10 shadow-xs border border-stone-200 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-100 pb-6">
+        <section className="bg-white rounded-2xl p-6 sm:p-10 border border-stone-200 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6">
             <div>
               <h2 className="font-headline text-2xl sm:text-3xl font-bold text-[#1c1917] tracking-tight">
                 Rating &amp; Ulasan Pembeli
@@ -231,7 +231,7 @@ export default function ProductDetailPage() {
 
             <button
               onClick={() => setIsReviewModalOpen(true)}
-              className="px-5 py-2.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-2 shrink-0 shadow-xs"
+              className="px-5 py-2.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-semibold transition-colors cursor-pointer flex items-center gap-2 shrink-0"
             >
               <span className="material-symbols-outlined text-base">rate_review</span>
               <span>Tulis Ulasan</span>
@@ -244,8 +244,17 @@ export default function ProductDetailPage() {
               <span className="font-headline text-5xl font-bold text-[#7a0019]">
                 {avgRating}
               </span>
-              <div className="flex justify-center text-amber-500 text-base my-1">
-                {"★".repeat(Math.round(avgRating))}
+              <div className="flex justify-center text-amber-500 my-1 gap-0.5">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <span
+                    key={i}
+                    className={`material-symbols-outlined text-base ${
+                      i < Math.round(avgRating) ? "text-amber-500" : "text-stone-300"
+                    }`}
+                  >
+                    star
+                  </span>
+                ))}
               </div>
               <span className="text-xs font-medium text-stone-500">
                 {totalReviews} Penilaian Pembeli
@@ -287,8 +296,17 @@ export default function ProductDetailPage() {
                       </div>
                       <div>
                         <h4 className="font-headline text-xs font-bold text-stone-900">{rev.userName}</h4>
-                        <div className="flex text-amber-500 text-xs">
-                          {"★".repeat(rev.rating || 5)}
+                        <div className="flex text-amber-500 gap-0.5 mt-0.5">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <span
+                              key={i}
+                              className={`material-symbols-outlined text-xs ${
+                                i < (rev.rating || 5) ? "text-amber-500" : "text-stone-300"
+                              }`}
+                            >
+                              star
+                            </span>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -308,16 +326,16 @@ export default function ProductDetailPage() {
 
       {/* WRITE REVIEW MODAL */}
       {isReviewModalOpen && (
-        <div className="fixed inset-0 bg-stone-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 space-y-5 border border-stone-200 animate-in zoom-in-95">
-            <div className="flex justify-between items-center border-b border-stone-100 pb-3">
+        <div className="fixed inset-0 bg-stone-950/60 z-50 flex items-center justify-center p-4">
+          <div data-ui className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 space-y-5 border border-stone-200 animate-in zoom-in-95">
+            <div className="flex justify-between items-center pb-3">
               <h3 className="font-display text-lg font-bold text-stone-900 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#51000d]">rate_review</span>
                 <span>Tulis Ulasan Produk</span>
               </h3>
               <button
                 onClick={() => setIsReviewModalOpen(false)}
-                className="w-8 h-8 rounded-xl bg-stone-100 hover:bg-stone-200 flex items-center justify-center transition-all cursor-pointer"
+                className="w-8 h-8 rounded-xl bg-stone-100 hover:bg-stone-200 flex items-center justify-center transition-colors cursor-pointer"
               >
                 <span className="material-symbols-outlined text-sm">close</span>
               </button>
@@ -345,15 +363,21 @@ export default function ProductDetailPage() {
                 <label className="block text-xs font-bold text-stone-700 mb-1">
                   Pilih Bintang (Rating)
                 </label>
-                <div className="flex gap-2 text-2xl cursor-pointer">
+                <div className="flex gap-2 cursor-pointer">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
                       type="button"
                       onClick={() => setRating(star)}
-                      className={star <= rating ? "text-amber-500" : "text-stone-300"}
+                      className="p-1 cursor-pointer transition-colors"
                     >
-                      ★
+                      <span
+                        className={`material-symbols-outlined text-2xl ${
+                          star <= rating ? "text-amber-500" : "text-stone-300"
+                        }`}
+                      >
+                        star
+                      </span>
                     </button>
                   ))}
                 </div>
@@ -376,7 +400,7 @@ export default function ProductDetailPage() {
               <button
                 type="submit"
                 disabled={isSubmittingReview}
-                className="w-full py-3.5 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-md transition-all cursor-pointer disabled:opacity-50"
+                className="w-full py-3.5 bg-[#51000d] hover:bg-[#7a0019] text-white rounded-xl text-sm font-semibold transition-colors cursor-pointer disabled:opacity-50"
               >
                 {isSubmittingReview ? "Mengirim Ulasan..." : "Kirim Ulasan Sekarang"}
               </button>

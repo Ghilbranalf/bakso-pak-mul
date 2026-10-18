@@ -17,9 +17,9 @@ export default function DanaPaymentPage() {
   }, []);
 
   const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60).toString().padStart(2, "0");
-    const s = (seconds % 60).toString().padStart(2, "0");
-    return `${m}:${s}`;
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m < 10 ? `0${m}` : m}:${s < 10 ? `0${s}` : s}`;
   };
 
   const formatPrice = (price: number) => {
@@ -31,8 +31,8 @@ export default function DanaPaymentPage() {
   const finalTotal = items.length > 0 ? Math.max(0, totalPrice + shippingCost - discount) : 4500000;
 
   return (
-    <div className="bg-[#faf8f5] text-[#1c1917] min-h-screen flex items-center justify-center p-4 md:p-8 font-sans antialiased">
-      <main className="w-full max-w-5xl mx-auto bg-white rounded-2xl shadow-xs overflow-hidden flex flex-col md:flex-row relative border border-stone-200">
+    <div className="bg-[#faf8f5] text-[#1c1917] min-h-[100dvh] flex items-center justify-center p-4 md:p-8 font-sans antialiased">
+      <main className="w-full max-w-5xl mx-auto bg-white rounded-2xl overflow-hidden flex flex-col md:flex-row relative border border-stone-200">
         
         {/* Back Button Context */}
         <Link
@@ -52,8 +52,8 @@ export default function DanaPaymentPage() {
               <p className="text-xs text-gray-500 font-medium">B2B Wholesale Portal</p>
             </div>
 
-            <div className="bg-gray-50 rounded-xl p-6 shadow-sm mb-6 border border-gray-100">
-              <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200">
+            <div className="bg-stone-50 rounded-xl p-6 mb-6 border border-stone-200">
+              <div className="flex justify-between items-center mb-4 pb-3">
                 <span className="text-xs text-gray-500 font-medium">Order ID</span>
                 <span className="text-xs font-bold text-gray-900">#BPM-8821</span>
               </div>
@@ -75,7 +75,7 @@ export default function DanaPaymentPage() {
                 </div>
               </div>
 
-              <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+              <div className="flex justify-between items-center pt-3 mt-3 bg-stone-100 p-3 rounded-lg">
                 <span className="text-sm font-bold text-gray-900">Total</span>
                 <span className="text-xl font-black text-[#51000d]">Rp {formatPrice(finalTotal)}</span>
               </div>
@@ -94,24 +94,24 @@ export default function DanaPaymentPage() {
             
             {/* DANA Header */}
             <div className="flex flex-col items-center mb-6 text-center">
-              <div className="w-28 h-10 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center mb-4 overflow-hidden">
+              <div className="w-28 h-10 bg-white rounded-xl border border-stone-200 flex items-center justify-center mb-4 overflow-hidden">
                 <span className="text-xl font-black text-[#118EEA] tracking-tight">DANA</span>
               </div>
-              <h2 className="text-xl font-bold text-gray-900 mb-1">Complete your payment</h2>
-              <p className="text-xs text-gray-500">Enter your DANA registered number to proceed.</p>
+              <h2 className="text-xl font-bold text-gray-900 mb-1">Selesaikan Pembayaran</h2>
+              <p className="text-xs text-gray-500">Masukkan nomor akun DANA Anda untuk melanjutkan.</p>
             </div>
 
             {/* Payment Form */}
             <form className="space-y-6">
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Nomor DANA</label>
+                <label className="block text-xs font-semibold text-gray-700 mb-2">Nomor DANA</label>
                 <div className="relative">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-gray-500 text-sm">+62</span>
                   <input
                     type="tel"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    className="w-full h-14 pl-14 pr-4 bg-white border border-gray-300 rounded-xl font-bold text-gray-900 text-sm focus:ring-2 focus:ring-[#118EEA] transition-colors shadow-sm"
+                    className="w-full h-14 pl-14 pr-4 bg-white border border-stone-300 rounded-xl font-bold text-gray-900 text-sm focus:border-[#118EEA] outline-none transition-colors"
                     placeholder="8xx xxxx xxxx"
                   />
                 </div>
@@ -121,17 +121,17 @@ export default function DanaPaymentPage() {
               <div className="bg-[#E6F3FB] border border-[#BCE1F6] rounded-xl p-4 flex gap-4 items-start">
                 <span className="material-symbols-outlined text-[#118EEA] text-xl mt-0.5">phone_iphone</span>
                 <div>
-                  <p className="text-xs font-bold text-gray-900 mb-1">Check your DANA app</p>
+                  <p className="text-xs font-bold text-gray-900 mb-1">Periksa Aplikasi DANA Anda</p>
                   <p className="text-xs text-gray-600 leading-relaxed">
-                    A payment notification will be sent to your app. Please confirm within the time limit.
+                    Notifikasi pembayaran akan dikirim ke aplikasi DANA Anda. Silakan konfirmasi pembayaran sebelum batas waktu berakhir.
                   </p>
                 </div>
               </div>
 
               {/* Timer */}
               <div className="flex flex-col items-center justify-center py-2">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Time remaining</span>
-                <div className="text-3xl font-black text-gray-900 font-mono tracking-wider">
+                <span className="text-xs font-semibold text-gray-500 mb-1">Sisa Waktu Pembayaran</span>
+                <div className="text-3xl font-headline font-bold text-gray-900 tracking-wider">
                   {formatTime(timeLeft)}
                 </div>
               </div>
@@ -139,14 +139,14 @@ export default function DanaPaymentPage() {
               {/* Action Button */}
               <Link
                 href="/transaksi"
-                className="w-full h-14 bg-[#118EEA] hover:bg-blue-600 text-white rounded-xl font-bold text-xs transition-colors flex items-center justify-center gap-2 shadow-md uppercase tracking-wider cursor-pointer"
+                className="w-full h-14 bg-[#118EEA] hover:bg-blue-600 text-white rounded-xl font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
-                <span>Bayar Sekarang with DANA</span>
+                <span>Bayar Sekarang dengan DANA</span>
                 <span className="material-symbols-outlined text-xl">arrow_forward</span>
               </Link>
 
               <p className="text-center text-[10px] text-gray-400 mt-2">
-                By proceeding, you agree to our <a className="text-[#51000d] hover:underline" href="#">Terms of Service</a>.
+                Dengan melanjutkan, Anda menyetujui <a className="text-[#51000d] hover:underline" href="#">Syarat &amp; Ketentuan</a> kami.
               </p>
             </form>
           </div>

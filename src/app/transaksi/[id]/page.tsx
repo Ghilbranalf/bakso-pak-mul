@@ -150,12 +150,12 @@ export default function TrackOrderPage() {
       const timer = setTimeout(() => {
         if (typeof window !== "undefined") {
           const waMessage = encodeURIComponent(
-            `Halo CS Bakso Pak Mul 👋, saya baru saja membuat pesanan ${displayOrder.orderNumber}:\n\n` +
-            `👤 Atas Nama: ${displayOrder.customerName}\n` +
-            `📞 No HP: ${displayOrder.phone}\n` +
-            `📍 Alamat: ${displayOrder.address}\n` +
-            `💰 Total Tagihan: Rp ${formatPrice(displayOrder.finalTotal)}\n` +
-            `💳 Metode Pembayaran: ${displayOrder.paymentType || "COD"}\n\n` +
+            `Halo CS Bakso Pak Mul, saya baru saja membuat pesanan ${displayOrder.orderNumber}:\n\n` +
+            `Atas Nama: ${displayOrder.customerName}\n` +
+            `No HP: ${displayOrder.phone}\n` +
+            `Alamat: ${displayOrder.address}\n` +
+            `Total Tagihan: Rp ${formatPrice(displayOrder.finalTotal)}\n` +
+            `Metode Pembayaran: ${displayOrder.paymentType || "COD"}\n\n` +
             `Mohon segera diproses dan dikirim ya Pak Mul, terima kasih!`
           );
           window.open(`https://wa.me/6281298980252?text=${waMessage}`, "_blank");
@@ -244,46 +244,46 @@ export default function TrackOrderPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8F8] text-[#1a1c1c] font-sans antialiased flex flex-col pt-20">
+    <div className="min-h-[100dvh] bg-[#F8F8F8] text-[#1a1c1c] font-sans antialiased flex flex-col pt-20">
       <Navbar />
 
       <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 w-full space-y-6">
         
         {/* TOP HEADER */}
-        <header className="bg-white border border-gray-100 shadow-sm rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <header className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-3 mb-1">
               <h1 className="text-xl sm:text-2xl font-black text-[#51000d]">Status Transaksi</h1>
               <button
                 onClick={() => window.print()}
-                className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-gray-900 bg-gray-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+                className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-stone-600 hover:text-stone-900 bg-stone-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
               >
                 <span className="material-symbols-outlined text-sm">print</span>
                 <span>Cetak Nota</span>
               </button>
             </div>
-            <p className="text-xs text-gray-500 font-medium flex items-center gap-2">
-              <span className="font-bold text-gray-800 bg-gray-100 px-2 py-0.5 rounded">{displayOrder.orderNumber}</span>
+            <p className="text-xs text-stone-500 font-medium flex items-center gap-2">
+              <span className="font-bold text-stone-800 bg-stone-100 px-2 py-0.5 rounded">{displayOrder.orderNumber}</span>
               <span>•</span>
               <span>ID Pesanan Anda</span>
             </p>
           </div>
-          <div className="text-left md:text-right border-t md:border-t-0 pt-3 md:pt-0 border-gray-100">
-            <span className="text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-0.5">TANGGAL TRANSAKSI</span>
-            <span className="text-xs font-bold text-gray-800">{formattedDate}</span>
+          <div className="text-left md:text-right pt-3 md:pt-0">
+            <span className="text-xs font-semibold text-stone-400 block mb-0.5">Tanggal Transaksi</span>
+            <span className="text-xs font-bold text-stone-800">{formattedDate}</span>
           </div>
         </header>
 
         {/* COD PAYMENT STATUS BANNER */}
         {isCod && (
-          <div className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-2xl p-5 shadow-md flex items-center gap-4">
+          <div className="bg-emerald-700 text-white rounded-2xl p-5 flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
               <span className="material-symbols-outlined text-2xl">handshake</span>
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-black uppercase tracking-wider bg-white/20 px-2 py-0.5 rounded text-white">
-                  🤝 Bayar di Tempat (COD)
+                <span className="text-xs font-bold bg-white/20 px-2 py-0.5 rounded text-white">
+                  Bayar di Tempat (COD)
                 </span>
                 <span className="text-xs text-emerald-100">Pesanan Siap Dikirim</span>
               </div>
@@ -297,14 +297,14 @@ export default function TrackOrderPage() {
 
         {/* PAYMENT STATUS ALERT BANNER */}
         {isPending && (
-          <div className="bg-gradient-to-r from-[#51000d] to-[#7a0019] text-white rounded-2xl p-5 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="bg-[#51000d] text-white rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-amber-400/20 flex items-center justify-center text-amber-300 shrink-0">
                 <span className="material-symbols-outlined text-2xl">pending_actions</span>
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-black uppercase tracking-wider bg-amber-400/20 text-amber-300 px-2 py-0.5 rounded">
+                  <span className="text-xs font-bold bg-amber-400/20 text-amber-300 px-2 py-0.5 rounded">
                     Belum Dibayar
                   </span>
                   <span className="text-xs text-white/70">Batas Waktu: 23:59:59</span>
@@ -319,7 +319,7 @@ export default function TrackOrderPage() {
             <button
               onClick={handleMidtransPay}
               disabled={isProcessingPayment}
-              className="w-full sm:w-auto px-6 py-3 bg-amber-400 text-[#51000d] hover:bg-amber-300 rounded-xl text-xs font-black shadow-md transition-all uppercase tracking-wider cursor-pointer shrink-0 flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full sm:w-auto px-6 py-3 bg-amber-400 text-[#51000d] hover:bg-amber-300 rounded-xl text-xs font-bold transition-colors cursor-pointer shrink-0 flex items-center justify-center gap-2 disabled:opacity-50"
             >
               <span className="material-symbols-outlined text-base">payments</span>
               <span>{isProcessingPayment ? "Memuat Midtrans..." : "Bayar Sekarang (Midtrans)"}</span>
@@ -328,7 +328,7 @@ export default function TrackOrderPage() {
         )}
 
         {isPaid && (
-          <div className="bg-gradient-to-r from-green-600 to-emerald-700 text-white rounded-2xl p-5 shadow-md flex items-center gap-3">
+          <div className="bg-emerald-700 text-white rounded-2xl p-5 flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-xl">check_circle</span>
             </div>
@@ -340,7 +340,7 @@ export default function TrackOrderPage() {
         )}
 
         {isCanceled && (
-          <div className="bg-red-50 border border-red-200 text-red-800 rounded-2xl p-5 shadow-sm flex items-center gap-3">
+          <div className="bg-red-50 border border-red-200 text-red-800 rounded-2xl p-5 flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-red-100 text-red-700 flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-xl">cancel</span>
             </div>
@@ -352,11 +352,11 @@ export default function TrackOrderPage() {
         )}
 
         {/* Status Timeline Progress */}
-        <section className="bg-white border border-gray-100 shadow-sm rounded-2xl p-6 sm:p-8 relative overflow-hidden">
+        <section className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 relative overflow-hidden">
           {/* Connecting Progress Bar Line */}
-          <div className="absolute top-11 sm:top-[52px] left-[12.5%] right-[12.5%] h-1 bg-gray-100 z-0 rounded-full">
+          <div className="absolute top-11 sm:top-[52px] left-[12.5%] right-[12.5%] h-1 bg-stone-100 z-0 rounded-full">
             <div
-              className="h-full bg-[#51000d] transition-all duration-500 rounded-full"
+              className="h-full bg-[#51000d] transition-[width] duration-500 rounded-full"
               style={{
                 width:
                   activeStep <= 1
@@ -374,14 +374,14 @@ export default function TrackOrderPage() {
             {/* Step 1: Pesanan Diterima */}
             <div className="flex flex-col items-center text-center gap-2 w-1/4">
               <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center shadow-sm transition-colors ${
-                  activeStep >= 1 ? "bg-[#51000d] text-white" : "bg-gray-100 text-gray-400 border border-gray-200"
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
+                  activeStep >= 1 ? "bg-[#51000d] text-white" : "bg-stone-100 text-stone-400 border border-stone-200"
                 }`}
               >
                 <span className="material-symbols-outlined text-base">check</span>
               </div>
               <div>
-                <p className={`font-semibold text-xs ${activeStep >= 1 ? "text-[#51000d]" : "text-gray-400"}`}>
+                <p className={`font-semibold text-xs ${activeStep >= 1 ? "text-[#51000d]" : "text-stone-400"}`}>
                   Pesanan Diterima
                 </p>
               </div>
@@ -391,13 +391,13 @@ export default function TrackOrderPage() {
             <div className="flex flex-col items-center text-center gap-2 w-1/4">
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
-                  activeStep >= 2 ? "bg-[#51000d] text-white" : "bg-gray-100 text-gray-400 border border-gray-200"
+                  activeStep >= 2 ? "bg-[#51000d] text-white" : "bg-stone-100 text-stone-400 border border-stone-200"
                 }`}
               >
                 <span className="material-symbols-outlined text-base">inventory_2</span>
               </div>
               <div>
-                <p className={`font-semibold text-xs ${activeStep >= 2 ? "text-[#51000d]" : "text-gray-400"}`}>
+                <p className={`font-semibold text-xs ${activeStep >= 2 ? "text-[#51000d]" : "text-stone-400"}`}>
                   Sedang Dikemas
                 </p>
               </div>
@@ -407,13 +407,13 @@ export default function TrackOrderPage() {
             <div className="flex flex-col items-center text-center gap-2 w-1/4">
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
-                  activeStep >= 3 ? "bg-[#51000d] text-white" : "bg-gray-100 text-gray-400 border border-gray-200"
+                  activeStep >= 3 ? "bg-[#51000d] text-white" : "bg-stone-100 text-stone-400 border border-stone-200"
                 }`}
               >
                 <span className="material-symbols-outlined text-base">local_shipping</span>
               </div>
               <div>
-                <p className={`font-semibold text-xs ${activeStep >= 3 ? "text-[#51000d]" : "text-gray-400"}`}>
+                <p className={`font-semibold text-xs ${activeStep >= 3 ? "text-[#51000d]" : "text-stone-400"}`}>
                   Dalam Pengiriman
                 </p>
               </div>
@@ -423,13 +423,13 @@ export default function TrackOrderPage() {
             <div className="flex flex-col items-center text-center gap-2 w-1/4">
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
-                  activeStep === 4 ? "bg-green-600 text-white" : "bg-gray-100 text-gray-400 border border-gray-200"
+                  activeStep === 4 ? "bg-emerald-700 text-white" : "bg-stone-100 text-stone-400 border border-stone-200"
                 }`}
               >
                 <span className="material-symbols-outlined text-base">home</span>
               </div>
               <div>
-                <p className={`font-semibold text-xs ${activeStep === 4 ? "text-green-700" : "text-gray-400"}`}>
+                <p className={`font-semibold text-xs ${activeStep === 4 ? "text-emerald-700" : "text-stone-400"}`}>
                   Sampai Tujuan
                 </p>
               </div>
@@ -441,17 +441,17 @@ export default function TrackOrderPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Left Side: Detail Pesanan */}
           <div className="lg:col-span-7 space-y-6">
-            <section className="bg-white border border-gray-100 shadow-sm rounded-2xl overflow-hidden">
-              <div className="bg-gray-50 px-6 py-3 flex justify-between items-center border-b border-gray-100">
-                <h2 className="text-xs font-bold text-[#51000d] uppercase tracking-widest">Detail Pesanan</h2>
-                <span className="px-2.5 py-0.5 bg-white border border-gray-200 rounded text-[10px] font-bold text-gray-600">
-                  {displayOrder.items.length} ITEMS
+            <section className="bg-white border border-stone-200 rounded-2xl overflow-hidden">
+              <div className="bg-stone-50 px-6 py-3.5 flex justify-between items-center">
+                <h2 className="text-xs font-bold text-[#51000d]">Detail Pesanan</h2>
+                <span className="px-2.5 py-0.5 bg-white border border-stone-200 rounded text-xs font-semibold text-stone-600">
+                  {displayOrder.items.length} Item
                 </span>
               </div>
-              <div className="divide-y divide-gray-100">
+              <div className="p-3 space-y-2">
                 {displayOrder.items.map((item: any, idx: number) => (
-                  <div key={`${item.id}-${idx}`} className="flex gap-4 p-5 items-center">
-                    <div className="w-16 h-16 rounded-xl bg-gray-100 flex-shrink-0 border border-gray-200 overflow-hidden relative">
+                  <div key={`${item.id}-${idx}`} className="flex gap-4 p-4 items-center bg-stone-50 rounded-xl">
+                    <div className="w-16 h-16 rounded-xl bg-stone-100 flex-shrink-0 border border-stone-200 overflow-hidden relative">
                       <img
                         alt={item.product?.name || "Produk"}
                         className="w-full h-full object-contain p-1"
@@ -460,10 +460,10 @@ export default function TrackOrderPage() {
                     </div>
                     <div className="flex-1 flex flex-col justify-between">
                       <div>
-                        <h3 className="font-bold text-xs text-gray-900">{item.product?.name || item.productName || "Produk Bakso Pak Mul"}</h3>
-                        <p className="text-[10px] text-gray-500 font-medium">{item.product?.unit || "Kemasan"}</p>
+                        <h3 className="font-bold text-xs text-stone-900">{item.product?.name || item.productName || "Produk Bakso Pak Mul"}</h3>
+                        <p className="text-[11px] text-stone-500 font-medium">{item.product?.unit || "Kemasan"}</p>
                       </div>
-                      <p className="text-xs text-gray-500 font-medium mt-1">
+                      <p className="text-xs text-stone-500 font-medium mt-1">
                         {item.quantity} x Rp {formatPrice(item.priceAtTime || item.productPrice || 0)}
                       </p>
                     </div>
@@ -480,30 +480,30 @@ export default function TrackOrderPage() {
 
           {/* Right Side: Informasi Pengiriman */}
           <div className="lg:col-span-5 space-y-6">
-            <section className="bg-white border border-gray-100 shadow-sm rounded-2xl p-6 space-y-4">
-              <div className="flex items-center gap-3 border-b border-gray-100 pb-3">
+            <section className="bg-white border border-stone-200 rounded-2xl p-6 space-y-4">
+              <div className="flex items-center gap-3 pb-1">
                 <span className="material-symbols-outlined text-[#51000d] text-lg">location_on</span>
-                <h2 className="text-xs font-bold text-gray-900 uppercase tracking-wider">Informasi Pengiriman</h2>
+                <h2 className="text-xs font-bold text-stone-900">Informasi Pengiriman</h2>
               </div>
               <div className="space-y-2.5 text-xs">
                 <div>
-                  <p className="text-[10px] uppercase font-bold text-gray-400">Penerima</p>
-                  <p className="font-bold text-gray-900">{displayOrder.customerName}</p>
-                  <p className="text-gray-500">{displayOrder.phone}</p>
+                  <p className="text-xs font-semibold text-stone-400">Penerima</p>
+                  <p className="font-bold text-stone-900">{displayOrder.customerName}</p>
+                  <p className="text-stone-500">{displayOrder.phone}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase font-bold text-gray-400">Alamat Lengkap</p>
-                  <p className="text-gray-700 leading-relaxed">{displayOrder.address}</p>
+                  <p className="text-xs font-semibold text-stone-400">Alamat Lengkap</p>
+                  <p className="text-stone-700 leading-relaxed">{displayOrder.address}</p>
                 </div>
               </div>
 
               {/* Total Breakdown */}
-              <div className="border-t border-gray-100 pt-4 space-y-2 text-xs">
-                <div className="flex justify-between text-gray-500 font-medium">
+              <div className="pt-3 space-y-2 text-xs">
+                <div className="flex justify-between text-stone-500 font-medium">
                   <span>Subtotal Produk</span>
                   <span>Rp {formatPrice(Math.max(0, displayOrder.finalTotal - (displayOrder.shippingCost || 0) - (displayOrder.uniqueCode || 0)))}</span>
                 </div>
-                <div className="flex justify-between text-gray-500 font-medium">
+                <div className="flex justify-between text-stone-500 font-medium">
                   <span>Ongkos Kirim Ekspedisi</span>
                   <span>{displayOrder.shippingCost ? `Rp ${formatPrice(displayOrder.shippingCost)}` : "Rp 0 (Gratis / Standar)"}</span>
                 </div>
@@ -513,8 +513,8 @@ export default function TrackOrderPage() {
                     <span>+Rp {formatPrice(displayOrder.uniqueCode)}</span>
                   </div>
                 )}
-                <div className="flex justify-between items-baseline pt-2 border-t border-gray-100">
-                  <span className="font-bold text-gray-900">Total Pembayaran</span>
+                <div className="flex justify-between items-baseline pt-3 mt-2 bg-stone-50 p-3 rounded-xl">
+                  <span className="font-bold text-stone-900">Total Pembayaran</span>
                   <span className="text-xl font-black text-[#51000d]">
                     Rp {formatPrice(displayOrder.finalTotal)}
                   </span>
@@ -527,18 +527,18 @@ export default function TrackOrderPage() {
 
       {/* RE-PAY PAYMENT MODAL ON TRACK ORDER PAGE */}
       {isPaymentModalOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[70] flex items-center justify-center p-3 md:p-4 overflow-y-auto">
-          <div className="bg-white w-full max-w-md rounded-2xl shadow-xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col border border-stone-200 my-auto">
+        <div className="fixed inset-0 bg-stone-950/70 z-[70] flex items-center justify-center p-3 md:p-4 overflow-y-auto">
+          <div data-ui className="bg-white w-full max-w-md rounded-2xl shadow-xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col border border-stone-200 my-auto">
             {/* Modal Header */}
-            <div className="bg-[#200407] text-white p-4 sm:p-5 relative border-b border-stone-800">
+            <div data-ui className="bg-[#200407] text-white p-4 sm:p-5 relative border-b border-stone-800">
               <div className="flex justify-between items-start">
                 <div>
-                  <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-300 block mb-1">
+                  <span className="text-xs font-semibold text-stone-300 block mb-1">
                     Bayar Ulang Pesanan
                   </span>
                   <h2 className="font-headline text-xl font-bold tracking-tight text-white">Rp {formatPrice(displayOrder.finalTotal)}</h2>
-                  <p className="text-[11px] text-stone-400 font-medium mt-0.5">
-                    No. Pesanan: <span className="font-mono font-semibold text-white">{displayOrder.orderNumber}</span>
+                  <p className="text-xs text-stone-300 font-medium mt-0.5">
+                    No. Pesanan: <span className="font-semibold text-white">{displayOrder.orderNumber}</span>
                   </p>
                 </div>
                 <button
@@ -554,13 +554,13 @@ export default function TrackOrderPage() {
             <div className="p-4 sm:p-5 space-y-4">
               <div className="flex flex-col items-center text-center space-y-3">
                 <div className="flex items-center justify-between gap-2 bg-stone-50 px-3.5 py-2 rounded-xl border border-stone-200 w-full text-xs">
-                  <span className="font-bold uppercase text-[#7a0019]">QRIS GPN Resmi</span>
+                  <span className="font-bold text-[#7a0019]">QRIS GPN Resmi</span>
                   <span className="text-[10px] font-semibold text-stone-600 bg-stone-200/60 px-2 py-0.5 rounded">
                     NMID: ID1026563066301
                   </span>
                 </div>
 
-                <div className="p-3.5 bg-white rounded-xl border border-stone-200 shadow-xs min-h-[220px] flex items-center justify-center relative w-full">
+                <div className="p-3.5 bg-white rounded-xl border border-stone-200 min-h-[220px] flex items-center justify-center relative w-full">
                   {isChargingCoreApi && !liveQrisUrl ? (
                     <div className="flex flex-col items-center gap-2 text-xs text-stone-500 font-medium py-10">
                       <div className="w-8 h-8 border-3 border-[#7a0019] border-t-transparent rounded-full animate-spin"></div>
@@ -597,10 +597,10 @@ export default function TrackOrderPage() {
             </div>
 
             {/* Modal Actions Footer */}
-            <div className="p-4 bg-stone-50 border-t border-stone-100 flex justify-end gap-2">
+            <div data-ui className="p-4 bg-stone-50 border-t border-stone-100 flex justify-end gap-2">
               <button
                 onClick={() => setIsPaymentModalOpen(false)}
-                className="px-5 py-2.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold shadow-xs uppercase tracking-wider transition-colors cursor-pointer"
+                className="px-5 py-2.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-semibold transition-colors cursor-pointer"
               >
                 Tutup Panduan
               </button>
@@ -611,14 +611,14 @@ export default function TrackOrderPage() {
 
       {/* TRANSACTION SUCCESS POP-UP MODAL */}
       {paymentResultModal === "success" && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-stone-950/70 z-[100] flex items-center justify-center p-4">
           <main className="w-full max-w-md mx-auto">
-            <div className="bg-white rounded-xl shadow-[0_24px_48px_-12px_rgba(0,0,0,0.04)] p-6 sm:p-8 flex flex-col items-center text-center relative overflow-hidden border border-gray-200 animate-in zoom-in-95 duration-200">
+            <div data-ui className="bg-white rounded-xl shadow-xl p-6 sm:p-8 flex flex-col items-center text-center relative overflow-hidden border border-stone-200 animate-in zoom-in-95 duration-200">
               {/* Subtle Background Accent */}
               <div className="absolute top-0 left-0 w-full h-1 bg-emerald-600"></div>
 
               {/* Success Icon Container */}
-              <div className="w-16 h-16 bg-emerald-700 text-white rounded-2xl flex items-center justify-center mb-4 shrink-0 shadow-xs">
+              <div className="w-16 h-16 bg-emerald-700 text-white rounded-2xl flex items-center justify-center mb-4 shrink-0">
                 <span className="material-symbols-outlined text-3xl">
                   task_alt
                 </span>
@@ -636,9 +636,9 @@ export default function TrackOrderPage() {
 
               {/* Details Box */}
               <div className="w-full bg-stone-50 rounded-xl p-4 mb-6 border border-stone-200 text-left">
-                <div className="flex justify-between items-center mb-2 border-b border-stone-200 pb-2">
+                <div className="flex justify-between items-center mb-2 pb-2">
                   <span className="text-xs text-stone-500 font-medium">ID Transaksi</span>
-                  <span className="text-xs font-bold text-stone-900 font-mono">{displayOrder.orderNumber}</span>
+                  <span className="text-xs font-bold text-stone-900">{displayOrder.orderNumber}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-stone-500 font-medium">Jumlah Total</span>
@@ -654,7 +654,7 @@ export default function TrackOrderPage() {
                   )}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full bg-emerald-700 text-white py-3 px-6 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-emerald-800 transition-colors shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full bg-emerald-700 text-white py-3 px-6 rounded-xl text-xs font-semibold hover:bg-emerald-800 transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-base">chat</span>
                   Kirim Ke WhatsApp CS
@@ -662,7 +662,7 @@ export default function TrackOrderPage() {
 
                 <button
                   onClick={() => setPaymentResultModal(null)}
-                  className="w-full bg-white border border-stone-200 text-stone-800 py-3 px-6 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-stone-50 transition-colors shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full bg-white border border-stone-200 text-stone-800 py-3 px-6 rounded-xl text-xs font-semibold hover:bg-stone-50 transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-base">receipt_long</span>
                   Lihat Detail Nota Pesanan
@@ -671,7 +671,7 @@ export default function TrackOrderPage() {
 
               <button
                 onClick={() => setPaymentResultModal(null)}
-                className="mt-6 text-xs text-gray-500 hover:text-gray-900 underline transition-colors cursor-pointer"
+                className="mt-6 text-xs text-stone-500 hover:text-stone-900 underline transition-colors cursor-pointer"
               >
                 Tutup
               </button>
@@ -682,14 +682,14 @@ export default function TrackOrderPage() {
 
       {/* TRANSACTION FAILED POP-UP MODAL */}
       {paymentResultModal === "failed" && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-stone-950/70 z-[100] flex items-center justify-center p-4">
           <main className="w-full max-w-md mx-auto">
-            <div className="bg-white rounded-xl shadow-[0_24px_48px_-12px_rgba(0,0,0,0.04)] p-6 sm:p-8 flex flex-col items-center text-center relative overflow-hidden border border-gray-200 animate-in zoom-in-95 duration-200">
+            <div data-ui className="bg-white rounded-xl shadow-xl p-6 sm:p-8 flex flex-col items-center text-center relative overflow-hidden border border-stone-200 animate-in zoom-in-95 duration-200">
               {/* Subtle Background Accent */}
               <div className="absolute top-0 left-0 w-full h-1 bg-[#ba1a1a]"></div>
 
               {/* Error Icon Container */}
-              <div className="w-16 h-16 bg-red-100 text-[#7a0019] rounded-2xl flex items-center justify-center mb-4 shrink-0 shadow-xs">
+              <div className="w-16 h-16 bg-red-100 text-[#7a0019] rounded-2xl flex items-center justify-center mb-4 shrink-0">
                 <span className="material-symbols-outlined text-3xl">
                   error_outline
                 </span>
@@ -705,9 +705,9 @@ export default function TrackOrderPage() {
 
               {/* Details Box */}
               <div className="w-full bg-stone-50 rounded-xl p-4 mb-6 border border-stone-200 text-left">
-                <div className="flex justify-between items-center mb-2 border-b border-stone-200 pb-2">
+                <div className="flex justify-between items-center mb-2 pb-2">
                   <span className="text-xs text-stone-500 font-medium">ID Transaksi</span>
-                  <span className="text-xs font-bold text-stone-900 font-mono">{displayOrder.orderNumber}</span>
+                  <span className="text-xs font-bold text-stone-900">{displayOrder.orderNumber}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-stone-500 font-medium">Jumlah</span>
@@ -722,7 +722,7 @@ export default function TrackOrderPage() {
                     setPaymentResultModal(null);
                     handleMidtransPay();
                   }}
-                  className="w-full bg-[#7a0019] text-white py-3 px-6 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-[#51000d] transition-colors shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full bg-[#7a0019] text-white py-3 px-6 rounded-xl text-xs font-semibold hover:bg-[#51000d] transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-base">
                     refresh
@@ -732,11 +732,11 @@ export default function TrackOrderPage() {
 
                 <a
                   href={`https://wa.me/6281298980252?text=${encodeURIComponent(
-                    `Halo CS Bakso Pak Mul 👋, transaksi saya ${displayOrder.orderNumber} belum dapat diselesaikan. Mohon bantuan panduannya ya.`
+                    `Halo CS Bakso Pak Mul, transaksi saya ${displayOrder.orderNumber} belum dapat diselesaikan. Mohon bantuan panduannya ya.`
                   )}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full bg-white border border-gray-300 text-gray-800 py-3.5 px-6 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full bg-white border border-stone-300 text-stone-800 py-3.5 px-6 rounded-xl text-sm font-semibold hover:bg-stone-50 transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-[20px]">
                     support_agent

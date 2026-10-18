@@ -199,13 +199,13 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8F8] text-[#1a1c1c] font-sans antialiased flex flex-col pt-20">
+    <div className="min-h-[100dvh] bg-[#F8F8F8] text-[#1a1c1c] font-sans antialiased flex flex-col pt-20">
       <Navbar />
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 w-full">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="font-headline text-3xl md:text-4xl text-[#1c1917] uppercase tracking-tight">
+          <h1 className="font-headline text-3xl md:text-4xl text-[#1c1917] tracking-tight">
             Checkout &amp; Pembayaran
           </h1>
           <p className="text-xs md:text-sm text-[#2b1b17] font-semibold mt-1">
@@ -214,13 +214,13 @@ export default function CheckoutPage() {
         </div>
 
         {cartItems.length === 0 && !isPaymentModalOpen ? (
-          <div className="bg-white rounded-2xl p-10 text-center border border-stone-200 shadow-xs space-y-4 max-w-lg mx-auto">
+          <div className="bg-white rounded-2xl p-10 text-center border border-stone-200 space-y-4 max-w-lg mx-auto">
             <span className="material-symbols-outlined text-6xl text-[#7a0019]">shopping_bag</span>
             <h2 className="text-lg font-bold text-[#1c1917]">Keranjang Belanja Kosong</h2>
             <p className="text-xs text-stone-500 font-medium">Anda belum memilih produk Bakso Pak Mul apapun.</p>
             <button
               onClick={() => router.push("/produk")}
-              className="px-6 py-2.5 bg-[#7a0019] text-white rounded-xl text-xs font-bold shadow-xs hover:bg-[#51000d] transition-colors uppercase tracking-wider cursor-pointer"
+              className="px-6 py-2.5 bg-[#7a0019] text-white rounded-xl text-xs font-semibold hover:bg-[#51000d] transition-colors cursor-pointer"
             >
               Lihat Katalog Produk
             </button>
@@ -232,7 +232,7 @@ export default function CheckoutPage() {
 
               {/* Auto-fill notification badge */}
               {isAutoFilled && (
-                <div className="bg-emerald-50 border border-emerald-200/80 rounded-2xl p-4 flex items-center justify-between gap-3 text-emerald-900 shadow-sm">
+                <div className="bg-emerald-50 rounded-2xl p-4 flex items-center justify-between gap-3 text-emerald-900">
                   <div className="flex items-center gap-2.5 text-xs font-bold">
                     <span className="material-symbols-outlined text-emerald-600 text-lg">verified</span>
                     <span>Alamat &amp; No HP otomatis terisi dari Profil Anda</span>
@@ -244,8 +244,8 @@ export default function CheckoutPage() {
               )}
 
               {/* Customer Info Card */}
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xs border border-stone-200 space-y-5">
-                <div className="flex items-center gap-3 border-b border-stone-100 pb-4">
+              <div className="bg-white p-6 md:p-8 rounded-2xl border border-stone-200 space-y-5">
+                <div className="flex items-center gap-3 pb-3">
                   <div className="w-10 h-10 rounded-xl bg-[#7a0019]/10 text-[#7a0019] flex items-center justify-center font-bold">
                     <span className="material-symbols-outlined text-xl">person</span>
                   </div>
@@ -263,7 +263,7 @@ export default function CheckoutPage() {
                       required
                       value={formData.customerName}
                       onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-colors"
                       placeholder="Masukkan nama lengkap Anda"
                     />
                   </div>
@@ -276,7 +276,7 @@ export default function CheckoutPage() {
                         required
                         value={formData.customerPhone}
                         onChange={(e) => setFormData({ ...formData, customerPhone: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-all"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-colors"
                         placeholder="Misal: 081234567890"
                       />
                     </div>
@@ -286,7 +286,7 @@ export default function CheckoutPage() {
                         type="email"
                         value={formData.customerEmail}
                         onChange={(e) => setFormData({ ...formData, customerEmail: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-all"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-colors"
                         placeholder="email@contoh.com"
                       />
                     </div>
@@ -295,8 +295,8 @@ export default function CheckoutPage() {
               </div>
 
               {/* Shipping Address Card */}
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xs border border-stone-200 space-y-5">
-                <div className="flex items-center gap-3 border-b border-gray-100 pb-4">
+              <div className="bg-white p-6 md:p-8 rounded-2xl border border-stone-200 space-y-5">
+                <div className="flex items-center gap-3 pb-3">
                   <div className="w-10 h-10 rounded-xl bg-red-50 text-[#51000d] flex items-center justify-center font-bold">
                     <span className="material-symbols-outlined text-xl">location_on</span>
                   </div>
@@ -314,7 +314,7 @@ export default function CheckoutPage() {
                       rows={3}
                       value={formData.shippingAddress}
                       onChange={(e) => setFormData({ ...formData, shippingAddress: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-all resize-none"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-colors resize-none"
                       placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan, kecamatan..."
                     ></textarea>
                   </div>
@@ -337,7 +337,7 @@ export default function CheckoutPage() {
                             district: availableDistricts[0] || ""
                           });
                         }}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-all cursor-pointer"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-colors cursor-pointer"
                       >
                         {Object.keys(INDONESIA_REGIONS).map((prov) => (
                           <option key={prov} value={prov}>
@@ -361,7 +361,7 @@ export default function CheckoutPage() {
                             district: availableDistricts[0] || ""
                           });
                         }}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-all cursor-pointer"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-colors cursor-pointer"
                       >
                         {formData.province && INDONESIA_REGIONS[formData.province]
                           ? Object.keys(INDONESIA_REGIONS[formData.province]).map((city) => (
@@ -379,7 +379,7 @@ export default function CheckoutPage() {
                       <select
                         value={formData.district}
                         onChange={(e) => setFormData({ ...formData, district: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-all cursor-pointer"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-colors cursor-pointer"
                       >
                         {formData.province && formData.city && INDONESIA_REGIONS[formData.province]?.[formData.city]
                           ? INDONESIA_REGIONS[formData.province][formData.city].map((dist) => (
@@ -398,7 +398,7 @@ export default function CheckoutPage() {
                       type="text"
                       value={formData.notes}
                       onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-900 focus:border-[#51000d] focus:bg-white bg-gray-50 outline-none transition-colors"
                       placeholder="Misal: Pagar hitam / titip di sekuriti"
                     />
                   </div>
@@ -406,14 +406,14 @@ export default function CheckoutPage() {
               </div>
 
               {/* Shipping Courier Card */}
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xs border border-stone-200 space-y-5">
-                <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+              <div className="bg-white p-6 md:p-8 rounded-2xl border border-stone-200 space-y-5">
+                <div className="flex items-center justify-between pb-3">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-800 flex items-center justify-center font-bold">
                       <span className="material-symbols-outlined text-xl">local_shipping</span>
                     </div>
                     <div>
-                      <h3 className="font-headline text-base uppercase text-[#1c1917]">2. PILIH KURIR EKSPEDISI</h3>
+                      <h3 className="font-headline text-base text-[#1c1917]">2. Pilih Kurir Ekspedisi</h3>
                       <p className="text-xs text-[#51000d] font-semibold">Dikirim langsung dari Kios Pasar Kramat Jati, Jakarta Timur</p>
                     </div>
                   </div>
@@ -432,8 +432,8 @@ export default function CheckoutPage() {
                         <div
                           key={`${courier.courier_code}-${courier.courier_service_code}-${idx}`}
                           onClick={() => setSelectedCourier(courier)}
-                          className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between gap-2 ${
-                            isSelected ? "border-[#51000d] bg-amber-50/50 shadow-sm" : "border-stone-200 bg-stone-50/50 hover:bg-stone-100/60"
+                          className={`p-4 rounded-2xl border-2 cursor-pointer transition-colors flex flex-col justify-between gap-2 ${
+                            isSelected ? "border-[#51000d] bg-amber-50/50" : "border-stone-200 bg-stone-50/50 hover:bg-stone-100/60"
                           }`}
                         >
                           <div className="flex items-center justify-between">
@@ -460,18 +460,18 @@ export default function CheckoutPage() {
               </div>
 
               {/* Payment Method Card */}
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xs border border-stone-200 space-y-5">
-                <div className="flex items-center justify-between border-b border-stone-100 pb-4">
+              <div className="bg-white p-6 md:p-8 rounded-2xl border border-stone-200 space-y-5">
+                <div className="flex items-center justify-between pb-3">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-[#7a0019]/10 text-[#7a0019] flex items-center justify-center font-bold">
                       <span className="material-symbols-outlined text-xl">payments</span>
                     </div>
                     <div>
-                      <h3 className="font-headline text-base uppercase text-[#1c1917]">3. Metode Pembayaran</h3>
+                      <h3 className="font-headline text-base text-[#1c1917]">3. Metode Pembayaran</h3>
                       <p className="text-xs text-stone-500 font-medium">Pilih pembayaran instan atau COD</p>
                     </div>
                   </div>
-                  <span className="px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                  <span className="px-3 py-1 bg-emerald-50 text-emerald-800 rounded-full text-xs font-semibold">
                     Terverifikasi Aman
                   </span>
                 </div>
@@ -479,8 +479,8 @@ export default function CheckoutPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Midtrans / Payment Gateway */}
                   <label
-                    className={`p-5 rounded-xl border-2 cursor-pointer transition-all flex flex-col justify-between gap-3 ${formData.paymentMethod === "MIDTRANS"
-                        ? "border-[#7a0019] bg-stone-50 shadow-xs"
+                    className={`p-5 rounded-xl border-2 cursor-pointer transition-colors flex flex-col justify-between gap-3 ${formData.paymentMethod === "MIDTRANS"
+                        ? "border-[#7a0019] bg-stone-50"
                         : "border-stone-200 bg-stone-50/50 hover:bg-stone-100/60"
                       }`}
                   >
@@ -504,8 +504,8 @@ export default function CheckoutPage() {
 
                   {/* COD */}
                   <label
-                    className={`p-5 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between gap-3 ${formData.paymentMethod === "COD"
-                        ? "border-[#51000d] bg-amber-50/50 shadow-xs"
+                    className={`p-5 rounded-2xl border-2 cursor-pointer transition-colors flex flex-col justify-between gap-3 ${formData.paymentMethod === "COD"
+                        ? "border-[#51000d] bg-amber-50/50"
                         : "border-stone-200 bg-stone-50/50 hover:bg-stone-100/60"
                       }`}
                   >
@@ -532,8 +532,8 @@ export default function CheckoutPage() {
 
             {/* Right Column: Order Summary Sidebar */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xs border border-stone-200 space-y-6 sticky top-28">
-                <h3 className="font-headline text-lg uppercase text-[#1c1917] border-b border-stone-100 pb-4">
+              <div className="bg-white p-6 md:p-8 rounded-2xl border border-stone-200 space-y-6 sticky top-28">
+                <h3 className="font-headline text-lg text-[#1c1917] pb-3">
                   Ringkasan Pesanan ({cartItems.length} Barang)
                 </h3>
 
@@ -560,7 +560,7 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Price Breakdown */}
-                <div className="border-t border-stone-100 pt-4 space-y-2 text-xs font-semibold text-[#2b1b17]">
+                <div className="pt-3 space-y-2 text-xs font-semibold text-[#2b1b17]">
                   <div className="flex justify-between">
                     <span>Subtotal Produk</span>
                     <span className="font-headline text-sm text-[#1c1917]">Rp {formatPrice(totalPrice)}</span>
@@ -576,9 +576,9 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Final Total */}
-                <div className="border-t border-stone-100 pt-4 flex items-baseline justify-between">
+                <div className="pt-3 flex items-baseline justify-between">
                   <div>
-                    <p className="text-xs font-bold text-[#51000d] uppercase tracking-wider">Total Pembayaran</p>
+                    <p className="text-sm font-semibold text-[#51000d]">Total Pembayaran</p>
                     <p className="text-xs text-emerald-700 font-semibold">Stok Langsung Diproses</p>
                   </div>
                   <p className="font-headline text-3xl text-[#51000d]">
@@ -596,7 +596,7 @@ export default function CheckoutPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-3.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-sm hover:shadow-md transition-all cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="w-full py-3.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-sm font-semibold transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>
@@ -618,11 +618,11 @@ export default function CheckoutPage() {
 
       {/* Animated Loading Modal Overlay after clicking Lanjut Pembayaran */}
       {isSubmitting && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-xl border border-stone-200 animate-in zoom-in-95 duration-200 space-y-5">
+        <div className="fixed inset-0 bg-stone-950/70 z-[100] flex items-center justify-center p-4">
+          <div data-ui className="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-xl border border-stone-200 animate-in zoom-in-95 duration-200 space-y-5">
             <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
               <div className="absolute inset-0 rounded-full border-4 border-stone-100 border-t-[#7a0019] animate-spin"></div>
-              <div className="w-14 h-14 bg-[#7a0019] text-white rounded-full flex items-center justify-center shadow-xs">
+              <div className="w-14 h-14 bg-[#7a0019] text-white rounded-full flex items-center justify-center">
                 <span className="material-symbols-outlined text-2xl">shopping_bag</span>
               </div>
             </div>

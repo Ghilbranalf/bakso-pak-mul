@@ -33,7 +33,7 @@ export default function BrandLogo({
       <div
         className={`${iconSizes} flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105 ${
           isLight
-            ? "bg-white p-1 rounded-xl shadow-xs ring-1 ring-white/10"
+            ? "bg-white p-1 rounded-xl"
             : "p-0.5"
         }`}
       >
@@ -41,7 +41,7 @@ export default function BrandLogo({
           src="/images/logo.png"
           alt="Bakso Pak Mul (BPM) Logo"
           className={`w-full h-full object-contain ${
-            isLight ? "" : "mix-blend-multiply drop-shadow-xs"
+            isLight ? "" : "mix-blend-multiply"
           }`}
         />
       </div>

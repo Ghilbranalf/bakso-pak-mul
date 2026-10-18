@@ -68,12 +68,13 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+    <header data-ui className="fixed top-0 left-0 w-full z-50">
       <nav
-        className={`w-full transition-all duration-300 ${
+        data-ui
+        className={`w-full transition-colors duration-200 ${
           isScrolled
-            ? "bg-[#200407]/95 backdrop-blur-md border-b border-white/10 shadow-lg"
-            : "bg-[#200407] border-b border-white/5"
+            ? "bg-[#200407]/95 border-b border-white/10"
+            : "bg-[#200407]"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -120,7 +121,7 @@ export default function Navbar() {
                 <input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-48 xl:w-56 rounded-lg py-2 pl-9 pr-3 text-xs outline-none transition-all bg-white/5 hover:bg-white/10 focus:bg-white/10 text-white placeholder:text-white/40 border border-white/10 focus:border-white/30"
+                  className="w-48 xl:w-56 rounded-lg py-2 pl-9 pr-3 text-xs outline-none transition-colors bg-white/5 hover:bg-white/10 focus:bg-white/10 text-white placeholder:text-white/40 border border-white/10 focus:border-white/30"
                   placeholder="Cari bakso, mie, bumbu..."
                   type="text"
                 />
@@ -134,7 +135,7 @@ export default function Navbar() {
                 <div className="relative group">
                   <Link
                     href="/profil"
-                    className="w-9 h-9 rounded-lg bg-[#51000d] text-white border border-white/15 flex items-center justify-center font-bold text-xs shadow-xs hover:bg-[#6b0012] transition-colors"
+                    className="w-9 h-9 rounded-lg bg-[#51000d] text-white border border-white/15 flex items-center justify-center font-bold text-xs hover:bg-[#6b0012] transition-colors"
                     title="Profil Saya"
                   >
                     {(user.user_metadata?.full_name || user.email || "U")
@@ -143,8 +144,8 @@ export default function Navbar() {
                   </Link>
 
                   {/* Dropdown Menu */}
-                  <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-stone-200/80 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 flex flex-col p-1.5 z-50">
-                    <div className="px-3 py-2 border-b border-stone-100">
+                  <div data-ui className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-stone-200/80 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-150 flex flex-col p-1.5 z-50">
+                    <div className="px-3 py-2 bg-stone-50 rounded-lg mb-1">
                       <p className="text-[10px] text-[#51000d] uppercase tracking-wider font-bold">
                         Akun Terhubung
                       </p>
