@@ -137,11 +137,11 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full h-11 bg-amber-400 hover:bg-amber-300 text-stone-950 rounded-xl text-xs font-bold tracking-wide transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 mt-2 shadow-xs"
+              className="w-full h-11 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold tracking-wide transition-colors cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 mt-2 shadow-xs"
             >
               {isLoading ? (
                 <>
-                  <span className="w-4 h-4 border-2 border-stone-900 border-t-transparent rounded-full animate-spin" />
+                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   <span>Memverifikasi...</span>
                 </>
               ) : (

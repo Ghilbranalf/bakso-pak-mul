@@ -12,8 +12,7 @@ export default function NewListingPage() {
     <div className="flex flex-col lg:flex-row min-h-screen bg-[#F8F9FA] text-[#1A1C1C] font-sans antialiased">
       <AdminSidebar />
 
-      <main className="flex-1 w-full lg:ml-[260px] flex flex-col pb-24 lg:pb-8">
-
+      <main className="flex-1 w-full lg:ml-[240px] flex flex-col pb-24 lg:pb-8">
 
         {/* Content Area */}
         <div className="p-6 md:p-12 space-y-8 max-w-[1200px] mx-auto w-full">
@@ -22,7 +21,7 @@ export default function NewListingPage() {
             {/* Left Column: Primary Forms */}
             <div className="flex-1 space-y-6 md:space-y-8">
               {/* Section 1: Informasi Produk */}
-              <section className="bg-white rounded-[24px] shadow-sm border border-gray-100 p-6 md:p-8">
+              <section className="bg-white rounded-2xl shadow-xs border border-gray-100 p-6 md:p-8">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-[#51000d]/5 flex items-center justify-center">
                     <span className="material-symbols-outlined text-[#51000d]" style={{ fontVariationSettings: "'FILL' 1" }}>info</span>
@@ -33,7 +32,7 @@ export default function NewListingPage() {
                 <div className="space-y-4 mt-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-500 mb-2">Nama Produk</label>
-                    <input className="w-full h-14 px-4 border border-gray-200 rounded-2xl focus:border-[#7A0019] focus:ring-1 focus:ring-[#7A0019] outline-none transition-all text-base" placeholder="Contoh: Bakso Urat Spesial Jumbo" type="text" />
+                    <input className="w-full h-12 px-4 border border-gray-200 rounded-xl focus:border-[#7A0019] focus:ring-1 focus:ring-[#7A0019] outline-none transition-all text-sm" placeholder="Contoh: Bakso Urat Spesial Jumbo" type="text" />
                   </div>
                   
                   <div>
@@ -43,7 +42,7 @@ export default function NewListingPage() {
                         <button 
                           key={cat}
                           onClick={() => setSelectedCategory(cat)}
-                          className={`px-4 py-2 rounded-full border transition-all text-sm font-semibold ${selectedCategory === cat ? 'bg-[#51000d] text-white border-[#51000d]' : 'border-gray-300 text-gray-500 hover:border-[#51000d] hover:text-[#51000d]'}`}
+                          className={`px-4 py-2 rounded-xl border transition-colors text-sm font-semibold ${selectedCategory === cat ? 'bg-[#51000d] text-white border-[#51000d]' : 'border-gray-300 text-gray-500 hover:border-[#51000d] hover:text-[#51000d]'}`}
                         >
                           {cat}
                         </button>
@@ -53,13 +52,13 @@ export default function NewListingPage() {
                   
                   <div>
                     <label className="block text-sm font-semibold text-gray-500 mb-2">Deskripsi Produk</label>
-                    <textarea className="w-full px-4 py-4 border border-gray-200 rounded-2xl focus:border-[#7A0019] focus:ring-1 focus:ring-[#7A0019] outline-none transition-all text-base resize-none" placeholder="Jelaskan detail keunggulan produk Anda..." rows={4}></textarea>
+                    <textarea className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#7A0019] focus:ring-1 focus:ring-[#7A0019] outline-none transition-all text-sm resize-none" placeholder="Jelaskan detail keunggulan produk Anda..." rows={4}></textarea>
                   </div>
                 </div>
               </section>
 
               {/* Section 2: Manajemen Stok & Harga */}
-              <section className="bg-white rounded-[24px] shadow-sm border border-gray-100 p-6 md:p-8">
+              <section className="bg-white rounded-2xl shadow-xs border border-gray-100 p-6 md:p-8">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-[#51000d]/5 flex items-center justify-center">
                     <span className="material-symbols-outlined text-[#51000d]" style={{ fontVariationSettings: "'FILL' 1" }}>payments</span>
@@ -72,17 +71,17 @@ export default function NewListingPage() {
                     <label className="block text-sm font-semibold text-gray-500 mb-2">Harga Jual (Rp)</label>
                     <div className="relative">
                       <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-500">Rp</span>
-                      <input className="w-full h-14 pl-12 pr-4 border border-gray-200 rounded-2xl focus:border-[#7A0019] focus:ring-1 focus:ring-[#7A0019] outline-none transition-all text-base" placeholder="0" type="number" />
+                      <input className="w-full h-12 pl-12 pr-4 border border-gray-200 rounded-xl focus:border-[#7A0019] focus:ring-1 focus:ring-[#7A0019] outline-none transition-all text-sm" placeholder="0" type="number" />
                     </div>
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-500 mb-2">SKU (Kode Produk)</label>
-                    <input className="w-full h-14 px-4 border border-gray-200 rounded-2xl focus:border-[#7A0019] focus:ring-1 focus:ring-[#7A0019] outline-none transition-all text-base" placeholder="BKS-001" type="text" />
+                    <input className="w-full h-12 px-4 border border-gray-200 rounded-xl focus:border-[#7A0019] focus:ring-1 focus:ring-[#7A0019] outline-none transition-all text-sm" placeholder="BKS-001" type="text" />
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-sm font-semibold text-gray-500 mb-2">Stok Awal</label>
                     <div className="flex items-center gap-4">
-                      <input className="w-32 h-14 px-4 border border-gray-200 rounded-2xl focus:border-[#7A0019] focus:ring-1 focus:ring-[#7A0019] outline-none transition-all text-base" placeholder="0" type="number" />
+                      <input className="w-32 h-12 px-4 border border-gray-200 rounded-xl focus:border-[#7A0019] focus:ring-1 focus:ring-[#7A0019] outline-none transition-all text-sm" placeholder="0" type="number" />
                       <span className="text-gray-500 text-sm">pcs / unit</span>
                     </div>
                   </div>
@@ -94,14 +93,14 @@ export default function NewListingPage() {
             <div className="w-full lg:w-[380px] space-y-6 md:space-y-8">
               
               {/* Image Upload Zone */}
-              <section className="bg-white rounded-[24px] shadow-sm border border-gray-100 p-6 md:p-8">
+              <section className="bg-white rounded-2xl shadow-xs border border-gray-100 p-6 md:p-8">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-xl font-semibold">Foto Produk</h3>
                   <span className="text-xs text-gray-400 italic font-semibold">Maks 5MB</span>
                 </div>
                 
-                <div className="border-2 border-dashed border-gray-300 rounded-[24px] p-8 flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 hover:border-[#51000d] transition-all cursor-pointer group">
-                  <div className="w-16 h-16 rounded-full bg-[#51000d]/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <div className="border-2 border-dashed border-gray-300 rounded-2xl p-8 flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 hover:border-[#51000d] transition-all cursor-pointer group">
+                  <div className="w-16 h-16 rounded-full bg-[#51000d]/5 flex items-center justify-center mb-4 transition-transform">
                     <span className="material-symbols-outlined text-[#51000d] text-3xl">cloud_upload</span>
                   </div>
                   <p className="text-sm font-semibold text-gray-900 text-center">Klik atau seret foto ke sini</p>
@@ -125,7 +124,7 @@ export default function NewListingPage() {
               </section>
 
               {/* Visibility Settings */}
-              <section className="bg-white rounded-[24px] shadow-sm border border-gray-100 p-6 md:p-8">
+              <section className="bg-white rounded-2xl shadow-xs border border-gray-100 p-6 md:p-8">
                 <h3 className="text-xl font-semibold mb-6">Pengaturan Tampilan</h3>
                 <div className="flex items-center justify-between p-4 bg-gray-50 border border-gray-100 rounded-xl">
                   <div className="flex flex-col">

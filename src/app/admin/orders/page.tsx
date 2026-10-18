@@ -27,8 +27,8 @@ const getStatusDetails = (status: string) => {
     return {
       code: "SHIPPED",
       label: "Dikirim",
-      badgeClass: "bg-indigo-500/20 text-indigo-300 border-indigo-500/30",
-      lightBadgeClass: "bg-indigo-100 text-indigo-700 border-indigo-200",
+      badgeClass: "bg-sky-500/20 text-sky-300 border-sky-500/30",
+      lightBadgeClass: "bg-sky-100 text-sky-800 border-sky-200",
       icon: "local_shipping",
       isNew: false,
       nextStatus: "COMPLETED",
@@ -42,14 +42,14 @@ const getStatusDetails = (status: string) => {
     return {
       code: "PROCESSING",
       label: "Dikemas",
-      badgeClass: "bg-blue-500/20 text-blue-300 border-blue-500/30",
-      lightBadgeClass: "bg-blue-100 text-blue-700 border-blue-200",
+      badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+      lightBadgeClass: "bg-amber-100 text-amber-800 border-amber-200",
       icon: "inventory_2",
       isNew: false,
       nextStatus: "SHIPPED",
       nextActionText: "Kirim Paket",
-      nextActionBg: "bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/30",
-      lightNextActionBg: "bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm",
+      nextActionBg: "bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30",
+      lightNextActionBg: "bg-sky-700 hover:bg-sky-800 text-white shadow-sm",
       nextActionIcon: "local_shipping",
     };
   }

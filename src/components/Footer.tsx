@@ -20,13 +20,13 @@ export default function Footer() {
 
             <div className="space-y-1.5 text-xs text-stone-300/80 pt-1">
               <p className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#e5a93c] text-base shrink-0">
+                <span className="material-symbols-outlined text-stone-400 text-base shrink-0">
                   location_on
                 </span>
                 <span>Pasar Kramat Jati, Jakarta Timur 13510</span>
               </p>
               <p className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#e5a93c] text-base shrink-0">
+                <span className="material-symbols-outlined text-stone-400 text-base shrink-0">
                   schedule
                 </span>
                 <span>Buka Setiap Hari: 06.00 – 17.00 WIB</span>
@@ -41,27 +41,27 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/produk?q=bakso" className="hover:text-[#e5a93c] transition-colors">
+                <Link href="/produk?q=bakso" className="hover:text-white transition-colors">
                   Bakso Sapi Pilihan
                 </Link>
               </li>
               <li>
-                <Link href="/produk?q=mie" className="hover:text-[#e5a93c] transition-colors">
+                <Link href="/produk?q=mie" className="hover:text-white transition-colors">
                   Mie Basah &amp; Telor Bebek
                 </Link>
               </li>
               <li>
-                <Link href="/produk?q=pangsit" className="hover:text-[#e5a93c] transition-colors">
+                <Link href="/produk?q=pangsit" className="hover:text-white transition-colors">
                   Kulit Pangsit &amp; Dimsum
                 </Link>
               </li>
               <li>
-                <Link href="/produk?q=bumbu" className="hover:text-[#e5a93c] transition-colors">
+                <Link href="/produk?q=bumbu" className="hover:text-white transition-colors">
                   Bumbu Kuah Kaldu
                 </Link>
               </li>
               <li>
-                <Link href="/produk?q=saos" className="hover:text-[#e5a93c] transition-colors">
+                <Link href="/produk?q=saos" className="hover:text-white transition-colors">
                   Kecap &amp; Saus Sambal
                 </Link>
               </li>
@@ -75,22 +75,22 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/lacak" className="hover:text-[#e5a93c] transition-colors">
+                <Link href="/lacak" className="hover:text-white transition-colors">
                   Lacak Pengiriman
                 </Link>
               </li>
               <li>
-                <Link href="/transaksi" className="hover:text-[#e5a93c] transition-colors">
+                <Link href="/transaksi" className="hover:text-white transition-colors">
                   Riwayat Transaksi
                 </Link>
               </li>
               <li>
-                <Link href="/tentang" className="hover:text-[#e5a93c] transition-colors">
+                <Link href="/tentang" className="hover:text-white transition-colors">
                   Kisah &amp; Filosofi Rasa
                 </Link>
               </li>
               <li>
-                <Link href="/admin/login" className="text-stone-400 hover:text-[#e5a93c] transition-colors">
+                <Link href="/admin/login" className="text-stone-400 hover:text-white transition-colors">
                   Portal Admin
                 </Link>
               </li>
@@ -109,7 +109,7 @@ export default function Footer() {
               href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20ingin%20konsultasi%20pemesanan%20grosir"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#e5a93c] hover:bg-[#d97706] text-[#200408] font-bold text-xs transition-colors shadow-2xs"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs transition-colors shadow-2xs"
             >
               <span className="material-symbols-outlined text-base">chat</span>
               <span>Hubungi via WhatsApp</span>

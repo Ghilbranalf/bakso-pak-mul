@@ -25,19 +25,19 @@ export default function TransaksiPage() {
 
             if (order.status === "COMPLETED" || order.status === "SELESAI") {
               statusLabel = "Selesai";
-              statusColor = "bg-emerald-100 text-emerald-900 border-emerald-300";
+              statusColor = "bg-emerald-50 text-emerald-900 border-emerald-200";
             } else if (order.status === "SHIPPED") {
               statusLabel = "Sedang Dikirim";
-              statusColor = "bg-blue-100 text-blue-900 border-blue-300";
+              statusColor = "bg-sky-50 text-sky-900 border-sky-200";
             } else if (order.status === "PROCESSING") {
               statusLabel = "Sedang Dikemas";
-              statusColor = "bg-purple-100 text-purple-900 border-purple-300";
+              statusColor = "bg-amber-50 text-amber-900 border-amber-200";
             } else if (order.status === "CANCELED" || order.status === "CANCELLED") {
               statusLabel = "Dibatalkan";
-              statusColor = "bg-rose-100 text-rose-900 border-rose-300";
+              statusColor = "bg-rose-50 text-rose-900 border-rose-200";
             } else {
               statusLabel = "Menunggu Konfirmasi";
-              statusColor = "bg-amber-100 text-amber-900 border-amber-300";
+              statusColor = "bg-stone-100 text-stone-800 border-stone-200";
             }
 
             // Format date
@@ -98,25 +98,17 @@ export default function TransaksiPage() {
         {/* ========================================================================= */}
         {/* ARTISAN HEADER BANNER                                                     */}
         {/* ========================================================================= */}
-        <section className="relative bg-[#1c0306] text-white py-14 sm:py-20 overflow-hidden border-b border-[#420812]">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(229,169,60,0.12)_0%,_transparent_70%)] pointer-events-none" />
+        <section className="bg-[#200407] text-white py-14 sm:py-20 border-b border-stone-800">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-stone-400 block">
+              Catatan Transaksi Pelanggan
+            </span>
 
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e5a93c]/20 text-[#e5a93c] border border-[#e5a93c]/30 text-[10px] font-black uppercase tracking-widest mb-3">
-              <span className="material-symbols-outlined text-sm">receipt_long</span>
-              <span>CATATAN TRANSAKSI PELANGGAN</span>
-            </div>
+            <h1 className="font-headline text-3xl sm:text-5xl md:text-6xl font-bold uppercase text-white tracking-tight leading-tight">
+              Riwayat Pesanan
+            </h1>
 
-            <div className="relative inline-block my-2">
-              <h1 className="font-headline text-4xl sm:text-6xl md:text-7xl uppercase text-white tracking-tight leading-tight">
-                RIWAYAT PESANAN
-              </h1>
-              <span className="font-script text-3xl sm:text-5xl md:text-6xl text-[#fcd34d] absolute -top-4 sm:-top-7 right-0 rotate-[-5deg] pointer-events-none drop-shadow-md">
-                Buku Kios
-              </span>
-            </div>
-
-            <p className="max-w-xl mx-auto text-[#fef3c7] text-xs sm:text-sm mt-3 font-semibold leading-relaxed">
+            <p className="font-editorial text-stone-300 text-xs sm:text-sm max-w-xl mx-auto font-normal leading-relaxed pt-1">
               Pantau status pemesanan racikan bakso segar, invoice transaksi, dan riwayat belanja Anda di Bakso Pak Mul.
             </p>
           </div>
@@ -124,15 +116,15 @@ export default function TransaksiPage() {
 
         <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {/* Tab Navigation */}
-          <div className="flex gap-2.5 mb-8 overflow-x-auto pb-2">
+          <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
             {(["semua", "berlangsung", "selesai", "dibatalkan"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
+                className={`px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
                   activeTab === tab
-                    ? "bg-[#51000d] text-[#e5a93c] border-2 border-[#51000d] shadow-md scale-105"
-                    : "bg-white border-2 border-stone-200 text-[#1c1917] hover:border-[#e5a93c]"
+                    ? "bg-[#7a0019] text-white shadow-xs"
+                    : "bg-stone-100 text-stone-700 hover:bg-stone-200 border border-stone-200"
                 }`}
               >
                 {tab === "semua" ? "Semua Pesanan" : tab}

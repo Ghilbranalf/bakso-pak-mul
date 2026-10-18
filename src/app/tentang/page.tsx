@@ -12,25 +12,17 @@ export default function AboutPage() {
 
       <main className="pt-20 sm:pt-24 flex-grow">
         {/* Editorial Story Hero */}
-        <section className="relative bg-[#1c0306] text-white py-16 sm:py-24 overflow-hidden border-b border-[#420812]">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(229,169,60,0.12)_0%,_transparent_70%)] pointer-events-none" />
+        <section className="bg-[#200407] text-white py-16 sm:py-24 border-b border-stone-800">
+          <div className="text-center max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-stone-400 block">
+              Dedikasi &amp; Tradisi Sejak 2000
+            </span>
 
-          <div className="relative z-10 text-center max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e5a93c]/20 text-[#e5a93c] border border-[#e5a93c]/30 text-[10px] font-black uppercase tracking-widest mb-1">
-              <span className="material-symbols-outlined text-sm">history_edu</span>
-              <span>DEDIKASI &amp; TRADISI SEJAK 2000</span>
-            </div>
+            <h1 className="font-headline text-3xl sm:text-5xl md:text-6xl font-bold uppercase text-white tracking-tight leading-tight">
+              Kisah di Balik Kios Kramat Jati
+            </h1>
 
-            <div className="relative inline-block my-2">
-              <h1 className="font-headline text-4xl sm:text-6xl md:text-7xl uppercase text-white tracking-tight leading-tight">
-                KISAH DI BALIK KIOS KRAMAT JATI
-              </h1>
-              <span className="font-script text-3xl sm:text-5xl md:text-6xl text-[#fcd34d] absolute -top-4 sm:-top-7 right-0 rotate-[-5deg] pointer-events-none drop-shadow-md">
-                Warisan Rasa
-              </span>
-            </div>
-
-            <p className="text-[#fef3c7] text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto font-semibold">
+            <p className="font-editorial text-stone-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto font-normal pt-1">
               Perjalanan lebih dari dua dekade meracik olahan daging sapi segar pilihan, mempertahankan rasa otentik yang jujur dan dipercaya keluarga serta ratusan mitra kuliner di Jabodetabek.
             </p>
           </div>
@@ -45,7 +37,7 @@ export default function AboutPage() {
                 &ldquo;Rasa tidak pernah bisa dibohongi. Ketika daging sapi murni diolah dengan kejujuran resep rempah, lidah pelanggan akan selalu ingat jalan pulang.&rdquo;
               </p>
 
-              <div className="space-y-4 text-[#2b1b17] text-sm sm:text-base leading-relaxed font-medium">
+              <div className="space-y-4 font-editorial text-stone-700 text-sm sm:text-base leading-relaxed font-normal">
                 <p>
                   Bermula pada tahun 2000 dari sebuah kios sederhana di lantai dasar Pasar Kramat Jati, Jakarta Timur, Pak Mul memulai usahanya dengan prinsip sederhana: tidak akan pernah berkompromi dengan kualitas daging sapi. Di saat banyak produsen mencampur bahan pengisi berlebih demi mengejar volume, Pak Mul tetap setia memilih daging sapi segar langsung dari pemotongan pasar induk pada pukul 04.30 subuh setiap hari.
                 </p>
@@ -57,37 +49,37 @@ export default function AboutPage() {
               {/* Legacy Milestones */}
               <div className="pt-6 border-t border-stone-200 grid grid-cols-3 gap-6">
                 <div>
-                  <p className="font-headline text-3xl font-bold text-[#51000d]">2000</p>
-                  <p className="text-xs text-[#51000d] font-bold mt-1">Tahun Berdiri di Kramat Jati</p>
+                  <p className="font-headline text-3xl font-bold text-[#7a0019]">2000</p>
+                  <p className="text-xs text-stone-600 font-semibold mt-1">Tahun Berdiri di Kramat Jati</p>
                 </div>
                 <div>
-                  <p className="font-headline text-3xl font-bold text-[#51000d]">100%</p>
-                  <p className="text-xs text-[#51000d] font-bold mt-1">Daging Sapi Segar Pilihan</p>
+                  <p className="font-headline text-3xl font-bold text-[#7a0019]">100%</p>
+                  <p className="text-xs text-stone-600 font-semibold mt-1">Daging Sapi Segar Pilihan</p>
                 </div>
                 <div>
-                  <p className="font-headline text-3xl font-bold text-[#51000d]">500+</p>
-                  <p className="text-xs text-[#51000d] font-bold mt-1">Mitra Warung &amp; Katering</p>
+                  <p className="font-headline text-3xl font-bold text-[#7a0019]">500+</p>
+                  <p className="text-xs text-stone-600 font-semibold mt-1">Mitra Warung &amp; Katering</p>
                 </div>
               </div>
             </div>
 
             {/* Right Photo */}
             <div className="lg:col-span-5">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-stone-900 group border-4 border-[#e5a93c]/30">
+              <div className="relative rounded-2xl overflow-hidden shadow-xl bg-stone-900 border border-stone-300">
                 <img
                   src="/images/toko-pak-mul-kramat-jati.webp"
                   alt="Pak Mul di Kios Pasar Kramat Jati"
-                  className="w-full h-[450px] object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-[450px] object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-transparent to-transparent pointer-events-none" />
                 <div className="absolute bottom-6 left-6 right-6 text-white">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e5a93c]">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-300">
                     Dokumentasi Kios Asli
                   </span>
-                  <p className="font-headline text-xl uppercase tracking-wide mt-1 text-white">
+                  <p className="font-headline text-xl font-bold tracking-wide mt-1 text-white">
                     Kios Bakso Pak Mul
                   </p>
-                  <p className="text-xs text-[#fef3c7] mt-0.5 font-medium">
+                  <p className="text-xs text-stone-300 mt-0.5">
                     Pasar Kramat Jati, Jakarta Timur • Buka Tiap Subuh
                   </p>
                 </div>
@@ -108,33 +100,33 @@ export default function AboutPage() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
-              <div className="bg-[#faf7f2] p-8 rounded-2xl border border-stone-200 space-y-3">
-                <span className="font-headline text-2xl font-bold text-[#51000d]">01</span>
-                <h3 className="font-headline text-lg uppercase text-[#1c1917]">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+              <div className="bg-[#faf8f5] p-6 sm:p-8 rounded-2xl border border-stone-200 space-y-3">
+                <span className="font-headline text-2xl font-bold text-[#7a0019]">01</span>
+                <h3 className="font-headline font-bold text-lg text-[#1c1917]">
                   Daging Murni Tanpa Boraks
                 </h3>
-                <p className="text-xs sm:text-sm text-[#2b1b17] leading-relaxed font-medium">
+                <p className="font-editorial text-sm text-stone-600 leading-relaxed font-normal">
                   Tekstur kenyal bakso kami berasal murni dari kekenyalan alami serat daging sapi segar yang digiling dingin, bukan dari bahan kimia berbahaya maupun pengenyal buatan.
                 </p>
               </div>
 
-              <div className="bg-[#faf7f2] p-8 rounded-2xl border border-stone-200 space-y-3">
-                <span className="font-headline text-2xl font-bold text-[#51000d]">02</span>
-                <h3 className="font-headline text-lg uppercase text-[#1c1917]">
+              <div className="bg-[#faf8f5] p-6 sm:p-8 rounded-2xl border border-stone-200 space-y-3">
+                <span className="font-headline text-2xl font-bold text-[#7a0019]">02</span>
+                <h3 className="font-headline font-bold text-lg text-[#1c1917]">
                   Resep Rempah Warisan
                 </h3>
-                <p className="text-xs sm:text-sm text-[#2b1b17] leading-relaxed font-medium">
+                <p className="font-editorial text-sm text-stone-600 leading-relaxed font-normal">
                   Takaran bawang putih goreng lokal, merica butir tumbuk, dan bumbu kaldu rempah yang dipertahankan turun temurun memberikan keharuman aroma yang khas dan menggugah selera.
                 </p>
               </div>
 
-              <div className="bg-[#faf7f2] p-8 rounded-2xl border border-stone-200 space-y-3">
-                <span className="font-headline text-2xl font-bold text-[#51000d]">03</span>
-                <h3 className="font-headline text-lg uppercase text-[#1c1917]">
+              <div className="bg-[#faf8f5] p-6 sm:p-8 rounded-2xl border border-stone-200 space-y-3">
+                <span className="font-headline text-2xl font-bold text-[#7a0019]">03</span>
+                <h3 className="font-headline font-bold text-lg text-[#1c1917]">
                   Kemasan Higienis &amp; Rantai Dingin
                 </h3>
-                <p className="text-xs sm:text-sm text-[#2b1b17] leading-relaxed font-medium">
+                <p className="font-editorial text-sm text-stone-600 leading-relaxed font-normal">
                   Produk disegel rapi dalam kemasan hampa udara (vacuum pack) dan didinginkan langsung untuk memastikan keamanan pangan dan kualitas mutu terjaga hingga ke tangan Anda.
                 </p>
               </div>
@@ -144,15 +136,15 @@ export default function AboutPage() {
 
         {/* Invitation & Kiosk Location */}
         <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl bg-gradient-to-r from-[#200408] via-[#51000d] to-[#200408] text-white p-8 sm:p-14 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 border border-[#59101f]">
-            <div className="max-w-xl space-y-3">
-              <p className="text-xs font-bold tracking-[0.2em] uppercase text-[#e5a93c]">
+          <div className="rounded-2xl bg-[#200407] text-white p-8 sm:p-12 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8 border border-stone-800">
+            <div className="max-w-xl space-y-2.5">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-400 block">
                 Kemitraan Usaha &amp; Hajatan
-              </p>
-              <h2 className="font-headline text-2xl sm:text-4xl uppercase leading-tight tracking-wide">
+              </span>
+              <h2 className="font-headline text-2xl sm:text-3xl font-bold text-white tracking-tight">
                 Tertarik Bermitra atau Butuh Pasokan Rutin?
               </h2>
-              <p className="text-[#fef3c7] text-xs sm:text-sm leading-relaxed font-medium">
+              <p className="font-editorial text-stone-300 text-xs sm:text-sm leading-relaxed font-normal">
                 Kami siap menyuplai kebutuhan bakso sapi, mie telor, kulit pangsit, dan bumbu kuah dengan harga grosir terbaik untuk usaha Anda.
               </p>
             </div>
@@ -162,15 +154,15 @@ export default function AboutPage() {
                 href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20tertarik%20dengan%20kemitraan%20usaha%20bakso"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3.5 rounded-xl bg-white text-[#51000d] hover:bg-stone-100 font-bold text-xs uppercase tracking-wider transition-colors shadow-md flex items-center gap-2"
+                className="px-5 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-sm flex items-center gap-2"
               >
-                <span className="material-symbols-outlined text-emerald-700 text-base">chat</span>
+                <span className="material-symbols-outlined text-base">chat</span>
                 <span>Konsultasi WhatsApp</span>
               </a>
 
               <Link
                 href="/produk"
-                className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-xs uppercase tracking-wider transition-colors"
+                className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-xs uppercase tracking-wider transition-colors"
               >
                 Katalog Menu
               </Link>

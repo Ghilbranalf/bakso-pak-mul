@@ -244,14 +244,14 @@ export default function CheckoutPage() {
               )}
 
               {/* Customer Info Card */}
-              <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-stone-200 space-y-5">
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xs border border-stone-200 space-y-5">
                 <div className="flex items-center gap-3 border-b border-stone-100 pb-4">
-                  <div className="w-10 h-10 rounded-xl bg-[#51000d] text-[#e5a93c] flex items-center justify-center font-bold">
+                  <div className="w-10 h-10 rounded-xl bg-[#7a0019]/10 text-[#7a0019] flex items-center justify-center font-bold">
                     <span className="material-symbols-outlined text-xl">person</span>
                   </div>
                   <div>
                     <h3 className="text-base font-bold text-[#1c1917]">1. Informasi Penerima</h3>
-                    <p className="text-xs text-[#51000d] font-semibold">Data untuk konfirmasi pengiriman &amp; WhatsApp</p>
+                    <p className="text-xs text-stone-500 font-medium">Data untuk konfirmasi pengiriman &amp; WhatsApp</p>
                   </div>
                 </div>
 
@@ -460,18 +460,18 @@ export default function CheckoutPage() {
               </div>
 
               {/* Payment Method Card */}
-              <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border-2 border-stone-200 space-y-5">
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xs border border-stone-200 space-y-5">
                 <div className="flex items-center justify-between border-b border-stone-100 pb-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#51000d] text-[#e5a93c] flex items-center justify-center font-bold">
+                    <div className="w-10 h-10 rounded-xl bg-[#7a0019]/10 text-[#7a0019] flex items-center justify-center font-bold">
                       <span className="material-symbols-outlined text-xl">payments</span>
                     </div>
                     <div>
                       <h3 className="font-headline text-base uppercase text-[#1c1917]">3. Metode Pembayaran</h3>
-                      <p className="text-xs text-[#51000d] font-semibold">Pilih pembayaran instan atau COD</p>
+                      <p className="text-xs text-stone-500 font-medium">Pilih pembayaran instan atau COD</p>
                     </div>
                   </div>
-                  <span className="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-[10px] font-black uppercase tracking-wider">
+                  <span className="px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full text-[10px] font-bold uppercase tracking-wider">
                     Terverifikasi Aman
                   </span>
                 </div>
@@ -479,8 +479,8 @@ export default function CheckoutPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Midtrans / Payment Gateway */}
                   <label
-                    className={`p-5 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between gap-3 ${formData.paymentMethod === "MIDTRANS"
-                        ? "border-[#51000d] bg-amber-50/50 shadow-xs"
+                    className={`p-5 rounded-xl border-2 cursor-pointer transition-all flex flex-col justify-between gap-3 ${formData.paymentMethod === "MIDTRANS"
+                        ? "border-[#7a0019] bg-stone-50 shadow-xs"
                         : "border-stone-200 bg-stone-50/50 hover:bg-stone-100/60"
                       }`}
                   >
@@ -493,12 +493,12 @@ export default function CheckoutPage() {
                       className="sr-only"
                     />
                     <div className="flex items-center justify-between">
-                      <span className="material-symbols-outlined text-3xl text-[#51000d]">credit_card</span>
-                      <span className="text-[9px] font-black bg-[#51000d] text-[#e5a93c] px-2.5 py-0.5 rounded-full">RECOMMENDED</span>
+                      <span className="material-symbols-outlined text-3xl text-[#7a0019]">credit_card</span>
+                      <span className="text-[10px] font-bold bg-[#7a0019] text-white px-2 py-0.5 rounded">Rekomendasi</span>
                     </div>
                     <div>
-                      <p className="font-headline text-xs uppercase text-[#1c1917]">Pembayaran Instan (QRIS &amp; Virtual Account)</p>
-                      <p className="text-[10px] text-[#51000d] font-semibold mt-0.5">GoPay, ShopeePay, QRIS All Payment, BCA, Mandiri, BNI, BRI</p>
+                      <p className="font-headline text-xs font-bold uppercase text-[#1c1917]">Pembayaran Instan (QRIS &amp; Virtual Account)</p>
+                      <p className="text-[10px] text-stone-600 mt-0.5">GoPay, ShopeePay, QRIS All Payment, BCA, Mandiri, BNI, BRI</p>
                     </div>
                   </label>
 
@@ -596,7 +596,7 @@ export default function CheckoutPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306] rounded-full text-xs font-black uppercase tracking-wider shadow-lg hover:shadow-xl transition-all cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="w-full py-3.5 bg-[#7a0019] hover:bg-[#51000d] text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-sm hover:shadow-md transition-all cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>

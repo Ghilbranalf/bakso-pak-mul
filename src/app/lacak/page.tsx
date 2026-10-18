@@ -85,36 +85,28 @@ function TrackingContent() {
         {/* ========================================================================= */}
         {/* ARTISAN HEADER BANNER                                                     */}
         {/* ========================================================================= */}
-        <section className="relative bg-[#1c0306] text-white py-14 sm:py-20 overflow-hidden border-b border-[#420812]">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(229,169,60,0.12)_0%,_transparent_70%)] pointer-events-none" />
+        <section className="bg-[#200407] text-white py-14 sm:py-20 border-b border-stone-800">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-stone-400 block">
+              Live Tracking Pengiriman
+            </span>
 
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e5a93c]/20 text-[#e5a93c] border border-[#e5a93c]/30 text-[10px] font-black uppercase tracking-widest mb-3">
-              <span className="material-symbols-outlined text-sm">local_shipping</span>
-              <span>LIVE TRACKING PENGIRIMAN</span>
-            </div>
+            <h1 className="font-headline text-3xl sm:text-5xl md:text-6xl font-bold uppercase text-white tracking-tight leading-tight">
+              Pantau Status Pesanan
+            </h1>
 
-            <div className="relative inline-block my-2">
-              <h1 className="font-headline text-4xl sm:text-6xl md:text-7xl uppercase text-white tracking-tight leading-tight">
-                PANTAU STATUS PESANAN
-              </h1>
-              <span className="font-script text-3xl sm:text-5xl md:text-6xl text-[#fcd34d] absolute -top-4 sm:-top-7 right-0 rotate-[-5deg] pointer-events-none drop-shadow-md">
-                Segar Sampai Tujuan
-              </span>
-            </div>
-
-            <p className="max-w-xl mx-auto text-[#fef3c7] text-xs sm:text-sm mt-3 font-semibold leading-relaxed">
-              Masukkan Nomor ID Pesanan untuk memantau status penggilingan bahan baku segar, verifikasi pembayaran, dan armada kurir pengiriman secara langsung.
+            <p className="font-editorial text-stone-300 text-xs sm:text-sm max-w-xl mx-auto font-normal leading-relaxed pt-1">
+              Masukkan Nomor ID Pesanan untuk memantau status peracikan bahan baku segar, verifikasi pembayaran, dan armada kurir pengiriman secara langsung.
             </p>
           </div>
         </section>
 
         <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
           {/* Search Bar */}
-          <div className="bg-white rounded-3xl p-4 sm:p-6 shadow-sm border-2 border-stone-200 mb-10">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-xs border border-stone-200 mb-10">
             <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-grow">
-                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#51000d]">
+                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-stone-400">
                   search
                 </span>
                 <input
@@ -122,23 +114,23 @@ function TrackingContent() {
                   value={searchId}
                   onChange={(e) => setSearchId(e.target.value)}
                   placeholder="Masukkan Nomor Pesanan (Contoh: #ORD-2024-BPM-892)"
-                  className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-stone-50 border-2 border-stone-200 text-xs sm:text-sm font-bold text-[#1c1917] placeholder:text-stone-400 focus:outline-none focus:border-[#7a0019] focus:bg-white transition-all"
+                  className="w-full pl-12 pr-4 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs sm:text-sm font-medium text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-[#7a0019] focus:bg-white transition-all"
                   required
                 />
               </div>
               <button
                 type="submit"
                 disabled={isLoading}
-                className="bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306] font-black px-7 py-3.5 rounded-full text-xs uppercase tracking-wider shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                className="bg-[#7a0019] hover:bg-[#51000d] text-white font-bold px-6 py-3 rounded-xl text-xs uppercase tracking-wider shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 {isLoading ? (
                   <>
-                    <span className="w-4 h-4 border-2 border-[#1c0306] border-t-transparent rounded-full animate-spin" />
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                     <span>Memeriksa...</span>
                   </>
                 ) : (
                   <>
-                    <span className="material-symbols-outlined text-base font-bold">travel_explore</span>
+                    <span className="material-symbols-outlined text-base">travel_explore</span>
                     <span>Lacak Pesanan</span>
                   </>
                 )}
@@ -161,17 +153,17 @@ function TrackingContent() {
 
           {/* Tracking Results Card */}
           {orderData && (
-            <div className="bg-white rounded-3xl shadow-sm border-2 border-stone-200 overflow-hidden mb-10">
+            <div className="bg-white rounded-2xl shadow-xs border border-stone-200 overflow-hidden mb-10">
               {/* Top Info Banner */}
-              <div className="bg-[#1c0306] p-6 sm:p-8 text-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-[#420812]">
+              <div className="bg-[#200407] p-6 sm:p-8 text-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-stone-800">
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-[#e5a93c] bg-[#e5a93c]/20 px-3 py-1 rounded-full border border-[#e5a93c]/30">
-                    ID PESANAN TERVERIFIKASI
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-stone-300 bg-white/10 px-2.5 py-1 rounded">
+                    ID Pesanan Terverifikasi
                   </span>
-                  <h2 className="font-headline text-3xl sm:text-4xl mt-2 text-white">
+                  <h2 className="font-headline font-bold text-2xl sm:text-3xl mt-2 text-white">
                     {orderData.orderNumber}
                   </h2>
-                  <p className="text-xs text-[#fef3c7] mt-1 font-medium">
+                  <p className="text-xs text-stone-300 mt-1 font-medium">
                     Waktu Pesanan:{" "}
                     {new Date(orderData.createdAt).toLocaleDateString("id-ID", {
                       day: "numeric",
@@ -185,8 +177,8 @@ function TrackingContent() {
                 </div>
 
                 <div className="text-left sm:text-right">
-                  <span className="text-xs text-[#fef3c7] block font-bold">Total Pembayaran</span>
-                  <span className="font-headline text-3xl sm:text-4xl text-[#e5a93c]">
+                  <span className="text-xs text-stone-400 block font-medium">Total Pembayaran</span>
+                  <span className="font-headline font-bold text-2xl sm:text-3xl text-white">
                     Rp {formatPrice(orderData.finalTotal)}
                   </span>
                 </div>
