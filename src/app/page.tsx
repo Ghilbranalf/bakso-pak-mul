@@ -176,32 +176,23 @@ export default function HomePage() {
         {/* ========================================================================= */}
         {/* 1. ARTISAN POSTER HERO: MONUMENTAL, BALANCED, MASTERPIECE CULINARY FOCUS  */}
         {/* ========================================================================= */}
-        <section className="relative bg-[#200508] text-white pt-28 sm:pt-32 pb-16 lg:pb-24 overflow-hidden border-b border-[#3d0a11]">
-          {/* Subtle warm ambient radial light */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_25%,_rgba(229,169,60,0.14)_0%,_transparent_65%)] pointer-events-none" />
-
+        <section className="relative bg-[#200407] text-white pt-28 sm:pt-36 pb-16 lg:pb-20 overflow-hidden border-b border-white/5">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            {/* Top Heritage Kicker */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e5a93c]/15 text-[#e5a93c] border border-[#e5a93c]/30 text-xs font-semibold tracking-wider uppercase mb-4">
-              <span className="material-symbols-outlined text-sm">storefront</span>
-              <span>Kios Pasar Kramat Jati • Warisan Kuliner Sejak 2000</span>
-            </div>
-
-            {/* Monumental Headline (Outfit font, dignified, bold, proud) */}
+            {/* Monumental Headline */}
             <h1 className="font-headline text-5xl sm:text-7xl md:text-8xl font-black uppercase tracking-tight text-white leading-[0.95] max-w-5xl mx-auto">
-              RASA ASLI <span className="text-[#e5a93c]">BAKSO PAK MUL.</span>
+              RASA ASLI BAKSO PAK MUL.
             </h1>
 
-            <p className="mt-4 text-stone-300 text-sm sm:text-base max-w-2xl mx-auto font-normal leading-relaxed">
+            <p className="mt-5 text-stone-300 text-sm sm:text-base max-w-2xl mx-auto font-normal leading-relaxed">
               100% daging sapi murni pilihan, diracik segar setiap subuh dengan bumbu kaldu sumsum rempah asli tanpa boraks dan pengawet buatan.
             </p>
 
-            {/* Centerpiece Triptych Showcase (Balanced, crisp, mouthwatering) */}
-            <div className="relative max-w-5xl mx-auto mt-10 grid grid-cols-1 md:grid-cols-12 gap-5 items-end">
+            {/* Centerpiece Triptych Showcase */}
+            <div className="relative max-w-5xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-12 gap-5 items-end">
               {/* Left Flank Card: Mie Telor Bebek */}
               <div
                 onClick={() => handleQuickAdd(displayList[2] || FALLBACK_PRODUCTS[2])}
-                className="md:col-span-3 bg-[#2d070c] rounded-2xl p-4 border border-white/10 hover:border-[#e5a93c]/60 shadow-xl transition-all duration-300 cursor-pointer group text-left"
+                className="md:col-span-3 bg-[#260509] rounded-2xl p-4 border border-white/10 hover:border-white/25 shadow-xl transition-all duration-200 cursor-pointer group text-left"
               >
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-black/40 mb-3">
                   <img
@@ -209,7 +200,7 @@ export default function HomePage() {
                     alt="Mie Basah Telor Bebek"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <span className="absolute top-2 left-2 bg-[#200508]/85 text-[#e5a93c] text-[10px] font-bold px-2 py-0.5 rounded uppercase">
+                  <span className="absolute top-2 left-2 bg-[#200407]/90 text-stone-200 text-[10px] font-semibold px-2 py-0.5 rounded border border-white/10 uppercase">
                     Kenyal Alami
                   </span>
                 </div>
@@ -218,8 +209,8 @@ export default function HomePage() {
                 </h4>
                 <p className="text-[11px] text-stone-300 line-clamp-1 mt-0.5">1 Kg (10-12 Porsi)</p>
                 <div className="mt-2.5 flex items-center justify-between pt-2 border-t border-white/10">
-                  <span className="font-bold text-xs text-[#e5a93c]">Rp 26.000</span>
-                  <span className="text-[11px] font-semibold text-white/90 group-hover:text-[#e5a93c] flex items-center gap-0.5">
+                  <span className="font-bold text-xs text-white">Rp 26.000</span>
+                  <span className="text-[11px] font-medium text-stone-300 group-hover:text-white flex items-center gap-0.5">
                     + Tambah
                   </span>
                 </div>
@@ -228,30 +219,30 @@ export default function HomePage() {
               {/* Center Main Showpiece: Bakso Sapi Komplit */}
               <div
                 onClick={() => handleQuickAdd(displayList[0] || FALLBACK_PRODUCTS[0])}
-                className="md:col-span-6 bg-[#32080e] rounded-3xl p-5 border-2 border-[#e5a93c] shadow-2xl transition-all duration-300 cursor-pointer group text-left relative overflow-hidden"
+                className="md:col-span-6 bg-[#2a060b] rounded-2xl p-5 border border-white/15 hover:border-white/30 shadow-2xl transition-all duration-200 cursor-pointer group text-left relative overflow-hidden"
               >
-                <div className="relative aspect-[16/11] rounded-2xl overflow-hidden bg-black/50 mb-4">
+                <div className="relative aspect-[16/11] rounded-xl overflow-hidden bg-black/50 mb-4">
                   <img
                     src="/images/hero-banner.webp"
                     alt="Semangkuk Bakso Sapi Komplit Pak Mul"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#200508]/90 via-transparent to-transparent opacity-80" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#200407]/90 via-transparent to-transparent opacity-80" />
 
                   {/* Top Badges */}
-                  <div className="absolute top-3 left-3 bg-[#e5a93c] text-[#200508] text-xs font-black px-3 py-1 rounded-full shadow-md uppercase tracking-wider">
-                    Menu Andalan Kios
+                  <div className="absolute top-3 left-3 bg-white text-[#200407] text-[11px] font-bold px-3 py-1 rounded-full shadow-sm uppercase tracking-wider">
+                    Menu Andalan
                   </div>
 
-                  <div className="absolute top-3 right-3 bg-white/95 text-[#1c1917] text-xs font-bold px-2.5 py-1 rounded-full shadow flex items-center gap-1">
-                    <span className="text-amber-500">★</span>
+                  <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-md text-white text-xs font-semibold px-2.5 py-1 rounded-full border border-white/10 flex items-center gap-1">
+                    <span className="text-amber-400">★</span>
                     <span>4.98</span>
-                    <span className="text-stone-500 font-normal text-[10px]">• 500+ Ulasan</span>
+                    <span className="text-stone-300 font-normal text-[10px]">• 500+ Ulasan</span>
                   </div>
 
                   {/* Bottom Image Info */}
                   <div className="absolute bottom-3 left-4 right-4 text-white">
-                    <p className="text-xs font-bold uppercase tracking-wider text-[#e5a93c]">
+                    <p className="text-[11px] font-medium uppercase tracking-wider text-stone-300">
                       Racikan Resep 24+ Tahun
                     </p>
                     <h3 className="font-headline text-xl sm:text-2xl font-bold text-white mt-0.5">
@@ -262,14 +253,14 @@ export default function HomePage() {
 
                 <div className="flex items-center justify-between pt-1">
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-stone-400 block">
+                    <span className="text-[10px] uppercase font-semibold text-stone-400 block">
                       Harga Spesial
                     </span>
-                    <span className="font-headline font-bold text-2xl text-[#e5a93c]">
+                    <span className="font-headline font-bold text-2xl text-white">
                       Rp 65.000 <span className="text-xs text-stone-300 font-normal">/ Pack (50 Butir)</span>
                     </span>
                   </div>
-                  <button className="px-5 py-2.5 rounded-xl bg-[#e5a93c] hover:bg-amber-400 text-[#200508] font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-md transition-transform active:scale-95">
+                  <button className="px-5 py-2.5 rounded-xl bg-white hover:bg-stone-200 text-[#200407] font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-sm transition-transform active:scale-95">
                     <span className="material-symbols-outlined text-sm font-bold">add</span>
                     <span>Pesan Langsung</span>
                   </button>
@@ -279,7 +270,7 @@ export default function HomePage() {
               {/* Right Flank Card: Bakso Urat Spesial */}
               <div
                 onClick={() => handleQuickAdd(displayList[1] || FALLBACK_PRODUCTS[1])}
-                className="md:col-span-3 bg-[#2d070c] rounded-2xl p-4 border border-white/10 hover:border-[#e5a93c]/60 shadow-xl transition-all duration-300 cursor-pointer group text-left"
+                className="md:col-span-3 bg-[#260509] rounded-2xl p-4 border border-white/10 hover:border-white/25 shadow-xl transition-all duration-200 cursor-pointer group text-left"
               >
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-black/40 mb-3">
                   <img
@@ -287,7 +278,7 @@ export default function HomePage() {
                     alt="Bakso Urat Sapi Spesial"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <span className="absolute top-2 left-2 bg-[#200508]/85 text-[#e5a93c] text-[10px] font-bold px-2 py-0.5 rounded uppercase">
+                  <span className="absolute top-2 left-2 bg-[#200407]/90 text-stone-200 text-[10px] font-semibold px-2 py-0.5 rounded border border-white/10 uppercase">
                     100% Sapi Murni
                   </span>
                 </div>
@@ -296,43 +287,12 @@ export default function HomePage() {
                 </h4>
                 <p className="text-[11px] text-stone-300 line-clamp-1 mt-0.5">50 Butir Cacahan Gurih</p>
                 <div className="mt-2.5 flex items-center justify-between pt-2 border-t border-white/10">
-                  <span className="font-bold text-xs text-[#e5a93c]">Rp 65.000</span>
-                  <span className="text-[11px] font-semibold text-white/90 group-hover:text-[#e5a93c] flex items-center gap-0.5">
+                  <span className="font-bold text-xs text-white">Rp 65.000</span>
+                  <span className="text-[11px] font-medium text-stone-300 group-hover:text-white flex items-center gap-0.5">
                     + Tambah
                   </span>
                 </div>
               </div>
-            </div>
-
-            {/* Quick Actions Row */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5">
-              <a
-                href="#menu-catalog"
-                className="px-7 py-3.5 rounded-xl bg-[#e5a93c] hover:bg-amber-400 text-[#200508] font-bold text-xs uppercase tracking-wider shadow-lg transition-transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2 cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-base">restaurant</span>
-                <span>Pilih Semua Menu</span>
-              </a>
-
-              <a
-                href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20ingin%20tanya%20pesanan%20bakso"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold text-xs uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-emerald-400 text-base">chat</span>
-                <span>Konsultasi WhatsApp</span>
-              </a>
-
-              <a
-                href="https://maps.google.com/?q=Pasar+Kramat+Jati+Jakarta+Timur"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold text-xs uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-[#e5a93c] text-base">location_on</span>
-                <span>Lokasi Kios Kramat Jati</span>
-              </a>
             </div>
           </div>
         </section>
@@ -340,45 +300,45 @@ export default function HomePage() {
         {/* ========================================================================= */}
         {/* 2. HERITAGE MARQUEE BANNER (CLEAN, STRAIGHT, ENERGETIC QUALITY STRIP)      */}
         {/* ========================================================================= */}
-        <section className="bg-[#38070d] text-white py-4 overflow-hidden select-none border-b border-[#520c15]">
-          <div className="flex gap-8 whitespace-nowrap animate-marquee font-headline text-xs sm:text-sm font-bold tracking-widest uppercase">
+        <section className="bg-[#200407] text-stone-300 py-3.5 overflow-hidden select-none border-b border-white/5">
+          <div className="flex gap-8 whitespace-nowrap animate-marquee font-headline text-xs sm:text-sm font-semibold tracking-widest uppercase">
             {[...Array(2)].map((_, loopIdx) => (
-              <div key={loopIdx} className="flex items-center gap-8 shrink-0">
+              <div key={loopIdx} className="flex items-center gap-8 shrink-0 text-stone-300">
                 <span className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#e5a93c] text-base">soup_kitchen</span>
+                  <span className="material-symbols-outlined text-white/50 text-base">soup_kitchen</span>
                   <span>100% DAGING SAPI MURNI</span>
-                  <span className="text-[#e5a93c]">•</span>
+                  <span className="text-white/20">•</span>
                 </span>
                 <span className="flex items-center gap-2">
                   <span>MIE BASAH TELOR BEBEK</span>
-                  <span className="text-[#e5a93c]">•</span>
+                  <span className="text-white/20">•</span>
                 </span>
                 <span className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#e5a93c] text-base">verified</span>
+                  <span className="material-symbols-outlined text-white/50 text-base">verified</span>
                   <span>TANPA BORAKS &amp; PENGAWET</span>
-                  <span className="text-[#e5a93c]">•</span>
+                  <span className="text-white/20">•</span>
                 </span>
                 <span className="flex items-center gap-2">
                   <span>KUAH KALDU SUMSUM ASLI</span>
-                  <span className="text-[#e5a93c]">•</span>
+                  <span className="text-white/20">•</span>
                 </span>
                 <span className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#e5a93c] text-base">storefront</span>
+                  <span className="material-symbols-outlined text-white/50 text-base">storefront</span>
                   <span>PASAR KRAMAT JATI EST. 2000</span>
-                  <span className="text-[#e5a93c]">•</span>
+                  <span className="text-white/20">•</span>
                 </span>
                 <span className="flex items-center gap-2">
                   <span>KULIT PANGSIT RENYAH</span>
-                  <span className="text-[#e5a93c]">•</span>
+                  <span className="text-white/20">•</span>
                 </span>
                 <span className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#e5a93c] text-base">local_shipping</span>
+                  <span className="material-symbols-outlined text-white/50 text-base">local_shipping</span>
                   <span>KIRIM SEGAR SE-JABODETABEK</span>
-                  <span className="text-[#e5a93c]">•</span>
+                  <span className="text-white/20">•</span>
                 </span>
                 <span className="flex items-center gap-2">
                   <span>DIPERCAYA 500+ MITRA KULINER</span>
-                  <span className="text-[#e5a93c]">•</span>
+                  <span className="text-white/20">•</span>
                 </span>
               </div>
             ))}
@@ -458,7 +418,7 @@ export default function HomePage() {
               {filteredDisplayProducts.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white rounded-2xl overflow-hidden border border-stone-200 hover:border-[#e5a93c] shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group"
+                  className="bg-white rounded-2xl overflow-hidden border border-stone-200 hover:border-[#7a0019]/40 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group"
                 >
                   <div>
                     {/* Image */}
@@ -471,7 +431,7 @@ export default function HomePage() {
                           e.target.src = "/images/hero-banner.webp";
                         }}
                       />
-                      <span className="absolute top-3 left-3 bg-[#200508]/85 backdrop-blur-xs text-[#e5a93c] font-bold text-[10px] px-2.5 py-0.5 rounded-md uppercase tracking-wider">
+                      <span className="absolute top-3 left-3 bg-[#200407]/90 backdrop-blur-xs text-stone-200 font-bold text-[10px] px-2.5 py-0.5 rounded-md uppercase tracking-wider">
                         {item.category || "Bakso"}
                       </span>
                       <div className="absolute top-3 right-3 bg-white/95 text-[#1c1917] font-bold text-[11px] px-2 py-0.5 rounded-md flex items-center gap-0.5 shadow-xs">
@@ -603,7 +563,7 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-transparent to-transparent pointer-events-none" />
                   <div className="absolute bottom-5 left-5 right-5 text-white">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#e5a93c]">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-stone-300">
                       Dokumentasi Kios Asli
                     </span>
                     <p className="font-headline font-bold text-xl uppercase mt-0.5 text-white">
@@ -638,9 +598,9 @@ export default function HomePage() {
                     href="https://maps.google.com/?q=Pasar+Kramat+Jati+Jakarta+Timur"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-6 py-3 rounded-xl bg-[#200508] hover:bg-[#38070d] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-xs transition-colors"
+                    className="px-6 py-3 rounded-xl bg-[#200407] hover:bg-[#32060b] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-xs transition-colors"
                   >
-                    <span className="material-symbols-outlined text-base text-[#e5a93c]">near_me</span>
+                    <span className="material-symbols-outlined text-base text-white">near_me</span>
                     <span>Petunjuk Arah Kios Pasar Kramat Jati</span>
                   </a>
                   <a
@@ -649,7 +609,7 @@ export default function HomePage() {
                     rel="noopener noreferrer"
                     className="px-6 py-3 rounded-xl bg-stone-100 hover:bg-stone-200 border border-stone-300 text-[#1c1917] font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-colors"
                   >
-                    <span className="material-symbols-outlined text-emerald-700 text-base">chat</span>
+                    <span className="material-symbols-outlined text-stone-700 text-base">chat</span>
                     <span>Hubungi Kios via WhatsApp</span>
                   </a>
                 </div>
@@ -733,48 +693,14 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ========================================================================= */}
-        {/* 8. ORDER NOW CTA BANNER                                                   */}
-        {/* ========================================================================= */}
-        <section className="bg-[#200508] text-white py-16 sm:py-20 border-t border-[#3d0a11] text-center">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-[#e5a93c]/20 text-[#e5a93c] font-bold text-xs uppercase tracking-wider border border-[#e5a93c]/30">
-              Pesan Segar Langsung Ke Rumah
-            </span>
-            <h2 className="font-headline text-3xl sm:text-5xl font-bold text-white tracking-tight leading-tight uppercase">
-              Nikmati Kehangatan <span className="text-[#e5a93c]">Bakso Sapi Asli</span> Hari Ini
-            </h2>
-            <p className="text-stone-300 text-sm sm:text-base font-normal leading-relaxed max-w-xl mx-auto">
-              Dibuat segar setiap hari, dikemas higienis, dan dikirim aman ke seluruh Jabodetabek. Nikmati kelezatan semangkuk bakso otentik bersama keluarga tercinta.
-            </p>
-            <div className="pt-4 flex flex-wrap items-center justify-center gap-3.5">
-              <Link
-                href="/produk"
-                className="px-7 py-3.5 rounded-xl bg-[#e5a93c] hover:bg-amber-400 text-[#200508] font-bold text-xs uppercase tracking-wider shadow-lg transition-all hover:scale-105 flex items-center gap-2"
-              >
-                <span>Jelajahi Menu Lengkap</span>
-                <span className="material-symbols-outlined text-sm font-bold">arrow_forward</span>
-              </Link>
-              <a
-                href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20ingin%20tanya%20pesanan%20langsung"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider border border-white/20 transition-all flex items-center gap-2"
-              >
-                <span className="material-symbols-outlined text-emerald-400 text-base">chat</span>
-                <span>Konsultasi WhatsApp</span>
-              </a>
-            </div>
-          </div>
-        </section>
       </main>
 
       <Footer />
 
       {/* Cart Notification Toast */}
       {toastMessage && (
-        <div className="fixed bottom-20 md:bottom-8 right-6 z-50 bg-[#200508] text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold border border-[#e5a93c]/40 animate-in fade-in slide-in-from-bottom-3">
-          <span className="material-symbols-outlined text-[#e5a93c] text-base">
+        <div className="fixed bottom-20 md:bottom-8 right-6 z-50 bg-[#200407] text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold border border-white/15 animate-in fade-in slide-in-from-bottom-3">
+          <span className="material-symbols-outlined text-emerald-400 text-base">
             check_circle
           </span>
           <span>{toastMessage} berhasil masuk keranjang</span>

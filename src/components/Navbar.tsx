@@ -70,8 +70,10 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 w-full z-50 transition-all duration-300">
       <nav
-        className={`w-full transition-all duration-300 bg-[#200408]/95 backdrop-blur-md border-b border-[#420812] ${
-          isScrolled ? "shadow-xl" : "shadow-sm"
+        className={`w-full transition-all duration-300 ${
+          isScrolled
+            ? "bg-[#200407]/95 backdrop-blur-md border-b border-white/10 shadow-lg"
+            : "bg-[#200407] border-b border-white/5"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -96,15 +98,15 @@ export default function Navbar() {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`text-[11px] font-extrabold uppercase tracking-[0.2em] transition-colors relative py-1.5 ${
+                    className={`text-[11px] font-bold uppercase tracking-[0.2em] transition-colors relative py-1.5 ${
                       isActive
-                        ? "text-[#e5a93c] font-black"
-                        : "text-[#faf7f2]/85 hover:text-[#e5a93c]"
+                        ? "text-white font-extrabold"
+                        : "text-white/70 hover:text-white"
                     }`}
                   >
                     {link.name}
                     {isActive && (
-                      <span className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-[#e5a93c]" />
+                      <span className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-white" />
                     )}
                   </Link>
                 );
@@ -118,11 +120,11 @@ export default function Navbar() {
                 <input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-48 xl:w-56 rounded-xl py-2 pl-9 pr-3 text-xs outline-none transition-all bg-[#36070e] text-white placeholder:text-stone-300 border border-[#59101f] focus:border-[#e5a93c]"
+                  className="w-48 xl:w-56 rounded-lg py-2 pl-9 pr-3 text-xs outline-none transition-all bg-white/5 hover:bg-white/10 focus:bg-white/10 text-white placeholder:text-white/40 border border-white/10 focus:border-white/30"
                   placeholder="Cari bakso, mie, bumbu..."
                   type="text"
                 />
-                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-base pointer-events-none text-stone-300">
+                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-base pointer-events-none text-white/40">
                   search
                 </span>
               </form>
@@ -132,7 +134,7 @@ export default function Navbar() {
                 <div className="relative group">
                   <Link
                     href="/profil"
-                    className="w-9 h-9 rounded-xl bg-[#51000d] text-[#e5a93c] border border-[#59101f] flex items-center justify-center font-bold text-xs shadow-xs hover:bg-[#7a0019] transition-colors"
+                    className="w-9 h-9 rounded-lg bg-[#51000d] text-white border border-white/15 flex items-center justify-center font-bold text-xs shadow-xs hover:bg-[#6b0012] transition-colors"
                     title="Profil Saya"
                   >
                     {(user.user_metadata?.full_name || user.email || "U")
@@ -182,9 +184,9 @@ export default function Navbar() {
               ) : (
                 <Link
                   href="/login"
-                  className="flex items-center gap-1.5 text-xs font-extrabold px-3 py-2 rounded-xl transition-colors text-white hover:text-[#e5a93c] hover:bg-[#36070e]"
+                  className="flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-lg transition-colors text-white/90 hover:text-white hover:bg-white/10"
                 >
-                  <span className="material-symbols-outlined text-lg text-[#e5a93c]">
+                  <span className="material-symbols-outlined text-lg">
                     account_circle
                   </span>
                   <span className="hidden sm:inline">Masuk</span>
@@ -194,7 +196,7 @@ export default function Navbar() {
               {/* Cart Button */}
               <button
                 onClick={openCart}
-                className="relative flex items-center justify-center w-10 h-10 rounded-xl transition-colors cursor-pointer shadow-2xs bg-[#36070e] border border-[#59101f] hover:border-[#e5a93c] text-white hover:text-[#e5a93c]"
+                className="relative flex items-center justify-center w-10 h-10 rounded-lg transition-colors cursor-pointer bg-white/5 border border-white/10 hover:border-white/25 hover:bg-white/10 text-white"
                 title="Buka Keranjang Belanja"
                 aria-label="Keranjang Belanja"
               >
@@ -202,7 +204,7 @@ export default function Navbar() {
                   shopping_bag
                 </span>
                 {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#e5a93c] text-[#200408] font-black text-[10px] min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center ring-2 ring-[#200408]">
+                  <span className="absolute -top-1 -right-1 bg-[#8c1326] text-white font-bold text-[10px] min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center ring-2 ring-[#200407]">
                     {totalItems > 99 ? "99+" : totalItems}
                   </span>
                 )}

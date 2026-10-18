@@ -3,7 +3,6 @@ import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 
 import BottomNav from "@/components/BottomNav";
-import WhatsAppButton from "@/components/WhatsAppButton";
 
 export const metadata: Metadata = {
   title: "Bakso Pak Mul | Pusat Bahan Baku Bakso & Mie Ayam",
@@ -54,7 +53,6 @@ export default function RootLayout({
         <CartProvider>
           {children}
           <BottomNav />
-          <WhatsAppButton />
         </CartProvider>
       </body>
     </html>
