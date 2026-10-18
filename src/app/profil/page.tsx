@@ -104,7 +104,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf7f2] text-[#1c1917] font-sans antialiased flex flex-col pt-20 sm:pt-24 selection:bg-[#51000d] selection:text-white">
+    <div className="min-h-screen bg-[#faf7f2] text-[#1c1917] font-sans antialiased flex flex-col pt-20 selection:bg-[#51000d] selection:text-white">
       <Navbar />
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full">

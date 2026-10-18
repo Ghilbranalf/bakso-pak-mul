@@ -38,11 +38,11 @@ export default function PromoPage() {
         </div>
       )}
 
-      <main className="pt-20 sm:pt-24 flex-grow">
+      <main className="flex-grow">
         {/* ========================================================================= */}
         {/* ARTISAN PROMO HERO BANNER                                                 */}
         {/* ========================================================================= */}
-        <section className="bg-[#200407] text-white py-16 sm:py-24 border-b border-stone-800">
+        <section className="bg-[#200407] text-white pt-28 sm:pt-36 pb-16 sm:pb-24 border-b border-stone-800">
           <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center space-y-3">
             <span className="text-xs font-semibold uppercase tracking-[0.25em] text-stone-400 block">
               Penawaran Khusus &amp; Harga Grosir

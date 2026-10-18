@@ -10,9 +10,9 @@ export default function AboutPage() {
     <div className="min-h-screen bg-[#faf7f2] text-stone-900 font-sans antialiased flex flex-col justify-between selection:bg-[#51000d] selection:text-white">
       <Navbar />
 
-      <main className="pt-20 sm:pt-24 flex-grow">
+      <main className="flex-grow">
         {/* Editorial Story Hero */}
-        <section className="bg-[#200407] text-white py-16 sm:py-24 border-b border-stone-800">
+        <section className="bg-[#200407] text-white pt-28 sm:pt-36 pb-16 sm:pb-24 border-b border-stone-800">
           <div className="text-center max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
             <span className="text-xs font-semibold uppercase tracking-[0.25em] text-stone-400 block">
               Dedikasi &amp; Tradisi Sejak 2000

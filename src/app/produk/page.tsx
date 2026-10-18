@@ -221,11 +221,11 @@ function ProductsContent() {
     <div className="min-h-screen bg-[#faf7f2] text-[#1c1917] font-sans antialiased flex flex-col justify-between selection:bg-[#51000d] selection:text-white">
       <Navbar />
 
-      <main className="flex-grow pt-20 sm:pt-24">
+      <main className="flex-grow">
         {/* ========================================================================= */}
         {/* ARTISAN POSTER HEADER BANNER (HARMONIOUS WITH HERO)                       */}
         {/* ========================================================================= */}
-        <section className="relative bg-[#200407] text-white py-14 sm:py-20 overflow-hidden border-b border-stone-800">
+        <section className="relative bg-[#200407] text-white pt-28 sm:pt-36 pb-14 sm:pb-20 overflow-hidden border-b border-stone-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
             <span className="text-xs font-semibold uppercase tracking-[0.25em] text-stone-400 block mb-3">
               Katalog Kios Pasar Kramat Jati
