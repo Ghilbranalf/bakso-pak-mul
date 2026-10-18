@@ -146,12 +146,12 @@ export default function HomePage() {
   }, [displayList, activeCategory]);
 
   const categories = [
-    { name: "Semua", label: "SEMUA RACIKAN" },
-    { name: "Bakso", label: "BAKSO SAPI ASLI" },
-    { name: "Mie", label: "MIE TELOR BEBEK" },
-    { name: "Pangsit", label: "KULIT PANGSIT" },
-    { name: "Bumbu", label: "BUMBU KALDU" },
-    { name: "Saos", label: "KECAP & SAUS" },
+    { name: "Semua", label: "Semua Racikan" },
+    { name: "Bakso", label: "Bakso Sapi Asli" },
+    { name: "Mie", label: "Mie Telor Bebek" },
+    { name: "Pangsit", label: "Kulit Pangsit" },
+    { name: "Bumbu", label: "Bumbu Kaldu" },
+    { name: "Saos", label: "Kecap & Saus" },
   ];
 
   const handleQuickAdd = (product: any) => {
@@ -169,487 +169,358 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf7f2] text-[#1c1917] font-sans antialiased selection:bg-[#51000d] selection:text-white">
+    <div className="min-h-screen bg-[#faf8f5] text-[#1c1917] font-sans antialiased selection:bg-[#7a0019] selection:text-white">
       <Navbar />
 
       <main>
         {/* ========================================================================= */}
-        {/* 1. ARTISAN POSTER HERO SECTION (PROPORTIONAL, BALANCED, RICH CENTERPIECE)  */}
+        {/* 1. ARTISAN POSTER HERO: MONUMENTAL, BALANCED, MASTERPIECE CULINARY FOCUS  */}
         {/* ========================================================================= */}
-        <section className="relative bg-[#1c0306] text-white pt-24 sm:pt-28 pb-16 overflow-hidden">
-          {/* Subtle background ambient grain / warm radial glow */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(229,169,60,0.14)_0%,_transparent_65%)] pointer-events-none" />
+        <section className="relative bg-[#200508] text-white pt-28 sm:pt-32 pb-16 lg:pb-24 overflow-hidden border-b border-[#3d0a11]">
+          {/* Subtle warm ambient radial light */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_25%,_rgba(229,169,60,0.14)_0%,_transparent_65%)] pointer-events-none" />
 
-          {/* Floating Quick Rail Icons */}
-          <div className="hidden lg:flex flex-col items-center gap-3 absolute right-6 top-1/2 -translate-y-1/2 z-20 bg-[#36070e]/85 backdrop-blur-md p-2 rounded-full border border-[#59101f] shadow-2xl">
-            <a
-              href="https://maps.google.com/?q=Pasar+Kramat+Jati+Jakarta+Timur"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-[#4a0a16] hover:bg-[#e5a93c] hover:text-[#1c0306] flex items-center justify-center text-xs text-white transition-colors"
-              title="Lokasi Kios Kramat Jati"
-            >
-              <span className="material-symbols-outlined text-sm">location_on</span>
-            </a>
-            <a
-              href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20ingin%20pesan%20bakso%20sapi"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-[#4a0a16] hover:bg-[#e5a93c] hover:text-[#1c0306] flex items-center justify-center text-xs text-white transition-colors"
-              title="Konsultasi WhatsApp"
-            >
-              <span className="material-symbols-outlined text-sm">chat</span>
-            </a>
-            <a
-              href="#menu-catalog"
-              className="w-9 h-9 rounded-full bg-[#4a0a16] hover:bg-[#e5a93c] hover:text-[#1c0306] flex items-center justify-center text-xs text-white transition-colors"
-              title="Pilihan Menu"
-            >
-              <span className="material-symbols-outlined text-sm">restaurant</span>
-            </a>
-          </div>
-
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            {/* Top Hero Sub-header info badges */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-2">
-              {/* Left Badge: Amber circle with soup/bowl icon + text */}
-              <div className="flex items-center gap-3 max-w-sm">
-                <div className="w-11 h-11 rounded-full bg-[#e5a93c] flex items-center justify-center text-[#1c0306] shrink-0 shadow-lg shadow-[#e5a93c]/20">
-                  <span className="material-symbols-outlined text-2xl font-bold">
-                    soup_kitchen
-                  </span>
-                </div>
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-[#e5a93c]">
-                    DISCOVER BAKSO BLISS.
-                  </p>
-                  <p className="text-[10px] uppercase tracking-wider text-[#faf7f2] font-semibold">
-                    100% DAGING SAPI MURNI SEGAR SETIAP SUBUH.
-                  </p>
-                </div>
-              </div>
-
-              {/* Right Badge: Embark on culinary journey */}
-              <div className="text-left sm:text-right max-w-sm">
-                <div className="flex items-center sm:justify-end gap-1.5 text-[#e5a93c] mb-0.5">
-                  <span className="material-symbols-outlined text-base">star</span>
-                  <span className="material-symbols-outlined text-base">star</span>
-                  <span className="material-symbols-outlined text-base">star</span>
-                </div>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-[#faf7f2] leading-snug">
-                  LEGENDA KULINER NUSANTARA DENGAN KUAH KALDU GURIH
-                </p>
-                <Link
-                  href="/produk"
-                  className="text-[10px] font-black uppercase tracking-widest text-[#e5a93c] hover:text-amber-200 inline-flex items-center gap-1 mt-0.5 group"
-                >
-                  <span>LIHAT KOLEKSI LENGKAP</span>
-                  <span className="material-symbols-outlined text-xs group-hover:translate-x-1 transition-transform">
-                    arrow_forward
-                  </span>
-                </Link>
-              </div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            {/* Top Heritage Kicker */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e5a93c]/15 text-[#e5a93c] border border-[#e5a93c]/30 text-xs font-semibold tracking-wider uppercase mb-4">
+              <span className="material-symbols-outlined text-sm">storefront</span>
+              <span>Kios Pasar Kramat Jati • Warisan Kuliner Sejak 2000</span>
             </div>
 
-            {/* Monumental Headline (Balanced & Proportional, Framing the Centerpiece) */}
-            <div className="text-center my-3 sm:my-5 relative select-none">
-              <h1 className="font-headline text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] tracking-tight uppercase leading-[0.9] text-white">
-                RASA ASLI
-              </h1>
-              <div className="relative inline-block mt-0.5 sm:mt-1">
-                <h2 className="font-headline text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] tracking-tight uppercase leading-[0.9] text-white">
-                  BAKSO <span className="text-[#e5a93c]">PAK MUL.</span>
-                </h2>
-                {/* Overlay warm gold cursive script font */}
-                <span className="font-script text-3xl sm:text-5xl md:text-6xl text-[#fcd34d] absolute -top-4 sm:-top-7 left-1/2 -translate-x-1/2 rotate-[-5deg] drop-shadow-md whitespace-nowrap pointer-events-none">
-                  Kuah Kaldu Asli
-                </span>
-              </div>
-            </div>
+            {/* Monumental Headline (Outfit font, dignified, bold, proud) */}
+            <h1 className="font-headline text-5xl sm:text-7xl md:text-8xl font-black uppercase tracking-tight text-white leading-[0.95] max-w-5xl mx-auto">
+              RASA ASLI <span className="text-[#e5a93c]">BAKSO PAK MUL.</span>
+            </h1>
 
-            {/* Trio Showcase Visual (Elevated high into the center, completely filling the canvas!) */}
-            <div className="relative max-w-3xl mx-auto -mt-6 sm:-mt-12 md:-mt-16 z-10 flex items-end justify-center">
-              {/* Cup 1 - Left (Mie Ayam Telor Bebek) */}
+            <p className="mt-4 text-stone-300 text-sm sm:text-base max-w-2xl mx-auto font-normal leading-relaxed">
+              100% daging sapi murni pilihan, diracik segar setiap subuh dengan bumbu kaldu sumsum rempah asli tanpa boraks dan pengawet buatan.
+            </p>
+
+            {/* Centerpiece Triptych Showcase (Balanced, crisp, mouthwatering) */}
+            <div className="relative max-w-5xl mx-auto mt-10 grid grid-cols-1 md:grid-cols-12 gap-5 items-end">
+              {/* Left Flank Card: Mie Telor Bebek */}
               <div
                 onClick={() => handleQuickAdd(displayList[2] || FALLBACK_PRODUCTS[2])}
-                className="w-40 sm:w-56 -mr-6 sm:-mr-10 transform -rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-300 cursor-pointer z-10 group"
+                className="md:col-span-3 bg-[#2d070c] rounded-2xl p-4 border border-white/10 hover:border-[#e5a93c]/60 shadow-xl transition-all duration-300 cursor-pointer group text-left"
               >
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-[#e5a93c]/30 bg-[#36070e] aspect-[3/4]">
+                <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-black/40 mb-3">
                   <img
                     src="/images/bakmie-telor-bebek.webp"
-                    alt="Mie Telor Bebek Kenyal"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    alt="Mie Basah Telor Bebek"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1c0306] via-transparent to-transparent opacity-85" />
-                  <div className="absolute bottom-3 inset-x-3 text-center bg-[#1c0306]/85 backdrop-blur-md py-1.5 px-2 rounded-xl border border-white/10">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-[#e5a93c]">
-                      MIE TELOR BEBEK
-                    </p>
-                    <p className="text-[8px] uppercase tracking-wider text-white font-bold">
-                      KENYAL ALAMI
-                    </p>
-                  </div>
+                  <span className="absolute top-2 left-2 bg-[#200508]/85 text-[#e5a93c] text-[10px] font-bold px-2 py-0.5 rounded uppercase">
+                    Kenyal Alami
+                  </span>
+                </div>
+                <h4 className="font-headline font-bold text-sm text-white truncate">
+                  Mie Basah Telor Bebek
+                </h4>
+                <p className="text-[11px] text-stone-300 line-clamp-1 mt-0.5">1 Kg (10-12 Porsi)</p>
+                <div className="mt-2.5 flex items-center justify-between pt-2 border-t border-white/10">
+                  <span className="font-bold text-xs text-[#e5a93c]">Rp 26.000</span>
+                  <span className="text-[11px] font-semibold text-white/90 group-hover:text-[#e5a93c] flex items-center gap-0.5">
+                    + Tambah
+                  </span>
                 </div>
               </div>
 
-              {/* Cup 2 - Center (Bakso Komplit - Dominant Hero Centerpiece) */}
+              {/* Center Main Showpiece: Bakso Sapi Komplit */}
               <div
                 onClick={() => handleQuickAdd(displayList[0] || FALLBACK_PRODUCTS[0])}
-                className="w-52 sm:w-68 md:w-76 transform z-20 hover:scale-105 transition-all duration-300 cursor-pointer group -mb-2 shadow-2xl"
+                className="md:col-span-6 bg-[#32080e] rounded-3xl p-5 border-2 border-[#e5a93c] shadow-2xl transition-all duration-300 cursor-pointer group text-left relative overflow-hidden"
               >
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-[#e5a93c] bg-[#36070e] aspect-[3/4]">
+                <div className="relative aspect-[16/11] rounded-2xl overflow-hidden bg-black/50 mb-4">
                   <img
                     src="/images/hero-banner.webp"
                     alt="Semangkuk Bakso Sapi Komplit Pak Mul"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1c0306] via-transparent to-transparent opacity-75" />
-                  <div className="absolute top-3 right-3 bg-[#e5a93c] text-[#1c0306] text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full shadow">
-                    SIGNATURE
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#200508]/90 via-transparent to-transparent opacity-80" />
+
+                  {/* Top Badges */}
+                  <div className="absolute top-3 left-3 bg-[#e5a93c] text-[#200508] text-xs font-black px-3 py-1 rounded-full shadow-md uppercase tracking-wider">
+                    Menu Andalan Kios
                   </div>
-                  <div className="absolute bottom-3 inset-x-3 text-center bg-[#e5a93c] py-2 px-2 rounded-xl shadow-lg">
-                    <p className="text-xs font-black uppercase tracking-widest text-[#1c0306]">
-                      BAKSO KOMPLIT
-                    </p>
-                    <p className="text-[9px] uppercase tracking-wider text-[#36070e] font-black">
-                      100% DAGING SAPI MURNI
-                    </p>
+
+                  <div className="absolute top-3 right-3 bg-white/95 text-[#1c1917] text-xs font-bold px-2.5 py-1 rounded-full shadow flex items-center gap-1">
+                    <span className="text-amber-500">★</span>
+                    <span>4.98</span>
+                    <span className="text-stone-500 font-normal text-[10px]">• 500+ Ulasan</span>
                   </div>
+
+                  {/* Bottom Image Info */}
+                  <div className="absolute bottom-3 left-4 right-4 text-white">
+                    <p className="text-xs font-bold uppercase tracking-wider text-[#e5a93c]">
+                      Racikan Resep 24+ Tahun
+                    </p>
+                    <h3 className="font-headline text-xl sm:text-2xl font-bold text-white mt-0.5">
+                      Bakso Sapi Komplit Kuah Kaldu
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-1">
+                  <div>
+                    <span className="text-[10px] uppercase font-bold text-stone-400 block">
+                      Harga Spesial
+                    </span>
+                    <span className="font-headline font-bold text-2xl text-[#e5a93c]">
+                      Rp 65.000 <span className="text-xs text-stone-300 font-normal">/ Pack (50 Butir)</span>
+                    </span>
+                  </div>
+                  <button className="px-5 py-2.5 rounded-xl bg-[#e5a93c] hover:bg-amber-400 text-[#200508] font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-md transition-transform active:scale-95">
+                    <span className="material-symbols-outlined text-sm font-bold">add</span>
+                    <span>Pesan Langsung</span>
+                  </button>
                 </div>
               </div>
 
-              {/* Cup 3 - Right (Bakso Urat Spesial) */}
+              {/* Right Flank Card: Bakso Urat Spesial */}
               <div
                 onClick={() => handleQuickAdd(displayList[1] || FALLBACK_PRODUCTS[1])}
-                className="w-40 sm:w-56 -ml-6 sm:-ml-10 transform rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-300 cursor-pointer z-10 group"
+                className="md:col-span-3 bg-[#2d070c] rounded-2xl p-4 border border-white/10 hover:border-[#e5a93c]/60 shadow-xl transition-all duration-300 cursor-pointer group text-left"
               >
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-[#e5a93c]/30 bg-[#36070e] aspect-[3/4]">
+                <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-black/40 mb-3">
                   <img
                     src="/images/bakso-citra-rasa-premium.webp"
                     alt="Bakso Urat Sapi Spesial"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1c0306] via-transparent to-transparent opacity-85" />
-                  <div className="absolute bottom-3 inset-x-3 text-center bg-[#1c0306]/85 backdrop-blur-md py-1.5 px-2 rounded-xl border border-white/10">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-[#e5a93c]">
-                      BAKSO URAT
-                    </p>
-                    <p className="text-[8px] uppercase tracking-wider text-white font-bold">
-                      CACAHAN URAT GURIH
-                    </p>
-                  </div>
+                  <span className="absolute top-2 left-2 bg-[#200508]/85 text-[#e5a93c] text-[10px] font-bold px-2 py-0.5 rounded uppercase">
+                    100% Sapi Murni
+                  </span>
+                </div>
+                <h4 className="font-headline font-bold text-sm text-white truncate">
+                  Bakso Sapi Urat Spesial
+                </h4>
+                <p className="text-[11px] text-stone-300 line-clamp-1 mt-0.5">50 Butir Cacahan Gurih</p>
+                <div className="mt-2.5 flex items-center justify-between pt-2 border-t border-white/10">
+                  <span className="font-bold text-xs text-[#e5a93c]">Rp 65.000</span>
+                  <span className="text-[11px] font-semibold text-white/90 group-hover:text-[#e5a93c] flex items-center gap-0.5">
+                    + Tambah
+                  </span>
                 </div>
               </div>
             </div>
 
-            {/* Amber Feature Dock Card (docked under the centerpiece) */}
-            <div className="max-w-4xl mx-auto mt-6 bg-[#e5a93c] rounded-3xl p-5 sm:p-7 shadow-2xl text-[#1c0306] flex flex-col md:flex-row items-center justify-between gap-6 border-2 border-amber-300">
-              {/* Left Part: Top rated culinary */}
-              <div className="flex items-center gap-4 text-left">
-                <div className="w-12 h-12 rounded-2xl bg-[#1c0306] text-[#e5a93c] flex items-center justify-center shrink-0 shadow-md">
-                  <span className="material-symbols-outlined text-2xl font-bold">
-                    verified
-                  </span>
-                </div>
-                <div>
-                  <h4 className="font-black text-sm uppercase tracking-wider text-[#1c0306]">
-                    TOP RATED KULINER
-                  </h4>
-                  <p className="text-[11px] font-extrabold text-[#36070e] mt-0.5">
-                    RESEP TRADISIONAL 24+ TAHUN DENGAN 100% DAGING SAPI MURNI.
-                  </p>
-                </div>
-              </div>
+            {/* Quick Actions Row */}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5">
+              <a
+                href="#menu-catalog"
+                className="px-7 py-3.5 rounded-xl bg-[#e5a93c] hover:bg-amber-400 text-[#200508] font-bold text-xs uppercase tracking-wider shadow-lg transition-transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-base">restaurant</span>
+                <span>Pilih Semua Menu</span>
+              </a>
 
-              {/* Middle Part: Rating score */}
-              <div className="flex items-center gap-2 bg-[#1c0306]/10 px-5 py-2 rounded-2xl border border-[#1c0306]/15">
-                <span className="font-headline text-4xl sm:text-5xl tracking-tight text-[#1c0306]">
-                  4.98
-                </span>
-                <span className="material-symbols-outlined text-2xl text-[#1c0306] font-bold">
-                  star
-                </span>
-              </div>
+              <a
+                href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20ingin%20tanya%20pesanan%20bakso"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold text-xs uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-emerald-400 text-base">chat</span>
+                <span>Konsultasi WhatsApp</span>
+              </a>
 
-              {/* Right Part: Preview Item with mini-thumbnail & Order Button */}
-              <div className="flex items-center gap-3 bg-white p-2.5 pr-4 rounded-2xl border border-[#1c0306]/10 shadow-sm w-full md:w-auto">
-                <div className="w-12 h-12 rounded-xl overflow-hidden bg-[#1c0306] shrink-0">
-                  <img
-                    src="/images/bakso-citra-rasa-premium.webp"
-                    alt="Bakso Urat Preview"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="text-left flex-1 min-w-0">
-                  <p className="text-xs font-black uppercase text-[#1c0306] truncate">
-                    BAKSO SAPI URAT
-                  </p>
-                  <p className="text-[10px] text-[#51000d] truncate font-extrabold">
-                    Rp 65.000 (50 Butir)
-                  </p>
-                </div>
-                <button
-                  onClick={() => handleQuickAdd(displayList[0] || FALLBACK_PRODUCTS[0])}
-                  className="w-8 h-8 rounded-full bg-[#e5a93c] text-[#1c0306] hover:bg-amber-400 flex items-center justify-center font-bold shadow transition-transform active:scale-95 shrink-0"
-                  title="Pesan Langsung"
-                >
-                  <span className="material-symbols-outlined text-base font-bold">add</span>
-                </button>
-              </div>
+              <a
+                href="https://maps.google.com/?q=Pasar+Kramat+Jati+Jakarta+Timur"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold text-xs uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[#e5a93c] text-base">location_on</span>
+                <span>Lokasi Kios Kramat Jati</span>
+              </a>
             </div>
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* 2. CROSSING RIBBON TAPE MARQUEE (DEEP MAROON & GOLD ACCENT BORDER)        */}
+        {/* 2. HERITAGE MARQUEE BANNER (CLEAN, STRAIGHT, ENERGETIC QUALITY STRIP)      */}
         {/* ========================================================================= */}
-        <section className="relative py-8 bg-[#faf7f2] overflow-hidden select-none -my-3 z-20">
-          <div className="bg-[#51000d] text-white py-3.5 shadow-xl transform -rotate-1 origin-left border-y-2 border-[#e5a93c]/50">
-            <div className="flex gap-8 whitespace-nowrap animate-marquee font-headline text-lg sm:text-xl tracking-widest uppercase">
-              {[...Array(2)].map((_, loopIdx) => (
-                <div key={loopIdx} className="flex items-center gap-8 shrink-0">
-                  <span className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-[#e5a93c] text-sm">
-                      soup_kitchen
-                    </span>
-                    <span>BAKSO URAT SPESIAL</span>
-                    <span className="text-[#e5a93c] font-bold">•</span>
-                  </span>
-                  <span className="flex items-center gap-3">
-                    <span>MIE TELOR BEBEK</span>
-                    <span className="text-[#e5a93c] font-bold">•</span>
-                  </span>
-                  <span className="flex items-center gap-3">
-                    <span>BAKSO HALUS SUPER</span>
-                    <span className="text-[#e5a93c] font-bold">•</span>
-                  </span>
-                  <span className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-[#e5a93c] text-sm">
-                      local_dining
-                    </span>
-                    <span>PANGSIT RENYAH</span>
-                    <span className="text-[#e5a93c] font-bold">•</span>
-                  </span>
-                  <span className="flex items-center gap-3">
-                    <span>KUAH KALDU REMPAH</span>
-                    <span className="text-[#e5a93c] font-bold">•</span>
-                  </span>
-                  <span className="flex items-center gap-3">
-                    <span>100% DAGING SAPI MURNI</span>
-                    <span className="text-[#e5a93c] font-bold">•</span>
-                  </span>
-                  <span className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-[#e5a93c] text-sm">
-                      verified
-                    </span>
-                    <span>TAHU BAKSO GURIH</span>
-                    <span className="text-[#e5a93c] font-bold">•</span>
-                  </span>
-                  <span className="flex items-center gap-3">
-                    <span>KECAP &amp; SAUS TRADISIONAL</span>
-                    <span className="text-[#e5a93c] font-bold">•</span>
-                  </span>
-                </div>
-              ))}
-            </div>
+        <section className="bg-[#38070d] text-white py-4 overflow-hidden select-none border-b border-[#520c15]">
+          <div className="flex gap-8 whitespace-nowrap animate-marquee font-headline text-xs sm:text-sm font-bold tracking-widest uppercase">
+            {[...Array(2)].map((_, loopIdx) => (
+              <div key={loopIdx} className="flex items-center gap-8 shrink-0">
+                <span className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#e5a93c] text-base">soup_kitchen</span>
+                  <span>100% DAGING SAPI MURNI</span>
+                  <span className="text-[#e5a93c]">•</span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <span>MIE BASAH TELOR BEBEK</span>
+                  <span className="text-[#e5a93c]">•</span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#e5a93c] text-base">verified</span>
+                  <span>TANPA BORAKS &amp; PENGAWET</span>
+                  <span className="text-[#e5a93c]">•</span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <span>KUAH KALDU SUMSUM ASLI</span>
+                  <span className="text-[#e5a93c]">•</span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#e5a93c] text-base">storefront</span>
+                  <span>PASAR KRAMAT JATI EST. 2000</span>
+                  <span className="text-[#e5a93c]">•</span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <span>KULIT PANGSIT RENYAH</span>
+                  <span className="text-[#e5a93c]">•</span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#e5a93c] text-base">local_shipping</span>
+                  <span>KIRIM SEGAR SE-JABODETABEK</span>
+                  <span className="text-[#e5a93c]">•</span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <span>DIPERCAYA 500+ MITRA KULINER</span>
+                  <span className="text-[#e5a93c]">•</span>
+                </span>
+              </div>
+            ))}
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* 3. TYPOGRAPHIC STATEMENT SECTION (HIGH CONTRAST WARM ESPRESSO TEXT)       */}
+        {/* 3. MONUMENTAL STATEMENT SECTION (CLEAN EDITORIAL POSTER STATEMENT)        */}
         {/* ========================================================================= */}
-        <section className="py-20 sm:py-28 bg-[#faf7f2] relative">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="relative inline-block">
-              {/* Yellow script overlay text */}
-              <span className="font-script text-5xl sm:text-7xl md:text-8xl text-[#d97706] absolute -top-8 sm:-top-12 left-1/4 -translate-x-1/2 rotate-[-5deg] pointer-events-none drop-shadow-sm z-10">
-                Resep Warisan
-              </span>
+        <section className="py-20 sm:py-28 bg-[#faf8f5]">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#7a0019]">
+              Filosofi &amp; Komitmen Rasa
+            </span>
 
-              {/* Giant statement text with inline pill badges */}
-              <h2 className="font-headline text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] tracking-tight text-[#1c1917] uppercase leading-[1.12]">
-                DIBUAT DARI{" "}
-                <span className="inline-flex items-center gap-2 bg-[#e5a93c] text-[#1c0306] px-4 py-1 rounded-full text-base sm:text-xl font-sans font-black align-middle shadow-sm">
-                  <span className="material-symbols-outlined text-lg font-bold">local_dining</span>
-                  <span>Nusantara</span>
-                </span>{" "}
-                100% DAGING SAPI MURNI PILIHAN{" "}
-                <span className="inline-flex items-center justify-center w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-[#51000d] text-[#e5a93c] align-middle shadow">
-                  <span className="material-symbols-outlined text-lg sm:text-2xl">
-                    soup_kitchen
-                  </span>
-                </span>{" "}
-                DAN RACIKAN{" "}
-                <span className="inline-block w-16 sm:w-24 h-8 sm:h-12 rounded-full overflow-hidden align-middle border-2 border-[#e5a93c] shadow">
-                  <img
-                    src="/images/hero-banner.webp"
-                    alt="Bakso Kuah Pill"
-                    className="w-full h-full object-cover"
-                  />
-                </span>{" "}
-                KUAH KALDU REMPAH{" "}
-                <span className="inline-block w-20 sm:w-28 h-8 sm:h-12 rounded-full overflow-hidden align-middle border-2 border-[#51000d] shadow">
-                  <img
-                    src="/images/bakmie-telor-bebek.webp"
-                    alt="Mie Pill"
-                    className="w-full h-full object-cover"
-                  />
-                </span>{" "}
-                MERESAP SEMPURNA HINGGA TETES TERAKHIR
-              </h2>
-            </div>
+            <h2 className="font-headline text-3xl sm:text-5xl lg:text-6xl font-black text-[#1c1917] uppercase tracking-tight leading-[1.12]">
+              Dibuat dari 100% Daging Sapi Murni Pilihan, Diracik Kuah Kaldu Rempah Asli, Meresap Sempurna Hingga Tetes Terakhir.
+            </h2>
 
-            <p className="max-w-2xl mx-auto text-[#2b1b17] text-sm sm:text-base mt-8 leading-relaxed font-semibold">
+            <p className="max-w-2xl mx-auto text-stone-600 text-sm sm:text-base leading-relaxed font-normal">
               Kelezatan bakso sapi asli khas Pasar Kramat Jati. Diracik segar setiap subuh dari potongan daging sapi murni tanpa boraks dan tanpa pengawet buatan, menjaga cita rasa otentik yang dicintai keluarga dan ratusan warung mitra selama lebih dari 24 tahun.
             </p>
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* 4. "MENU BY CATEGORIES" FLOATING ORGANIC TAG CLOUD                        */}
+        {/* 4. MENU CATALOG & INTEGRATED CATEGORY TABS                                */}
         {/* ========================================================================= */}
-        <section className="py-20 bg-[#f5ede2] relative overflow-hidden">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            {/* Section Header with Script Overlay */}
-            <div className="relative inline-block mb-12">
-              <h3 className="font-headline text-5xl sm:text-7xl md:text-8xl tracking-tight text-[#1c1917] uppercase leading-none">
-                PILIHAN MENU KAMI
-              </h3>
-              <span className="font-script text-4xl sm:text-6xl text-[#d97706] absolute -top-4 sm:-top-6 right-0 rotate-[-6deg] pointer-events-none drop-shadow-sm">
-                Aneka Racikan
-              </span>
-            </div>
-
-            {/* Floating Organic Bean-Shaped Category Tags */}
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 max-w-4xl mx-auto">
-              {categories.map((cat, idx) => {
-                const isSelected = activeCategory === cat.name;
-                return (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      setActiveCategory(cat.name);
-                      const el = document.getElementById("menu-catalog");
-                      if (el) el.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-full border-2 text-xs sm:text-sm font-black tracking-wider transition-all duration-300 flex items-center gap-2 shadow-sm cursor-pointer ${
-                      isSelected
-                        ? "bg-[#51000d] border-[#51000d] text-[#e5a93c] scale-105 shadow-lg"
-                        : "bg-white hover:bg-stone-50 border-stone-300 text-[#1c1917] hover:border-[#e5a93c] hover:scale-105"
-                    }`}
-                  >
-                    <span className="material-symbols-outlined text-sm text-[#e5a93c]">
-                      restaurant
-                    </span>
-                    <span>{cat.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {activeCategory !== "Semua" && (
-              <div className="mt-6">
-                <button
-                  onClick={() => setActiveCategory("Semua")}
-                  className="text-xs font-black text-[#7a0019] underline hover:text-[#51000d] cursor-pointer"
-                >
-                  Reset Filter (Tampilkan Semua Pilihan)
-                </button>
-              </div>
-            )}
-          </div>
-        </section>
-
-        {/* ========================================================================= */}
-        {/* 5. MENU SELECTION CATALOG (CRISP, CONTRAST-RICH ARTISAN PRODUCT GRID)     */}
-        {/* ========================================================================= */}
-        <section id="menu-catalog" className="py-24 bg-[#faf7f2]">
+        <section id="menu-catalog" className="py-16 sm:py-24 bg-white border-y border-stone-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
               <div>
-                <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#7a0019]">
-                  PILIHAN KEDAI
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#7a0019]">
+                  Pilihan Kedai
                 </span>
-                <h3 className="font-headline text-4xl sm:text-6xl text-[#1c1917] tracking-tight uppercase mt-1">
-                  KOLEKSI RACIKAN TERBAIK
+                <h3 className="font-headline text-3xl sm:text-5xl font-bold text-[#1c1917] tracking-tight mt-1 uppercase">
+                  Katalog Racikan &amp; Bahan Baku
                 </h3>
+                <p className="text-stone-500 text-xs sm:text-sm mt-1">
+                  Pesan langsung kebutuhan olahan bakso, mie, dan bumbu untuk meja makan rumah tangga maupun warung mitra.
+                </p>
               </div>
+
               <Link
                 href="/produk"
-                className="mt-4 md:mt-0 px-6 py-3 rounded-full bg-[#1c0306] text-white hover:bg-[#36070e] text-xs font-bold uppercase tracking-wider flex items-center gap-2 group transition-all"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#7a0019] hover:text-[#51000d] uppercase tracking-wider group"
               >
-                <span>BUKA HALAMAN PRODUK LENGKAP</span>
-                <span className="material-symbols-outlined text-sm text-[#e5a93c] group-hover:translate-x-1 transition-transform">
+                <span>Buka Katalog Lengkap</span>
+                <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">
                   arrow_forward
                 </span>
               </Link>
             </div>
 
+            {/* Clean Category Filter Tabs */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
+              {categories.map((cat) => {
+                const isSelected = activeCategory === cat.name;
+                return (
+                  <button
+                    key={cat.name}
+                    onClick={() => setActiveCategory(cat.name)}
+                    className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                      isSelected
+                        ? "bg-[#7a0019] text-white shadow-md font-bold"
+                        : "bg-stone-100 hover:bg-stone-200 text-stone-700"
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Product Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredDisplayProducts.map((item) => (
                 <div
                   key={item.id}
-                  className="group bg-white rounded-3xl overflow-hidden border-2 border-stone-200 hover:border-[#e5a93c] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                  className="bg-white rounded-2xl overflow-hidden border border-stone-200 hover:border-[#e5a93c] shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group"
                 >
                   <div>
-                    {/* Image Presentation */}
-                    <div className="relative h-56 overflow-hidden bg-[#1c0306]">
+                    {/* Image */}
+                    <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
                       <img
                         src={item.image || "/images/hero-banner.webp"}
                         alt={item.name}
-                        className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         onError={(e: any) => {
                           e.target.src = "/images/hero-banner.webp";
                         }}
                       />
-                      <div className="absolute top-3 left-3 bg-[#51000d] text-[#e5a93c] font-black text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wider shadow">
+                      <span className="absolute top-3 left-3 bg-[#200508]/85 backdrop-blur-xs text-[#e5a93c] font-bold text-[10px] px-2.5 py-0.5 rounded-md uppercase tracking-wider">
                         {item.category || "Bakso"}
-                      </div>
-                      <div className="absolute bottom-3 right-3 bg-[#e5a93c] text-[#1c0306] font-black text-xs px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow">
-                        <span className="material-symbols-outlined text-xs">star</span>
+                      </span>
+                      <div className="absolute top-3 right-3 bg-white/95 text-[#1c1917] font-bold text-[11px] px-2 py-0.5 rounded-md flex items-center gap-0.5 shadow-xs">
+                        <span className="text-amber-500 text-xs">★</span>
                         <span>{item.rating || "4.9"}</span>
                       </div>
                     </div>
 
-                    <div className="p-5">
+                    {/* Details */}
+                    <div className="p-4 sm:p-5">
                       <Link href={`/produk/${item.id}`} className="block">
-                        <h4 className="font-extrabold text-[#1c1917] text-lg group-hover:text-[#7a0019] transition-colors line-clamp-1">
+                        <h4 className="font-headline font-bold text-[#1c1917] text-base group-hover:text-[#7a0019] transition-colors line-clamp-1">
                           {item.name}
                         </h4>
                       </Link>
-                      <p className="text-[#2b1b17] text-xs mt-1.5 line-clamp-2 leading-relaxed font-medium">
+                      <p className="text-stone-500 text-xs mt-1.5 line-clamp-2 leading-relaxed font-normal">
                         {item.description || "Olahan segar berkualitas dari bahan baku murni terpilih khas Bakso Pak Mul."}
                       </p>
                       {item.unit && (
-                        <p className="text-[11px] font-extrabold text-[#51000d] mt-2">
-                          Kemasan: <span className="text-[#1c1917] font-semibold">{item.unit}</span>
+                        <p className="text-[11px] font-semibold text-stone-600 mt-2 bg-stone-100 inline-block px-2 py-0.5 rounded">
+                          Kemasan: <span className="text-stone-900 font-bold">{item.unit}</span>
                         </p>
                       )}
                     </div>
                   </div>
 
-                  <div className="p-5 pt-0 mt-2 border-t border-stone-100 flex items-center justify-between">
-                    <div className="pt-3">
-                      <span className="text-[10px] uppercase font-black text-[#51000d] block">
-                        HARGA
+                  {/* Price & Action */}
+                  <div className="p-4 sm:p-5 pt-0 border-t border-stone-100 flex items-center justify-between mt-2">
+                    <div className="pt-2">
+                      <span className="text-[10px] uppercase font-bold text-stone-500 block">
+                        Harga
                       </span>
-                      <span className="font-headline text-2xl text-[#1c1917]">
+                      <span className="font-headline font-bold text-lg text-[#1c1917]">
                         Rp {(item.price || 0).toLocaleString("id-ID")}
                       </span>
                     </div>
 
                     <button
                       onClick={() => handleQuickAdd(item)}
-                      className={`mt-3 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-wider shadow-md active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer ${
+                      className={`px-4 py-2 rounded-xl font-bold text-xs shadow-xs active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer ${
                         addedId === item.id
                           ? "bg-emerald-700 text-white"
-                          : "bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306]"
+                          : "bg-[#7a0019] hover:bg-[#51000d] text-white"
                       }`}
                     >
-                      <span className="material-symbols-outlined text-sm font-bold">
+                      <span className="material-symbols-outlined text-sm">
                         {addedId === item.id ? "check" : "add"}
                       </span>
-                      <span>{addedId === item.id ? "MASUK" : "PESAN"}</span>
+                      <span>{addedId === item.id ? "Masuk" : "Tambah"}</span>
                     </button>
                   </div>
                 </div>
@@ -659,49 +530,57 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* 6. QUALITY PILLARS (DEEP HIGH-CONTRAST TEXT & CLEAR NUMBERS)              */}
+        {/* 5. 4 PILAR KUALITAS PAK MUL (STRUCTURED & CRISP)                          */}
         {/* ========================================================================= */}
-        <section className="py-20 bg-white border-y border-stone-200">
+        <section className="py-16 sm:py-24 bg-[#faf8f5]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-14">
-              <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#7a0019]">
-                STANDAR MUTU
+            <div className="text-center max-w-xl mx-auto mb-12">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#7a0019]">
+                Standar Mutu
               </span>
-              <h3 className="font-headline text-3xl sm:text-5xl text-[#1c1917] tracking-tight uppercase mt-1">
-                4 PILAR KUALITAS PAK MUL
+              <h3 className="font-headline text-2xl sm:text-4xl font-bold text-[#1c1917] tracking-tight mt-1 uppercase">
+                4 Pilar Kualitas Bakso Pak Mul
               </h3>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="bg-[#faf7f2] p-6 rounded-3xl border border-stone-200 space-y-3">
-                <span className="font-headline text-3xl text-[#7a0019]">01</span>
-                <h4 className="font-extrabold text-base text-[#1c1917]">100% Daging Sapi Murni</h4>
-                <p className="text-xs text-[#2b1b17] font-medium leading-relaxed">
-                  Dipilih langsung dari pemotongan halal pasar induk setiap subuh tanpa campuran boraks maupun pengawet sintetis.
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white p-6 rounded-2xl border border-stone-200 shadow-xs space-y-3">
+                <div className="w-10 h-10 rounded-xl bg-[#7a0019]/10 text-[#7a0019] flex items-center justify-center font-bold font-headline text-lg">
+                  01
+                </div>
+                <h4 className="font-headline font-bold text-base text-[#1c1917]">100% Daging Sapi Murni</h4>
+                <p className="text-xs text-stone-600 leading-relaxed font-normal">
+                  Dipilih langsung dari pemotongan pasar induk setiap subuh tanpa campuran boraks maupun pengawet sintetis.
                 </p>
               </div>
 
-              <div className="bg-[#faf7f2] p-6 rounded-3xl border border-stone-200 space-y-3">
-                <span className="font-headline text-3xl text-[#7a0019]">02</span>
-                <h4 className="font-extrabold text-base text-[#1c1917]">Kuah Kaldu Sumsum Asli</h4>
-                <p className="text-xs text-[#2b1b17] font-medium leading-relaxed">
-                  Sari rebusan tulang sumsum sapi berpadu tumisan bawang putih harum, menghasilkan aroma kaldu yang gurih alami.
+              <div className="bg-white p-6 rounded-2xl border border-stone-200 shadow-xs space-y-3">
+                <div className="w-10 h-10 rounded-xl bg-[#7a0019]/10 text-[#7a0019] flex items-center justify-center font-bold font-headline text-lg">
+                  02
+                </div>
+                <h4 className="font-headline font-bold text-base text-[#1c1917]">Kaldu Tulang Sumsum</h4>
+                <p className="text-xs text-stone-600 leading-relaxed font-normal">
+                  Sari rebusan tulang sumsum sapi berpadu tumisan bawang putih harum, menghasilkan aroma kuah yang gurih alami.
                 </p>
               </div>
 
-              <div className="bg-[#faf7f2] p-6 rounded-3xl border border-stone-200 space-y-3">
-                <span className="font-headline text-3xl text-[#7a0019]">03</span>
-                <h4 className="font-extrabold text-base text-[#1c1917]">Tradisi Sejak Tahun 2000</h4>
-                <p className="text-xs text-[#2b1b17] font-medium leading-relaxed">
+              <div className="bg-white p-6 rounded-2xl border border-stone-200 shadow-xs space-y-3">
+                <div className="w-10 h-10 rounded-xl bg-[#7a0019]/10 text-[#7a0019] flex items-center justify-center font-bold font-headline text-lg">
+                  03
+                </div>
+                <h4 className="font-headline font-bold text-base text-[#1c1917]">Tradisi Sejak Tahun 2000</h4>
+                <p className="text-xs text-stone-600 leading-relaxed font-normal">
                   Dipercaya lebih dari 24 tahun melayani kebutuhan santapan keluarga dan ratusan warung mitra se-Jabodetabek.
                 </p>
               </div>
 
-              <div className="bg-[#faf7f2] p-6 rounded-3xl border border-stone-200 space-y-3">
-                <span className="font-headline text-3xl text-[#7a0019]">04</span>
-                <h4 className="font-extrabold text-base text-[#1c1917]">Segel Higienis &amp; Kirim Segar</h4>
-                <p className="text-xs text-[#2b1b17] font-medium leading-relaxed">
-                  Dikemas rapi dalam standar mutu makanan untuk menjaga kebersihan dan kesegaran terbaik tiba di dapur Anda.
+              <div className="bg-white p-6 rounded-2xl border border-stone-200 shadow-xs space-y-3">
+                <div className="w-10 h-10 rounded-xl bg-[#7a0019]/10 text-[#7a0019] flex items-center justify-center font-bold font-headline text-lg">
+                  04
+                </div>
+                <h4 className="font-headline font-bold text-base text-[#1c1917]">Segel Higienis &amp; Segar</h4>
+                <p className="text-xs text-stone-600 leading-relaxed font-normal">
+                  Dikemas rapi dalam standar mutu pangan untuk menjaga kebersihan dan kesegaran terbaik tiba di dapur Anda.
                 </p>
               </div>
             </div>
@@ -709,57 +588,57 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* 7. THE AUTHENTIC STORY SECTION (EDITORIAL SPREAD)                         */}
+        {/* 6. AUTHENTIC STORY SECTION (EDITORIAL SPREAD)                             */}
         {/* ========================================================================= */}
-        <section className="py-20 sm:py-28 bg-[#faf7f2]">
+        <section className="py-16 sm:py-24 bg-white border-y border-stone-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
               {/* Left Column: Portrait of Pak Mul at the Kiosk */}
               <div className="lg:col-span-5">
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-[#1c0306] border-4 border-[#e5a93c]/30 group">
+                <div className="relative rounded-2xl overflow-hidden shadow-xl bg-stone-900 border border-stone-200 group">
                   <img
                     alt="Pak Mul di Kios Tradisional Pasar Kramat Jati"
-                    className="w-full h-[420px] sm:h-[500px] object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-[400px] sm:h-[480px] object-cover transition-transform duration-500 group-hover:scale-105"
                     src="/images/toko-pak-mul-kramat-jati.webp"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1c0306]/90 via-transparent to-transparent pointer-events-none" />
-                  <div className="absolute bottom-6 left-6 right-6 text-white">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e5a93c]">
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute bottom-5 left-5 right-5 text-white">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#e5a93c]">
                       Dokumentasi Kios Asli
                     </span>
-                    <p className="font-headline text-2xl tracking-wide uppercase mt-1 text-white">
+                    <p className="font-headline font-bold text-xl uppercase mt-0.5 text-white">
                       Pak Mul di Kios Kramat Jati
                     </p>
-                    <p className="font-sans text-xs text-[#fef3c7] mt-0.5 font-medium">
-                      Melayani pelanggan sejak subuh hari tanpa henti
+                    <p className="text-xs text-stone-300 mt-0.5">
+                      Melayani pelanggan setiap subuh sejak tahun 2000
                     </p>
                   </div>
                 </div>
               </div>
 
               {/* Right Column: Narrative & Dedication */}
-              <div className="lg:col-span-7 space-y-6 text-left">
-                <div className="flex items-center gap-3">
-                  <span className="w-8 h-[2px] bg-[#7a0019]" />
-                  <p className="text-[11px] font-extrabold tracking-[0.25em] text-[#7a0019] uppercase font-sans">
+              <div className="lg:col-span-7 space-y-5 text-left">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-[2px] bg-[#7a0019]" />
+                  <p className="text-xs font-bold tracking-[0.2em] text-[#7a0019] uppercase">
                     Kisah &amp; Filosofi Rasa
                   </p>
                 </div>
 
-                <blockquote className="font-headline text-3xl sm:text-4xl text-[#1c1917] uppercase leading-tight tracking-wide">
+                <blockquote className="font-headline text-2xl sm:text-3xl font-bold text-[#1c1917] leading-tight uppercase">
                   &ldquo;Bagi kami, membuat bakso bukan sekadar menggiling daging, melainkan menjaga amanah rasa yang sudah dipercaya keluarga sejak generasi pertama.&rdquo;
                 </blockquote>
 
-                <p className="font-sans text-[#241410] text-sm sm:text-base leading-relaxed font-medium">
-                  Bermula dari kios kayu sederhana di lantai dasar Pasar Kramat Jati Jakarta Timur, Pak Mul mengawali hari setiap pukul 04.30 subuh untuk memilih potongan daging sapi terbaik dari pemotongan lokal. Tanpa pengenyal kimiawi, tanpa rekayasa buatan. Hanya daging sapi murni, takaran bumbu rempah yang pas, dan dedikasi menjaga konsistensi rasa selama lebih dari 24 tahun.
+                <p className="text-stone-600 text-sm sm:text-base leading-relaxed font-normal">
+                  Bermula dari kios sederhana di lantai dasar Pasar Kramat Jati Jakarta Timur, Pak Mul mengawali hari setiap pukul 04.30 subuh untuk memilih potongan daging sapi segar terbaik dari pemotongan pasar induk. Tanpa pengenyal kimiawi, tanpa rekayasa buatan. Hanya daging sapi murni, takaran bumbu rempah yang pas, dan dedikasi menjaga konsistensi rasa selama lebih dari 24 tahun.
                 </p>
 
-                <div className="pt-2 flex flex-wrap items-center gap-4">
+                <div className="pt-3 flex flex-wrap items-center gap-3.5">
                   <a
                     href="https://maps.google.com/?q=Pasar+Kramat+Jati+Jakarta+Timur"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-7 py-3.5 rounded-full bg-[#1c0306] hover:bg-[#36070e] text-white font-bold text-xs flex items-center gap-2 shadow-xs transition-colors"
+                    className="px-6 py-3 rounded-xl bg-[#200508] hover:bg-[#38070d] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-xs transition-colors"
                   >
                     <span className="material-symbols-outlined text-base text-[#e5a93c]">near_me</span>
                     <span>Petunjuk Arah Kios Pasar Kramat Jati</span>
@@ -768,7 +647,7 @@ export default function HomePage() {
                     href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20ingin%20berkunjung%20ke%20kios%20langsung"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-6 py-3.5 rounded-full bg-white hover:bg-stone-50 border border-stone-300 text-[#1c1917] font-bold text-xs flex items-center gap-2 transition-colors"
+                    className="px-6 py-3 rounded-xl bg-stone-100 hover:bg-stone-200 border border-stone-300 text-[#1c1917] font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-colors"
                   >
                     <span className="material-symbols-outlined text-emerald-700 text-base">chat</span>
                     <span>Hubungi Kios via WhatsApp</span>
@@ -780,73 +659,73 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* 8. TESTIMONIALS (WARM EDITORIAL, CRISP DARK TEXT)                         */}
+        {/* 7. TESTIMONIALS (WARM EDITORIAL, CRISP READABILITY)                       */}
         {/* ========================================================================= */}
-        <section className="py-20 bg-white border-t border-stone-200">
+        <section className="py-16 sm:py-24 bg-[#faf8f5]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-xl mx-auto mb-14">
-              <p className="text-xs font-bold tracking-[0.2em] text-[#7a0019] uppercase mb-1">
+            <div className="text-center max-w-xl mx-auto mb-12">
+              <span className="text-xs font-bold tracking-[0.2em] text-[#7a0019] uppercase">
                 Ulasan Pelanggan Setia
-              </p>
-              <h2 className="font-headline text-3xl sm:text-5xl text-[#1c1917] tracking-tight uppercase">
-                DIPERCAYA TURUN TEMURUN
+              </span>
+              <h2 className="font-headline text-2xl sm:text-4xl font-bold text-[#1c1917] tracking-tight mt-1 uppercase">
+                Dipercaya Turun Temurun
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Testimonial 1 */}
-              <div className="bg-[#faf7f2] p-7 rounded-3xl border border-stone-200 flex flex-col justify-between shadow-xs">
+              <div className="bg-white p-6 sm:p-7 rounded-2xl border border-stone-200 flex flex-col justify-between shadow-xs">
                 <div>
-                  <div className="text-[#e5a93c] text-sm mb-3">★★★★★</div>
-                  <p className="font-sans text-sm text-[#1f130e] leading-relaxed font-semibold">
+                  <div className="text-amber-500 text-sm mb-3">★★★★★</div>
+                  <p className="text-sm text-stone-700 leading-relaxed font-normal">
                     &ldquo;Sudah 6 tahun langganan mie telor bebek dan bakso urat Pak Mul untuk gerobak mie ayam saya. Mie-nya kenyal tidak mudah hancur saat direbus, pelanggan selalu puji kuahnya mantap.&rdquo;
                   </p>
                 </div>
-                <div className="pt-6 mt-6 border-t border-stone-200 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-[#51000d] text-amber-200 font-headline font-bold text-xs flex items-center justify-center">
+                <div className="pt-5 mt-5 border-t border-stone-100 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-[#7a0019] text-amber-200 font-headline font-bold text-xs flex items-center justify-center">
                     MB
                   </div>
                   <div>
-                    <p className="font-black text-xs text-[#1c1917]">Mas Bambang</p>
-                    <p className="text-[11px] text-[#51000d] font-bold">Mie Ayam Podomoro, Ciracas</p>
+                    <p className="font-bold text-xs text-[#1c1917]">Mas Bambang</p>
+                    <p className="text-[11px] text-[#7a0019] font-medium">Mie Ayam Podomoro, Ciracas</p>
                   </div>
                 </div>
               </div>
 
               {/* Testimonial 2 */}
-              <div className="bg-[#faf7f2] p-7 rounded-3xl border border-stone-200 flex flex-col justify-between shadow-xs">
+              <div className="bg-white p-6 sm:p-7 rounded-2xl border border-stone-200 flex flex-col justify-between shadow-xs">
                 <div>
-                  <div className="text-[#e5a93c] text-sm mb-3">★★★★★</div>
-                  <p className="font-sans text-sm text-[#1f130e] leading-relaxed font-semibold">
+                  <div className="text-amber-500 text-sm mb-3">★★★★★</div>
+                  <p className="text-sm text-stone-700 leading-relaxed font-normal">
                     &ldquo;Beli bakso halus buat acara arisan dan hajatan keluarga di rumah. Daging sapinya berasa sekali, bukan cuma tepung. Pengiriman tepat waktu dan baksonya masih dingin beku segar.&rdquo;
                   </p>
                 </div>
-                <div className="pt-6 mt-6 border-t border-stone-200 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-[#51000d] text-amber-200 font-headline font-bold text-xs flex items-center justify-center">
+                <div className="pt-5 mt-5 border-t border-stone-100 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-[#7a0019] text-amber-200 font-headline font-bold text-xs flex items-center justify-center">
                     SR
                   </div>
                   <div>
-                    <p className="font-black text-xs text-[#1c1917]">Ibu Siti Rahma</p>
-                    <p className="text-[11px] text-[#51000d] font-bold">Ibu Rumah Tangga, Kramat Jati</p>
+                    <p className="font-bold text-xs text-[#1c1917]">Ibu Siti Rahma</p>
+                    <p className="text-[11px] text-[#7a0019] font-medium">Ibu Rumah Tangga, Kramat Jati</p>
                   </div>
                 </div>
               </div>
 
               {/* Testimonial 3 */}
-              <div className="bg-[#faf7f2] p-7 rounded-3xl border border-stone-200 flex flex-col justify-between shadow-xs">
+              <div className="bg-white p-6 sm:p-7 rounded-2xl border border-stone-200 flex flex-col justify-between shadow-xs">
                 <div>
-                  <div className="text-[#e5a93c] text-sm mb-3">★★★★★</div>
-                  <p className="font-sans text-sm text-[#1f130e] leading-relaxed font-semibold">
+                  <div className="text-amber-500 text-sm mb-3">★★★★★</div>
+                  <p className="text-sm text-stone-700 leading-relaxed font-normal">
                     &ldquo;Pesanan grosir untuk katering pabrik selalu aman. Kulit pangsitnya renyah kalau digoreng, tidak banyak menyerap minyak. Pelayanan cepat dan responsif saat ada pesanan dadakan.&rdquo;
                   </p>
                 </div>
-                <div className="pt-6 mt-6 border-t border-stone-200 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-[#51000d] text-amber-200 font-headline font-bold text-xs flex items-center justify-center">
+                <div className="pt-5 mt-5 border-t border-stone-100 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-[#7a0019] text-amber-200 font-headline font-bold text-xs flex items-center justify-center">
                     HW
                   </div>
                   <div>
-                    <p className="font-black text-xs text-[#1c1917]">Pak Hendra Wijaya</p>
-                    <p className="text-[11px] text-[#51000d] font-bold">Katering Berkah Mandiri, Pulogadung</p>
+                    <p className="font-bold text-xs text-[#1c1917]">Pak Hendra Wijaya</p>
+                    <p className="text-[11px] text-[#7a0019] font-medium">Katering Berkah Mandiri, Pulogadung</p>
                   </div>
                 </div>
               </div>
@@ -855,39 +734,35 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* 9. "ORDER NOW" SECTION (CRISP WARM CREAM TEXT ON DARK WINE)               */}
+        {/* 8. ORDER NOW CTA BANNER                                                   */}
         {/* ========================================================================= */}
-        <section className="relative bg-[#1c0306] text-white py-24 sm:py-32 overflow-hidden text-center">
-          {/* Subtle warm backdrop */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(229,169,60,0.15)_0%,_transparent_70%)] pointer-events-none" />
-
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-[#e5a93c]/20 text-[#e5a93c] font-black text-xs uppercase tracking-widest border border-[#e5a93c]/40 mb-4">
-              PESAN SEGAR LANGSUNG KE RUMAH
+        <section className="bg-[#200508] text-white py-16 sm:py-20 border-t border-[#3d0a11] text-center">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-[#e5a93c]/20 text-[#e5a93c] font-bold text-xs uppercase tracking-wider border border-[#e5a93c]/30">
+              Pesan Segar Langsung Ke Rumah
             </span>
-            <h2 className="font-headline text-5xl sm:text-7xl md:text-8xl tracking-tight uppercase leading-[0.92] text-white">
-              NIKMATI KEHANGATAN{" "}
-              <span className="text-[#e5a93c]">BAKSO SAPI ASLI</span> HARI INI
+            <h2 className="font-headline text-3xl sm:text-5xl font-bold text-white tracking-tight leading-tight uppercase">
+              Nikmati Kehangatan <span className="text-[#e5a93c]">Bakso Sapi Asli</span> Hari Ini
             </h2>
-            <p className="max-w-xl mx-auto text-[#fef3c7] text-xs sm:text-sm mt-6 font-semibold leading-relaxed">
-              Dibuat segar setiap hari, dikemas vakum higienis, dan dikirim aman ke seluruh Jabodetabek. Nikmati semangkuk bakso otentik bersama keluarga.
+            <p className="text-stone-300 text-sm sm:text-base font-normal leading-relaxed max-w-xl mx-auto">
+              Dibuat segar setiap hari, dikemas higienis, dan dikirim aman ke seluruh Jabodetabek. Nikmati kelezatan semangkuk bakso otentik bersama keluarga tercinta.
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <div className="pt-4 flex flex-wrap items-center justify-center gap-3.5">
               <Link
                 href="/produk"
-                className="px-8 py-4 rounded-full bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306] font-black text-xs uppercase tracking-wider shadow-xl hover:scale-105 transition-all flex items-center gap-2"
+                className="px-7 py-3.5 rounded-xl bg-[#e5a93c] hover:bg-amber-400 text-[#200508] font-bold text-xs uppercase tracking-wider shadow-lg transition-all hover:scale-105 flex items-center gap-2"
               >
-                <span>JELAJAHI MENU LENGKAP</span>
+                <span>Jelajahi Menu Lengkap</span>
                 <span className="material-symbols-outlined text-sm font-bold">arrow_forward</span>
               </Link>
               <a
                 href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20ingin%20tanya%20pesanan%20langsung"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider border border-white/30 backdrop-blur-sm transition-all flex items-center gap-2"
+                className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider border border-white/20 transition-all flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-emerald-400 text-base">chat</span>
-                <span>KONSULTASI WHATSAPP</span>
+                <span>Konsultasi WhatsApp</span>
               </a>
             </div>
           </div>
@@ -898,7 +773,7 @@ export default function HomePage() {
 
       {/* Cart Notification Toast */}
       {toastMessage && (
-        <div className="fixed bottom-20 md:bottom-8 right-6 z-50 bg-[#1c0306] text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold border border-[#e5a93c]/40 animate-in fade-in slide-in-from-bottom-3">
+        <div className="fixed bottom-20 md:bottom-8 right-6 z-50 bg-[#200508] text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold border border-[#e5a93c]/40 animate-in fade-in slide-in-from-bottom-3">
           <span className="material-symbols-outlined text-[#e5a93c] text-base">
             check_circle
           </span>
