@@ -78,32 +78,27 @@ function TrackingContent() {
   const activeStep = orderData ? getStepState(orderData.status) : 0;
 
   return (
-    <div className="min-h-screen bg-[#faf7f2] text-[#1c1917] font-sans flex flex-col antialiased selection:bg-[#51000d] selection:text-white">
+    <div className="min-h-screen bg-[#faf8f5] text-[#1c1917] font-sans flex flex-col antialiased selection:bg-[#7a0019] selection:text-white">
       <Navbar />
 
       <main className="flex-grow pt-20 sm:pt-24">
         {/* ========================================================================= */}
-        {/* ARTISAN HEADER BANNER                                                     */}
+        {/* HEADER BANNER                                                             */}
         {/* ========================================================================= */}
-        <section className="relative bg-[#1c0306] text-white py-14 sm:py-20 overflow-hidden border-b border-[#420812]">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(229,169,60,0.12)_0%,_transparent_70%)] pointer-events-none" />
+        <section className="relative bg-[#200508] text-white py-12 sm:py-16 overflow-hidden border-b border-[#3d0a11]">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_rgba(229,169,60,0.1)_0%,_transparent_65%)] pointer-events-none" />
 
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e5a93c]/20 text-[#e5a93c] border border-[#e5a93c]/30 text-[10px] font-black uppercase tracking-widest mb-3">
-              <span className="material-symbols-outlined text-sm">local_shipping</span>
-              <span>LIVE TRACKING PENGIRIMAN</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e5a93c]/15 text-[#e5a93c] border border-[#e5a93c]/30 text-xs font-semibold tracking-wide mb-3">
+              <span className="material-symbols-outlined text-base">local_shipping</span>
+              <span>Live Tracking Pengiriman</span>
             </div>
 
-            <div className="relative inline-block my-2">
-              <h1 className="font-headline text-4xl sm:text-6xl md:text-7xl uppercase text-white tracking-tight leading-tight">
-                PANTAU STATUS PESANAN
-              </h1>
-              <span className="font-script text-3xl sm:text-5xl md:text-6xl text-[#fcd34d] absolute -top-4 sm:-top-7 right-0 rotate-[-5deg] pointer-events-none drop-shadow-md">
-                Segar Sampai Tujuan
-              </span>
-            </div>
+            <h1 className="font-headline text-3xl sm:text-5xl font-bold uppercase text-white tracking-tight leading-tight">
+              Pantau Status Pesanan
+            </h1>
 
-            <p className="max-w-xl mx-auto text-[#fef3c7] text-xs sm:text-sm mt-3 font-semibold leading-relaxed">
+            <p className="max-w-xl mx-auto text-stone-300 text-xs sm:text-sm mt-3 font-normal leading-relaxed">
               Masukkan Nomor ID Pesanan untuk memantau status penggilingan bahan baku segar, verifikasi pembayaran, dan armada kurir pengiriman secara langsung.
             </p>
           </div>

@@ -82,7 +82,7 @@ export default function CartSidebar() {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-headline text-sm font-bold text-[#1c1917] truncate uppercase tracking-tight">
+                  <h3 className="font-headline text-sm font-bold text-[#1c1917] truncate tracking-tight">
                     {item.name}
                   </h3>
                   <p className="text-[11px] text-[#51000d] font-semibold mb-2 truncate">

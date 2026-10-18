@@ -58,34 +58,29 @@ export default function PromoPage() {
 
       <main className="pt-20 sm:pt-24 flex-grow">
         {/* ========================================================================= */}
-        {/* ARTISAN PROMO HERO BANNER (MATCHING THE ARTISAN POSTER LAYOUT)            */}
+        {/* PROMO HERO BANNER                                                         */}
         {/* ========================================================================= */}
-        <section className="relative bg-[#1c0306] text-white py-16 sm:py-24 overflow-hidden border-b border-[#420812]">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(229,169,60,0.15)_0%,_transparent_70%)] pointer-events-none" />
+        <section className="relative bg-[#200508] text-white py-14 sm:py-20 overflow-hidden border-b border-[#3d0a11]">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_rgba(229,169,60,0.1)_0%,_transparent_65%)] pointer-events-none" />
 
           <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e5a93c]/20 text-[#e5a93c] border border-[#e5a93c]/30 text-[10px] font-black uppercase tracking-widest mb-3">
-              <span className="material-symbols-outlined text-sm">local_offer</span>
-              <span>PENAWARAN KHUSUS &amp; HARGA GROSIR</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e5a93c]/15 text-[#e5a93c] border border-[#e5a93c]/30 text-xs font-semibold tracking-wide mb-3">
+              <span className="material-symbols-outlined text-base">local_offer</span>
+              <span>Penawaran Khusus &amp; Paket Usaha</span>
             </div>
 
-            <div className="relative inline-block my-2">
-              <h1 className="font-headline text-4xl sm:text-6xl md:text-7xl uppercase text-white tracking-tight leading-tight">
-                PROMO SPESIAL &amp; PAKET MITRA
-              </h1>
-              <span className="font-script text-3xl sm:text-5xl md:text-6xl text-[#fcd34d] absolute -top-4 sm:-top-7 right-0 rotate-[-5deg] pointer-events-none drop-shadow-md">
-                Harga Sahabat
-              </span>
-            </div>
+            <h1 className="font-headline text-3xl sm:text-5xl font-bold uppercase text-white tracking-tight leading-tight">
+              Promo Spesial &amp; Paket Mitra
+            </h1>
 
-            <p className="max-w-2xl mx-auto text-[#fef3c7] text-xs sm:text-sm mt-3 font-semibold leading-relaxed">
+            <p className="max-w-2xl mx-auto text-stone-300 text-xs sm:text-sm mt-3 font-normal leading-relaxed">
               Paket hemat bahan baku bakso sapi murni, mie basah telor bebek, dan bumbu kaldu khas Pasar Kramat Jati untuk kebutuhan hajatan, keluarga besar, serta gerobak mitra kuliner se-Jabodetabek.
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-3.5 mt-8">
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
               <a
                 href="#paket-reseller"
-                className="px-7 py-3.5 rounded-full bg-[#e5a93c] hover:bg-amber-400 text-[#1c0306] font-black text-xs uppercase tracking-wider shadow-lg transition-all hover:scale-105"
+                className="px-6 py-3 rounded-xl bg-[#e5a93c] hover:bg-amber-400 text-[#200508] font-bold text-xs uppercase tracking-wider shadow-md transition-all hover:scale-105"
               >
                 Lihat Paket Reseller
               </a>
@@ -93,7 +88,7 @@ export default function PromoPage() {
                 href="https://wa.me/6281298980252?text=Halo%20Pak%20Mul,%20saya%20tertarik%20konsultasi%20paket%20reseller"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider border border-white/20 transition-all flex items-center gap-2"
+                className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs uppercase tracking-wider border border-white/20 transition-all flex items-center gap-2"
               >
                 <span className="material-symbols-outlined text-emerald-400 text-base">chat</span>
                 <span>Konsultasi Grosir via WhatsApp</span>
